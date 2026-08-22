@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+2d42fdf7de4a6be82a0e92e76c2fa87a CMakeFiles/TASoftware_autogen
+28afcdc2ca5a4d64388966d8bf29cd39 TASoftware_autogen/timestamp

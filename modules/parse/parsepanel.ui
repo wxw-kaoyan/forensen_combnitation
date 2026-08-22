@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ParsePanel</class>
+ <widget class="QWidget" name="ParsePanel">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>800</width><height>600</height></rect></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="spacing"><number>10</number></property>
+   <property name="leftMargin"><number>12</number></property>
+   <property name="topMargin"><number>12</number></property>
+   <property name="rightMargin"><number>12</number></property>
+   <property name="bottomMargin"><number>12</number></property>
+
+   <!-- ═══ 标题行 ═══ -->
+   <item>
+    <layout class="QHBoxLayout" name="titleLayout">
+     <item><widget class="QLabel" name="titleLabel"><property name="styleSheet"><string>font-size:16px;font-weight:700;color:#12263f;</string></property><property name="text"><string>数据解析</string></property></widget></item>
+     <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer></item>
+    </layout>
+   </item>
+
+   <!-- ═══ 文件加载行 ═══ -->
+   <item>
+    <widget class="QFrame" name="loadFrame">
+     <property name="frameShape"><enum>QFrame::StyledPanel</enum></property>
+     <layout class="QHBoxLayout" name="loadLayout">
+      <property name="leftMargin"><number>12</number></property>
+      <property name="topMargin"><number>10</number></property>
+      <property name="rightMargin"><number>12</number></property>
+      <property name="bottomMargin"><number>10</number></property>
+      <item><widget class="QPushButton" name="loadFileButton"><property name="minimumSize"><size><width>100</width><height>36</height></size></property><property name="text"><string>加载文件</string></property><property name="styleSheet"><string>QPushButton{background:#17324d;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#1e426b;}</string></property></widget></item>
+      <item><widget class="QCheckBox" name="crcCheckBox"><property name="text"><string>CRC校验</string></property><property name="styleSheet"><string>font-size:13px;font-weight:600;color:#42556d;</string></property></widget></item>
+      <item><widget class="QLabel" name="filePathLabel"><property name="styleSheet"><string>font-size:13px;color:#617487;</string></property><property name="text"><string>未加载文件</string></property></widget></item>
+      <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer></item>
+      <item><widget class="QLabel" name="fileInfoLabel"><property name="styleSheet"><string>font-size:13px;color:#12263f;</string></property><property name="text"><string/></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+
+   <!-- ═══ 协议按钮行 ═══ -->
+   <item>
+    <widget class="QFrame" name="filterFrame">
+     <property name="frameShape"><enum>QFrame::StyledPanel</enum></property>
+     <layout class="QHBoxLayout" name="filterLayout">
+      <property name="leftMargin"><number>12</number></property>
+      <property name="topMargin"><number>10</number></property>
+      <property name="rightMargin"><number>12</number></property>
+      <property name="bottomMargin"><number>10</number></property>
+      <item><widget class="QLabel" name="protoLabel"><property name="styleSheet"><string>font-size:13px;font-weight:600;color:#12263f;</string></property><property name="text"><string>协议:</string></property></widget></item>
+      <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer></item>
+      <!-- 按钮由代码动态生成 -->
+     </layout>
+    </widget>
+   </item>
+
+   <!-- ═══ 解析结果输出区 ═══ -->
+   <item>
+    <widget class="QTextEdit" name="outputTextEdit">
+     <property name="readOnly"><bool>true</bool></property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet"><string>QTextEdit{background:#f8f9fa;border:1px solid #d0d5dd;border-radius:4px;padding:8px;color:#12263f;}</string></property>
+    </widget>
+   </item>
+
+   <!-- ═══ 底部操作行 ═══ -->
+   <item>
+    <layout class="QHBoxLayout" name="actionLayout">
+     <item><widget class="QPushButton" name="exportButton"><property name="minimumSize"><size><width>100</width><height>36</height></size></property><property name="text"><string>导出CSV</string></property><property name="styleSheet"><string>QPushButton{background:#17324d;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#1e426b;}</string></property></widget></item>
+     <item><widget class="QPushButton" name="newCodeButton"><property name="minimumSize"><size><width>100</width><height>36</height></size></property><property name="text"><string>New Code</string></property><property name="styleSheet"><string>QPushButton{background:#2a5a8c;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#3169a3;}</string></property></widget></item>
+     <item><widget class="QPushButton" name="downsampleButton"><property name="minimumSize"><size><width>100</width><height>36</height></size></property><property name="text"><string>降采样</string></property><property name="styleSheet"><string>QPushButton{background:#2a5a8c;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#3169a3;}</string></property></widget></item>
+     <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property></spacer></item>
+     <item><widget class="QPushButton" name="clearButton"><property name="minimumSize"><size><width>80</width><height>36</height></size></property><property name="text"><string>清空</string></property><property name="styleSheet"><string>QPushButton{background:#e0e0e0;color:#333;border-radius:4px;font-size:13px;padding:0 16px;}QPushButton:hover{background:#ccc;}</string></property></widget></item>
+    </layout>
+   </item>
+
+  </layout>
+ </widget>
+</ui>

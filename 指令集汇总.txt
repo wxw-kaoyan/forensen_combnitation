@@ -1,0 +1,138 @@
+================================================================================
+                        AT 指令集汇总
+================================================================================
+
+说明：整合来源 —— AT指令集.txt（芯片级指令） + 组合导航指令集.xls（组合导航级指令）
+分类：通用指令集 | 芯片指令集 | 组合导航指令集
+格式：指令 | 响应 | 说明
+
+================================================================================
+一、通用指令集（基础配置、查询，所有模块通用）
+================================================================================
+
+AT+SETNO                     OK                 停止输出数据（两个源均有）
+AT+SETYES                    无回复             开启数据流
+AT+VERSION                   SW_VERSION ...     查询版本号（固件/硬件/底板）
+AT+CONFIG                    配置信息           查询当前配置
+AT+SAVE                      OK                 保存参数到 Flash
+AT+RESET                     OK                 重启模块
+AT+SET_BAUD=<值>             BAUD_RATE:<值>     设置串口波特率 (如 115200)
+AT+OUTRATE=<频率>            OK                 配置数据输出频率 (如 50Hz)
+AT+SET_ODR=<频率>            IMU_ODR:<频率>     设置 IMU 输出频率
+AT+GET_ODR                   IMU_ODR:<频率>     查询 IMU 输出频率
+AT+SET_LPF=<值>              LP_CONFIG_REG:<值> 设置 IMU 低通滤波 (68/102/136/170/187)
+AT+GET_LPF                   LP_CONFIG_REG:<值> 查询 IMU 当前滤波值
+AT+LPCF=<值>                 OK                 配置低通滤波器截止频率
+                                                (68=10Hz / 102=20Hz / 136=30Hz / 170=40Hz / 187=47Hz)
+AT+PARAM=<位置>,<值>         OK                 直接修改参数表（位置0~127）
+
+
+================================================================================
+二、芯片指令集（IMU/传感器底层、标定相关）
+================================================================================
+
+--- 坐标系 & 姿态 ---
+
+AT+SET_ORIENT=<值>           ORIT_OK           设置 IMU 坐标系 (如 101)
+AT+GET_ORIENT                ORIT:<值> OK      查询 IMU 当前坐标系
+AT+SET_ATT_AXIS=<值>         无回复             姿态轴方向
+                                                0:前右下(默认) 1:前左上 2:右前上
+AT+SET_ATT_ORIENTATION=<值>  OK                 横滚俯仰取反配置
+                                                00:不取反 01:横滚取反 10:俯仰取反 11:都取反
+AT+GET_ATT_ORIENTATION       横滚俯仰状态       获取当前俯仰/横滚取反状态
+AT+INSTALL_ANGLE=<x>,<y>,<z> INST_ANGLE...     配置 IMU 安装方向 (正面/反面，如180,0,0)
+AT+INST_ROLL=<值>            INST_ROLL...       查看安装横滚角度
+AT+INST_PITCH=<值>           INST_PITCH...      查看安装俯仰角度
+
+--- 航向 ---
+
+AT+SET_HEADING=<值>          HEADING:<值> OK    航向角重置 (整数，分辨率1°)
+AT+SET_HEADING_HIGH_LSB=<值> HEADING:<值> OK    航向角高精度重置 (分辨率0.01°)
+
+--- 数据流模式 ---
+
+AT+SET_STREAM1=<模式>        STREAM_MODE1:<值>  串口1数据流模式
+AT+GET_STREAM1               STREAM_MODE1:<值>  查询串口1数据流
+                                                模式值:
+                                                  1=AHRS数据流
+                                                  51=AHRS扩展模式
+                                                  100=命令模式
+                                                  其他=自定义数据流
+                                                STREAM_MODE2~4 对应串口2~4
+
+--- 标定 ---
+
+AT+INST_CLEAR                清空标定缓冲区     清空历史标定数据，准备重新标定
+AT+INST_CALIB                开始标定           进入标定流程
+AT+INST_COLLECT              采集数据中         标定采集状态，完成后回复 CALIB_DONE
+AT+TRIM_CALIB                INSTALL_ERR_...    姿态校准（适用于非水平安装）
+AT+MAG_CALIB=<值>            OK                 电子罗经磁标定 (1:单面 2:双面)
+
+--- PPS & 杂项 ---
+
+AT+SETIIC=<值>               OK                 618系列开启PPS功能（其他型号见说明）
+AT+NOPPS=<值>                OK                 设置是否接入PPS (0:已接入 1:未接入)
+AT+OUT_GYRO_NOBIAS=<值>      OK                 陀螺零偏输出 (0:扣除 1:不扣除)
+AT+IMUPARAM_RESET            OK                 重置参数表（与上位机不一致时使用）
+
+
+================================================================================
+三、组合导航指令集（融合定位、车辆模型、协议输出）
+================================================================================
+
+--- 杆臂 & 安装参数 ---
+
+AT+CLUB_VECTOR=<x>,<y>,<z>   GPS_POS_...        配置主天线杆臂（相对IMU，m）
+AT+OD_VECTOR=<x>,<y>,<z>     OD_POS_...         配置后轴中心杆臂（相对IMU，m）
+AT+RTK_ANGLE=<角度>          ANGLE=<角度>       配置双天线安装偏差角 (-180~180°，顺时针为正)
+AT+PROJ_VECTOR=<x>,<y>,<z>   PROJ_POS_...       配置组合导航帧输出的位置/速度投影点
+AT+LEVER_ARM_ENABLE          OK                 打开自动测量杆臂功能
+AT+LEVER_ARM_DISABLE         OK                 关闭自动测量杆臂功能
+
+--- 车辆模型 ---
+
+AT+WHEEL_BASE=<值>           WHEEL_BASE:<值>    配置车辆轴距 (m)
+AT+CAR_TYPE=<值>             OK                 车辆类型配置
+                                                 1:正常转向车
+                                                -1:后轮转向车（一体机配置）
+AT+614P=<值>                 OK                 双天线/前轮IMU配置 (100:双天线 0:前轮IMU)
+AT+WHEEL_RATE_CF=<值>        OK                 前轮转角反馈滤波系数 (有延时/相位滞后时使用)
+AT+WHEEL_RK                  OK                 调节前轮转角 R 阵
+
+--- 初始化 & 对准 ---
+
+AT+START_INIT                OK                 滤波器初始化标志位复位为 0
+AT+ALIGN_VEL=<值>            OK                 设置初始化速度 (0.1~30 m/s)
+AT+SINGLE_INIT=<值>          OK                 单点定位初始化 (0:关闭 1:开启)
+AT+HEADING_CORRECTION=<值>   OK                 联适超低速场景系数 (1~10)
+AT+SLOPE=<值>                OK                 有坡度场景配置 (如 0.05)
+
+--- 数据输出协议 ---
+
+AT+SETNAV                    OK                 输出组合导航数据
+AT+SETAG                     OK                 输出 AG 数据流
+AT+SETDEBUG                  OK                 输出调试数据流 (默认100Hz)
+AT+SETAHRS                   OK                 输出 AHRS 数据
+AT+GPGGA/GPRMC/GPZDA/GPHDT/GPATT/GPVTG=<频率>   OK  配置 NMEA 协议输出频率
+                                                (GPGGA/GPRMC/GPZDA/GPHDT/GPATT/GPVTG)
+AT+KSXT=<频率>               OK                 配置 KSXT 报文输出
+AT+SETE3                     OK                 联适输出协议 (常用)
+AT+SETS1                     OK                 S1 协议 (联适协议，不常用)
+
+--- CAN 配置 ---
+
+AT+CAN_BAUD=<值>             OK                 配置 CAN 波特率 (250/500 kbps)
+AT+CAN_ODR=<频率>            OK                 配置 CAN 输出频率
+AT+SET_CAN_REVERSE=<值>      OK                 CAN 输出配置 (0:通用 99:联适)
+
+--- GNSS/RTK ---
+
+AT+GNSS_CARD=<类型>          OK                 配置 RTK 输出协议 (OEM:NOVATEL二进制 UNICORE:NMEA)
+AT+DRTK_USE=<值>             OK                 融合双天线数据
+
+--- 约束 & 滤波器 ---
+
+AT+VEL_VAR_CONSTRAIN=<值>    OK                 速度方差约束 (如 0.01 / 0.04)
+AT+NHC_RATE=<频率>           OK                 配置 NHC 频率 (如 20 / 50)
+
+================================================================================
