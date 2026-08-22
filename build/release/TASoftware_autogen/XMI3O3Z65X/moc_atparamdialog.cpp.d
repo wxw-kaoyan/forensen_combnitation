@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/XMI3O3Z65X/moc_atparamdialog.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/atcmd/atparamdialog.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/XMI3O3Z65X/moc_atparamdialog.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QString \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \

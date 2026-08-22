@@ -56,10 +56,10 @@ RM = B:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware
+CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\build\release
+CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -131,9 +131,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\build\release\CMakeFiles C:\Users\wxw\Desktop\QT\TASoftware\build\release\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\build\release\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles 0
 .PHONY : all
 
 # The main clean target

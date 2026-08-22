@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\atcmd\atcmdpanel.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\atcmd\atcmdpanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdpanel.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -373,7 +373,7 @@ CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
- C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/include/ui_atcmdpanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/include/ui_atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
@@ -403,7 +403,7 @@ CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\atcmd\atparamdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \

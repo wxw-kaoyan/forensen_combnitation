@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/3R4525YQTM/moc_commtool.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/3R4525YQTM/moc_commtool.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
   B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \

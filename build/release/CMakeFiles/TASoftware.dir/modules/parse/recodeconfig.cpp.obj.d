@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\recodeconfig.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\recodeconfig.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\recodeconfig.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\recodeconfig.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qchar.h \

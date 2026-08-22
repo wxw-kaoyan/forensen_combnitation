@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/KYQYD7ZHIB/moc_parsepanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/KYQYD7ZHIB/moc_parsepanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   B:/qt/6.8.3/mingw_64/include/QtCore/QList \
   B:/qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -364,5 +364,5 @@ C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/KYQYD7ZHIB/m
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/protocoldefs.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserbase.h
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h

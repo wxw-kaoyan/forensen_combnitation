@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/KPKRICC3BU/moc_datapool.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/datapool/datapool.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/KPKRICC3BU/moc_datapool.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
   B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \

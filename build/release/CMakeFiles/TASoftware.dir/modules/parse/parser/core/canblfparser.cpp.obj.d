@@ -1,7 +1,7 @@
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\canblfparser.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/canblfparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/protocoldefs.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\canblfparser.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/canblfparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \

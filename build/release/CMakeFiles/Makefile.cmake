@@ -290,7 +290,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake"
   "B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows.cmake"
   "B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake"
-  "C:/Users/wxw/Desktop/QT/TASoftware/CMakeLists.txt"
+  "C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/CMakeLists.txt"
   "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.30.5/CMakeRCCompiler.cmake"
   "CMakeFiles/3.30.5/CMakeSystem.cmake"

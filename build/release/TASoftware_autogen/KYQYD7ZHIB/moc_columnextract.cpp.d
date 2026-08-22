@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/KYQYD7ZHIB/moc_columnextract.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/columnextract.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/KYQYD7ZHIB/moc_columnextract.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QList \
   B:/qt/6.8.3/mingw_64/include/QtCore/QString \
   B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \

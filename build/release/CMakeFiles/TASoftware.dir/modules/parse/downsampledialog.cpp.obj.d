@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\common\serialconnection.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\common\serialconnection.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\serialconnection.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\serialconnection.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \

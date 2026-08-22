@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocessmanager.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocessmanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocessmanager.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocessmanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -321,7 +321,7 @@ CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocess.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
  B:/qt/6.8.3/mingw_64/include/QtCore/qprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \

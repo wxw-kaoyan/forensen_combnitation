@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -374,12 +374,12 @@ CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/include/ui_NTRIP.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/include/ui_NTRIP.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
@@ -429,14 +429,14 @@ CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QThread \
  B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \

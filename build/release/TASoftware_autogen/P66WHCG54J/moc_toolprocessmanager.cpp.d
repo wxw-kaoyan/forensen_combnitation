@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/P66WHCG54J/moc_toolprocessmanager.cpp: C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocessmanager.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/P66WHCG54J/moc_toolprocessmanager.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
   B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
   B:/qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -311,4 +311,4 @@ C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/P66WHCG54J/m
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocess.h
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.h

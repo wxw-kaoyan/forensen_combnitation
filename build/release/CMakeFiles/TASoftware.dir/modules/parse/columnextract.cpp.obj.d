@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h \

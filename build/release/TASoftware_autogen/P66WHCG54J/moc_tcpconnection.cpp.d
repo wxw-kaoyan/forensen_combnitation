@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/P66WHCG54J/moc_tcpconnection.cpp: C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/P66WHCG54J/moc_tcpconnection.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h \

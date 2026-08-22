@@ -1,8 +1,8 @@
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\other\rtcmframeparser.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/other/rtcmframeparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserbase.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/protocoldefs.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\other\rtcmframeparser.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
@@ -296,9 +296,9 @@ CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtcmparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtcm_deep_decoder.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtklib/rtklib.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtklib.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/math.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/windows.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sdkddkver.h \

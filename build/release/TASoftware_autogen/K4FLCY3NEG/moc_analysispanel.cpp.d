@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/K4FLCY3NEG/moc_analysispanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/K4FLCY3NEG/moc_analysispanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QList \
   B:/qt/6.8.3/mingw_64/include/QtCore/QString \
   B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
@@ -365,4 +365,4 @@ C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/K4FLCY3NEG/m
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/columnextract.h
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h

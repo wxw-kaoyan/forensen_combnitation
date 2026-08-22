@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\atcmd\atparamdialog.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\atcmd\atparamdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

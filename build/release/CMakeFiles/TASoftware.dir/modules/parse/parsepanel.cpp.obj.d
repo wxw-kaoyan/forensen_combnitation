@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parsepanel.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parsepanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parsepanel.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parsepanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -381,9 +381,9 @@ CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserbase.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/protocoldefs.h \
- C:/Users/wxw/Desktop/QT/TASoftware/build/release/TASoftware_autogen/include/ui_parsepanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/include/ui_parsepanel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
@@ -428,27 +428,27 @@ CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserfactory.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/single/frameprotocolparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/single/protocolregistry.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/other/rtcmframeparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtcmparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/debugstream/debugframeparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/frameparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/debugstream/eb614debugparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/external/kaixinframeparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserfactory.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/frameprotocolparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/frameparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/eb614debugparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/external/kaixinframeparser.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
  B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/can/canrtkparser.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/canblfparser.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/can/canrtkparser.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/canblfparser.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QFileDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qfiledialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdir.h \

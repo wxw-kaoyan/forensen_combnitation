@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\analysis\analysispanel.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\analysis\analysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\analysispanel.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\analysispanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -377,7 +377,7 @@ CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/columnextract.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \

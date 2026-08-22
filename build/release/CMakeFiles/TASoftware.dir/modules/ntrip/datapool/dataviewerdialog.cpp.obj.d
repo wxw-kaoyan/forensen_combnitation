@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\datapool\dataviewerdialog.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\datapool\dataviewerdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\dataviewerdialog.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\dataviewerdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

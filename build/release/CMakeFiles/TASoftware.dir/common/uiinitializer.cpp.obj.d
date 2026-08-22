@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\common\uiinitializer.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\common\uiinitializer.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\uiinitializer.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\uiinitializer.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

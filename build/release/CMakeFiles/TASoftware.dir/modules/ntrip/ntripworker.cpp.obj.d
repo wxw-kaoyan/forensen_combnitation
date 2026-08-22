@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripworker.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripworker.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -323,11 +323,11 @@ CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \

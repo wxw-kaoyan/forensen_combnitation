@@ -1,0 +1,14 @@
+{
+    "ntrip": {
+        "host": "vrs.sixents.com",
+        "port": 8002,
+        "mountpoint": "RTCM32_GRECJ2",
+        "user": "qmet3594",
+        "password": "HWXykJ0l"
+    },
+    "fixGGA": {
+        "longitude": 121.47370,
+        "latitude": 31.23040,
+        "height": 10.0
+    }
+}

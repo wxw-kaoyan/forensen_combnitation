@@ -1,7 +1,7 @@
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\single\protocolregistry.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/single/protocolregistry.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/protocoldefs.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\single\protocolregistry.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
@@ -295,5 +295,5 @@ CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: 
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserbase.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/frameparser.h
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/frameparser.h
