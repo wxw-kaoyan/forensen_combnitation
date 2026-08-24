@@ -1,7 +1,7 @@
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_serialconnection.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/common/serialconnection.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_serialconnection.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -319,10 +319,10 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ctime \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_tcpconnection.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_toolprocess.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocess.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_tcpconnection.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_toolprocess.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
  B:/qt/6.8.3/mingw_64/include/QtCore/qprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
@@ -330,8 +330,13 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\EWIEGA46WW/moc_mainwindow.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\P66WHCG54J/moc_toolprocessmanager.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\EWIEGA46WW/moc_mainwindow.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -388,32 +393,26 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\K4FLCY3NEG/moc_analysispanel.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\SS4QYT5ZFG/moc_analysispanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/datamodel.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
- B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\K4FLCY3NEG/moc_plotwidget.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/plotwidget.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
- B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
- B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QPair \
- B:/qt/6.8.3/mingw_64/include/QtCore/qpair.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\LDUXMGUCNR/moc_atcmdpanel.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\LDUXMGUCNR/moc_atparamdialog.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atparamdialog.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\3R4525YQTM/moc_commtool.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\XMI3O3Z65X/moc_atcmdpanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\XMI3O3Z65X/moc_atparamdialog.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\3R4525YQTM/moc_commtool.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
  B:/qt/6.8.3/mingw_64/include/QtCore/qfile.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
@@ -449,35 +448,43 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\DCYXN5LQD6/moc_datapool.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\3R4525YQTM/moc_realtimeparsepanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KPKRICC3BU/moc_datapool.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\DCYXN5LQD6/moc_dataviewerdialog.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/dataviewerdialog.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_forwardertablemanager.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardertablemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KPKRICC3BU/moc_dataviewerdialog.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_forwardertablemanager.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
  B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_forwardtarget.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntripdialog.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripdialog.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntrippagemanager.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntrippagemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_forwardtarget.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntripdialog.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripdialog.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntrippagemanager.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntrippagemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntripworker.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.h \
- C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KYQYD7ZHIB/moc_parsepanel.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\67J4U64LVZ/moc_ntripworker.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KYQYD7ZHIB/moc_columnextract.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KYQYD7ZHIB/moc_downsampledialog.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/downsampledialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\KYQYD7ZHIB/moc_parsepanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h

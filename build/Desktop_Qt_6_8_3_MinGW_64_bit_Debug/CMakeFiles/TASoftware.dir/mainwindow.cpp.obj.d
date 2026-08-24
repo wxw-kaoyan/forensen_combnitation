@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -373,7 +373,7 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/include/ui_mainwindow.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/include/ui_mainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
@@ -468,8 +468,6 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QTabWidget \
@@ -480,10 +478,15 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/ntrip/ntrippagemanager.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QString \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/ntrip/ntrippagemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
  B:/qt/6.8.3/mingw_64/include/QtCore/qfile.h \
@@ -521,28 +524,30 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/ntrip/forwardertablemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/ntrip/forwardertablemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
  B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/commtool/commtool.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/analysis/analysispanel.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/analysis/datamodel.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QString \
- B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
- B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules/parse/parsepanel.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h \
- C:\Users\wxw\Desktop\QT\TASoftware\common/toolprocess.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/compare/analysispanel.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/raw/rawanalysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/parse/parsepanel.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
  B:/qt/6.8.3/mingw_64/include/QtCore/qprocess.h \
- C:\Users\wxw\Desktop\QT\TASoftware\common/uiinitializer.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QButtonGroup \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qbuttongroup.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocessmanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocess.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/uiinitializer.h

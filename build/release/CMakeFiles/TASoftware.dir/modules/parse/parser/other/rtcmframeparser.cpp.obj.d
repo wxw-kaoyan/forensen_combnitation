@@ -298,7 +298,7 @@ CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtklib.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtklib.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/math.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/windows.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sdkddkver.h \

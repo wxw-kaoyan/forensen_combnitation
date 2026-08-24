@@ -5,11 +5,10 @@ TASoftware_autogen/timestamp: \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QList \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
-	B:/qt/6.8.3/mingw_64/include/QtCore/QPair \
-	B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QString \
+	B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
 	B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
 	B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
@@ -144,7 +143,6 @@ TASoftware_autogen/timestamp: \
 	B:/qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
 	B:/qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
 	B:/qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
-	B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
 	B:/qt/6.8.3/mingw_64/include/QtGui/qaction.h \
 	B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
 	B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
@@ -221,6 +219,14 @@ TASoftware_autogen/timestamp: \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicTestHelpers.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicToolHelpers.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentAdditionalTargetInfo.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentConfig.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentConfigVersion.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentConfigVersionImpl.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentDependencies.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets-relwithdebinfo.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets.cmake \
+	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentVersionlessAliasTargets.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigExtras.cmake \
@@ -365,31 +371,94 @@ TASoftware_autogen/timestamp: \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersionImpl.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateTargets.cmake \
 	B:/qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateVersionlessAliasTargets.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXInformation.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCommonLanguageInclude.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCompilerIdDetection.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineRCCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeLanguageInformation.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeMinGWFindMake.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeParseImplicitIncludeInfo.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeParseImplicitLinkInfo.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeParseLibraryArchitecture.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCCompiler.cmake.in \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystem.cmake.in \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeTestCompilerCommon.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeTestRCCompiler.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXCompilerFlag.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckCXXSourceCompiles.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckIncludeFileCXX.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CheckLibraryExists.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/ADSP-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Borland-DetermineCompiler.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Cray-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GHS-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU-CXX.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/GNU.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/IAR-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Intel-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/MSVC-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/PGI-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/PathScale-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/SCO-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/TI-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/TIClang-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Tasking-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/Watcom-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindThreads.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckCompilerFlag.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckFlagCommonConfig.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake \
+	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Determine-CXX.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake \
 	B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake \
@@ -633,79 +702,99 @@ TASoftware_autogen/timestamp: \
 	B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
 	B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/CMakeLists.txt \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/maintenance_tool_provider.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/package-manager.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/qtcreator-project.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
-	C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/serialconnection.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/serialconnection.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocess.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocess.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/uiinitializer.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/common/uiinitializer.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/main.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/datamodel.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/plotwidget.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/plotwidget.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atparamdialog.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atparamdialog.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/dataviewerdialog.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/dataviewerdialog.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardertablemanager.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardertablemanager.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripdialog.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripdialog.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntrippagemanager.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntrippagemanager.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/recodeconfig.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/recodeconfig.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/canblfparser.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/canblfparser.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/canrtkparser.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/frameparser.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/frameparser.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/parserbase.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/parserbase.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/parserfactory.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocolparsers.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocolparsers.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocolregistry.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocolregistry.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtcm_deep_decoder.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtcm_deep_decoder.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtcmparser.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtcmparser.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtklib/rtcm.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtklib/rtcm3.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtklib/rtcm_stubs.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtklib/rtkcmn.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/rtklib/rtklib.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.ui \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.ui \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.ui \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/NTRIP.ui \
-	C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.ui \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/CMakeLists.txt \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/maintenance_tool_provider.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/package-manager.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/.qtcreator/cmake-helper/qtcreator-project.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rinex.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm3.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm_stubs.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtkcmn.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtklib.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/uiinitializer.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/uiinitializer.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/main.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripdialog.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripdialog.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntrippagemanager.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntrippagemanager.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/downsampledialog.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/downsampledialog.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/can/canrtkparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/canblfparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/canblfparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/frameparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/frameparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/eb614debugparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/eb614debugparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/external/kaixinframeparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/external/kaixinframeparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserfactory.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/frameprotocolparser.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.ui \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.ui \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/NTRIP.ui \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.ui \
 	B:/qt/Tools/CMake_64/bin/cmake.exe

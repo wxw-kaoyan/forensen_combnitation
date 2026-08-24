@@ -8,11 +8,13 @@ CXX_INCLUDES = @CMakeFiles/TASoftware.dir/includes_CXX.rsp
 
 CXX_FLAGS = -O3 -DNDEBUG
 
-# Custom flags: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj_FLAGS = -Wno-write-strings
+# Custom flags: CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj_FLAGS = -Wno-write-strings
 
-# Custom flags: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj_FLAGS = -Wno-write-strings
+# Custom flags: CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj_FLAGS = -Wno-write-strings
 
-# Custom flags: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj_FLAGS = -Wno-write-strings
+# Custom flags: CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj_FLAGS = -Wno-write-strings
 
-# Custom flags: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj_FLAGS = -Wno-write-strings
+# Custom flags: CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj_FLAGS = -Wno-write-strings
+
+# Custom flags: CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj_FLAGS = -Wno-write-strings
 

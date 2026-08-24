@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\common\tcpconnection.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\common\tcpconnection.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\tcpconnection.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\tcpconnection.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \

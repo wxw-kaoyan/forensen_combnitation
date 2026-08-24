@@ -1,5 +1,5 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/67J4U64LVZ/moc_forwardertablemanager.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardertablemanager.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/67J4U64LVZ/moc_forwardertablemanager.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \

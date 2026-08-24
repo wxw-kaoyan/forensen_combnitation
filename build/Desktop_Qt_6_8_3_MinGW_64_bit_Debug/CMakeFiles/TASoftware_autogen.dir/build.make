@@ -52,10 +52,10 @@ RM = B:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware
+CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
+CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
 
 # Utility rule file for TASoftware_autogen.
 
@@ -70,9 +70,9 @@ CMakeFiles/TASoftware_autogen: TASoftware_autogen/timestamp
 TASoftware_autogen/timestamp: B:/qt/6.8.3/mingw_64/bin/moc.exe
 TASoftware_autogen/timestamp: B:/qt/6.8.3/mingw_64/bin/uic.exe
 TASoftware_autogen/timestamp: CMakeFiles/TASoftware_autogen.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target TASoftware"
-	B:\qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/TASoftware_autogen.dir/AutogenInfo.json Debug
-	B:\qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target TASoftware"
+	B:\qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/CMakeFiles/TASoftware_autogen.dir/AutogenInfo.json Debug
+	B:\qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/timestamp
 
 TASoftware_autogen: CMakeFiles/TASoftware_autogen
 TASoftware_autogen: TASoftware_autogen/timestamp
@@ -88,6 +88,6 @@ CMakeFiles/TASoftware_autogen.dir/clean:
 .PHONY : CMakeFiles/TASoftware_autogen.dir/clean
 
 CMakeFiles/TASoftware_autogen.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware_autogen.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/TASoftware_autogen.dir/depend
 

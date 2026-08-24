@@ -533,7 +533,7 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/analysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/compare/analysispanel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
@@ -541,6 +541,7 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/raw/rawanalysispanel.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/parse/parsepanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
@@ -549,6 +550,4 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qprocess.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocessmanager.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocess.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/uiinitializer.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QLabel
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/uiinitializer.h

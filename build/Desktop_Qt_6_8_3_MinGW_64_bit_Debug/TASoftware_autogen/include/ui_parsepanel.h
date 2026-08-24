@@ -45,6 +45,7 @@ public:
     QHBoxLayout *actionLayout;
     QPushButton *exportButton;
     QPushButton *newCodeButton;
+    QPushButton *downsampleButton;
     QSpacerItem *spacerItem3;
     QPushButton *clearButton;
 
@@ -147,6 +148,12 @@ public:
 
         actionLayout->addWidget(newCodeButton);
 
+        downsampleButton = new QPushButton(ParsePanel);
+        downsampleButton->setObjectName("downsampleButton");
+        downsampleButton->setMinimumSize(QSize(100, 36));
+
+        actionLayout->addWidget(downsampleButton);
+
         spacerItem3 = new QSpacerItem(0, 0, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
         actionLayout->addItem(spacerItem3);
@@ -185,6 +192,8 @@ public:
         exportButton->setStyleSheet(QCoreApplication::translate("ParsePanel", "QPushButton{background:#17324d;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#1e426b;}", nullptr));
         newCodeButton->setText(QCoreApplication::translate("ParsePanel", "New Code", nullptr));
         newCodeButton->setStyleSheet(QCoreApplication::translate("ParsePanel", "QPushButton{background:#2a5a8c;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#3169a3;}", nullptr));
+        downsampleButton->setText(QCoreApplication::translate("ParsePanel", "\351\231\215\351\207\207\346\240\267", nullptr));
+        downsampleButton->setStyleSheet(QCoreApplication::translate("ParsePanel", "QPushButton{background:#2a5a8c;color:white;border-radius:4px;font-size:13px;font-weight:600;padding:0 16px;}QPushButton:hover{background:#3169a3;}", nullptr));
         clearButton->setText(QCoreApplication::translate("ParsePanel", "\346\270\205\347\251\272", nullptr));
         clearButton->setStyleSheet(QCoreApplication::translate("ParsePanel", "QPushButton{background:#e0e0e0;color:#333;border-radius:4px;font-size:13px;padding:0 16px;}QPushButton:hover{background:#ccc;}", nullptr));
         (void)ParsePanel;

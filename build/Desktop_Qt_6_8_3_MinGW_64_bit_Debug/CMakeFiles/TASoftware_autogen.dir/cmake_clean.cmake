@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TASoftware_autogen"
-  "TASoftware_autogen/include/modules/atcmd/ui_atcmdpanel.h"
+  "TASoftware_autogen/include/modules/commtool/atcmd/ui_atcmdpanel.h"
   "TASoftware_autogen/include/modules/ntrip/ui_NTRIP.h"
   "TASoftware_autogen/include/modules/parse/ui_parsepanel.h"
   "TASoftware_autogen/include/ui_mainwindow.h"

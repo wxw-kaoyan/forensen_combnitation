@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\commtool.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\commtool.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -354,9 +354,15 @@ CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
- C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.h \
- C:/Users/wxw/Desktop/QT/TASoftware/common/serialconnection.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -412,9 +418,12 @@ CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QList \
- B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
- C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/include/ui_mainwindow.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QString \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/include/ui_mainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
@@ -509,8 +518,6 @@ CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QTabWidget \

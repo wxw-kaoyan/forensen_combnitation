@@ -393,8 +393,8 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\K4FLCY3NEG/moc_analysispanel.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\SS4QYT5ZFG/moc_analysispanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
@@ -404,6 +404,8 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\XMI3O3Z65X/moc_atcmdpanel.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \

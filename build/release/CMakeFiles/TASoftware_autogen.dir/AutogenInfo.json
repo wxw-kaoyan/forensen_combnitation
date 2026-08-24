@@ -378,6 +378,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtklib.h",
+			"MU",
+			"Z4324FFB2L/moc_rtklib.cpp",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.h",
 			"MU",
 			"P66WHCG54J/moc_serialconnection.cpp",
@@ -414,9 +420,21 @@
 			null
 		],
 		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.h",
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h",
 			"MU",
-			"K4FLCY3NEG/moc_analysispanel.cpp",
+			"SS4QYT5ZFG/moc_analysispanel.cpp",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h",
+			"MU",
+			"V6PNYSY2WD/moc_rawanalysispanel.cpp",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h",
+			"MU",
+			"V6PNYSY2WD/moc_rinexreader.cpp",
 			null
 		],
 		[
@@ -552,12 +570,6 @@
 			null
 		],
 		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtklib.h",
-			"MU",
-			"GRDX62VJRP/moc_rtklib.cpp",
-			null
-		],
-		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.h",
 			"MU",
 			"7XUUCEK4SV/moc_debugframeparser.cpp",
@@ -643,7 +655,7 @@
 	"MOC_INCLUDES" : 
 	[
 		"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation",
-		"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib",
+		"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib",
 		"B:/qt/6.8.3/mingw_64/include/QtCore",
 		"B:/qt/6.8.3/mingw_64/include",
 		"B:/qt/6.8.3/mingw_64/mkspecs/win32-g++",
@@ -692,6 +704,31 @@
 	"SOURCES" : 
 	[
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rinex.c",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm.c",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm3.c",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm_stubs.c",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtkcmn.c",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.cpp",
 			"MU",
 			null
@@ -727,7 +764,17 @@
 			null
 		],
 		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.cpp",
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp",
 			"MU",
 			null
 		],
@@ -828,26 +875,6 @@
 		],
 		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.cpp",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm.c",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm3.c",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm_stubs.c",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtkcmn.c",
 			"MU",
 			null
 		],

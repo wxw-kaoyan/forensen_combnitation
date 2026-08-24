@@ -706,6 +706,12 @@ TASoftware_autogen/timestamp: \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rinex.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm3.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm_stubs.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtkcmn.c \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtklib.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.cpp \
@@ -719,8 +725,12 @@ TASoftware_autogen/timestamp: \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/main.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.cpp \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/analysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.cpp \
@@ -763,11 +773,6 @@ TASoftware_autogen/timestamp: \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.h \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm3.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtcm_stubs.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtkcmn.c \
-	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtklib/rtklib.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/eb614debugparser.cpp \

@@ -52,10 +52,10 @@ RM = B:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware
+CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
+CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/TASoftware.dir/depend.make
@@ -72,556 +72,646 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: CMakeFile
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: TASoftware_autogen/mocs_compilation.cpp
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp
 
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp > CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp > CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.i
 
 CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp -o CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\mocs_compilation.cpp -o CMakeFiles\TASoftware.dir\TASoftware_autogen\mocs_compilation.cpp.s
 
 CMakeFiles/TASoftware.dir/main.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/main.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/main.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/main.cpp
+CMakeFiles/TASoftware.dir/main.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/main.cpp
 CMakeFiles/TASoftware.dir/main.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TASoftware.dir/main.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/main.cpp.obj -MF CMakeFiles\TASoftware.dir\main.cpp.obj.d -o CMakeFiles\TASoftware.dir\main.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TASoftware.dir/main.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/main.cpp.obj -MF CMakeFiles\TASoftware.dir\main.cpp.obj.d -o CMakeFiles\TASoftware.dir\main.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\main.cpp
 
 CMakeFiles/TASoftware.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/main.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\main.cpp > CMakeFiles\TASoftware.dir\main.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\main.cpp > CMakeFiles\TASoftware.dir\main.cpp.i
 
 CMakeFiles/TASoftware.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/main.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\main.cpp -o CMakeFiles\TASoftware.dir\main.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\main.cpp -o CMakeFiles\TASoftware.dir\main.cpp.s
 
 CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/mainwindow.cpp
+CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.cpp
 CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TASoftware.dir/mainwindow.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/mainwindow.cpp.obj -MF CMakeFiles\TASoftware.dir\mainwindow.cpp.obj.d -o CMakeFiles\TASoftware.dir\mainwindow.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TASoftware.dir/mainwindow.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/mainwindow.cpp.obj -MF CMakeFiles\TASoftware.dir\mainwindow.cpp.obj.d -o CMakeFiles\TASoftware.dir\mainwindow.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.cpp
 
 CMakeFiles/TASoftware.dir/mainwindow.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/mainwindow.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.cpp > CMakeFiles\TASoftware.dir\mainwindow.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.cpp > CMakeFiles\TASoftware.dir\mainwindow.cpp.i
 
 CMakeFiles/TASoftware.dir/mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/mainwindow.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.cpp -o CMakeFiles\TASoftware.dir\mainwindow.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.cpp -o CMakeFiles\TASoftware.dir\mainwindow.cpp.s
 
 CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocess.cpp
+CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.cpp
 CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj -MF CMakeFiles\TASoftware.dir\common\toolprocess.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\toolprocess.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocess.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/toolprocess.cpp.obj -MF CMakeFiles\TASoftware.dir\common\toolprocess.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\toolprocess.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocess.cpp
 
 CMakeFiles/TASoftware.dir/common/toolprocess.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/toolprocess.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocess.cpp > CMakeFiles\TASoftware.dir\common\toolprocess.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocess.cpp > CMakeFiles\TASoftware.dir\common\toolprocess.cpp.i
 
 CMakeFiles/TASoftware.dir/common/toolprocess.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/toolprocess.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocess.cpp -o CMakeFiles\TASoftware.dir\common\toolprocess.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocess.cpp -o CMakeFiles\TASoftware.dir\common\toolprocess.cpp.s
 
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/common/toolprocessmanager.cpp
+CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.cpp
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj -MF CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocessmanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.obj -MF CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocessmanager.cpp
 
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocessmanager.cpp > CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocessmanager.cpp > CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.i
 
 CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/toolprocessmanager.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\common\toolprocessmanager.cpp -o CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\toolprocessmanager.cpp -o CMakeFiles\TASoftware.dir\common\toolprocessmanager.cpp.s
 
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/common/uiinitializer.cpp
+CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/uiinitializer.cpp
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj -MF CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\common\uiinitializer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.obj -MF CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\uiinitializer.cpp
 
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\common\uiinitializer.cpp > CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\uiinitializer.cpp > CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.i
 
 CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/uiinitializer.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\common\uiinitializer.cpp -o CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\uiinitializer.cpp -o CMakeFiles\TASoftware.dir\common\uiinitializer.cpp.s
 
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/common/tcpconnection.cpp
+CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/tcpconnection.cpp
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj -MF CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\common\tcpconnection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.obj -MF CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\tcpconnection.cpp
 
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\common\tcpconnection.cpp > CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\tcpconnection.cpp > CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.i
 
 CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/tcpconnection.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\common\tcpconnection.cpp -o CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\tcpconnection.cpp -o CMakeFiles\TASoftware.dir\common\tcpconnection.cpp.s
 
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/common/serialconnection.cpp
+CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection.cpp
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj -MF CMakeFiles\TASoftware.dir\common\serialconnection.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\serialconnection.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\common\serialconnection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/common/serialconnection.cpp.obj -MF CMakeFiles\TASoftware.dir\common\serialconnection.cpp.obj.d -o CMakeFiles\TASoftware.dir\common\serialconnection.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\serialconnection.cpp
 
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/serialconnection.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\common\serialconnection.cpp > CMakeFiles\TASoftware.dir\common\serialconnection.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\serialconnection.cpp > CMakeFiles\TASoftware.dir\common\serialconnection.cpp.i
 
 CMakeFiles/TASoftware.dir/common/serialconnection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/serialconnection.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\common\serialconnection.cpp -o CMakeFiles\TASoftware.dir\common\serialconnection.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\serialconnection.cpp -o CMakeFiles\TASoftware.dir\common\serialconnection.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripdialog.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripdialog.cpp
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.cpp
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/ntripdialog.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripdialog.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntripworker.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntripworker.cpp
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripworker.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripworker.cpp
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripworker.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripworker.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripworker.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripworker.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntripworker.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.cpp
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.cpp
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardtarget.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardertablemanager.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.cpp
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.cpp
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\forwardertablemanager.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/ntrippagemanager.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/ntrippagemanager.cpp
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntrippagemanager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntrippagemanager.cpp
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntrippagemanager.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntrippagemanager.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntrippagemanager.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntrippagemanager.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\ntrippagemanager.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.cpp
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\datapool\datapool.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\datapool\datapool.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\datapool.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\datapool\datapool.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\datapool\datapool.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\datapool.cpp
 
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\datapool.cpp > CMakeFiles\TASoftware.dir\modules\datapool\datapool.cpp.i
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\datapool.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\datapool\datapool.cpp.i
 
-CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\datapool.cpp -o CMakeFiles\TASoftware.dir\modules\datapool\datapool.cpp.s
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\datapool.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\datapool\datapool.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/dataviewerdialog.cpp
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\datapool\dataviewerdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\datapool\dataviewerdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\dataviewerdialog.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.cpp
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\ntrip\datapool\dataviewerdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\ntrip\datapool\dataviewerdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\dataviewerdialog.cpp
 
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\dataviewerdialog.cpp > CMakeFiles\TASoftware.dir\modules\datapool\dataviewerdialog.cpp.i
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\dataviewerdialog.cpp > CMakeFiles\TASoftware.dir\modules\ntrip\datapool\dataviewerdialog.cpp.i
 
-CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\datapool\dataviewerdialog.cpp -o CMakeFiles\TASoftware.dir\modules\datapool\dataviewerdialog.cpp.s
+CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\datapool\dataviewerdialog.cpp -o CMakeFiles\TASoftware.dir\modules\ntrip\datapool\dataviewerdialog.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/commtool/commtool.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.cpp
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\commtool.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\commtool.cpp
 
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\commtool.cpp > CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\commtool.cpp > CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\commtool\commtool.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\commtool.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\commtool.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atcmdpanel.cpp
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\atcmd\atcmdpanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\atcmd\atcmdpanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atcmdpanel.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\realtimeparsepanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\realtimeparsepanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\realtimeparsepanel.cpp
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atcmdpanel.cpp > CMakeFiles\TASoftware.dir\modules\atcmd\atcmdpanel.cpp.i
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\realtimeparsepanel.cpp > CMakeFiles\TASoftware.dir\modules\commtool\realtimeparsepanel.cpp.i
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atcmdpanel.cpp -o CMakeFiles\TASoftware.dir\modules\atcmd\atcmdpanel.cpp.s
+CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\realtimeparsepanel.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\realtimeparsepanel.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/atcmd/atparamdialog.cpp
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\atcmd\atparamdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\atcmd\atparamdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atparamdialog.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\streamframer.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\streamframer.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\streamframer.cpp
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atparamdialog.cpp > CMakeFiles\TASoftware.dir\modules\atcmd\atparamdialog.cpp.i
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\streamframer.cpp > CMakeFiles\TASoftware.dir\modules\commtool\streamframer.cpp.i
 
-CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\atcmd\atparamdialog.cpp -o CMakeFiles\TASoftware.dir\modules\atcmd\atparamdialog.cpp.s
+CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\streamframer.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\streamframer.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdpanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdpanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdpanel.cpp
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdpanel.cpp > CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdpanel.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdpanel.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdpanel.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdstore.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdstore.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdstore.cpp
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdstore.cpp > CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdstore.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdstore.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atcmdstore.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.cpp
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atparamdialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atparamdialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.cpp
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.cpp > CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atparamdialog.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.cpp -o CMakeFiles\TASoftware.dir\modules\commtool\atcmd\atparamdialog.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/parserbase.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\parserbase.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\parserbase.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\parserbase.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\parserbase.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\parserbase.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\parserbase.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\parserbase.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/single/protocolregistry.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\single\protocolregistry.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\single\protocolregistry.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\single\protocolregistry.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\single\protocolregistry.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\single\protocolregistry.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\single\protocolregistry.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\single\protocolregistry.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/debugstream/debugframeparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/debugframeparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\debugframeparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\debugframeparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\debugframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\debugframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\debugframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\debugframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\debugframeparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/debugstream/eb614debugparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/debugstream/eb614debugparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\eb614debugparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\eb614debugparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\eb614debugparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\eb614debugparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/eb614debugparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\debugstream\eb614debugparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\debugstream\eb614debugparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\debugstream\eb614debugparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/external/kaixinframeparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/external/kaixinframeparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\external\kaixinframeparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\external\kaixinframeparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\external\kaixinframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\external\kaixinframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/external/kaixinframeparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\external\kaixinframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\external\kaixinframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\external\kaixinframeparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/other/rtcmframeparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\other\rtcmframeparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\other\rtcmframeparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\other\rtcmframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\other\rtcmframeparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/other/rtcmframeparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\other\rtcmframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\other\rtcmframeparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\other\rtcmframeparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/frameparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/frameparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\frameparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\frameparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\frameparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\frameparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\frameparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\frameparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\frameparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/canblfparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/canblfparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\canblfparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\canblfparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\canblfparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\canblfparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\canblfparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\canblfparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\canblfparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtcmparser.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcmparser.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcmparser.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcmparser.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcmparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcmparser.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcmparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcmparser.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcmparser.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtcm_deep_decoder.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/rtcm_deep_decoder.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcm_deep_decoder.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcm_deep_decoder.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcm_deep_decoder.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcm_deep_decoder.cpp > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtcm_deep_decoder.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parser\core\rtcm_deep_decoder.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtcm_deep_decoder.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtklib/rtkcmn.c
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtkcmn.c.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtkcmn.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtkcmn.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtkcmn.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj -MF CMakeFiles\TASoftware.dir\common\rtklib\rtkcmn.c.obj.d -o CMakeFiles\TASoftware.dir\common\rtklib\rtkcmn.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtkcmn.c
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtkcmn.c > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtkcmn.c.i
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtkcmn.c > CMakeFiles\TASoftware.dir\common\rtklib\rtkcmn.c.i
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtkcmn.c -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtkcmn.c.s
+CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtkcmn.c -o CMakeFiles\TASoftware.dir\common\rtklib\rtkcmn.c.s
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtklib/rtcm.c
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm.c.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj -MF CMakeFiles\TASoftware.dir\common\rtklib\rtcm.c.obj.d -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm.c
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm.c > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm.c.i
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm.c > CMakeFiles\TASoftware.dir\common\rtklib\rtcm.c.i
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm.c -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm.c.s
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm.c -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm.c.s
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtklib/rtcm3.c
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm3.c.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm3.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm3.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm3.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj -MF CMakeFiles\TASoftware.dir\common\rtklib\rtcm3.c.obj.d -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm3.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm3.c
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm3.c > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm3.c.i
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm3.c > CMakeFiles\TASoftware.dir\common\rtklib\rtcm3.c.i
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm3.c -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm3.c.s
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm3.c -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm3.c.s
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parser/core/rtklib/rtcm_stubs.c
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm_stubs.c.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm_stubs.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm_stubs.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm_stubs.c
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj -MF CMakeFiles\TASoftware.dir\common\rtklib\rtcm_stubs.c.obj.d -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm_stubs.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm_stubs.c
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm_stubs.c > CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm_stubs.c.i
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm_stubs.c > CMakeFiles\TASoftware.dir\common\rtklib\rtcm_stubs.c.i
 
-CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parser\core\rtklib\rtcm_stubs.c -o CMakeFiles\TASoftware.dir\modules\parse\parser\core\rtklib\rtcm_stubs.c.s
+CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rtcm_stubs.c -o CMakeFiles\TASoftware.dir\common\rtklib\rtcm_stubs.c.s
+
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rinex.c
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -MD -MT CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj -MF CMakeFiles\TASoftware.dir\common\rtklib\rinex.c.obj.d -o CMakeFiles\TASoftware.dir\common\rtklib\rinex.c.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rinex.c
+
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rinex.c > CMakeFiles\TASoftware.dir\common\rtklib\rinex.c.i
+
+CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) -x c++ $(CXX_FLAGS) -Wno-write-strings -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common\rtklib\rinex.c -o CMakeFiles\TASoftware.dir\common\rtklib\rinex.c.s
 
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.cpp
+CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.cpp
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parsepanel.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parsepanel.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parsepanel.cpp > CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parsepanel.cpp > CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\parsepanel.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\parsepanel.cpp -o CMakeFiles\TASoftware.dir\modules\parse\parsepanel.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/recodeconfig.cpp
+CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.cpp
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\recodeconfig.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\recodeconfig.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\recodeconfig.cpp > CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\recodeconfig.cpp > CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\recodeconfig.cpp -o CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\recodeconfig.cpp -o CMakeFiles\TASoftware.dir\modules\parse\recodeconfig.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/columnextract.cpp
+CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.cpp
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.cpp > CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.cpp > CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\columnextract.cpp -o CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\columnextract.cpp -o CMakeFiles\TASoftware.dir\modules\parse\columnextract.cpp.s
 
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/downsampledialog.cpp
+CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/downsampledialog.cpp
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.cpp
 
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.cpp > CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.i
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.cpp > CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.i
 
 CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\parse\downsampledialog.cpp -o CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.s
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\parse\downsampledialog.cpp -o CMakeFiles\TASoftware.dir\modules\parse\downsampledialog.cpp.s
 
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/modules/analysis/analysispanel.cpp
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\analysispanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\analysispanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\modules\analysis\analysispanel.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\compare\analysispanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\compare\analysispanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\analysispanel.cpp
 
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.i"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\modules\analysis\analysispanel.cpp > CMakeFiles\TASoftware.dir\modules\analysis\analysispanel.cpp.i
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\analysispanel.cpp > CMakeFiles\TASoftware.dir\modules\analysis\compare\analysispanel.cpp.i
 
-CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.s"
-	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\modules\analysis\analysispanel.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\analysispanel.cpp.s
+CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\analysispanel.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\compare\analysispanel.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rawanalysispanel.cpp
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rawanalysispanel.cpp > CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rawanalysispanel.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.cpp
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.cpp > CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.s
 
 # Object files for target TASoftware
 TASoftware_OBJECTS = \
@@ -638,11 +728,14 @@ TASoftware_OBJECTS = \
 "CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj" \
@@ -653,15 +746,18 @@ TASoftware_OBJECTS = \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj" \
-"CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj" \
-"CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj" \
-"CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj" \
+"CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj" \
+"CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj" \
+"CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj" \
+"CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj" \
+"CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj"
+"CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj"
 
 # External object files for target TASoftware
 TASoftware_EXTERNAL_OBJECTS =
@@ -679,11 +775,14 @@ TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/ntripworker.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/parserbase.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/single/protocolregistry.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/debugstream/debugframeparser.cpp.obj
@@ -694,15 +793,18 @@ TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/frameparser.
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/canblfparser.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcm_deep_decoder.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/parsepanel.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj
-TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/build.make
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Widgets.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Network.a
@@ -714,10 +816,12 @@ TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6EntryPoint.a
 TASoftware.exe: CMakeFiles/TASoftware.dir/linkLibs.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/objects1.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Linking CXX executable TASoftware.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Linking CXX executable TASoftware.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TASoftware.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying scripts/ to output directory"
-	B:\qt\Tools\CMake_64\bin\cmake.exe -E copy_directory C:/Users/wxw/Desktop/QT/TASoftware/scripts C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/scripts
+	B:\qt\Tools\CMake_64\bin\cmake.exe -E copy_directory C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/scripts C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/scripts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying at_commands.json to output directory"
+	B:\qt\Tools\CMake_64\bin\cmake.exe -E copy_if_different C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/at_commands.json C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/at_commands.json
 
 # Rule to build all files generated by this target.
 CMakeFiles/TASoftware.dir/build: TASoftware.exe
@@ -728,6 +832,6 @@ CMakeFiles/TASoftware.dir/clean:
 .PHONY : CMakeFiles/TASoftware.dir/clean
 
 CMakeFiles/TASoftware.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/TASoftware.dir/depend
 

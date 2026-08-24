@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/main.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\main.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\mainwindow.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\main.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\mainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

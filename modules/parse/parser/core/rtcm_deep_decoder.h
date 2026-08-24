@@ -1,7 +1,7 @@
 #ifndef RTCM_DEEP_DECODER_H
 #define RTCM_DEEP_DECODER_H
 
-#include "modules/parse/parser/core/rtklib/rtklib.h"
+#include "common/rtklib/rtklib.h"
 #include <QByteArray>
 #include <QString>
 #include <QList>

@@ -75,11 +75,12 @@ qt_add_executable(TASoftware
     modules/parse/parser/core/rtcmparser.h
     modules/parse/parser/core/rtcm_deep_decoder.cpp
     modules/parse/parser/core/rtcm_deep_decoder.h
-    modules/parse/parser/core/rtklib/rtkcmn.c
-    modules/parse/parser/core/rtklib/rtcm.c
-    modules/parse/parser/core/rtklib/rtcm3.c
-    modules/parse/parser/core/rtklib/rtcm_stubs.c
-    modules/parse/parser/core/rtklib/rtklib.h
+    common/rtklib/rtkcmn.c
+    common/rtklib/rtcm.c
+    common/rtklib/rtcm3.c
+    common/rtklib/rtcm_stubs.c
+    common/rtklib/rinex.c
+    common/rtklib/rtklib.h
     modules/parse/parsepanel.cpp
     modules/parse/parsepanel.h
     modules/parse/parsepanel.ui
@@ -89,17 +90,22 @@ qt_add_executable(TASoftware
     modules/parse/columnextract.h
     modules/parse/downsampledialog.cpp
     modules/parse/downsampledialog.h
-    modules/analysis/analysispanel.cpp
-    modules/analysis/analysispanel.h
+    modules/analysis/compare/analysispanel.cpp
+    modules/analysis/compare/analysispanel.h
+    modules/analysis/raw/rawanalysispanel.cpp
+    modules/analysis/raw/rawanalysispanel.h
+    modules/analysis/raw/rinexreader.cpp
+    modules/analysis/raw/rinexreader.h
 )
 
 # RTKLIB .c files compiled as C++ (no C compiler available in this environment)
 # Suppress C++ warnings from legacy C code
 set_source_files_properties(
-    modules/parse/parser/core/rtklib/rtkcmn.c
-    modules/parse/parser/core/rtklib/rtcm.c
-    modules/parse/parser/core/rtklib/rtcm3.c
-    modules/parse/parser/core/rtklib/rtcm_stubs.c
+    common/rtklib/rtkcmn.c
+    common/rtklib/rtcm.c
+    common/rtklib/rtcm3.c
+    common/rtklib/rtcm_stubs.c
+    common/rtklib/rinex.c
     PROPERTIES
         LANGUAGE CXX
         COMPILE_FLAGS "-Wno-write-strings"
@@ -108,7 +114,7 @@ set_source_files_properties(
 target_include_directories(TASoftware
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/modules/parse/parser/core/rtklib
+        ${CMAKE_CURRENT_SOURCE_DIR}/common/rtklib
 )
 
 # RTKLIB expects WIN32 to be defined on Windows

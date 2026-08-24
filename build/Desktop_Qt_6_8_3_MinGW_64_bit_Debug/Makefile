@@ -56,10 +56,10 @@ RM = B:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware
+CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
+CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -131,9 +131,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -222,6 +222,126 @@ TASoftware_autogen/mocs_compilation.s: TASoftware_autogen/mocs_compilation.cpp.s
 TASoftware_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.s
 .PHONY : TASoftware_autogen/mocs_compilation.cpp.s
+
+common/rtklib/rinex.obj: common/rtklib/rinex.c.obj
+.PHONY : common/rtklib/rinex.obj
+
+# target to build an object file
+common/rtklib/rinex.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.obj
+.PHONY : common/rtklib/rinex.c.obj
+
+common/rtklib/rinex.i: common/rtklib/rinex.c.i
+.PHONY : common/rtklib/rinex.i
+
+# target to preprocess a source file
+common/rtklib/rinex.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.i
+.PHONY : common/rtklib/rinex.c.i
+
+common/rtklib/rinex.s: common/rtklib/rinex.c.s
+.PHONY : common/rtklib/rinex.s
+
+# target to generate assembly for a file
+common/rtklib/rinex.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rinex.c.s
+.PHONY : common/rtklib/rinex.c.s
+
+common/rtklib/rtcm.obj: common/rtklib/rtcm.c.obj
+.PHONY : common/rtklib/rtcm.obj
+
+# target to build an object file
+common/rtklib/rtcm.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.obj
+.PHONY : common/rtklib/rtcm.c.obj
+
+common/rtklib/rtcm.i: common/rtklib/rtcm.c.i
+.PHONY : common/rtklib/rtcm.i
+
+# target to preprocess a source file
+common/rtklib/rtcm.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.i
+.PHONY : common/rtklib/rtcm.c.i
+
+common/rtklib/rtcm.s: common/rtklib/rtcm.c.s
+.PHONY : common/rtklib/rtcm.s
+
+# target to generate assembly for a file
+common/rtklib/rtcm.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm.c.s
+.PHONY : common/rtklib/rtcm.c.s
+
+common/rtklib/rtcm3.obj: common/rtklib/rtcm3.c.obj
+.PHONY : common/rtklib/rtcm3.obj
+
+# target to build an object file
+common/rtklib/rtcm3.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.obj
+.PHONY : common/rtklib/rtcm3.c.obj
+
+common/rtklib/rtcm3.i: common/rtklib/rtcm3.c.i
+.PHONY : common/rtklib/rtcm3.i
+
+# target to preprocess a source file
+common/rtklib/rtcm3.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.i
+.PHONY : common/rtklib/rtcm3.c.i
+
+common/rtklib/rtcm3.s: common/rtklib/rtcm3.c.s
+.PHONY : common/rtklib/rtcm3.s
+
+# target to generate assembly for a file
+common/rtklib/rtcm3.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm3.c.s
+.PHONY : common/rtklib/rtcm3.c.s
+
+common/rtklib/rtcm_stubs.obj: common/rtklib/rtcm_stubs.c.obj
+.PHONY : common/rtklib/rtcm_stubs.obj
+
+# target to build an object file
+common/rtklib/rtcm_stubs.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.obj
+.PHONY : common/rtklib/rtcm_stubs.c.obj
+
+common/rtklib/rtcm_stubs.i: common/rtklib/rtcm_stubs.c.i
+.PHONY : common/rtklib/rtcm_stubs.i
+
+# target to preprocess a source file
+common/rtklib/rtcm_stubs.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.i
+.PHONY : common/rtklib/rtcm_stubs.c.i
+
+common/rtklib/rtcm_stubs.s: common/rtklib/rtcm_stubs.c.s
+.PHONY : common/rtklib/rtcm_stubs.s
+
+# target to generate assembly for a file
+common/rtklib/rtcm_stubs.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtcm_stubs.c.s
+.PHONY : common/rtklib/rtcm_stubs.c.s
+
+common/rtklib/rtkcmn.obj: common/rtklib/rtkcmn.c.obj
+.PHONY : common/rtklib/rtkcmn.obj
+
+# target to build an object file
+common/rtklib/rtkcmn.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.obj
+.PHONY : common/rtklib/rtkcmn.c.obj
+
+common/rtklib/rtkcmn.i: common/rtklib/rtkcmn.c.i
+.PHONY : common/rtklib/rtkcmn.i
+
+# target to preprocess a source file
+common/rtklib/rtkcmn.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.i
+.PHONY : common/rtklib/rtkcmn.c.i
+
+common/rtklib/rtkcmn.s: common/rtklib/rtkcmn.c.s
+.PHONY : common/rtklib/rtkcmn.s
+
+# target to generate assembly for a file
+common/rtklib/rtkcmn.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/common/rtklib/rtkcmn.c.s
+.PHONY : common/rtklib/rtkcmn.c.s
 
 common/serialconnection.obj: common/serialconnection.cpp.obj
 .PHONY : common/serialconnection.obj
@@ -391,77 +511,149 @@ mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
 
-modules/analysis/analysispanel.obj: modules/analysis/analysispanel.cpp.obj
-.PHONY : modules/analysis/analysispanel.obj
+modules/analysis/compare/analysispanel.obj: modules/analysis/compare/analysispanel.cpp.obj
+.PHONY : modules/analysis/compare/analysispanel.obj
 
 # target to build an object file
-modules/analysis/analysispanel.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.obj
-.PHONY : modules/analysis/analysispanel.cpp.obj
+modules/analysis/compare/analysispanel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj
+.PHONY : modules/analysis/compare/analysispanel.cpp.obj
 
-modules/analysis/analysispanel.i: modules/analysis/analysispanel.cpp.i
-.PHONY : modules/analysis/analysispanel.i
+modules/analysis/compare/analysispanel.i: modules/analysis/compare/analysispanel.cpp.i
+.PHONY : modules/analysis/compare/analysispanel.i
 
 # target to preprocess a source file
-modules/analysis/analysispanel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.i
-.PHONY : modules/analysis/analysispanel.cpp.i
+modules/analysis/compare/analysispanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.i
+.PHONY : modules/analysis/compare/analysispanel.cpp.i
 
-modules/analysis/analysispanel.s: modules/analysis/analysispanel.cpp.s
-.PHONY : modules/analysis/analysispanel.s
+modules/analysis/compare/analysispanel.s: modules/analysis/compare/analysispanel.cpp.s
+.PHONY : modules/analysis/compare/analysispanel.s
 
 # target to generate assembly for a file
-modules/analysis/analysispanel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/analysispanel.cpp.s
-.PHONY : modules/analysis/analysispanel.cpp.s
+modules/analysis/compare/analysispanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s
+.PHONY : modules/analysis/compare/analysispanel.cpp.s
 
-modules/atcmd/atcmdpanel.obj: modules/atcmd/atcmdpanel.cpp.obj
-.PHONY : modules/atcmd/atcmdpanel.obj
+modules/analysis/raw/rawanalysispanel.obj: modules/analysis/raw/rawanalysispanel.cpp.obj
+.PHONY : modules/analysis/raw/rawanalysispanel.obj
 
 # target to build an object file
-modules/atcmd/atcmdpanel.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.obj
-.PHONY : modules/atcmd/atcmdpanel.cpp.obj
+modules/analysis/raw/rawanalysispanel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj
+.PHONY : modules/analysis/raw/rawanalysispanel.cpp.obj
 
-modules/atcmd/atcmdpanel.i: modules/atcmd/atcmdpanel.cpp.i
-.PHONY : modules/atcmd/atcmdpanel.i
+modules/analysis/raw/rawanalysispanel.i: modules/analysis/raw/rawanalysispanel.cpp.i
+.PHONY : modules/analysis/raw/rawanalysispanel.i
 
 # target to preprocess a source file
-modules/atcmd/atcmdpanel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.i
-.PHONY : modules/atcmd/atcmdpanel.cpp.i
+modules/analysis/raw/rawanalysispanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.i
+.PHONY : modules/analysis/raw/rawanalysispanel.cpp.i
 
-modules/atcmd/atcmdpanel.s: modules/atcmd/atcmdpanel.cpp.s
-.PHONY : modules/atcmd/atcmdpanel.s
+modules/analysis/raw/rawanalysispanel.s: modules/analysis/raw/rawanalysispanel.cpp.s
+.PHONY : modules/analysis/raw/rawanalysispanel.s
 
 # target to generate assembly for a file
-modules/atcmd/atcmdpanel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atcmdpanel.cpp.s
-.PHONY : modules/atcmd/atcmdpanel.cpp.s
+modules/analysis/raw/rawanalysispanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.s
+.PHONY : modules/analysis/raw/rawanalysispanel.cpp.s
 
-modules/atcmd/atparamdialog.obj: modules/atcmd/atparamdialog.cpp.obj
-.PHONY : modules/atcmd/atparamdialog.obj
+modules/analysis/raw/rinexreader.obj: modules/analysis/raw/rinexreader.cpp.obj
+.PHONY : modules/analysis/raw/rinexreader.obj
 
 # target to build an object file
-modules/atcmd/atparamdialog.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.obj
-.PHONY : modules/atcmd/atparamdialog.cpp.obj
+modules/analysis/raw/rinexreader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj
+.PHONY : modules/analysis/raw/rinexreader.cpp.obj
 
-modules/atcmd/atparamdialog.i: modules/atcmd/atparamdialog.cpp.i
-.PHONY : modules/atcmd/atparamdialog.i
+modules/analysis/raw/rinexreader.i: modules/analysis/raw/rinexreader.cpp.i
+.PHONY : modules/analysis/raw/rinexreader.i
 
 # target to preprocess a source file
-modules/atcmd/atparamdialog.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.i
-.PHONY : modules/atcmd/atparamdialog.cpp.i
+modules/analysis/raw/rinexreader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.i
+.PHONY : modules/analysis/raw/rinexreader.cpp.i
 
-modules/atcmd/atparamdialog.s: modules/atcmd/atparamdialog.cpp.s
-.PHONY : modules/atcmd/atparamdialog.s
+modules/analysis/raw/rinexreader.s: modules/analysis/raw/rinexreader.cpp.s
+.PHONY : modules/analysis/raw/rinexreader.s
 
 # target to generate assembly for a file
-modules/atcmd/atparamdialog.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/atcmd/atparamdialog.cpp.s
-.PHONY : modules/atcmd/atparamdialog.cpp.s
+modules/analysis/raw/rinexreader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s
+.PHONY : modules/analysis/raw/rinexreader.cpp.s
+
+modules/commtool/atcmd/atcmdpanel.obj: modules/commtool/atcmd/atcmdpanel.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdpanel.obj
+
+# target to build an object file
+modules/commtool/atcmd/atcmdpanel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdpanel.cpp.obj
+
+modules/commtool/atcmd/atcmdpanel.i: modules/commtool/atcmd/atcmdpanel.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdpanel.i
+
+# target to preprocess a source file
+modules/commtool/atcmd/atcmdpanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdpanel.cpp.i
+
+modules/commtool/atcmd/atcmdpanel.s: modules/commtool/atcmd/atcmdpanel.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdpanel.s
+
+# target to generate assembly for a file
+modules/commtool/atcmd/atcmdpanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdpanel.cpp.s
+
+modules/commtool/atcmd/atcmdstore.obj: modules/commtool/atcmd/atcmdstore.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdstore.obj
+
+# target to build an object file
+modules/commtool/atcmd/atcmdstore.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.obj
+
+modules/commtool/atcmd/atcmdstore.i: modules/commtool/atcmd/atcmdstore.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdstore.i
+
+# target to preprocess a source file
+modules/commtool/atcmd/atcmdstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.i
+
+modules/commtool/atcmd/atcmdstore.s: modules/commtool/atcmd/atcmdstore.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdstore.s
+
+# target to generate assembly for a file
+modules/commtool/atcmd/atcmdstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.s
+
+modules/commtool/atcmd/atparamdialog.obj: modules/commtool/atcmd/atparamdialog.cpp.obj
+.PHONY : modules/commtool/atcmd/atparamdialog.obj
+
+# target to build an object file
+modules/commtool/atcmd/atparamdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.obj
+.PHONY : modules/commtool/atcmd/atparamdialog.cpp.obj
+
+modules/commtool/atcmd/atparamdialog.i: modules/commtool/atcmd/atparamdialog.cpp.i
+.PHONY : modules/commtool/atcmd/atparamdialog.i
+
+# target to preprocess a source file
+modules/commtool/atcmd/atparamdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.i
+.PHONY : modules/commtool/atcmd/atparamdialog.cpp.i
+
+modules/commtool/atcmd/atparamdialog.s: modules/commtool/atcmd/atparamdialog.cpp.s
+.PHONY : modules/commtool/atcmd/atparamdialog.s
+
+# target to generate assembly for a file
+modules/commtool/atcmd/atparamdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atparamdialog.cpp.s
+.PHONY : modules/commtool/atcmd/atparamdialog.cpp.s
 
 modules/commtool/commtool.obj: modules/commtool/commtool.cpp.obj
 .PHONY : modules/commtool/commtool.obj
@@ -487,53 +679,101 @@ modules/commtool/commtool.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.s
 .PHONY : modules/commtool/commtool.cpp.s
 
-modules/datapool/datapool.obj: modules/datapool/datapool.cpp.obj
-.PHONY : modules/datapool/datapool.obj
+modules/commtool/realtimeparsepanel.obj: modules/commtool/realtimeparsepanel.cpp.obj
+.PHONY : modules/commtool/realtimeparsepanel.obj
 
 # target to build an object file
-modules/datapool/datapool.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.obj
-.PHONY : modules/datapool/datapool.cpp.obj
+modules/commtool/realtimeparsepanel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj
+.PHONY : modules/commtool/realtimeparsepanel.cpp.obj
 
-modules/datapool/datapool.i: modules/datapool/datapool.cpp.i
-.PHONY : modules/datapool/datapool.i
+modules/commtool/realtimeparsepanel.i: modules/commtool/realtimeparsepanel.cpp.i
+.PHONY : modules/commtool/realtimeparsepanel.i
 
 # target to preprocess a source file
-modules/datapool/datapool.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.i
-.PHONY : modules/datapool/datapool.cpp.i
+modules/commtool/realtimeparsepanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.i
+.PHONY : modules/commtool/realtimeparsepanel.cpp.i
 
-modules/datapool/datapool.s: modules/datapool/datapool.cpp.s
-.PHONY : modules/datapool/datapool.s
+modules/commtool/realtimeparsepanel.s: modules/commtool/realtimeparsepanel.cpp.s
+.PHONY : modules/commtool/realtimeparsepanel.s
 
 # target to generate assembly for a file
-modules/datapool/datapool.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/datapool.cpp.s
-.PHONY : modules/datapool/datapool.cpp.s
+modules/commtool/realtimeparsepanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.s
+.PHONY : modules/commtool/realtimeparsepanel.cpp.s
 
-modules/datapool/dataviewerdialog.obj: modules/datapool/dataviewerdialog.cpp.obj
-.PHONY : modules/datapool/dataviewerdialog.obj
+modules/commtool/streamframer.obj: modules/commtool/streamframer.cpp.obj
+.PHONY : modules/commtool/streamframer.obj
 
 # target to build an object file
-modules/datapool/dataviewerdialog.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.obj
-.PHONY : modules/datapool/dataviewerdialog.cpp.obj
+modules/commtool/streamframer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj
+.PHONY : modules/commtool/streamframer.cpp.obj
 
-modules/datapool/dataviewerdialog.i: modules/datapool/dataviewerdialog.cpp.i
-.PHONY : modules/datapool/dataviewerdialog.i
+modules/commtool/streamframer.i: modules/commtool/streamframer.cpp.i
+.PHONY : modules/commtool/streamframer.i
 
 # target to preprocess a source file
-modules/datapool/dataviewerdialog.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.i
-.PHONY : modules/datapool/dataviewerdialog.cpp.i
+modules/commtool/streamframer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.i
+.PHONY : modules/commtool/streamframer.cpp.i
 
-modules/datapool/dataviewerdialog.s: modules/datapool/dataviewerdialog.cpp.s
-.PHONY : modules/datapool/dataviewerdialog.s
+modules/commtool/streamframer.s: modules/commtool/streamframer.cpp.s
+.PHONY : modules/commtool/streamframer.s
 
 # target to generate assembly for a file
-modules/datapool/dataviewerdialog.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/datapool/dataviewerdialog.cpp.s
-.PHONY : modules/datapool/dataviewerdialog.cpp.s
+modules/commtool/streamframer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.s
+.PHONY : modules/commtool/streamframer.cpp.s
+
+modules/ntrip/datapool/datapool.obj: modules/ntrip/datapool/datapool.cpp.obj
+.PHONY : modules/ntrip/datapool/datapool.obj
+
+# target to build an object file
+modules/ntrip/datapool/datapool.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.obj
+.PHONY : modules/ntrip/datapool/datapool.cpp.obj
+
+modules/ntrip/datapool/datapool.i: modules/ntrip/datapool/datapool.cpp.i
+.PHONY : modules/ntrip/datapool/datapool.i
+
+# target to preprocess a source file
+modules/ntrip/datapool/datapool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.i
+.PHONY : modules/ntrip/datapool/datapool.cpp.i
+
+modules/ntrip/datapool/datapool.s: modules/ntrip/datapool/datapool.cpp.s
+.PHONY : modules/ntrip/datapool/datapool.s
+
+# target to generate assembly for a file
+modules/ntrip/datapool/datapool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/datapool.cpp.s
+.PHONY : modules/ntrip/datapool/datapool.cpp.s
+
+modules/ntrip/datapool/dataviewerdialog.obj: modules/ntrip/datapool/dataviewerdialog.cpp.obj
+.PHONY : modules/ntrip/datapool/dataviewerdialog.obj
+
+# target to build an object file
+modules/ntrip/datapool/dataviewerdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.obj
+.PHONY : modules/ntrip/datapool/dataviewerdialog.cpp.obj
+
+modules/ntrip/datapool/dataviewerdialog.i: modules/ntrip/datapool/dataviewerdialog.cpp.i
+.PHONY : modules/ntrip/datapool/dataviewerdialog.i
+
+# target to preprocess a source file
+modules/ntrip/datapool/dataviewerdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.i
+.PHONY : modules/ntrip/datapool/dataviewerdialog.cpp.i
+
+modules/ntrip/datapool/dataviewerdialog.s: modules/ntrip/datapool/dataviewerdialog.cpp.s
+.PHONY : modules/ntrip/datapool/dataviewerdialog.s
+
+# target to generate assembly for a file
+modules/ntrip/datapool/dataviewerdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/ntrip/datapool/dataviewerdialog.cpp.s
+.PHONY : modules/ntrip/datapool/dataviewerdialog.cpp.s
 
 modules/ntrip/forwardertablemanager.obj: modules/ntrip/forwardertablemanager.cpp.obj
 .PHONY : modules/ntrip/forwardertablemanager.obj
@@ -823,102 +1063,6 @@ modules/parse/parser/core/rtcmparser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtcmparser.cpp.s
 .PHONY : modules/parse/parser/core/rtcmparser.cpp.s
 
-modules/parse/parser/core/rtklib/rtcm.obj: modules/parse/parser/core/rtklib/rtcm.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm.obj
-
-# target to build an object file
-modules/parse/parser/core/rtklib/rtcm.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm.c.obj
-
-modules/parse/parser/core/rtklib/rtcm.i: modules/parse/parser/core/rtklib/rtcm.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm.i
-
-# target to preprocess a source file
-modules/parse/parser/core/rtklib/rtcm.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm.c.i
-
-modules/parse/parser/core/rtklib/rtcm.s: modules/parse/parser/core/rtklib/rtcm.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm.s
-
-# target to generate assembly for a file
-modules/parse/parser/core/rtklib/rtcm.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm.c.s
-
-modules/parse/parser/core/rtklib/rtcm3.obj: modules/parse/parser/core/rtklib/rtcm3.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.obj
-
-# target to build an object file
-modules/parse/parser/core/rtklib/rtcm3.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.c.obj
-
-modules/parse/parser/core/rtklib/rtcm3.i: modules/parse/parser/core/rtklib/rtcm3.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.i
-
-# target to preprocess a source file
-modules/parse/parser/core/rtklib/rtcm3.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.c.i
-
-modules/parse/parser/core/rtklib/rtcm3.s: modules/parse/parser/core/rtklib/rtcm3.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.s
-
-# target to generate assembly for a file
-modules/parse/parser/core/rtklib/rtcm3.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm3.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm3.c.s
-
-modules/parse/parser/core/rtklib/rtcm_stubs.obj: modules/parse/parser/core/rtklib/rtcm_stubs.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.obj
-
-# target to build an object file
-modules/parse/parser/core/rtklib/rtcm_stubs.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.c.obj
-
-modules/parse/parser/core/rtklib/rtcm_stubs.i: modules/parse/parser/core/rtklib/rtcm_stubs.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.i
-
-# target to preprocess a source file
-modules/parse/parser/core/rtklib/rtcm_stubs.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.c.i
-
-modules/parse/parser/core/rtklib/rtcm_stubs.s: modules/parse/parser/core/rtklib/rtcm_stubs.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.s
-
-# target to generate assembly for a file
-modules/parse/parser/core/rtklib/rtcm_stubs.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtcm_stubs.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtcm_stubs.c.s
-
-modules/parse/parser/core/rtklib/rtkcmn.obj: modules/parse/parser/core/rtklib/rtkcmn.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.obj
-
-# target to build an object file
-modules/parse/parser/core/rtklib/rtkcmn.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.obj
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.c.obj
-
-modules/parse/parser/core/rtklib/rtkcmn.i: modules/parse/parser/core/rtklib/rtkcmn.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.i
-
-# target to preprocess a source file
-modules/parse/parser/core/rtklib/rtkcmn.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.i
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.c.i
-
-modules/parse/parser/core/rtklib/rtkcmn.s: modules/parse/parser/core/rtklib/rtkcmn.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.s
-
-# target to generate assembly for a file
-modules/parse/parser/core/rtklib/rtkcmn.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/parse/parser/core/rtklib/rtkcmn.c.s
-.PHONY : modules/parse/parser/core/rtklib/rtkcmn.c.s
-
 modules/parse/parser/debugstream/debugframeparser.obj: modules/parse/parser/debugstream/debugframeparser.cpp.obj
 .PHONY : modules/parse/parser/debugstream/debugframeparser.obj
 
@@ -1105,6 +1249,21 @@ help:
 	@echo ... TASoftware_autogen/mocs_compilation.obj
 	@echo ... TASoftware_autogen/mocs_compilation.i
 	@echo ... TASoftware_autogen/mocs_compilation.s
+	@echo ... common/rtklib/rinex.obj
+	@echo ... common/rtklib/rinex.i
+	@echo ... common/rtklib/rinex.s
+	@echo ... common/rtklib/rtcm.obj
+	@echo ... common/rtklib/rtcm.i
+	@echo ... common/rtklib/rtcm.s
+	@echo ... common/rtklib/rtcm3.obj
+	@echo ... common/rtklib/rtcm3.i
+	@echo ... common/rtklib/rtcm3.s
+	@echo ... common/rtklib/rtcm_stubs.obj
+	@echo ... common/rtklib/rtcm_stubs.i
+	@echo ... common/rtklib/rtcm_stubs.s
+	@echo ... common/rtklib/rtkcmn.obj
+	@echo ... common/rtklib/rtkcmn.i
+	@echo ... common/rtklib/rtkcmn.s
 	@echo ... common/serialconnection.obj
 	@echo ... common/serialconnection.i
 	@echo ... common/serialconnection.s
@@ -1126,24 +1285,39 @@ help:
 	@echo ... mainwindow.obj
 	@echo ... mainwindow.i
 	@echo ... mainwindow.s
-	@echo ... modules/analysis/analysispanel.obj
-	@echo ... modules/analysis/analysispanel.i
-	@echo ... modules/analysis/analysispanel.s
-	@echo ... modules/atcmd/atcmdpanel.obj
-	@echo ... modules/atcmd/atcmdpanel.i
-	@echo ... modules/atcmd/atcmdpanel.s
-	@echo ... modules/atcmd/atparamdialog.obj
-	@echo ... modules/atcmd/atparamdialog.i
-	@echo ... modules/atcmd/atparamdialog.s
+	@echo ... modules/analysis/compare/analysispanel.obj
+	@echo ... modules/analysis/compare/analysispanel.i
+	@echo ... modules/analysis/compare/analysispanel.s
+	@echo ... modules/analysis/raw/rawanalysispanel.obj
+	@echo ... modules/analysis/raw/rawanalysispanel.i
+	@echo ... modules/analysis/raw/rawanalysispanel.s
+	@echo ... modules/analysis/raw/rinexreader.obj
+	@echo ... modules/analysis/raw/rinexreader.i
+	@echo ... modules/analysis/raw/rinexreader.s
+	@echo ... modules/commtool/atcmd/atcmdpanel.obj
+	@echo ... modules/commtool/atcmd/atcmdpanel.i
+	@echo ... modules/commtool/atcmd/atcmdpanel.s
+	@echo ... modules/commtool/atcmd/atcmdstore.obj
+	@echo ... modules/commtool/atcmd/atcmdstore.i
+	@echo ... modules/commtool/atcmd/atcmdstore.s
+	@echo ... modules/commtool/atcmd/atparamdialog.obj
+	@echo ... modules/commtool/atcmd/atparamdialog.i
+	@echo ... modules/commtool/atcmd/atparamdialog.s
 	@echo ... modules/commtool/commtool.obj
 	@echo ... modules/commtool/commtool.i
 	@echo ... modules/commtool/commtool.s
-	@echo ... modules/datapool/datapool.obj
-	@echo ... modules/datapool/datapool.i
-	@echo ... modules/datapool/datapool.s
-	@echo ... modules/datapool/dataviewerdialog.obj
-	@echo ... modules/datapool/dataviewerdialog.i
-	@echo ... modules/datapool/dataviewerdialog.s
+	@echo ... modules/commtool/realtimeparsepanel.obj
+	@echo ... modules/commtool/realtimeparsepanel.i
+	@echo ... modules/commtool/realtimeparsepanel.s
+	@echo ... modules/commtool/streamframer.obj
+	@echo ... modules/commtool/streamframer.i
+	@echo ... modules/commtool/streamframer.s
+	@echo ... modules/ntrip/datapool/datapool.obj
+	@echo ... modules/ntrip/datapool/datapool.i
+	@echo ... modules/ntrip/datapool/datapool.s
+	@echo ... modules/ntrip/datapool/dataviewerdialog.obj
+	@echo ... modules/ntrip/datapool/dataviewerdialog.i
+	@echo ... modules/ntrip/datapool/dataviewerdialog.s
 	@echo ... modules/ntrip/forwardertablemanager.obj
 	@echo ... modules/ntrip/forwardertablemanager.i
 	@echo ... modules/ntrip/forwardertablemanager.s
@@ -1180,18 +1354,6 @@ help:
 	@echo ... modules/parse/parser/core/rtcmparser.obj
 	@echo ... modules/parse/parser/core/rtcmparser.i
 	@echo ... modules/parse/parser/core/rtcmparser.s
-	@echo ... modules/parse/parser/core/rtklib/rtcm.obj
-	@echo ... modules/parse/parser/core/rtklib/rtcm.i
-	@echo ... modules/parse/parser/core/rtklib/rtcm.s
-	@echo ... modules/parse/parser/core/rtklib/rtcm3.obj
-	@echo ... modules/parse/parser/core/rtklib/rtcm3.i
-	@echo ... modules/parse/parser/core/rtklib/rtcm3.s
-	@echo ... modules/parse/parser/core/rtklib/rtcm_stubs.obj
-	@echo ... modules/parse/parser/core/rtklib/rtcm_stubs.i
-	@echo ... modules/parse/parser/core/rtklib/rtcm_stubs.s
-	@echo ... modules/parse/parser/core/rtklib/rtkcmn.obj
-	@echo ... modules/parse/parser/core/rtklib/rtkcmn.i
-	@echo ... modules/parse/parser/core/rtklib/rtkcmn.s
 	@echo ... modules/parse/parser/debugstream/debugframeparser.obj
 	@echo ... modules/parse/parser/debugstream/debugframeparser.i
 	@echo ... modules/parse/parser/debugstream/debugframeparser.s

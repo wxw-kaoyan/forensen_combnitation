@@ -52,10 +52,10 @@ RM = B:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware
+CMAKE_SOURCE_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
+CMAKE_BINARY_DIR = C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug
 
 # Utility rule file for TASoftware_autogen_timestamp_deps.
 
@@ -77,6 +77,6 @@ CMakeFiles/TASoftware_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/TASoftware_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/TASoftware_autogen_timestamp_deps.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles\TASoftware_autogen_timestamp_deps.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/TASoftware_autogen_timestamp_deps.dir/depend
 

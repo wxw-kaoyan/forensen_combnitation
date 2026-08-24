@@ -23,6 +23,9 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QFutureWatcher>
 
+// 类内已初始化，此处提供定义以满足 ODR-use（QtConcurrent::run 以引用绑定取址）
+const int DownsampleDialog::PREVIEW_ROWS;
+
 // ── 识别分隔符 ──
 static QChar detectDelimiter(const QString &line)
 {

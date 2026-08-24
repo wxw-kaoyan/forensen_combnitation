@@ -24,13 +24,13 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "modules/atcmd/atcmdpanel.h"
+#include "modules/commtool/atcmd/atcmdpanel.h"
+#include "modules/commtool/realtimeparsepanel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -47,15 +47,6 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QLabel *headerStatusLabel;
     QTabWidget *topModuleTabWidget;
-    QWidget *toolTab;
-    QVBoxLayout *verticalLayout;
-    QFrame *toolSelectorFrame;
-    QVBoxLayout *verticalLayout_18;
-    QHBoxLayout *toolButtonLayout;
-    QPushButton *ntripToolButton;
-    QPushButton *commToolButton;
-    QSpacerItem *toolBtnSpacer;
-    QStackedWidget *toolStackedWidget;
     QWidget *ntripPage;
     QVBoxLayout *verticalLayout_2;
     QFrame *ntripFrame;
@@ -133,8 +124,7 @@ public:
     QSpacerItem *calibTabSpacer;
     QWidget *debugDataTab;
     QVBoxLayout *debugDataTabVLayout;
-    QLabel *debugPlaceholderLabel;
-    QSpacerItem *debugTabSpacer;
+    RealtimeParsePanel *realtimeParsePanel;
     QSpacerItem *commConfigSpacer;
     QFrame *commRecvFrame;
     QVBoxLayout *commRecvVLayout;
@@ -154,45 +144,18 @@ public:
     QPlainTextEdit *commandEdit;
     QHBoxLayout *sendBtnHLayout;
     QPushButton *sendCommandButton;
+    QLabel *favoriteLabel;
+    QComboBox *favoriteCmdComboBox;
+    QPushButton *addFavoriteButton;
     QPushButton *saveConsoleButton;
     QSpacerItem *sendBtnSpacer;
     QPushButton *clearConsoleButton;
     QWidget *parseTab;
     QVBoxLayout *verticalLayout_5;
-    QWidget *analysisTab;
-    QVBoxLayout *verticalLayout_7;
-    QFrame *analysisFrame;
-    QVBoxLayout *verticalLayout_10;
-    QLabel *analysisTitleLabel;
-    QLabel *analysisInfoLabel;
-    QSpacerItem *analysisSpacer1;
-    QGroupBox *singleDeviceGroup;
-    QVBoxLayout *singleDeviceLayout;
-    QLabel *singleDeviceDescLabel;
-    QHBoxLayout *singleDeviceFeatureLayout;
-    QFrame *singleCard1;
-    QVBoxLayout *verticalLayout_21;
-    QLabel *singleLabel1;
-    QLabel *singleStatus1;
-    QFrame *singleCard2;
-    QVBoxLayout *verticalLayout_22;
-    QLabel *singleLabel2;
-    QLabel *singleStatus2;
-    QFrame *singleCard3;
-    QVBoxLayout *verticalLayout_23;
-    QLabel *singleLabel3;
-    QLabel *singleStatus3;
-    QFrame *singleCard4;
-    QVBoxLayout *verticalLayout_24;
-    QLabel *singleLabel4;
-    QLabel *singleStatus4;
-    QSpacerItem *singleDeviceSpacer;
-    QLabel *singleDeviceDetailLabel;
-    QGroupBox *multiDeviceGroup;
-    QVBoxLayout *multiDeviceLayout;
-    QLabel *multiDeviceDescLabel;
-    QTableWidget *compareTableWidget;
-    QSpacerItem *analysisBottomSpacer;
+    QWidget *rawAnalysisTab;
+    QVBoxLayout *verticalLayout_rawAnalysis;
+    QWidget *compareAnalysisTab;
+    QVBoxLayout *verticalLayout_compareAnalysis;
     QWidget *toolsTab;
     QVBoxLayout *verticalLayout_20;
     QLabel *toolsTitleLabel;
@@ -257,46 +220,6 @@ public:
 
         topModuleTabWidget = new QTabWidget(centralwidget);
         topModuleTabWidget->setObjectName("topModuleTabWidget");
-        toolTab = new QWidget();
-        toolTab->setObjectName("toolTab");
-        verticalLayout = new QVBoxLayout(toolTab);
-        verticalLayout->setSpacing(12);
-        verticalLayout->setObjectName("verticalLayout");
-        toolSelectorFrame = new QFrame(toolTab);
-        toolSelectorFrame->setObjectName("toolSelectorFrame");
-        toolSelectorFrame->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_18 = new QVBoxLayout(toolSelectorFrame);
-        verticalLayout_18->setObjectName("verticalLayout_18");
-        verticalLayout_18->setContentsMargins(16, 8, 16, 8);
-        toolButtonLayout = new QHBoxLayout();
-        toolButtonLayout->setObjectName("toolButtonLayout");
-        ntripToolButton = new QPushButton(toolSelectorFrame);
-        ntripToolButton->setObjectName("ntripToolButton");
-        ntripToolButton->setMinimumSize(QSize(180, 44));
-        ntripToolButton->setCheckable(true);
-        ntripToolButton->setChecked(true);
-
-        toolButtonLayout->addWidget(ntripToolButton);
-
-        commToolButton = new QPushButton(toolSelectorFrame);
-        commToolButton->setObjectName("commToolButton");
-        commToolButton->setMinimumSize(QSize(180, 44));
-        commToolButton->setCheckable(true);
-
-        toolButtonLayout->addWidget(commToolButton);
-
-        toolBtnSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
-
-        toolButtonLayout->addItem(toolBtnSpacer);
-
-
-        verticalLayout_18->addLayout(toolButtonLayout);
-
-
-        verticalLayout->addWidget(toolSelectorFrame);
-
-        toolStackedWidget = new QStackedWidget(toolTab);
-        toolStackedWidget->setObjectName("toolStackedWidget");
         ntripPage = new QWidget();
         ntripPage->setObjectName("ntripPage");
         verticalLayout_2 = new QVBoxLayout(ntripPage);
@@ -491,7 +414,7 @@ public:
 
         verticalLayout_2->addWidget(ntripFrame);
 
-        toolStackedWidget->addWidget(ntripPage);
+        topModuleTabWidget->addTab(ntripPage, QString());
         commPage = new QWidget();
         commPage->setObjectName("commPage");
         verticalLayout_3 = new QVBoxLayout(commPage);
@@ -703,16 +626,10 @@ public:
         debugDataTabVLayout = new QVBoxLayout(debugDataTab);
         debugDataTabVLayout->setObjectName("debugDataTabVLayout");
         debugDataTabVLayout->setContentsMargins(8, 12, 8, 12);
-        debugPlaceholderLabel = new QLabel(debugDataTab);
-        debugPlaceholderLabel->setObjectName("debugPlaceholderLabel");
-        debugPlaceholderLabel->setStyleSheet(QString::fromUtf8("font-size: 13px; color: #70849a;"));
-        debugPlaceholderLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        realtimeParsePanel = new RealtimeParsePanel(debugDataTab);
+        realtimeParsePanel->setObjectName("realtimeParsePanel");
 
-        debugDataTabVLayout->addWidget(debugPlaceholderLabel);
-
-        debugTabSpacer = new QSpacerItem(20, 0, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        debugDataTabVLayout->addItem(debugTabSpacer);
+        debugDataTabVLayout->addWidget(realtimeParsePanel);
 
         extraFuncTabWidget->addTab(debugDataTab, QString());
 
@@ -830,6 +747,23 @@ public:
 
         sendBtnHLayout->addWidget(sendCommandButton);
 
+        favoriteLabel = new QLabel(commSendFrame);
+        favoriteLabel->setObjectName("favoriteLabel");
+        favoriteLabel->setStyleSheet(QString::fromUtf8("color: #70849a; font-size: 12px;"));
+
+        sendBtnHLayout->addWidget(favoriteLabel);
+
+        favoriteCmdComboBox = new QComboBox(commSendFrame);
+        favoriteCmdComboBox->setObjectName("favoriteCmdComboBox");
+        favoriteCmdComboBox->setMinimumSize(QSize(180, 0));
+
+        sendBtnHLayout->addWidget(favoriteCmdComboBox);
+
+        addFavoriteButton = new QPushButton(commSendFrame);
+        addFavoriteButton->setObjectName("addFavoriteButton");
+
+        sendBtnHLayout->addWidget(addFavoriteButton);
+
         saveConsoleButton = new QPushButton(commSendFrame);
         saveConsoleButton->setObjectName("saveConsoleButton");
         saveConsoleButton->setMinimumSize(QSize(80, 38));
@@ -859,226 +793,25 @@ public:
 
         verticalLayout_3->addWidget(serialTcpToolFrame);
 
-        toolStackedWidget->addWidget(commPage);
-
-        verticalLayout->addWidget(toolStackedWidget);
-
-        topModuleTabWidget->addTab(toolTab, QString());
+        topModuleTabWidget->addTab(commPage, QString());
         parseTab = new QWidget();
         parseTab->setObjectName("parseTab");
         verticalLayout_5 = new QVBoxLayout(parseTab);
         verticalLayout_5->setObjectName("verticalLayout_5");
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
         topModuleTabWidget->addTab(parseTab, QString());
-        analysisTab = new QWidget();
-        analysisTab->setObjectName("analysisTab");
-        verticalLayout_7 = new QVBoxLayout(analysisTab);
-        verticalLayout_7->setObjectName("verticalLayout_7");
-        analysisFrame = new QFrame(analysisTab);
-        analysisFrame->setObjectName("analysisFrame");
-        analysisFrame->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_10 = new QVBoxLayout(analysisFrame);
-        verticalLayout_10->setObjectName("verticalLayout_10");
-        verticalLayout_10->setContentsMargins(16, 14, 16, 14);
-        analysisTitleLabel = new QLabel(analysisFrame);
-        analysisTitleLabel->setObjectName("analysisTitleLabel");
-        analysisTitleLabel->setStyleSheet(QString::fromUtf8("font-size:15px;font-weight:700;color:#12263f;"));
-
-        verticalLayout_10->addWidget(analysisTitleLabel);
-
-        analysisInfoLabel = new QLabel(analysisFrame);
-        analysisInfoLabel->setObjectName("analysisInfoLabel");
-        analysisInfoLabel->setStyleSheet(QString::fromUtf8("font-size:13px;color:#617487;"));
-        analysisInfoLabel->setWordWrap(true);
-
-        verticalLayout_10->addWidget(analysisInfoLabel);
-
-        analysisSpacer1 = new QSpacerItem(0, 10, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
-
-        verticalLayout_10->addItem(analysisSpacer1);
-
-        singleDeviceGroup = new QGroupBox(analysisFrame);
-        singleDeviceGroup->setObjectName("singleDeviceGroup");
-        singleDeviceLayout = new QVBoxLayout(singleDeviceGroup);
-        singleDeviceLayout->setSpacing(6);
-        singleDeviceLayout->setObjectName("singleDeviceLayout");
-        singleDeviceDescLabel = new QLabel(singleDeviceGroup);
-        singleDeviceDescLabel->setObjectName("singleDeviceDescLabel");
-        singleDeviceDescLabel->setStyleSheet(QString::fromUtf8("font-size:12px;color:#617487;"));
-        singleDeviceDescLabel->setWordWrap(true);
-
-        singleDeviceLayout->addWidget(singleDeviceDescLabel);
-
-        singleDeviceFeatureLayout = new QHBoxLayout();
-        singleDeviceFeatureLayout->setObjectName("singleDeviceFeatureLayout");
-        singleCard1 = new QFrame(singleDeviceGroup);
-        singleCard1->setObjectName("singleCard1");
-        singleCard1->setMinimumSize(QSize(180, 70));
-        singleCard1->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_21 = new QVBoxLayout(singleCard1);
-        verticalLayout_21->setObjectName("verticalLayout_21");
-        singleLabel1 = new QLabel(singleCard1);
-        singleLabel1->setObjectName("singleLabel1");
-        singleLabel1->setStyleSheet(QString::fromUtf8("font-size:12px;color:#12263f;font-weight:600;"));
-
-        verticalLayout_21->addWidget(singleLabel1);
-
-        singleStatus1 = new QLabel(singleCard1);
-        singleStatus1->setObjectName("singleStatus1");
-        singleStatus1->setStyleSheet(QString::fromUtf8("font-size:11px;color:#a0a0a0;"));
-
-        verticalLayout_21->addWidget(singleStatus1);
-
-
-        singleDeviceFeatureLayout->addWidget(singleCard1);
-
-        singleCard2 = new QFrame(singleDeviceGroup);
-        singleCard2->setObjectName("singleCard2");
-        singleCard2->setMinimumSize(QSize(180, 70));
-        singleCard2->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_22 = new QVBoxLayout(singleCard2);
-        verticalLayout_22->setObjectName("verticalLayout_22");
-        singleLabel2 = new QLabel(singleCard2);
-        singleLabel2->setObjectName("singleLabel2");
-        singleLabel2->setStyleSheet(QString::fromUtf8("font-size:12px;color:#12263f;font-weight:600;"));
-
-        verticalLayout_22->addWidget(singleLabel2);
-
-        singleStatus2 = new QLabel(singleCard2);
-        singleStatus2->setObjectName("singleStatus2");
-        singleStatus2->setStyleSheet(QString::fromUtf8("font-size:11px;color:#a0a0a0;"));
-
-        verticalLayout_22->addWidget(singleStatus2);
-
-
-        singleDeviceFeatureLayout->addWidget(singleCard2);
-
-        singleCard3 = new QFrame(singleDeviceGroup);
-        singleCard3->setObjectName("singleCard3");
-        singleCard3->setMinimumSize(QSize(180, 70));
-        singleCard3->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_23 = new QVBoxLayout(singleCard3);
-        verticalLayout_23->setObjectName("verticalLayout_23");
-        singleLabel3 = new QLabel(singleCard3);
-        singleLabel3->setObjectName("singleLabel3");
-        singleLabel3->setStyleSheet(QString::fromUtf8("font-size:12px;color:#12263f;font-weight:600;"));
-
-        verticalLayout_23->addWidget(singleLabel3);
-
-        singleStatus3 = new QLabel(singleCard3);
-        singleStatus3->setObjectName("singleStatus3");
-        singleStatus3->setStyleSheet(QString::fromUtf8("font-size:11px;color:#a0a0a0;"));
-
-        verticalLayout_23->addWidget(singleStatus3);
-
-
-        singleDeviceFeatureLayout->addWidget(singleCard3);
-
-        singleCard4 = new QFrame(singleDeviceGroup);
-        singleCard4->setObjectName("singleCard4");
-        singleCard4->setMinimumSize(QSize(180, 70));
-        singleCard4->setFrameShape(QFrame::Shape::StyledPanel);
-        verticalLayout_24 = new QVBoxLayout(singleCard4);
-        verticalLayout_24->setObjectName("verticalLayout_24");
-        singleLabel4 = new QLabel(singleCard4);
-        singleLabel4->setObjectName("singleLabel4");
-        singleLabel4->setStyleSheet(QString::fromUtf8("font-size:12px;color:#12263f;font-weight:600;"));
-
-        verticalLayout_24->addWidget(singleLabel4);
-
-        singleStatus4 = new QLabel(singleCard4);
-        singleStatus4->setObjectName("singleStatus4");
-        singleStatus4->setStyleSheet(QString::fromUtf8("font-size:11px;color:#a0a0a0;"));
-
-        verticalLayout_24->addWidget(singleStatus4);
-
-
-        singleDeviceFeatureLayout->addWidget(singleCard4);
-
-        singleDeviceSpacer = new QSpacerItem(0, 0, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
-
-        singleDeviceFeatureLayout->addItem(singleDeviceSpacer);
-
-
-        singleDeviceLayout->addLayout(singleDeviceFeatureLayout);
-
-        singleDeviceDetailLabel = new QLabel(singleDeviceGroup);
-        singleDeviceDetailLabel->setObjectName("singleDeviceDetailLabel");
-        singleDeviceDetailLabel->setStyleSheet(QString::fromUtf8("font-size:11px;color:#a0a0a0;padding-left:4px;"));
-        singleDeviceDetailLabel->setWordWrap(true);
-
-        singleDeviceLayout->addWidget(singleDeviceDetailLabel);
-
-
-        verticalLayout_10->addWidget(singleDeviceGroup);
-
-        multiDeviceGroup = new QGroupBox(analysisFrame);
-        multiDeviceGroup->setObjectName("multiDeviceGroup");
-        multiDeviceLayout = new QVBoxLayout(multiDeviceGroup);
-        multiDeviceLayout->setSpacing(6);
-        multiDeviceLayout->setObjectName("multiDeviceLayout");
-        multiDeviceDescLabel = new QLabel(multiDeviceGroup);
-        multiDeviceDescLabel->setObjectName("multiDeviceDescLabel");
-        multiDeviceDescLabel->setStyleSheet(QString::fromUtf8("font-size:12px;color:#617487;"));
-        multiDeviceDescLabel->setWordWrap(true);
-
-        multiDeviceLayout->addWidget(multiDeviceDescLabel);
-
-        compareTableWidget = new QTableWidget(multiDeviceGroup);
-        if (compareTableWidget->columnCount() < 3)
-            compareTableWidget->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
-        compareTableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem6);
-        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
-        compareTableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem7);
-        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
-        compareTableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem8);
-        if (compareTableWidget->rowCount() < 3)
-            compareTableWidget->setRowCount(3);
-        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
-        compareTableWidget->setVerticalHeaderItem(0, __qtablewidgetitem9);
-        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
-        compareTableWidget->setVerticalHeaderItem(1, __qtablewidgetitem10);
-        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
-        compareTableWidget->setVerticalHeaderItem(2, __qtablewidgetitem11);
-        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
-        compareTableWidget->setItem(0, 0, __qtablewidgetitem12);
-        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
-        compareTableWidget->setItem(0, 1, __qtablewidgetitem13);
-        QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
-        compareTableWidget->setItem(0, 2, __qtablewidgetitem14);
-        QTableWidgetItem *__qtablewidgetitem15 = new QTableWidgetItem();
-        compareTableWidget->setItem(1, 0, __qtablewidgetitem15);
-        QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
-        compareTableWidget->setItem(1, 1, __qtablewidgetitem16);
-        QTableWidgetItem *__qtablewidgetitem17 = new QTableWidgetItem();
-        compareTableWidget->setItem(1, 2, __qtablewidgetitem17);
-        QTableWidgetItem *__qtablewidgetitem18 = new QTableWidgetItem();
-        compareTableWidget->setItem(2, 0, __qtablewidgetitem18);
-        QTableWidgetItem *__qtablewidgetitem19 = new QTableWidgetItem();
-        compareTableWidget->setItem(2, 1, __qtablewidgetitem19);
-        QTableWidgetItem *__qtablewidgetitem20 = new QTableWidgetItem();
-        compareTableWidget->setItem(2, 2, __qtablewidgetitem20);
-        compareTableWidget->setObjectName("compareTableWidget");
-        compareTableWidget->setMinimumSize(QSize(0, 150));
-        compareTableWidget->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
-        compareTableWidget->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
-        compareTableWidget->setColumnCount(3);
-        compareTableWidget->horizontalHeader()->setStretchLastSection(true);
-
-        multiDeviceLayout->addWidget(compareTableWidget);
-
-
-        verticalLayout_10->addWidget(multiDeviceGroup);
-
-        analysisBottomSpacer = new QSpacerItem(0, 0, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        verticalLayout_10->addItem(analysisBottomSpacer);
-
-
-        verticalLayout_7->addWidget(analysisFrame);
-
-        topModuleTabWidget->addTab(analysisTab, QString());
+        rawAnalysisTab = new QWidget();
+        rawAnalysisTab->setObjectName("rawAnalysisTab");
+        verticalLayout_rawAnalysis = new QVBoxLayout(rawAnalysisTab);
+        verticalLayout_rawAnalysis->setObjectName("verticalLayout_rawAnalysis");
+        verticalLayout_rawAnalysis->setContentsMargins(0, 0, 0, 0);
+        topModuleTabWidget->addTab(rawAnalysisTab, QString());
+        compareAnalysisTab = new QWidget();
+        compareAnalysisTab->setObjectName("compareAnalysisTab");
+        verticalLayout_compareAnalysis = new QVBoxLayout(compareAnalysisTab);
+        verticalLayout_compareAnalysis->setObjectName("verticalLayout_compareAnalysis");
+        verticalLayout_compareAnalysis->setContentsMargins(0, 0, 0, 0);
+        topModuleTabWidget->addTab(compareAnalysisTab, QString());
         toolsTab = new QWidget();
         toolsTab->setObjectName("toolsTab");
         verticalLayout_20 = new QVBoxLayout(toolsTab);
@@ -1152,7 +885,6 @@ public:
         retranslateUi(MainWindow);
 
         topModuleTabWidget->setCurrentIndex(2);
-        toolStackedWidget->setCurrentIndex(0);
         extraFuncTabWidget->setCurrentIndex(0);
 
 
@@ -1165,8 +897,6 @@ public:
         titleLabel->setText(QCoreApplication::translate("MainWindow", "\345\244\232\345\212\237\350\203\275\346\265\213\350\257\225\346\225\260\346\215\256\345\210\206\346\236\220\345\271\263\345\217\260", nullptr));
         subTitleLabel->setText(QCoreApplication::translate("MainWindow", "\346\265\213\350\257\225\345\267\245\345\205\267\343\200\201\346\225\260\346\215\256\350\247\243\346\236\220\343\200\201\346\225\260\346\215\256\345\210\206\346\236\220", nullptr));
         headerStatusLabel->setText(QCoreApplication::translate("MainWindow", "\345\275\223\345\211\215\347\212\266\346\200\201\357\274\232\346\241\206\346\236\266\350\256\276\350\256\241\351\230\266\346\256\265", nullptr));
-        ntripToolButton->setText(QCoreApplication::translate("MainWindow", "NTRIP", nullptr));
-        commToolButton->setText(QCoreApplication::translate("MainWindow", "Comm Config", nullptr));
         ntripTitleLabel->setText(QCoreApplication::translate("MainWindow", "NTRIP \345\267\245\345\205\267", nullptr));
         ntripDescLabel->setText(QCoreApplication::translate("MainWindow", "\345\237\272\344\272\216 NTRIP HTTP1.0 \350\257\267\346\261\202\345\267\256\345\210\206\346\225\260\346\215\256\357\274\214\346\224\257\346\214\201\345\256\236\346\227\266\346\237\245\347\234\213\346\265\201\351\207\217\343\200\201\347\273\264\346\212\244\346\225\260\346\215\256\346\261\240\357\274\214\345\271\266\350\275\254\345\217\221\345\210\260\345\244\232\344\270\252 TCP \346\210\226\344\270\262\345\217\243\347\233\256\346\240\207\343\200\202", nullptr));
         ntripConfigButton->setText(QCoreApplication::translate("MainWindow", "\351\205\215\347\275\256", nullptr));
@@ -1203,6 +933,7 @@ public:
         ntripLogEdit->setPlainText(QCoreApplication::translate("MainWindow", "[NTRIP] Ready\n"
 "[NTRIP] Waiting for connection...\n"
 "[NTRIP] TCP/Serial forwarding UI only.", nullptr));
+        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(ntripPage), QCoreApplication::translate("MainWindow", "NTRIP\350\275\254\345\217\221\345\267\245\345\205\267", nullptr));
         serialNetTitleLabel->setText(QCoreApplication::translate("MainWindow", "\351\200\232\350\256\257\345\267\245\345\205\267", nullptr));
         connectionModeGroupBox->setTitle(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\345\217\202\346\225\260", nullptr));
         connModeLabel->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\346\226\271\345\274\217", nullptr));
@@ -1247,8 +978,7 @@ public:
         extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(atCmdTab), QCoreApplication::translate("MainWindow", "\345\270\270\347\224\250AT\346\214\207\344\273\244", nullptr));
         calibPlaceholderLabel->setText(QCoreApplication::translate("MainWindow", "\347\273\204\345\220\210\345\257\274\350\210\252\345\217\202\346\225\260\346\240\207\345\256\232\345\212\237\350\203\275\345\274\200\345\217\221\344\270\255...", nullptr));
         extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(calibTab), QCoreApplication::translate("MainWindow", "\347\273\204\345\220\210\345\257\274\350\210\252\345\217\202\346\225\260\346\240\207\345\256\232", nullptr));
-        debugPlaceholderLabel->setText(QCoreApplication::translate("MainWindow", "DEBUG\346\225\260\346\215\256\346\265\201\350\247\243\346\236\220\345\212\237\350\203\275\345\274\200\345\217\221\344\270\255...", nullptr));
-        extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(debugDataTab), QCoreApplication::translate("MainWindow", "DEBUG\350\247\243\346\236\220", nullptr));
+        extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(debugDataTab), QCoreApplication::translate("MainWindow", "\345\256\236\346\227\266\350\247\243\346\236\220", nullptr));
         recvLabel->setText(QCoreApplication::translate("MainWindow", "\346\216\245\346\224\266\346\266\210\346\201\257", nullptr));
         recvCountLabel->setText(QCoreApplication::translate("MainWindow", "0 Bytes", nullptr));
         hexDisplayCheckBox->setText(QCoreApplication::translate("MainWindow", "HEX\346\230\276\347\244\272", nullptr));
@@ -1258,61 +988,14 @@ public:
         sendHexCheckBox->setText(QCoreApplication::translate("MainWindow", "HEX \345\217\221\351\200\201", nullptr));
         commandEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\350\276\223\345\205\245\350\246\201\345\217\221\351\200\201\347\232\204\346\214\207\344\273\244...", nullptr));
         sendCommandButton->setText(QCoreApplication::translate("MainWindow", "\345\217\221\351\200\201", nullptr));
+        favoriteLabel->setText(QCoreApplication::translate("MainWindow", "\345\270\270\347\224\250\346\214\207\344\273\244", nullptr));
+        addFavoriteButton->setText(QCoreApplication::translate("MainWindow", "\346\267\273\345\212\240\345\210\260\345\270\270\347\224\250", nullptr));
         saveConsoleButton->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230\346\226\207\344\273\266", nullptr));
         clearConsoleButton->setText(QCoreApplication::translate("MainWindow", "\346\270\205\347\251\272\346\216\245\346\224\266", nullptr));
-        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(toolTab), QCoreApplication::translate("MainWindow", "\346\265\213\350\257\225\345\267\245\345\205\267", nullptr));
+        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(commPage), QCoreApplication::translate("MainWindow", "TCP\344\270\262\345\217\243\345\212\251\346\211\213", nullptr));
         topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(parseTab), QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\350\247\243\346\236\220", nullptr));
-        analysisTitleLabel->setText(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\345\210\206\346\236\220", nullptr));
-        analysisInfoLabel->setText(QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\350\247\243\346\236\220\345\256\214\346\210\220\345\220\216\350\277\233\345\205\245\346\225\260\346\215\256\345\210\206\346\236\220\357\274\214\346\224\257\346\214\201\345\215\225\350\256\276\345\244\207\350\264\250\351\207\217\350\257\204\344\274\260\345\222\214\345\244\232\350\256\276\345\244\207\344\272\244\345\217\211\346\257\224\345\257\271\343\200\202", nullptr));
-        singleDeviceGroup->setTitle(QCoreApplication::translate("MainWindow", "\345\215\225\350\256\276\345\244\207\345\210\206\346\236\220", nullptr));
-        singleDeviceDescLabel->setText(QCoreApplication::translate("MainWindow", "\351\222\210\345\257\271\345\215\225\345\217\260\350\256\276\345\244\207\347\232\204\346\225\260\346\215\256\350\277\233\350\241\214\350\264\250\351\207\217\350\257\204\344\274\260\357\274\214\346\266\265\347\233\226\345\216\237\345\247\213\350\247\202\346\265\213\345\200\274\345\210\206\346\236\220\343\200\201\344\270\242\345\214\205\346\243\200\346\265\213\343\200\201\346\227\266\345\272\217\347\273\230\345\233\276\345\217\212\345\274\202\345\270\270\350\257\206\345\210\253\343\200\202", nullptr));
-        singleLabel1->setText(QCoreApplication::translate("MainWindow", "\345\216\237\345\247\213\350\247\202\346\265\213\345\200\274\345\210\206\346\236\220", nullptr));
-        singleStatus1->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\274\200\345\217\221", nullptr));
-        singleLabel2->setText(QCoreApplication::translate("MainWindow", "\344\270\242\345\214\205\346\243\200\346\265\213", nullptr));
-        singleStatus2->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\274\200\345\217\221", nullptr));
-        singleLabel3->setText(QCoreApplication::translate("MainWindow", "\346\227\266\345\272\217\347\273\230\345\233\276", nullptr));
-        singleStatus3->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\274\200\345\217\221", nullptr));
-        singleLabel4->setText(QCoreApplication::translate("MainWindow", "\345\274\202\345\270\270\350\257\206\345\210\253", nullptr));
-        singleStatus4->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\274\200\345\217\221", nullptr));
-        singleDeviceDetailLabel->setText(QCoreApplication::translate("MainWindow", "  \345\216\237\345\247\213\350\247\202\346\265\213\345\200\274\357\274\232\345\215\253\346\230\237\346\225\260\347\273\237\350\256\241\343\200\201\345\244\232\351\242\221/\345\215\225\351\242\221\350\257\206\345\210\253\343\200\201\344\277\241\345\231\252\346\257\224(SNR)\345\210\206\345\270\203\347\255\211  |  \344\270\242\345\214\205\346\243\200\346\265\213\357\274\232\345\270\247\345\272\217\345\217\267\350\277\236\347\273\255\346\200\247\343\200\201RTCM \345\267\256\345\210\206\344\277\256\346\255\243\346\225\260\346\227\266\346\256\265\345\217\257\350\247\206\345\214\226\357\274\210\351\242\221\346\256\265/\346\230\237\345\272\247/\346\266\210\346\201\257\347\261\273\345\236\213\345\210\206\345\270\203\357\274\211", nullptr));
-        multiDeviceGroup->setTitle(QCoreApplication::translate("MainWindow", "\345\244\232\350\256\276\345\244\207\346\257\224\345\257\271", nullptr));
-        multiDeviceDescLabel->setText(QCoreApplication::translate("MainWindow", "\344\273\245\346\227\266\351\227\264\346\210\263\344\270\272\346\250\252\350\275\264\345\237\272\345\207\206\357\274\214\345\257\271\345\244\232\345\217\260\350\256\276\345\244\207\347\232\204\350\276\223\345\207\272\350\277\233\350\241\214\345\220\214\346\255\245\346\257\224\345\257\271\357\274\214\347\224\250\344\272\216\350\257\204\344\274\260\344\270\200\350\207\264\346\200\247\343\200\202", nullptr));
-        QTableWidgetItem *___qtablewidgetitem6 = compareTableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "\346\257\224\345\257\271\351\241\271", nullptr));
-        QTableWidgetItem *___qtablewidgetitem7 = compareTableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "\350\257\264\346\230\216", nullptr));
-        QTableWidgetItem *___qtablewidgetitem8 = compareTableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "\347\212\266\346\200\201", nullptr));
-        QTableWidgetItem *___qtablewidgetitem9 = compareTableWidget->verticalHeaderItem(0);
-        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
-        QTableWidgetItem *___qtablewidgetitem10 = compareTableWidget->verticalHeaderItem(1);
-        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "1", nullptr));
-        QTableWidgetItem *___qtablewidgetitem11 = compareTableWidget->verticalHeaderItem(2);
-        ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "2", nullptr));
-
-        const bool __sortingEnabled = compareTableWidget->isSortingEnabled();
-        compareTableWidget->setSortingEnabled(false);
-        QTableWidgetItem *___qtablewidgetitem12 = compareTableWidget->item(0, 0);
-        ___qtablewidgetitem12->setText(QCoreApplication::translate("MainWindow", "\347\273\217\347\272\254\345\272\246/\351\253\230\345\272\246", nullptr));
-        QTableWidgetItem *___qtablewidgetitem13 = compareTableWidget->item(0, 1);
-        ___qtablewidgetitem13->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\256\276\345\244\207 lat/lon/alt \346\227\266\351\227\264\345\257\271\351\275\220\346\257\224\345\257\271", nullptr));
-        QTableWidgetItem *___qtablewidgetitem14 = compareTableWidget->item(0, 2);
-        ___qtablewidgetitem14->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\215\217\350\256\256\346\225\264\347\220\206", nullptr));
-        QTableWidgetItem *___qtablewidgetitem15 = compareTableWidget->item(1, 0);
-        ___qtablewidgetitem15->setText(QCoreApplication::translate("MainWindow", "\345\214\227\345\220\221/\344\270\234\345\220\221/\345\234\260\345\220\221\351\200\237\345\272\246", nullptr));
-        QTableWidgetItem *___qtablewidgetitem16 = compareTableWidget->item(1, 1);
-        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\256\276\345\244\207 velN/velE/velD \346\227\266\351\227\264\345\257\271\351\275\220\346\257\224\345\257\271", nullptr));
-        QTableWidgetItem *___qtablewidgetitem17 = compareTableWidget->item(1, 2);
-        ___qtablewidgetitem17->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\215\217\350\256\256\346\225\264\347\220\206", nullptr));
-        QTableWidgetItem *___qtablewidgetitem18 = compareTableWidget->item(2, 0);
-        ___qtablewidgetitem18->setText(QCoreApplication::translate("MainWindow", "\345\247\277\346\200\201\350\247\222 (Roll/Pitch/Yaw)", nullptr));
-        QTableWidgetItem *___qtablewidgetitem19 = compareTableWidget->item(2, 1);
-        ___qtablewidgetitem19->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\256\276\345\244\207\345\247\277\346\200\201\350\247\222\346\227\266\351\227\264\345\257\271\351\275\220\346\257\224\345\257\271", nullptr));
-        QTableWidgetItem *___qtablewidgetitem20 = compareTableWidget->item(2, 2);
-        ___qtablewidgetitem20->setText(QCoreApplication::translate("MainWindow", "\345\276\205\345\215\217\350\256\256\346\225\264\347\220\206", nullptr));
-        compareTableWidget->setSortingEnabled(__sortingEnabled);
-
-        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(analysisTab), QCoreApplication::translate("MainWindow", "\346\225\260\346\215\256\345\210\206\346\236\220", nullptr));
+        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(rawAnalysisTab), QCoreApplication::translate("MainWindow", "\345\216\237\345\247\213\346\225\260\346\215\256\345\210\206\346\236\220", nullptr));
+        topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(compareAnalysisTab), QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\345\210\206\346\236\220", nullptr));
         toolsTitleLabel->setText(QCoreApplication::translate("MainWindow", "\345\270\270\347\224\250\345\267\245\345\205\267", nullptr));
 #if QT_CONFIG(tooltip)
         converterButton->setToolTip(QCoreApplication::translate("MainWindow", "\345\220\257\345\212\250 Converter3.0.7.exe (\345\222\214\350\212\257\345\216\237\345\247\213\346\225\260\346\215\256\350\247\243\346\236\220\345\267\245\345\205\267)", nullptr));

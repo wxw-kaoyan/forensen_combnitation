@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -321,7 +321,7 @@ CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -379,10 +379,10 @@ CMakeFiles/TASoftware.dir/modules/ntrip/forwardertablemanager.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/dataviewerdialog.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \

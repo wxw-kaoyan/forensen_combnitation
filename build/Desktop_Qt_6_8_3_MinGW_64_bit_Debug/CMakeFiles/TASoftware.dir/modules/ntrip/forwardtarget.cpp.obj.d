@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/ntrip/forwardtarget.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -319,7 +319,7 @@ CMakeFiles/TASoftware.dir/modules/ntrip/forwardtarget.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ctime \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \

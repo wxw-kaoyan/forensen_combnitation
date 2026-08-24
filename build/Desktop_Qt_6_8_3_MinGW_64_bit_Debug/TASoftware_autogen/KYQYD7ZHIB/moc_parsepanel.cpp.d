@@ -1,7 +1,8 @@
-C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/KYQYD7ZHIB/moc_parsepanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/modules/parse/parsepanel.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/KYQYD7ZHIB/moc_parsepanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
@@ -363,4 +364,5 @@ C:/Users/wxw/Desktop/QT/TASoftware/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TAS
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/modules/protocol/protocoldefs.h
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h

@@ -1,6 +1,6 @@
 CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntrippagemanager.cpp \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntrippagemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntrippagemanager.cpp \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntrippagemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -355,7 +355,7 @@ CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\ntripdialog.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\ntripdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -414,13 +414,13 @@ CMakeFiles/TASoftware.dir/modules/ntrip/ntrippagemanager.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardtarget.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardtarget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
- C:\Users\wxw\Desktop\QT\TASoftware\modules\ntrip\forwardertablemanager.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\ntrip\forwardertablemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
  B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
- C:/Users/wxw/Desktop/QT/TASoftware/modules/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
