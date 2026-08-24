@@ -1,6 +1,7 @@
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/XMI3O3Z65X/moc_atcmdpanel.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
   C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
@@ -358,4 +359,5 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftwar
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sys/types.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
-  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h

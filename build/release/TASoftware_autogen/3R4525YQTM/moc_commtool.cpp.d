@@ -1,7 +1,9 @@
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/3R4525YQTM/moc_commtool.cpp: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
   C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/moc_predefs.h \
+  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
   B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
+  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
   B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
@@ -339,4 +341,6 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftwar
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h
+  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h

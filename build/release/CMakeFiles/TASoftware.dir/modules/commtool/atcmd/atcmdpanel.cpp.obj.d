@@ -373,6 +373,9 @@ CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atcmdstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QString \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/TASoftware_autogen/include/ui_atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -406,8 +409,6 @@ CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.obj: \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\commtool\atcmd\atparamdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QString \
- B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \

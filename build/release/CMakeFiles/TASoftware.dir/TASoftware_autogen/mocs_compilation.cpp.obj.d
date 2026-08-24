@@ -406,6 +406,7 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\XMI3O3Z65X/moc_atcmdpanel.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\XMI3O3Z65X/moc_atparamdialog.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\3R4525YQTM/moc_commtool.cpp \
@@ -445,10 +446,14 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\KPKRICC3BU/moc_datapool.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
  B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\3R4525YQTM/moc_realtimeparsepanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\KPKRICC3BU/moc_datapool.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
@@ -480,5 +485,4 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h

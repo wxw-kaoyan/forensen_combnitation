@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "name": "通用AT",
+      "commands": [
+        { "command": "AT+SETNO",     "description": "停止输出数据",           "paramHint": "" },
+        { "command": "AT+SETYES",    "description": "开启数据流",             "paramHint": "" },
+        { "command": "AT+VERSION",   "description": "查询版本号",             "paramHint": "" },
+        { "command": "AT+CONFIG",    "description": "查询当前配置",           "paramHint": "" },
+        { "command": "AT+SAVE",      "description": "保存参数到 Flash",       "paramHint": "" },
+        { "command": "AT+RESET",     "description": "重启模块",               "paramHint": "" },
+        { "command": "AT+SET_BAUD=", "description": "设置串口波特率",         "paramHint": "例如 115200" },
+        { "command": "AT+OUTRATE=",  "description": "配置数据输出频率",       "paramHint": "例如 50" },
+        { "command": "AT+SET_LPF=",  "description": "设置低通滤波",           "paramHint": "例如 102" },
+        { "command": "AT+PARAM=",    "description": "修改参数表(位置,值)",    "paramHint": "位置,值" }
+      ]
+    },
+    {
+      "name": "芯片AT",
+      "commands": [
+        { "command": "AT+SET_ORIENT=",         "description": "设置IMU坐标系",                     "paramHint": "例如 101" },
+        { "command": "AT+GET_ORIENT",          "description": "查询当前坐标系",                     "paramHint": "" },
+        { "command": "AT+SET_ATT_AXIS=",       "description": "姿态轴方向(0前右下/1前左上/2右前上)", "paramHint": "例如 0" },
+        { "command": "AT+SET_ATT_ORIENTATION=","description": "横滚俯仰取反(00/01/10/11)",         "paramHint": "例如 00" },
+        { "command": "AT+GET_ATT_ORIENTATION", "description": "查询取反状态",                       "paramHint": "" },
+        { "command": "AT+INSTALL_ANGLE=",      "description": "配置安装方向(x,y,z)",                "paramHint": "例如 180,0,0" },
+        { "command": "AT+SET_HEADING=",        "description": "航向角重置(1°分辨率)",               "paramHint": "例如 90" },
+        { "command": "AT+SET_HEADING_HIGH_LSB=","description": "航向角高精度重置(0.01°)",           "paramHint": "例如 9000" },
+        { "command": "AT+SET_STREAM1=",        "description": "串口1数据流模式",                    "paramHint": "例如 51" },
+        { "command": "AT+GET_STREAM1",         "description": "查询串口1数据流",                    "paramHint": "" },
+        { "command": "AT+INST_CLEAR",          "description": "清空标定缓冲区",                     "paramHint": "" },
+        { "command": "AT+INST_CALIB",          "description": "开始标定流程",                       "paramHint": "" },
+        { "command": "AT+INST_COLLECT",        "description": "标定采集状态",                       "paramHint": "" },
+        { "command": "AT+TRIM_CALIB",          "description": "姿态校准(非水平安装)",               "paramHint": "" },
+        { "command": "AT+MAG_CALIB=",          "description": "磁标定(1单面/2双面)",                "paramHint": "例如 1" },
+        { "command": "AT+NOPPS=",              "description": "PPS接入(0已接入/1未接入)",           "paramHint": "例如 1" },
+        { "command": "AT+OUT_GYRO_NOBIAS=",    "description": "陀螺零偏输出(0扣除/1不扣除)",        "paramHint": "例如 0" },
+        { "command": "AT+IMUPARAM_RESET",      "description": "重置参数表",                         "paramHint": "" }
+      ]
+    },
+    {
+      "name": "组合导航AT",
+      "commands": [
+        { "command": "AT+CLUB_VECTOR=",       "description": "主天线杆臂(x,y,z,米)",          "paramHint": "例如 0,0,0" },
+        { "command": "AT+RTK_ANGLE=",         "description": "RTK双天线安装偏差角(度)",        "paramHint": "例如 0" },
+        { "command": "AT+POS_SMOOTH=",        "description": "位置平滑(1开启/0关闭)",          "paramHint": "例如 1" },
+        { "command": "AT+LOW_SPEED_MODE=",    "description": "低速模式(1开启/0关闭)",          "paramHint": "例如 1" },
+        { "command": "AT+USE_GNSS_HEADING=",  "description": "双天线航向约束(1开启/0关闭)",    "paramHint": "例如 1" },
+        { "command": "AT+EST_GNSS_ANGLE",     "description": "GNSS双天线安装角标定",           "paramHint": "" },
+        { "command": "AT+GPGGA=",             "description": "GPGGA输出频率(Hz,0关闭)",        "paramHint": "例如 5" },
+        { "command": "AT+GPRMC=",             "description": "GPRMC输出频率(Hz,0关闭)",        "paramHint": "例如 1" },
+        { "command": "AT+GPHDT=",             "description": "GPHDT航向输出频率(Hz,0关闭)",    "paramHint": "例如 1" },
+        { "command": "AT+GPVTG=",             "description": "GPVTG地面速度输出频率(Hz)",      "paramHint": "例如 1" },
+        { "command": "AT+GPZDA=",             "description": "GPZDA时间日期输出频率(Hz)",      "paramHint": "例如 1" },
+        { "command": "AT+GPATT=",             "description": "GPATT自定义报文输出频率(Hz)",    "paramHint": "例如 1" },
+        { "command": "AT+GPYJ=",              "description": "GPYJ自定义报文输出频率(Hz)",     "paramHint": "例如 1" },
+        { "command": "AT+SETNO",              "description": "停止所有NMEA语句输出",           "paramHint": "" },
+        { "command": "AT+OD_VECTOR=",         "description": "后轴中心杆臂(x,y,z,米)",         "paramHint": "例如 0,1,0" },
+        { "command": "AT+PROJ_VECTOR=",       "description": "投影点位置(x,y,z,米)",           "paramHint": "例如 0,0,0" },
+        { "command": "AT+LEVER_ARM_ENABLE",   "description": "使能自动杆臂测量",               "paramHint": "" },
+        { "command": "AT+LEVER_ARM_DISABLE",  "description": "关闭自动杆臂测量",               "paramHint": "" },
+        { "command": "AT+WHEEL_BASE=",        "description": "车辆轴距(米)",                    "paramHint": "例如 2.8" },
+        { "command": "AT+CAR_TYPE=",          "description": "车辆类型(1正常/-1后轮)",         "paramHint": "例如 1" },
+        { "command": "AT+614P=",              "description": "双天线/前轮IMU配置",             "paramHint": "例如 100" },
+        { "command": "AT+WHEEL_RATE_CF=",     "description": "前轮转角反馈滤波系数",           "paramHint": "例如 0.1" },
+        { "command": "AT+WHEEL_RK",           "description": "前轮转角R阵调节",                "paramHint": "" },
+        { "command": "AT+START_INIT",         "description": "滤波器初始化复位",               "paramHint": "" },
+        { "command": "AT+ALIGN_VEL=",         "description": "初始化速度(m/s)",                 "paramHint": "例如 5" },
+        { "command": "AT+SINGLE_INIT=",       "description": "单点初始化(0关/1开)",             "paramHint": "例如 1" },
+        { "command": "AT+HEADING_CORRECTION=","description": "低速系数(1~10)",                  "paramHint": "例如 5" },
+        { "command": "AT+SLOPE=",             "description": "坡度场景配置",                    "paramHint": "例如 0.05" },
+        { "command": "AT+SETNAV",             "description": "输出组合导航数据",               "paramHint": "" },
+        { "command": "AT+SETAG",              "description": "输出AG数据流",                    "paramHint": "" },
+        { "command": "AT+SETDEBUG",           "description": "输出调试数据流",                  "paramHint": "" },
+        { "command": "AT+SETAHRS",            "description": "输出AHRS数据",                   "paramHint": "" },
+        { "command": "AT+KSXT=",              "description": "KSXT报文频率",                    "paramHint": "例如 50" },
+        { "command": "AT+SETE3",              "description": "联适协议输出",                    "paramHint": "" },
+        { "command": "AT+SETS1",              "description": "S1联适协议",                      "paramHint": "" },
+        { "command": "AT+CAN_BAUD=",          "description": "CAN波特率(250/500)",              "paramHint": "例如 500" },
+        { "command": "AT+CAN_ODR=",           "description": "CAN输出频率",                     "paramHint": "例如 50" },
+        { "command": "AT+SET_CAN_REVERSE=",   "description": "CAN输出配置(0通用/99联适)",       "paramHint": "例如 0" },
+        { "command": "AT+GNSS_CARD=",         "description": "RTK协议(OEM/UNICORE)",            "paramHint": "例如 UNICORE" },
+        { "command": "AT+DRTK_USE=",          "description": "融合双天线数据",                  "paramHint": "例如 1" },
+        { "command": "AT+VEL_VAR_CONSTRAIN=", "description": "速度方差约束",                    "paramHint": "例如 0.01" },
+        { "command": "AT+NHC_RATE=",          "description": "NHC频率",                         "paramHint": "例如 20" }
+      ]
+    }
+  ],
+  "custom": []
+}

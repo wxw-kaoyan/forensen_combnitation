@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QList>
 
+#include "atcmdstore.h"
+
 class QLineEdit;
 class QVBoxLayout;
 
@@ -12,14 +14,6 @@ namespace Ui {
 class AtCmdPanel;
 }
 QT_END_NAMESPACE
-
-// 单条 AT 指令描述
-struct AtCmdInfo
-{
-    QString command;       // 指令名，如 "AT+SET_BAUD="
-    QString description;   // 功能说明
-    QString paramHint;     // 参数提示，空串表示无参
-};
 
 class AtCmdPanel : public QWidget
 {
@@ -42,10 +36,6 @@ private:
     QWidget *createCmdEntry(const AtCmdInfo &cmd);
 
     Ui::AtCmdPanel *m_ui = nullptr;
-
-    static QList<AtCmdInfo> commonCmds();
-    static QList<AtCmdInfo> chipCmds();
-    static QList<AtCmdInfo> navCmds();
 };
 
 #endif // ATCMDPANEL_H

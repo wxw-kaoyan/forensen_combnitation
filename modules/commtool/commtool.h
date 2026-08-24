@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QEvent>
 
+#include "modules/commtool/streamframer.h"
+
 class QThread;
 class TcpConnection;
 class SerialConnection;
@@ -36,6 +38,9 @@ private slots:
     void onClearRecvClicked();
     void onSaveFileClicked();
     void sendRawData(const QByteArray &data);
+    void onAddFavoriteClicked();
+    void onFavoriteSelected(int index);
+    void onParseToggled(bool enabled);
 
 private:
     void applyMode(int idx);
@@ -44,6 +49,7 @@ private:
     void setConnected(bool connected);
     void destroyConnection();
     void refreshSerialPorts();
+    void refreshFavoriteCommands();
 
     Ui::MainWindow *m_ui;
 
@@ -56,6 +62,10 @@ private:
     // 当前活跃的连接（二选一）
     TcpConnection    *m_tcpConn    = nullptr;
     SerialConnection *m_serialConn = nullptr;
+
+    // 流式实时解析
+    StreamFramer m_framer;
+    bool m_parsing = false;
 
     bool m_connected = false;
     bool m_hexDisplay = false;

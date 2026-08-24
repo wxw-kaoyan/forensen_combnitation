@@ -2,6 +2,8 @@
 #include "common/tcpconnection.h"
 #include "common/serialconnection.h"
 #include "modules/commtool/atcmd/atcmdpanel.h"
+#include "modules/commtool/atcmd/atcmdstore.h"
+#include "modules/commtool/realtimeparsepanel.h"
 #include "ui_mainwindow.h"
 
 #include <QCheckBox>
@@ -55,6 +57,17 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     // ---- 发送按钮 ----
     connect(m_ui->sendCommandButton, &QPushButton::clicked,
             this, &CommTool::onSendClicked);
+
+    // ---- 常用指令 ----
+    connect(m_ui->addFavoriteButton, &QPushButton::clicked,
+            this, &CommTool::onAddFavoriteClicked);
+    connect(m_ui->favoriteCmdComboBox, QOverload<int>::of(&QComboBox::activated),
+            this, &CommTool::onFavoriteSelected);
+    refreshFavoriteCommands();
+
+    // ---- 实时解析 ----
+    connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::parseToggled,
+            this, &CommTool::onParseToggled);
 
     // ---- 清空接收按钮 ----
     connect(m_ui->clearConsoleButton, &QPushButton::clicked,
@@ -224,6 +237,8 @@ void CommTool::destroyConnection()
         m_serialConn->deleteLater();
         m_serialConn = nullptr;
     }
+    // 重置流式解析器
+    m_framer.reset();
     // 防御性重置：确保连接失败后按钮状态正确恢复
     if (m_connected) {
         m_connected = false;
@@ -334,8 +349,40 @@ void CommTool::onSaveFileClicked()
     appendRecvText(QStringLiteral("[系统] 开始保存到 %1\n").arg(path));
 }
 
+void CommTool::onParseToggled(bool enabled)
+{
+    m_parsing = enabled;
+    m_framer.reset(); // 切换模式时清空半包缓冲，避免残留
+
+    // 开始解析时输出一行表头，方便对数据列
+    if (enabled && m_ui->realtimeParsePanel) {
+        const QString hdr = RealtimeParsePanel::headerLine(
+            m_ui->realtimeParsePanel->currentProtocol());
+        if (!hdr.isEmpty())
+            appendRecvText(hdr);
+    }
+}
+
 void CommTool::appendRecvData(const QByteArray &data)
 {
+    // 流式保存到文件（始终保存原始字节）
+    if (m_saving && m_recvFile.isOpen()) {
+        m_recvFile.write(QString::fromLatin1(data).toUtf8());
+    }
+
+    // 解析模式：只输出选中协议的解析结果，其余全部过滤
+    if (m_parsing) {
+        const ProtocolID pid = m_ui->realtimeParsePanel
+            ? m_ui->realtimeParsePanel->currentProtocol() : ProtocolID::Debug_IMU;
+        const QList<ParsedFrame> frames = m_framer.feed(data);
+        for (const ParsedFrame &f : frames) {
+            if (f.protocol == pid)
+                appendRecvText(RealtimeParsePanel::frameToText(f));
+        }
+        return;
+    }
+
+    // 普通模式：显示原始数据
     QString text;
     if (m_hexDisplay) {
         text = QString::fromLatin1(data.toHex(' ').toUpper()) + QStringLiteral("\n");
@@ -343,11 +390,6 @@ void CommTool::appendRecvData(const QByteArray &data)
         text = QString::fromLatin1(data);
     }
     appendRecvText(text);
-
-    // 流式保存到文件
-    if (m_saving && m_recvFile.isOpen()) {
-        m_recvFile.write(QString::fromLatin1(data).toUtf8());
-    }
 }
 
 void CommTool::appendRecvText(const QString &text)
@@ -381,6 +423,67 @@ void CommTool::appendRecvText(const QString &text)
 
     if (atBottom && bar)
         bar->setValue(bar->maximum());
+}
+
+// ---- 常用指令 ----
+
+void CommTool::onAddFavoriteClicked()
+{
+    const QString full = m_ui->commandEdit->toPlainText().trimmed();
+    if (full.isEmpty()) {
+        QMessageBox::warning(nullptr, QStringLiteral("添加常用指令"),
+                             QStringLiteral("请先在发送框输入指令。"));
+        return;
+    }
+
+    QString cmd = full;
+    QString hint;
+    const int eq = full.indexOf(QLatin1Char('='));
+    if (eq >= 0) {
+        cmd = full.left(eq + 1);
+        const QString val = full.mid(eq + 1).trimmed();
+        if (!val.isEmpty())
+            hint = QStringLiteral("例如 %1").arg(val);
+    }
+
+    if (AtCmdStore::exists(cmd)) {
+        QMessageBox::information(nullptr, QStringLiteral("添加常用指令"),
+                                 QStringLiteral("指令 %1 已存在于指令库中。").arg(cmd));
+        return;
+    }
+
+    AtCmdInfo info;
+    info.command     = cmd;
+    info.description = QStringLiteral("自定义指令");
+    info.paramHint   = hint;
+
+    if (!AtCmdStore::addCustom(info)) {
+        QMessageBox::warning(nullptr, QStringLiteral("添加常用指令"),
+                             QStringLiteral("保存失败，请检查 at_commands.json 是否可写。"));
+        return;
+    }
+
+    refreshFavoriteCommands();
+    QMessageBox::information(nullptr, QStringLiteral("添加常用指令"),
+                             QStringLiteral("已添加到常用指令：%1").arg(cmd));
+}
+
+void CommTool::onFavoriteSelected(int index)
+{
+    if (index < 0) return;
+    const QString cmd = m_ui->favoriteCmdComboBox->itemData(index).toString();
+    if (!cmd.isEmpty())
+        m_ui->commandEdit->setPlainText(cmd);
+}
+
+void CommTool::refreshFavoriteCommands()
+{
+    m_ui->favoriteCmdComboBox->blockSignals(true);
+    m_ui->favoriteCmdComboBox->clear();
+    const QList<AtCmdInfo> custom = AtCmdStore::loadCustom();
+    for (const auto &c : custom)
+        m_ui->favoriteCmdComboBox->addItem(c.command, c.command);
+    m_ui->favoriteCmdComboBox->blockSignals(false);
 }
 
 // ---- 串口列表刷新 ----

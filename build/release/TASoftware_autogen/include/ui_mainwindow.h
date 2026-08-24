@@ -30,6 +30,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "modules/commtool/atcmd/atcmdpanel.h"
+#include "modules/commtool/realtimeparsepanel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -123,8 +124,7 @@ public:
     QSpacerItem *calibTabSpacer;
     QWidget *debugDataTab;
     QVBoxLayout *debugDataTabVLayout;
-    QLabel *debugPlaceholderLabel;
-    QSpacerItem *debugTabSpacer;
+    RealtimeParsePanel *realtimeParsePanel;
     QSpacerItem *commConfigSpacer;
     QFrame *commRecvFrame;
     QVBoxLayout *commRecvVLayout;
@@ -144,6 +144,9 @@ public:
     QPlainTextEdit *commandEdit;
     QHBoxLayout *sendBtnHLayout;
     QPushButton *sendCommandButton;
+    QLabel *favoriteLabel;
+    QComboBox *favoriteCmdComboBox;
+    QPushButton *addFavoriteButton;
     QPushButton *saveConsoleButton;
     QSpacerItem *sendBtnSpacer;
     QPushButton *clearConsoleButton;
@@ -623,16 +626,10 @@ public:
         debugDataTabVLayout = new QVBoxLayout(debugDataTab);
         debugDataTabVLayout->setObjectName("debugDataTabVLayout");
         debugDataTabVLayout->setContentsMargins(8, 12, 8, 12);
-        debugPlaceholderLabel = new QLabel(debugDataTab);
-        debugPlaceholderLabel->setObjectName("debugPlaceholderLabel");
-        debugPlaceholderLabel->setStyleSheet(QString::fromUtf8("font-size: 13px; color: #70849a;"));
-        debugPlaceholderLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        realtimeParsePanel = new RealtimeParsePanel(debugDataTab);
+        realtimeParsePanel->setObjectName("realtimeParsePanel");
 
-        debugDataTabVLayout->addWidget(debugPlaceholderLabel);
-
-        debugTabSpacer = new QSpacerItem(20, 0, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        debugDataTabVLayout->addItem(debugTabSpacer);
+        debugDataTabVLayout->addWidget(realtimeParsePanel);
 
         extraFuncTabWidget->addTab(debugDataTab, QString());
 
@@ -749,6 +746,23 @@ public:
         sendCommandButton->setMinimumSize(QSize(100, 42));
 
         sendBtnHLayout->addWidget(sendCommandButton);
+
+        favoriteLabel = new QLabel(commSendFrame);
+        favoriteLabel->setObjectName("favoriteLabel");
+        favoriteLabel->setStyleSheet(QString::fromUtf8("color: #70849a; font-size: 12px;"));
+
+        sendBtnHLayout->addWidget(favoriteLabel);
+
+        favoriteCmdComboBox = new QComboBox(commSendFrame);
+        favoriteCmdComboBox->setObjectName("favoriteCmdComboBox");
+        favoriteCmdComboBox->setMinimumSize(QSize(180, 0));
+
+        sendBtnHLayout->addWidget(favoriteCmdComboBox);
+
+        addFavoriteButton = new QPushButton(commSendFrame);
+        addFavoriteButton->setObjectName("addFavoriteButton");
+
+        sendBtnHLayout->addWidget(addFavoriteButton);
 
         saveConsoleButton = new QPushButton(commSendFrame);
         saveConsoleButton->setObjectName("saveConsoleButton");
@@ -964,8 +978,7 @@ public:
         extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(atCmdTab), QCoreApplication::translate("MainWindow", "\345\270\270\347\224\250AT\346\214\207\344\273\244", nullptr));
         calibPlaceholderLabel->setText(QCoreApplication::translate("MainWindow", "\347\273\204\345\220\210\345\257\274\350\210\252\345\217\202\346\225\260\346\240\207\345\256\232\345\212\237\350\203\275\345\274\200\345\217\221\344\270\255...", nullptr));
         extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(calibTab), QCoreApplication::translate("MainWindow", "\347\273\204\345\220\210\345\257\274\350\210\252\345\217\202\346\225\260\346\240\207\345\256\232", nullptr));
-        debugPlaceholderLabel->setText(QCoreApplication::translate("MainWindow", "DEBUG\346\225\260\346\215\256\346\265\201\350\247\243\346\236\220\345\212\237\350\203\275\345\274\200\345\217\221\344\270\255...", nullptr));
-        extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(debugDataTab), QCoreApplication::translate("MainWindow", "DEBUG\350\247\243\346\236\220", nullptr));
+        extraFuncTabWidget->setTabText(extraFuncTabWidget->indexOf(debugDataTab), QCoreApplication::translate("MainWindow", "\345\256\236\346\227\266\350\247\243\346\236\220", nullptr));
         recvLabel->setText(QCoreApplication::translate("MainWindow", "\346\216\245\346\224\266\346\266\210\346\201\257", nullptr));
         recvCountLabel->setText(QCoreApplication::translate("MainWindow", "0 Bytes", nullptr));
         hexDisplayCheckBox->setText(QCoreApplication::translate("MainWindow", "HEX\346\230\276\347\244\272", nullptr));
@@ -975,6 +988,8 @@ public:
         sendHexCheckBox->setText(QCoreApplication::translate("MainWindow", "HEX \345\217\221\351\200\201", nullptr));
         commandEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\350\276\223\345\205\245\350\246\201\345\217\221\351\200\201\347\232\204\346\214\207\344\273\244...", nullptr));
         sendCommandButton->setText(QCoreApplication::translate("MainWindow", "\345\217\221\351\200\201", nullptr));
+        favoriteLabel->setText(QCoreApplication::translate("MainWindow", "\345\270\270\347\224\250\346\214\207\344\273\244", nullptr));
+        addFavoriteButton->setText(QCoreApplication::translate("MainWindow", "\346\267\273\345\212\240\345\210\260\345\270\270\347\224\250", nullptr));
         saveConsoleButton->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230\346\226\207\344\273\266", nullptr));
         clearConsoleButton->setText(QCoreApplication::translate("MainWindow", "\346\270\205\347\251\272\346\216\245\346\224\266", nullptr));
         topModuleTabWidget->setTabText(topModuleTabWidget->indexOf(commPage), QCoreApplication::translate("MainWindow", "TCP\344\270\262\345\217\243\345\212\251\346\211\213", nullptr));

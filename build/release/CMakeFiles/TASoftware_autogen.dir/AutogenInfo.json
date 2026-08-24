@@ -426,6 +426,12 @@
 			null
 		],
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h",
+			"MU",
+			"XMI3O3Z65X/moc_atcmdstore.cpp",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h",
 			"MU",
 			"XMI3O3Z65X/moc_atparamdialog.cpp",
@@ -435,6 +441,18 @@
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h",
 			"MU",
 			"3R4525YQTM/moc_commtool.cpp",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h",
+			"MU",
+			"3R4525YQTM/moc_realtimeparsepanel.cpp",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h",
+			"MU",
+			"3R4525YQTM/moc_streamframer.cpp",
 			null
 		],
 		[
@@ -719,12 +737,27 @@
 			null
 		],
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.cpp",
 			"MU",
 			null
 		],
 		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.cpp",
 			"MU",
 			null
 		],

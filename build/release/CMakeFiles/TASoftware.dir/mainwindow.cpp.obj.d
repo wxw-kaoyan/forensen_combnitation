@@ -481,6 +481,11 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QString \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/ntrip/ntrippagemanager.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
@@ -525,9 +530,10 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QEvent \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/analysispanel.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QString \
- B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
@@ -537,10 +543,7 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/parse/parsepanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
- B:/qt/6.8.3/mingw_64/include/QtCore/QByteArray \
- B:/qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/core/protocoldefs.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\common/toolprocess.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QProcess \
  B:/qt/6.8.3/mingw_64/include/QtCore/qprocess.h \

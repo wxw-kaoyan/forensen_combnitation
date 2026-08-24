@@ -439,6 +439,30 @@ modules/commtool/atcmd/atcmdpanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdpanel.cpp.s
 .PHONY : modules/commtool/atcmd/atcmdpanel.cpp.s
 
+modules/commtool/atcmd/atcmdstore.obj: modules/commtool/atcmd/atcmdstore.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdstore.obj
+
+# target to build an object file
+modules/commtool/atcmd/atcmdstore.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.obj
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.obj
+
+modules/commtool/atcmd/atcmdstore.i: modules/commtool/atcmd/atcmdstore.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdstore.i
+
+# target to preprocess a source file
+modules/commtool/atcmd/atcmdstore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.i
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.i
+
+modules/commtool/atcmd/atcmdstore.s: modules/commtool/atcmd/atcmdstore.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdstore.s
+
+# target to generate assembly for a file
+modules/commtool/atcmd/atcmdstore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/atcmd/atcmdstore.cpp.s
+.PHONY : modules/commtool/atcmd/atcmdstore.cpp.s
+
 modules/commtool/atcmd/atparamdialog.obj: modules/commtool/atcmd/atparamdialog.cpp.obj
 .PHONY : modules/commtool/atcmd/atparamdialog.obj
 
@@ -486,6 +510,54 @@ modules/commtool/commtool.s: modules/commtool/commtool.cpp.s
 modules/commtool/commtool.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/commtool.cpp.s
 .PHONY : modules/commtool/commtool.cpp.s
+
+modules/commtool/realtimeparsepanel.obj: modules/commtool/realtimeparsepanel.cpp.obj
+.PHONY : modules/commtool/realtimeparsepanel.obj
+
+# target to build an object file
+modules/commtool/realtimeparsepanel.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.obj
+.PHONY : modules/commtool/realtimeparsepanel.cpp.obj
+
+modules/commtool/realtimeparsepanel.i: modules/commtool/realtimeparsepanel.cpp.i
+.PHONY : modules/commtool/realtimeparsepanel.i
+
+# target to preprocess a source file
+modules/commtool/realtimeparsepanel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.i
+.PHONY : modules/commtool/realtimeparsepanel.cpp.i
+
+modules/commtool/realtimeparsepanel.s: modules/commtool/realtimeparsepanel.cpp.s
+.PHONY : modules/commtool/realtimeparsepanel.s
+
+# target to generate assembly for a file
+modules/commtool/realtimeparsepanel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/realtimeparsepanel.cpp.s
+.PHONY : modules/commtool/realtimeparsepanel.cpp.s
+
+modules/commtool/streamframer.obj: modules/commtool/streamframer.cpp.obj
+.PHONY : modules/commtool/streamframer.obj
+
+# target to build an object file
+modules/commtool/streamframer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.obj
+.PHONY : modules/commtool/streamframer.cpp.obj
+
+modules/commtool/streamframer.i: modules/commtool/streamframer.cpp.i
+.PHONY : modules/commtool/streamframer.i
+
+# target to preprocess a source file
+modules/commtool/streamframer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.i
+.PHONY : modules/commtool/streamframer.cpp.i
+
+modules/commtool/streamframer.s: modules/commtool/streamframer.cpp.s
+.PHONY : modules/commtool/streamframer.s
+
+# target to generate assembly for a file
+modules/commtool/streamframer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/commtool/streamframer.cpp.s
+.PHONY : modules/commtool/streamframer.cpp.s
 
 modules/ntrip/datapool/datapool.obj: modules/ntrip/datapool/datapool.cpp.obj
 .PHONY : modules/ntrip/datapool/datapool.obj
@@ -1132,12 +1204,21 @@ help:
 	@echo ... modules/commtool/atcmd/atcmdpanel.obj
 	@echo ... modules/commtool/atcmd/atcmdpanel.i
 	@echo ... modules/commtool/atcmd/atcmdpanel.s
+	@echo ... modules/commtool/atcmd/atcmdstore.obj
+	@echo ... modules/commtool/atcmd/atcmdstore.i
+	@echo ... modules/commtool/atcmd/atcmdstore.s
 	@echo ... modules/commtool/atcmd/atparamdialog.obj
 	@echo ... modules/commtool/atcmd/atparamdialog.i
 	@echo ... modules/commtool/atcmd/atparamdialog.s
 	@echo ... modules/commtool/commtool.obj
 	@echo ... modules/commtool/commtool.i
 	@echo ... modules/commtool/commtool.s
+	@echo ... modules/commtool/realtimeparsepanel.obj
+	@echo ... modules/commtool/realtimeparsepanel.i
+	@echo ... modules/commtool/realtimeparsepanel.s
+	@echo ... modules/commtool/streamframer.obj
+	@echo ... modules/commtool/streamframer.i
+	@echo ... modules/commtool/streamframer.s
 	@echo ... modules/ntrip/datapool/datapool.obj
 	@echo ... modules/ntrip/datapool/datapool.i
 	@echo ... modules/ntrip/datapool/datapool.s

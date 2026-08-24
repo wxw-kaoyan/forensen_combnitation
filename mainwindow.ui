@@ -934,7 +934,7 @@
                          </widget>
                          <widget class="QWidget" name="debugDataTab">
                           <attribute name="title">
-                           <string>DEBUG解析</string>
+                           <string>实时解析</string>
                           </attribute>
                           <layout class="QVBoxLayout" name="debugDataTabVLayout">
                            <property name="leftMargin">
@@ -950,30 +950,7 @@
                             <number>12</number>
                            </property>
                            <item>
-                            <widget class="QLabel" name="debugPlaceholderLabel">
-                             <property name="styleSheet">
-                              <string notr="true">font-size: 13px; color: #70849a;</string>
-                             </property>
-                             <property name="text">
-                              <string>DEBUG数据流解析功能开发中...</string>
-                             </property>
-                             <property name="alignment">
-                              <set>Qt::AlignmentFlag::AlignCenter</set>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="debugTabSpacer">
-                             <property name="orientation">
-                              <enum>Qt::Orientation::Vertical</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>20</width>
-                               <height>0</height>
-                              </size>
-                             </property>
-                            </spacer>
+                            <widget class="RealtimeParsePanel" name="realtimeParsePanel" native="true"/>
                            </item>
                           </layout>
                          </widget>
@@ -1198,6 +1175,33 @@
                       </property>
                       <property name="text">
                        <string>发送</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="favoriteLabel">
+                      <property name="styleSheet">
+                       <string notr="true">color: #70849a; font-size: 12px;</string>
+                      </property>
+                      <property name="text">
+                       <string>常用指令</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="favoriteCmdComboBox">
+                      <property name="minimumSize">
+                       <size>
+                        <width>180</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="addFavoriteButton">
+                      <property name="text">
+                       <string>添加到常用</string>
                       </property>
                      </widget>
                     </item>
@@ -1464,6 +1468,12 @@ QPushButton:hover { background: #95a5a6; }</string>
    <class>AtCmdPanel</class>
    <extends>QWidget</extends>
    <header>modules/commtool/atcmd/atcmdpanel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RealtimeParsePanel</class>
+   <extends>QWidget</extends>
+   <header>modules/commtool/realtimeparsepanel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

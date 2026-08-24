@@ -8,6 +8,7 @@
 #include "XMI3O3Z65X/moc_atcmdpanel.cpp"
 #include "XMI3O3Z65X/moc_atparamdialog.cpp"
 #include "3R4525YQTM/moc_commtool.cpp"
+#include "3R4525YQTM/moc_realtimeparsepanel.cpp"
 #include "KPKRICC3BU/moc_datapool.cpp"
 #include "KPKRICC3BU/moc_dataviewerdialog.cpp"
 #include "67J4U64LVZ/moc_forwardertablemanager.cpp"

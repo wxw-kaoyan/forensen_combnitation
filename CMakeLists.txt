@@ -40,9 +40,15 @@ qt_add_executable(TASoftware
     modules/ntrip/datapool/dataviewerdialog.h
     modules/commtool/commtool.cpp
     modules/commtool/commtool.h
+    modules/commtool/realtimeparsepanel.cpp
+    modules/commtool/realtimeparsepanel.h
+    modules/commtool/streamframer.cpp
+    modules/commtool/streamframer.h
     modules/commtool/atcmd/atcmdpanel.cpp
     modules/commtool/atcmd/atcmdpanel.h
     modules/commtool/atcmd/atcmdpanel.ui
+    modules/commtool/atcmd/atcmdstore.cpp
+    modules/commtool/atcmd/atcmdstore.h
     modules/commtool/atcmd/atparamdialog.cpp
     modules/commtool/atcmd/atparamdialog.h
     modules/parse/parser/parserbase.cpp
@@ -132,6 +138,14 @@ add_custom_command(TARGET TASoftware POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/scripts
         $<TARGET_FILE_DIR:TASoftware>/scripts
     COMMENT "Copying scripts/ to output directory"
+)
+
+# 构建后将 at_commands.json 拷贝到可执行文件目录（AT 指令库）
+add_custom_command(TARGET TASoftware POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/at_commands.json
+        $<TARGET_FILE_DIR:TASoftware>/at_commands.json
+    COMMENT "Copying at_commands.json to output directory"
 )
 
 qt_generate_deploy_app_script(
