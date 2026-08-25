@@ -399,18 +399,128 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractaxis.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartGlobal \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartglobal.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtcharts-config.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtchartsexports.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPen \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QFont \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChart \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchart.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QLegend \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qlegend.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsWidget \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicswidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicslayoutitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QRect \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QSize \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainterpath.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QBrush \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QMargins \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsView \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsview.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuturewatcher.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfutureinterface.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qresultstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthreadpool.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QSet \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qset.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\XMI3O3Z65X/moc_atcmdpanel.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\XMI3O3Z65X/moc_atparamdialog.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\3R4525YQTM/moc_commtool.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
@@ -458,14 +568,10 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QReadWriteLock \
  B:/qt/6.8.3/mingw_64/include/QtCore/qreadwritelock.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\KPKRICC3BU/moc_dataviewerdialog.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\67J4U64LVZ/moc_forwardertablemanager.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardertablemanager.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QMap \
- B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\67J4U64LVZ/moc_forwardtarget.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\67J4U64LVZ/moc_ntripdialog.cpp \

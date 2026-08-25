@@ -369,6 +369,39 @@
 		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentTargets-relwithdebinfo.cmake",
 		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentAdditionalTargetInfo.cmake",
 		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Concurrent/Qt6ConcurrentVersionlessAliasTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfigVersion.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfigVersionImpl.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsConfig.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsDependencies.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfigVersion.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfigVersionImpl.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLConfig.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLDependencies.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindVulkan.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLTargets-relwithdebinfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLAdditionalTargetInfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfigVersion.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfigVersionImpl.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsConfig.cmake",
+		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsDependencies.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsTargets-relwithdebinfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsAdditionalTargetInfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6OpenGLWidgets/Qt6OpenGLWidgetsVersionlessAliasTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsTargets.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsTargets-relwithdebinfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsAdditionalTargetInfo.cmake",
+		"B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts/Qt6ChartsVersionlessAliasTargets.cmake",
 		"B:/qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation",
@@ -426,6 +459,12 @@
 			null
 		],
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h",
+			"MU",
+			"V6PNYSY2WD/moc_imureader.cpp",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h",
 			"MU",
 			"V6PNYSY2WD/moc_rawanalysispanel.cpp",
@@ -435,6 +474,12 @@
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h",
 			"MU",
 			"V6PNYSY2WD/moc_rinexreader.cpp",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h",
+			"MU",
+			"V6PNYSY2WD/moc_truthreader.cpp",
 			null
 		],
 		[
@@ -630,12 +675,15 @@
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
+		"QT_CHARTS_LIB",
 		"QT_CONCURRENT_LIB",
 		"QT_CORE_LIB",
 		"QT_GUI_LIB",
 		"QT_NEEDS_QMAIN",
 		"QT_NETWORK_LIB",
 		"QT_NO_DEBUG",
+		"QT_OPENGLWIDGETS_LIB",
+		"QT_OPENGL_LIB",
 		"QT_SERIALPORT_LIB",
 		"QT_WIDGETS_LIB",
 		"UNICODE",
@@ -664,6 +712,9 @@
 		"B:/qt/6.8.3/mingw_64/include/QtNetwork",
 		"B:/qt/6.8.3/mingw_64/include/QtSerialPort",
 		"B:/qt/6.8.3/mingw_64/include/QtConcurrent",
+		"B:/qt/6.8.3/mingw_64/include/QtCharts",
+		"B:/qt/6.8.3/mingw_64/include/QtOpenGL",
+		"B:/qt/6.8.3/mingw_64/include/QtOpenGLWidgets",
 		"B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++",
 		"B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32",
 		"B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward",
@@ -769,12 +820,22 @@
 			null
 		],
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp",
 			"MU",
 			null
 		],
 		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.cpp",
 			"MU",
 			null
 		],

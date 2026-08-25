@@ -713,6 +713,36 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s"
 	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.s
 
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\imureader.cpp
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\imureader.cpp > CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\imureader.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.s
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\truthreader.cpp
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\truthreader.cpp > CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\truthreader.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.s
+
 # Object files for target TASoftware
 TASoftware_OBJECTS = \
 "CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj" \
@@ -757,7 +787,9 @@ TASoftware_OBJECTS = \
 "CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj" \
-"CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj"
+"CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj"
 
 # External object files for target TASoftware
 TASoftware_EXTERNAL_OBJECTS =
@@ -805,18 +837,23 @@ TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/build.make
-TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Widgets.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Network.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6SerialPort.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Concurrent.a
+TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Charts.a
+TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6OpenGLWidgets.a
+TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Widgets.a
+TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6OpenGL.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Gui.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6Core.a
 TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6EntryPoint.a
 TASoftware.exe: CMakeFiles/TASoftware.dir/linkLibs.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/objects1.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Linking CXX executable TASoftware.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX executable TASoftware.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TASoftware.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying scripts/ to output directory"
 	B:\qt\Tools\CMake_64\bin\cmake.exe -E copy_directory C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/scripts C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/release/scripts

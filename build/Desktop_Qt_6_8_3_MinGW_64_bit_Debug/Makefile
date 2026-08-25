@@ -535,6 +535,30 @@ modules/analysis/compare/analysispanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s
 .PHONY : modules/analysis/compare/analysispanel.cpp.s
 
+modules/analysis/raw/imureader.obj: modules/analysis/raw/imureader.cpp.obj
+.PHONY : modules/analysis/raw/imureader.obj
+
+# target to build an object file
+modules/analysis/raw/imureader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj
+.PHONY : modules/analysis/raw/imureader.cpp.obj
+
+modules/analysis/raw/imureader.i: modules/analysis/raw/imureader.cpp.i
+.PHONY : modules/analysis/raw/imureader.i
+
+# target to preprocess a source file
+modules/analysis/raw/imureader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.i
+.PHONY : modules/analysis/raw/imureader.cpp.i
+
+modules/analysis/raw/imureader.s: modules/analysis/raw/imureader.cpp.s
+.PHONY : modules/analysis/raw/imureader.s
+
+# target to generate assembly for a file
+modules/analysis/raw/imureader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.s
+.PHONY : modules/analysis/raw/imureader.cpp.s
+
 modules/analysis/raw/rawanalysispanel.obj: modules/analysis/raw/rawanalysispanel.cpp.obj
 .PHONY : modules/analysis/raw/rawanalysispanel.obj
 
@@ -582,6 +606,30 @@ modules/analysis/raw/rinexreader.s: modules/analysis/raw/rinexreader.cpp.s
 modules/analysis/raw/rinexreader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.s
 .PHONY : modules/analysis/raw/rinexreader.cpp.s
+
+modules/analysis/raw/truthreader.obj: modules/analysis/raw/truthreader.cpp.obj
+.PHONY : modules/analysis/raw/truthreader.obj
+
+# target to build an object file
+modules/analysis/raw/truthreader.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj
+.PHONY : modules/analysis/raw/truthreader.cpp.obj
+
+modules/analysis/raw/truthreader.i: modules/analysis/raw/truthreader.cpp.i
+.PHONY : modules/analysis/raw/truthreader.i
+
+# target to preprocess a source file
+modules/analysis/raw/truthreader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.i
+.PHONY : modules/analysis/raw/truthreader.cpp.i
+
+modules/analysis/raw/truthreader.s: modules/analysis/raw/truthreader.cpp.s
+.PHONY : modules/analysis/raw/truthreader.s
+
+# target to generate assembly for a file
+modules/analysis/raw/truthreader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.s
+.PHONY : modules/analysis/raw/truthreader.cpp.s
 
 modules/commtool/atcmd/atcmdpanel.obj: modules/commtool/atcmd/atcmdpanel.cpp.obj
 .PHONY : modules/commtool/atcmd/atcmdpanel.obj
@@ -1288,12 +1336,18 @@ help:
 	@echo ... modules/analysis/compare/analysispanel.obj
 	@echo ... modules/analysis/compare/analysispanel.i
 	@echo ... modules/analysis/compare/analysispanel.s
+	@echo ... modules/analysis/raw/imureader.obj
+	@echo ... modules/analysis/raw/imureader.i
+	@echo ... modules/analysis/raw/imureader.s
 	@echo ... modules/analysis/raw/rawanalysispanel.obj
 	@echo ... modules/analysis/raw/rawanalysispanel.i
 	@echo ... modules/analysis/raw/rawanalysispanel.s
 	@echo ... modules/analysis/raw/rinexreader.obj
 	@echo ... modules/analysis/raw/rinexreader.i
 	@echo ... modules/analysis/raw/rinexreader.s
+	@echo ... modules/analysis/raw/truthreader.obj
+	@echo ... modules/analysis/raw/truthreader.i
+	@echo ... modules/analysis/raw/truthreader.s
 	@echo ... modules/commtool/atcmd/atcmdpanel.obj
 	@echo ... modules/commtool/atcmd/atcmdpanel.i
 	@echo ... modules/commtool/atcmd/atcmdpanel.s

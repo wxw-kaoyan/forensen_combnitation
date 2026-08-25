@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
 project(TASoftware LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Network SerialPort Concurrent)
+set(Qt6_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6")
+set(Qt6Charts_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts")
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Network SerialPort Concurrent Charts)
 
 qt_standard_project_setup()
 
@@ -96,6 +98,10 @@ qt_add_executable(TASoftware
     modules/analysis/raw/rawanalysispanel.h
     modules/analysis/raw/rinexreader.cpp
     modules/analysis/raw/rinexreader.h
+    modules/analysis/raw/imureader.cpp
+    modules/analysis/raw/imureader.h
+    modules/analysis/raw/truthreader.cpp
+    modules/analysis/raw/truthreader.h
 )
 
 # RTKLIB .c files compiled as C++ (no C compiler available in this environment)
@@ -129,6 +135,7 @@ target_link_libraries(TASoftware
         Qt::Network
         Qt::SerialPort
         Qt::Concurrent
+        Qt::Charts
         winmm
 )
 

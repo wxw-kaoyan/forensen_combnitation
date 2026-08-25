@@ -103,8 +103,16 @@ bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
     std::vector<double> epochTimes;           // 去重后的历元时间（GPS 周秒）
     epochTimes.reserve(obs.n);
 
+    // 每历元可见卫星数（按系统）
+    int epochGps = 0, epochGlo = 0, epochGal = 0, epochQzs = 0, epochBds = 0;
+    QSet<int> epochGpsSet, epochGloSet, epochGalSet, epochQzsSet, epochBdsSet;
+
     double prevEpoch = -1.0;
     int week = 0;
+
+    // 每历元 SNR 均值累计（跨所有卫星所有频点）
+    double curSnrSum = 0;
+    long   curSnrCount = 0;
 
     for (int i = 0; i < obs.n; ++i) {
         const obsd_t &d = obs.data[i];
@@ -114,14 +122,39 @@ bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
 
         const double t = time2gpst(d.time, &week);
 
-        // 历元去重
-        if (i == 0 || std::abs(t - prevEpoch) > 1e-6) {
+        // 历元去重：仅在遇到新历元时记录历元时间，并在新历元开始时保存上一历元的快照
+        const bool newEpoch = (i == 0 || std::abs(t - prevEpoch) > 1e-6);
+        if (newEpoch) {
+            if (i > 0) {
+                EpochStat es;
+                es.time     = prevEpoch;
+                es.gps      = epochGpsSet.count();
+                es.glo      = epochGloSet.count();
+                es.gal      = epochGalSet.count();
+                es.qzs      = epochQzsSet.count();
+                es.bds      = epochBdsSet.count();
+                es.total    = es.gps + es.glo + es.gal + es.qzs + es.bds;
+                s.epochStats.append(es);
+                // 上一历元平均 SNR
+                s.snrEpochMean.append({prevEpoch, curSnrCount > 0 ? curSnrSum / curSnrCount : 0.0});
+                // 重置
+                epochGpsSet.clear(); epochGloSet.clear(); epochGalSet.clear();
+                epochQzsSet.clear(); epochBdsSet.clear();
+                curSnrSum = 0; curSnrCount = 0;
+            }
             epochTimes.push_back(t);
-            prevEpoch = t;
         }
+        prevEpoch = t;
 
         s.systemMask |= sys;
         s.satsPerSys[sys].insert(prn);
+
+        // 当前历元卫星计数
+        if (sys == Sys::GPS)     epochGpsSet.insert(prn);
+        else if (sys == Sys::GLO) epochGloSet.insert(prn);
+        else if (sys == Sys::GAL) epochGalSet.insert(prn);
+        else if (sys == Sys::QZS) epochQzsSet.insert(prn);
+        else if (sys == Sys::BDS) epochBdsSet.insert(prn);
 
         // 卫星出现区间
         SatSpan &span = satSpan[sys][prn];
@@ -149,7 +182,28 @@ bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
             }
             st.sum += snrDb;
             st.count++;
+
+            // 每历元平均 SNR 累计
+            curSnrSum += snrDb;
+            curSnrCount++;
+
+            // SNR 时间序列
+            s.snrTimePerSysCode[sys][code].append({t, snrDb});
         }
+    }
+
+    // 保存最后一个历元快照
+    {
+        EpochStat es;
+        es.time     = prevEpoch;
+        es.gps      = epochGpsSet.count();
+        es.glo      = epochGloSet.count();
+        es.gal      = epochGalSet.count();
+        es.qzs      = epochQzsSet.count();
+        es.bds      = epochBdsSet.count();
+        es.total    = es.gps + es.glo + es.gal + es.qzs + es.bds;
+        s.epochStats.append(es);
+        s.snrEpochMean.append({prevEpoch, curSnrCount > 0 ? curSnrSum / curSnrCount : 0.0});
     }
 
     s.totalEpochs = static_cast<int>(epochTimes.size());

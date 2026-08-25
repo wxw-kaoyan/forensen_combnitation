@@ -619,4 +619,10 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qtimezone.h
+ B:/qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QDir \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QDebug \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdebug.h

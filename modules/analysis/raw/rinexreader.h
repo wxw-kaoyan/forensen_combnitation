@@ -34,6 +34,20 @@ struct SnrStat {
     double mean() const { return count > 0 ? sum / count : 0.0; }
 };
 
+// 单个历元的快照统计
+struct EpochStat {
+    double time = 0;       // GPS 周秒
+    int    total = 0;      // 本历元观测记录总数（= 可见卫星数×频点数）
+    int    gps = 0;        // 各系统卫星数
+    int    glo = 0;
+    int    gal = 0;
+    int    qzs = 0;
+    int    bds = 0;
+};
+
+// SNR 时间序列：key = 频点码（如 "1C"），value = {时间(GPS周秒), SNR(dBHz)} 序列
+using SnrTimeSeries = QVector<std::pair<double, double>>;
+
 // RINEX 观测文件质量摘要
 struct RinexSummary {
     // ── 基本信息 ──
@@ -56,6 +70,16 @@ struct RinexSummary {
     // ── SNR ──
     // 外层 key = 系统掩码，内层 key = 频点码（如 "1C"、"2W"、"5Q"）
     QMap<int, QMap<QString, SnrStat>> snrPerSysCode;
+
+    // ── 每历元快照（按历元顺序） ──
+    QVector<EpochStat> epochStats;
+
+    // ── SNR 时间序列（按系统×频点） ──
+    // 外层 key = 系统掩码，内层 key = 频点码
+    QMap<int, QMap<QString, SnrTimeSeries>> snrTimePerSysCode;
+
+    // ── 每历元平均 SNR（一条曲线：历元时间 → 该历元所有卫星所有频点 SNR 均值） ──
+    QVector<std::pair<double, double>> snrEpochMean;
 
     // 辅助：系统掩码 → 显示名
     static QString sysName(int mask);

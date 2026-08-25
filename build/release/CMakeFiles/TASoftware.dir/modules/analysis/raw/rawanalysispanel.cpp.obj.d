@@ -371,6 +371,115 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QRect \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QSize \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuturewatcher.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfutureinterface.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qresultstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthreadpool.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractaxis.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartGlobal \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartglobal.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtcharts-config.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtchartsexports.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPen \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QFont \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChart \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchart.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QLegend \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qlegend.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsWidget \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicswidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicslayoutitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainterpath.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QBrush \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QMargins \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsView \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsview.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QString \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstring.h \
@@ -380,27 +489,17 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qset.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\imureader.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\truthreader.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qurl.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -408,12 +507,10 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
@@ -468,4 +565,46 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QSplitter \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qsplitter.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QTreeWidget \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qtreewidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qtreeview.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qtreewidgetitemiterator.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QTreeWidgetItem \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QLineSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qlineseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QXYSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qxyseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QImage \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QCategoryAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qcategoryaxis.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QScatterSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qscatterseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qxyseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/QtConcurrentRun \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentrun.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentcompilertest.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrent_global.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentexports.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentrunbase.h \
+ B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentstoredfunctioncall.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QCheckBox \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qcheckbox.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QDebug \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QtMath \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmath.h

@@ -1980,6 +1980,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardta
  mdp:B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/forwardtarget.h
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.h
  mmc:Q_OBJECT
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QObject
@@ -2296,8 +2297,41 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanag
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocess.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.h
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.h
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h
  mmc:Q_OBJECT
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractSeries
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QChart
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QChartGlobal
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QLegend
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractaxis.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractseries.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qchart.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qchartglobal.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qlegend.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qtcharts-config.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qtchartsexports.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QList
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QMap
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QMargins
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QObject
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QPointF
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QRect
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QSet
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QSize
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QSizeF
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QString
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QStringList
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QVariant
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/QVector
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/q20functional.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/q20iterator.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/q20memory.h
@@ -2329,27 +2363,40 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qdatastream.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qdebug.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qendian.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qeventloop.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qflags.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfloat16.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qforeach.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfuture.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfuture_impl.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfutureinterface.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qfuturewatcher.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qglobal.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qhash.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qiterable.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qiterator.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qline.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qlogging.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qmalloc.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qmap.h
@@ -2358,7 +2405,9 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qmetatype.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qminmax.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qmutex.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qnamespace.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qnumeric.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qobject.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h
@@ -2368,8 +2417,11 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qpair.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qrect.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qrefcount.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qresultstore.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qset.h
@@ -2403,48 +2455,90 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtextstream.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qthreadpool.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtnoop.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtresource.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qttranslation.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtversion.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qtypes.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qurl.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QBrush
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QColor
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QFont
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QPainter
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QPen
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QTransform
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qaction.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qcursor.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qfont.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qicon.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qimage.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpainterpath.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpalette.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpixmap.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qpolygon.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qregion.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qrgb.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qrgba64.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qscreen.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qtransform.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qvector2d.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qvectornd.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsView
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsWidget
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
  mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsitem.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicslayoutitem.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsview.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicswidget.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h
+ mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h
  mdp:B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h
@@ -2462,6 +2556,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/allocated_ptr.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/allocator.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_base.h
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_lockfree_defines.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_string.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_string.tcc
@@ -2508,6 +2603,8 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/specfun.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_abs.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_function.h
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algobase.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h
@@ -2534,6 +2631,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/string_view.tcc
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stringfwd.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_ptr.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_map.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uses_allocator.h
@@ -2548,6 +2646,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/clocale
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cmath
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/compare
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstddef
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdio
@@ -2566,6 +2665,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/string_conversions.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/functional
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/initializer_list
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iosfwd
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iterator
@@ -2573,6 +2673,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/list
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/map
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/memory
+ mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/new
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numeric
  mdp:B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/optional
@@ -2657,8 +2758,10 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/ra
  mdp:B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h
+ mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h
-C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/dataviewerdialog.cpp
+ mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h
+ mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h
  mmc:Q_OBJECT
@@ -3025,6 +3128,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/TASoftware_autogen/moc_predefs.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdpanel.h
  mdp:C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/toolprocessmanager.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/downsampledialog.cpp
@@ -7240,10 +7344,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/ex
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rinex.c
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtkcmn.c
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.h
-C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.cpp
-C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserfactory.h
-C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm.c
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/rtklib/rtcm3.c
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.cpp
@@ -7252,11 +7353,15 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/common/serialconnection
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.cpp
  uic:ui_mainwindow.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.cpp
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.cpp
  uic:ui_mainwindow.h
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/realtimeparsepanel.cpp
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/parserbase.cpp
+C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/streamframer.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/ntrip/datapool/datapool.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parsepanel.cpp
  uic:ui_parsepanel.h
@@ -7275,4 +7380,3 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/de
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/external/kaixinframeparser.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/other/rtcmframeparser.cpp
 C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/parser/single/protocolregistry.cpp
-C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/recodeconfig.cpp

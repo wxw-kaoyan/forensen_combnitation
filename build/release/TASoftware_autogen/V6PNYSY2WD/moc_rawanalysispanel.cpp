@@ -31,6 +31,75 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
+struct qt_meta_tag_ZN8Analysis17ZoomableChartViewE_t {};
+} // unnamed namespace
+
+
+#ifdef QT_MOC_HAS_STRINGDATA
+static constexpr auto qt_meta_stringdata_ZN8Analysis17ZoomableChartViewE = QtMocHelpers::stringData(
+    "Analysis::ZoomableChartView"
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
+
+Q_CONSTINIT static const uint qt_meta_data_ZN8Analysis17ZoomableChartViewE[] = {
+
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       0,    0, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+       0        // eod
+};
+
+Q_CONSTINIT const QMetaObject Analysis::ZoomableChartView::staticMetaObject = { {
+    QMetaObject::SuperData::link<QChartView::staticMetaObject>(),
+    qt_meta_stringdata_ZN8Analysis17ZoomableChartViewE.offsetsAndSizes,
+    qt_meta_data_ZN8Analysis17ZoomableChartViewE,
+    qt_static_metacall,
+    nullptr,
+    qt_incomplete_metaTypeArray<qt_meta_tag_ZN8Analysis17ZoomableChartViewE_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<ZoomableChartView, std::true_type>
+    >,
+    nullptr
+} };
+
+void Analysis::ZoomableChartView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    auto *_t = static_cast<ZoomableChartView *>(_o);
+    (void)_t;
+    (void)_c;
+    (void)_id;
+    (void)_a;
+}
+
+const QMetaObject *Analysis::ZoomableChartView::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *Analysis::ZoomableChartView::qt_metacast(const char *_clname)
+{
+    if (!_clname) return nullptr;
+    if (!strcmp(_clname, qt_meta_stringdata_ZN8Analysis17ZoomableChartViewE.stringdata0))
+        return static_cast<void*>(this);
+    return QChartView::qt_metacast(_clname);
+}
+
+int Analysis::ZoomableChartView::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QChartView::qt_metacall(_c, _id, _a);
+    return _id;
+}
+namespace {
 struct qt_meta_tag_ZN8Analysis16RawAnalysisPanelE_t {};
 } // unnamed namespace
 
@@ -40,7 +109,15 @@ static constexpr auto qt_meta_stringdata_ZN8Analysis16RawAnalysisPanelE = QtMocH
     "Analysis::RawAnalysisPanel",
     "onBrowse",
     "",
-    "onAnalyze"
+    "onAnalyze",
+    "onAnalyzeFinished",
+    "onTypeChanged",
+    "index",
+    "onTreeNodeClicked",
+    "QTreeWidgetItem*",
+    "item",
+    "onTrajPlayClicked",
+    "onTrajPlayTick"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -52,7 +129,7 @@ Q_CONSTINIT static const uint qt_meta_data_ZN8Analysis16RawAnalysisPanelE[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,10 +137,20 @@ Q_CONSTINIT static const uint qt_meta_data_ZN8Analysis16RawAnalysisPanelE[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   26,    2, 0x08,    1 /* Private */,
-       3,    0,   27,    2, 0x08,    2 /* Private */,
+       1,    0,   56,    2, 0x08,    1 /* Private */,
+       3,    0,   57,    2, 0x08,    2 /* Private */,
+       4,    0,   58,    2, 0x08,    3 /* Private */,
+       5,    1,   59,    2, 0x08,    4 /* Private */,
+       7,    2,   62,    2, 0x08,    6 /* Private */,
+      10,    0,   67,    2, 0x08,    9 /* Private */,
+      11,    0,   68,    2, 0x08,   10 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    6,
+    QMetaType::Void, 0x80000000 | 8, QMetaType::Int,    9,    2,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -82,6 +169,19 @@ Q_CONSTINIT const QMetaObject Analysis::RawAnalysisPanel::staticMetaObject = { {
         // method 'onBrowse'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onAnalyze'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onAnalyzeFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onTypeChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onTreeNodeClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QTreeWidgetItem *, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onTrajPlayClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onTrajPlayTick'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -94,10 +194,14 @@ void Analysis::RawAnalysisPanel::qt_static_metacall(QObject *_o, QMetaObject::Ca
         switch (_id) {
         case 0: _t->onBrowse(); break;
         case 1: _t->onAnalyze(); break;
+        case 2: _t->onAnalyzeFinished(); break;
+        case 3: _t->onTypeChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 4: _t->onTreeNodeClicked((*reinterpret_cast< std::add_pointer_t<QTreeWidgetItem*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 5: _t->onTrajPlayClicked(); break;
+        case 6: _t->onTrajPlayTick(); break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *Analysis::RawAnalysisPanel::metaObject() const
@@ -119,14 +223,14 @@ int Analysis::RawAnalysisPanel::qt_metacall(QMetaObject::Call _c, int _id, void 
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 7;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 7)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 2;
+        _id -= 7;
     }
     return _id;
 }
