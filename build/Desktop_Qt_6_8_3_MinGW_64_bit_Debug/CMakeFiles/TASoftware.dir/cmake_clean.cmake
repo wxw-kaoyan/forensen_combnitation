@@ -30,6 +30,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TASoftware.dir/mainwindow.cpp.obj.d"
   "CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj"
   "CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj.d"
+  "CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj"
+  "CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj.d"
   "CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj"
   "CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj.d"
   "CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj"

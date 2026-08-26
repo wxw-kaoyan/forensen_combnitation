@@ -37,6 +37,8 @@ struct TruthSummary {
     double lastTime     = 0;
     double durationSec  = 0;
     double sampleRate   = 0;   // Hz（按中位数间隔）
+    double week         = 0;   // GPS 周数（若文件含 Week 列）
+    bool   hasWeek      = false;
 
     // 位置范围（报告 + 轨迹轴范围）
     double minLat = 0, maxLat = 0;

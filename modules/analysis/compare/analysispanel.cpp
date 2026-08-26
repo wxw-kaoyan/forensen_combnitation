@@ -1,4 +1,5 @@
 #include "analysispanel.h"
+#include "comparechartwindow.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -20,16 +21,12 @@
 #include <QApplication>
 #include <QTableWidgetItem>
 #include <QDoubleSpinBox>
+#include <QSplitter>
 #include <QTextStream>
+#include <QStringConverter>
 #include <QRegularExpression>
-#include <QPainter>
 #include <QtConcurrent/QtConcurrent>
 #include <QFutureWatcher>
-
-#include <QtCharts/QChartView>
-#include <QtCharts/QChart>
-#include <QtCharts/QLineSeries>
-#include <QtCharts/QValueAxis>
 
 #include <cmath>
 #include <algorithm>
@@ -59,6 +56,51 @@ static QStringList splitFields(const QString &line, QChar delim)
         return line.trimmed().split(ws, Qt::SkipEmptyParts);
     }
     return line.split(delim);
+}
+
+// 手动校验字节序列是否为合法 UTF-8（GBK 等本地编码的高位字节会命中非法序列，从而正确判定为非 UTF-8）
+static bool isUtf8(const QByteArray &b)
+{
+    int i = 0;
+    const int n = b.size();
+    while (i < n) {
+        const uchar c = static_cast<uchar>(b[i]);
+        int len;
+        if (c < 0x80) { ++i; continue; }
+        else if ((c & 0xE0) == 0xC0) len = 2;
+        else if ((c & 0xF0) == 0xE0) len = 3;
+        else if ((c & 0xF8) == 0xF0) len = 4;
+        else return false;                        // 非法 UTF-8 起始字节
+        if (i + len > n) return true;             // 末尾截断，视作合法（可能切在多字节字符中间）
+        for (int k = 1; k < len; ++k)
+            if ((static_cast<uchar>(b[i + k]) & 0xC0) != 0x80)
+                return false;                     // 非法继续字节
+        i += len;
+    }
+    return true;
+}
+
+// 检测文本文件编码：无 BOM 时按 UTF-8 校验，失败（GBK 等本地编码）回退系统本地编码。
+// 对比文件（如 agdebug CSV）常由中文 Windows 工具导出为 GBK，QTextStream 默认 UTF-8 会把中文表头读成乱码，
+// 导致「秒/毫秒」等时间列名匹配失败，时间列被误判为第 0 列（GPS周），进而时间对齐对不上。
+static QStringConverter::Encoding detectCsvEncoding(const QString &path)
+{
+    QFile f(path);
+    if (!f.open(QIODevice::ReadOnly))
+        return QStringConverter::Utf8;
+    const QByteArray head = f.read(8192);
+    f.close();
+
+    // UTF-8 / UTF-16 BOM 直接判定
+    if (head.startsWith("\xEF\xBB\xBF"))
+        return QStringConverter::Utf8;
+    if (head.startsWith("\xFF\xFE") || head.startsWith("\xFE\xFF"))
+        return QStringConverter::Utf16;
+
+    // 无 BOM：合法 UTF-8 用 UTF-8，否则回退系统本地编码（中文 Windows = GBK/CP936）
+    if (isUtf8(head))
+        return QStringConverter::Utf8;
+    return QStringConverter::System;
 }
 
 // ── 时间列识别结果 ──
@@ -164,71 +206,73 @@ static QVector<MatchedPair> exactMatchTimes(const QVector<double> &a,
 // ════════════════════════════════════════════════════════════════
 //  静态辅助：真值字段名/单位/取值，时间换算，文件读取
 // ════════════════════════════════════════════════════════════════
-QString AnalysisPanel::truthFieldName(TruthField f)
+QString AnalysisPanel::metricName(MetricType t)
 {
-    switch (f) {
-        case TruthField::Lat:     return QStringLiteral("纬度");
-        case TruthField::Lon:     return QStringLiteral("经度");
-        case TruthField::Height:  return QStringLiteral("椭球高");
-        case TruthField::Roll:    return QStringLiteral("横滚(Roll)");
-        case TruthField::Pitch:   return QStringLiteral("俯仰(Pitch)");
-        case TruthField::Heading: return QStringLiteral("航向(Heading)");
-        case TruthField::VelN:    return QStringLiteral("北向速度(VelN)");
-        case TruthField::VelE:    return QStringLiteral("东向速度(VelE)");
-        case TruthField::VelU:    return QStringLiteral("天向速度(VelU)");
+    switch (t) {
+        case MetricType::HorizPos: return QStringLiteral("水平位置误差");
+        case MetricType::Height:   return QStringLiteral("高程误差");
+        case MetricType::HorizVel: return QStringLiteral("水平速度误差");
+        case MetricType::VertVel:  return QStringLiteral("天向速度误差");
+        case MetricType::Roll:     return QStringLiteral("横滚(Roll)");
+        case MetricType::Pitch:    return QStringLiteral("俯仰(Pitch)");
+        case MetricType::Heading:  return QStringLiteral("航向(Heading)");
     }
     return QString();
 }
 
-QString AnalysisPanel::truthFieldUnit(TruthField f)
+QString AnalysisPanel::metricUnit(MetricType t)
 {
-    switch (f) {
-        case TruthField::Lat:
-        case TruthField::Lon:
-        case TruthField::Roll:
-        case TruthField::Pitch:
-        case TruthField::Heading: return QStringLiteral("deg");
-        case TruthField::Height:  return QStringLiteral("m");
-        case TruthField::VelN:
-        case TruthField::VelE:
-        case TruthField::VelU:    return QStringLiteral("m/s");
+    switch (t) {
+        case MetricType::HorizPos:
+        case MetricType::Height:   return QStringLiteral("m");
+        case MetricType::HorizVel:
+        case MetricType::VertVel:  return QStringLiteral("m/s");
+        case MetricType::Roll:
+        case MetricType::Pitch:
+        case MetricType::Heading:  return QStringLiteral("deg");
     }
     return QString();
 }
 
-QVector<double> AnalysisPanel::truthFieldValues(const TruthSummary &s, TruthField f)
+bool AnalysisPanel::metricNeedsTwoCols(MetricType t)
 {
-    QVector<double> v;
-    v.reserve(s.samples.size());
-    for (const TruthSample &sp : s.samples) {
-        switch (f) {
-            case TruthField::Lat:     v.append(sp.lat); break;
-            case TruthField::Lon:     v.append(sp.lon); break;
-            case TruthField::Height:  v.append(sp.h); break;
-            case TruthField::Roll:    v.append(sp.roll); break;
-            case TruthField::Pitch:   v.append(sp.pitch); break;
-            case TruthField::Heading: v.append(sp.heading); break;
-            case TruthField::VelN:    v.append(sp.velN); break;
-            case TruthField::VelE:    v.append(sp.velE); break;
-            case TruthField::VelU:    v.append(sp.velU); break;
-        }
+    return t == MetricType::HorizPos || t == MetricType::HorizVel;
+}
+
+// 统一换算：把各种时间格式换算到 UTC 绝对秒（Unix 纪元 1970-01-01 起，跨周连续）。
+// colA = 主时间列（秒/毫秒），colB = 第二时间列（周数/天数，单列格式忽略），
+// week = GPS 周数（周内秒/毫秒/天内秒格式需要），leap = 闰秒（GPS 领先 UTC 的秒数）。
+double AnalysisPanel::toUtcAbsSec(TimeFormat fmt, double colA, double colB, double week, double leap)
+{
+    constexpr double GPS_EPOCH_UNIX = 315964800.0;   // 1980-01-06 00:00:00 UTC 的 Unix 秒
+    switch (fmt) {
+    case TimeFormat::GpsSow:      // colA=周内秒
+        return week * 604800.0 + colA + GPS_EPOCH_UNIX - leap;
+    case TimeFormat::GpsSowMs:    // colA=周内毫秒
+        return week * 604800.0 + colA / 1000.0 + GPS_EPOCH_UNIX - leap;
+    case TimeFormat::GpsWeekSow:  // colA=周内秒, colB=周数
+        return colB * 604800.0 + colA + GPS_EPOCH_UNIX - leap;
+    case TimeFormat::GpsDaySod:   // colA=天内秒, colB=周内天(0~6)
+        return week * 604800.0 + colB * 86400.0 + colA + GPS_EPOCH_UNIX - leap;
+    case TimeFormat::UtcDaySod:   // colA=天内秒, colB=绝对天数(Unix 纪元)
+        return colB * 86400.0 + colA;
+    case TimeFormat::GpsAbsSec:   // colA=GPS 绝对秒（1980-01-06 起连续秒）
+        return colA + GPS_EPOCH_UNIX - leap;
+    case TimeFormat::UtcAbsSec:   // colA=UTC 绝对秒（Unix 纪元）
+        return colA;
+    case TimeFormat::UtcSow:      // colA=UTC 周内秒（已是 UTC，无需减闰秒）
+        return week * 604800.0 + colA + GPS_EPOCH_UNIX;
+    case TimeFormat::UtcWeekSow:  // colA=UTC 周内秒, colB=UTC 周数
+        return colB * 604800.0 + colA + GPS_EPOCH_UNIX;
     }
-    return v;
+    return 0.0;
 }
 
-double AnalysisPanel::toGpsTime(double raw, TimeStandard std, double leap)
+// 该格式是否缺少周数，需要用户额外填 GPS 周数
+static bool fmtNeedsWeek(TimeFormat fmt)
 {
-    return (std == TimeStandard::Utc) ? (raw + leap) : raw;
-}
-
-// 「天数 + 天内秒」合成 GPS 周内秒：day/sod 为同一基准（GPS 或 UTC 由 std 指定）
-// UTC 时加闰秒（GPS 领先 UTC leap 秒），最后折到一周（0~604800）内。
-double AnalysisPanel::daySodToGpsWeekSec(double day, double sod, TimeStandard std, double leap)
-{
-    double absSec = day * 86400.0 + sod;
-    if (std == TimeStandard::Utc)
-        absSec += leap;   // GPS = UTC + 闰秒
-    return std::fmod(absSec, 604800.0);
+    return fmt == TimeFormat::GpsSow || fmt == TimeFormat::GpsSowMs ||
+           fmt == TimeFormat::GpsDaySod || fmt == TimeFormat::UtcSow;
 }
 
 bool AnalysisPanel::readCmpHeader(const QString &path, QStringList *header, int *dataStart, QString *err)
@@ -239,6 +283,7 @@ bool AnalysisPanel::readCmpHeader(const QString &path, QStringList *header, int 
         return false;
     }
     QTextStream ts(&f);
+    ts.setEncoding(detectCsvEncoding(path));
 
     // 流式定位表头行（不 readAll，避免 100MB+ 大文件整体读入内存卡机）
     // 对比文件为 CSV/TXT：首个非空行即表头
@@ -287,6 +332,7 @@ bool AnalysisPanel::readCmpColumn(const QString &path, int dataStart, int col,
         return false;
     }
     QTextStream ts(&f);
+    ts.setEncoding(detectCsvEncoding(path));
     out->clear();
 
     QChar delim('\0');
@@ -327,12 +373,13 @@ void AnalysisPanel::buildUi()
 {
     auto *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(8, 8, 8, 8);
-    mainLayout->setSpacing(8);
 
-    // ── 左侧：真值文件 + 对比文件 + 映射 + 场景 ──
-    auto *left = new QFrame(this);
-    left->setMinimumWidth(420);
-    left->setMaximumWidth(540);
+    // 用 QSplitter 分隔左右，默认各占一半，用户可拖动调整
+    auto *splitter = new QSplitter(Qt::Horizontal, this);
+    splitter->setChildrenCollapsible(false);
+
+    // ── 左侧：真值文件 + 对比文件 + 映射 + 闰秒 ──
+    auto *left = new QFrame(splitter);
     left->setFrameShape(QFrame::StyledPanel);
     auto *ll = new QVBoxLayout(left);
     ll->setSpacing(6);
@@ -355,10 +402,23 @@ void AnalysisPanel::buildUi()
     ll->addLayout(truthRow);
 
     auto *truthOptForm = new QFormLayout;
-    m_truthStandardCombo = new QComboBox(left);
-    m_truthStandardCombo->addItem(QStringLiteral("GPS 周内秒"));
-    m_truthStandardCombo->addItem(QStringLiteral("UTC 周内秒"));
-    truthOptForm->addRow(QStringLiteral("时间标准"), m_truthStandardCombo);
+    m_truthFormatCombo = new QComboBox(left);
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 周内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 周内毫秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 周 + 周内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 天内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("UTC 天数 + 天内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 绝对秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("UTC 绝对秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("UTC 周内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("UTC 周 + 周内秒"));
+    truthOptForm->addRow(QStringLiteral("时间格式"), m_truthFormatCombo);
+
+    m_truthWeekSpin = new QDoubleSpinBox(left);
+    m_truthWeekSpin->setRange(0.0, 100000.0);
+    m_truthWeekSpin->setDecimals(0);
+    m_truthWeekSpin->setValue(0.0);
+    truthOptForm->addRow(QStringLiteral("GPS 周数"), m_truthWeekSpin);
 
     m_heightAnomalySpin = new QDoubleSpinBox(left);
     m_heightAnomalySpin->setRange(-100000.0, 100000.0);
@@ -392,19 +452,33 @@ void AnalysisPanel::buildUi()
     ll->addLayout(cmpBtnRow);
 
     auto *cmpOptForm = new QFormLayout;
+    m_cmpFormatCombo = new QComboBox(left);
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 周内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 周内毫秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 周 + 周内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 天内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("UTC 天数 + 天内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 绝对秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("UTC 绝对秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("UTC 周内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("UTC 周 + 周内秒"));
+    m_cmpFormatCombo->setEnabled(false);
+    cmpOptForm->addRow(QStringLiteral("时间格式"), m_cmpFormatCombo);
+
     m_cmpTimeCombo = new QComboBox(left);
     m_cmpTimeCombo->setEnabled(false);
-    cmpOptForm->addRow(QStringLiteral("时间列(秒)"), m_cmpTimeCombo);
+    cmpOptForm->addRow(QStringLiteral("时间列(秒/毫秒)"), m_cmpTimeCombo);
 
     m_cmpDayCombo = new QComboBox(left);
     m_cmpDayCombo->setEnabled(false);
-    cmpOptForm->addRow(QStringLiteral("天数列(可选)"), m_cmpDayCombo);
+    cmpOptForm->addRow(QStringLiteral("第二列(周/天)"), m_cmpDayCombo);
 
-    m_cmpStandardCombo = new QComboBox(left);
-    m_cmpStandardCombo->addItem(QStringLiteral("GPS 周内秒"));
-    m_cmpStandardCombo->addItem(QStringLiteral("UTC 周内秒"));
-    m_cmpStandardCombo->setEnabled(false);
-    cmpOptForm->addRow(QStringLiteral("时间标准"), m_cmpStandardCombo);
+    m_cmpWeekSpin = new QDoubleSpinBox(left);
+    m_cmpWeekSpin->setRange(0.0, 100000.0);
+    m_cmpWeekSpin->setDecimals(0);
+    m_cmpWeekSpin->setValue(0.0);
+    m_cmpWeekSpin->setEnabled(false);
+    cmpOptForm->addRow(QStringLiteral("GPS 周数"), m_cmpWeekSpin);
     ll->addLayout(cmpOptForm);
 
     m_alignInfoLabel = new QLabel(left);
@@ -430,36 +504,6 @@ void AnalysisPanel::buildUi()
     mapBtnRow->addStretch();
     ll->addLayout(mapBtnRow);
 
-    auto *sep3 = new QFrame(left);
-    sep3->setFrameShape(QFrame::HLine);
-    ll->addWidget(sep3);
-
-    // 场景切段
-    addSectionLabel(QStringLiteral("场景切段（手动截断时间，秒）"));
-    auto *sceneForm = new QFormLayout;
-    m_sceneNameEdit = new QLineEdit(left);
-    m_sceneNameEdit->setPlaceholderText(QStringLiteral("可选"));
-    m_sceneStartEdit = new QLineEdit(left);
-    m_sceneStartEdit->setPlaceholderText(QStringLiteral("起始(秒)"));
-    m_sceneEndEdit = new QLineEdit(left);
-    m_sceneEndEdit->setPlaceholderText(QStringLiteral("结束(秒)"));
-    sceneForm->addRow(QStringLiteral("场景名"), m_sceneNameEdit);
-    sceneForm->addRow(QStringLiteral("起始(秒)"), m_sceneStartEdit);
-    sceneForm->addRow(QStringLiteral("结束(秒)"), m_sceneEndEdit);
-    ll->addLayout(sceneForm);
-
-    auto *sceneBtnRow = new QHBoxLayout;
-    auto *addSceneBtn = new QPushButton(QStringLiteral("添加场景"), left);
-    auto *rmSceneBtn  = new QPushButton(QStringLiteral("删除场景"), left);
-    sceneBtnRow->addWidget(addSceneBtn);
-    sceneBtnRow->addWidget(rmSceneBtn);
-    sceneBtnRow->addStretch();
-    ll->addLayout(sceneBtnRow);
-
-    m_sceneList = new QListWidget(left);
-    m_sceneList->setMinimumHeight(56);
-    ll->addWidget(m_sceneList, 1);
-
     // 闰秒（可配置，默认 18）
     auto *leapForm = new QFormLayout;
     m_leapSpin = new QDoubleSpinBox(left);
@@ -470,46 +514,79 @@ void AnalysisPanel::buildUi()
     leapForm->addRow(QStringLiteral("闰秒(GPS-UTC)"), m_leapSpin);
     ll->addLayout(leapForm);
 
-    m_startBtn = new QPushButton(QStringLiteral("开始对比"), left);
-    m_startBtn->setStyleSheet(QStringLiteral("font-weight:600;color:#fff;background-color:#2c7be5;padding:8px;"));
-    ll->addWidget(m_startBtn);
-
-    m_progressBar = new QProgressBar(left);
-    m_progressBar->setRange(0, 0);
-    m_progressBar->setVisible(false);
-    ll->addWidget(m_progressBar);
-
-    // ── 右侧：结果表 + 误差曲线 ──
-    auto *right = new QFrame(this);
+    // ── 右侧：对比结果表 + 场景分析设置 ──
+    auto *right = new QFrame(splitter);
     right->setFrameShape(QFrame::StyledPanel);
     auto *rl = new QVBoxLayout(right);
     rl->setSpacing(6);
 
-    auto *resultTitle = new QLabel(QStringLiteral("对比结果（RMS / 2σ）"), right);
-    resultTitle->setStyleSheet(QStringLiteral("font-size:13px;font-weight:700;color:#12263f;"));
-    rl->addWidget(resultTitle);
+    auto addRightSectionLabel = [&](const QString &s) {
+        auto *lbl = new QLabel(s, right);
+        lbl->setStyleSheet(QStringLiteral("font-size:13px;font-weight:700;color:#12263f;"));
+        rl->addWidget(lbl);
+    };
 
+    // 对比结果表（上）
+    addRightSectionLabel(QStringLiteral("对比结果（RMS / 2σ）"));
     m_resultTable = new QTableWidget(right);
     m_resultTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_resultTable->setAlternatingRowColors(true);
-    rl->addWidget(m_resultTable, 2);
+    m_resultTable->setMinimumHeight(160);
+    rl->addWidget(m_resultTable, 1);
 
-    auto *errorTitle = new QLabel(QStringLiteral("误差曲线"), right);
-    errorTitle->setStyleSheet(QStringLiteral("font-size:13px;font-weight:700;color:#12263f;"));
-    rl->addWidget(errorTitle);
+    auto *sepR = new QFrame(right);
+    sepR->setFrameShape(QFrame::HLine);
+    rl->addWidget(sepR);
 
-    m_errorChartView = new QChartView(right);
-    m_errorChartView->setRenderHint(QPainter::Antialiasing, false);
-    m_errorChartView->setMinimumHeight(200);
-    rl->addWidget(m_errorChartView, 1);
+    // 场景分析设置（下）
+    addRightSectionLabel(QStringLiteral("场景分析"));
+    auto *sceneForm = new QFormLayout;
+    m_sceneNameEdit = new QLineEdit(right);
+    m_sceneNameEdit->setPlaceholderText(QStringLiteral("可选"));
+    m_sceneStartEdit = new QLineEdit(right);
+    m_sceneStartEdit->setPlaceholderText(QStringLiteral("起始(天内秒)"));
+    m_sceneEndEdit = new QLineEdit(right);
+    m_sceneEndEdit->setPlaceholderText(QStringLiteral("结束(天内秒)"));
+    sceneForm->addRow(QStringLiteral("场景名"), m_sceneNameEdit);
+    sceneForm->addRow(QStringLiteral("起始(天内秒)"), m_sceneStartEdit);
+    sceneForm->addRow(QStringLiteral("结束(天内秒)"), m_sceneEndEdit);
+    rl->addLayout(sceneForm);
 
-    mainLayout->addWidget(left, 0);
-    mainLayout->addWidget(right, 1);
+    auto *sceneBtnRow = new QHBoxLayout;
+    auto *addSceneBtn = new QPushButton(QStringLiteral("添加场景"), right);
+    auto *rmSceneBtn  = new QPushButton(QStringLiteral("删除场景"), right);
+    sceneBtnRow->addWidget(addSceneBtn);
+    sceneBtnRow->addWidget(rmSceneBtn);
+    sceneBtnRow->addStretch();
+    rl->addLayout(sceneBtnRow);
+
+    m_sceneList = new QListWidget(right);
+    m_sceneList->setMinimumHeight(56);
+    rl->addWidget(m_sceneList, 1);
+
+    m_startBtn = new QPushButton(QStringLiteral("开始对比"), right);
+    m_startBtn->setStyleSheet(QStringLiteral("font-weight:600;color:#fff;background-color:#2c7be5;padding:8px;"));
+    rl->addWidget(m_startBtn);
+
+    m_progressBar = new QProgressBar(right);
+    m_progressBar->setRange(0, 0);
+    m_progressBar->setVisible(false);
+    rl->addWidget(m_progressBar);
+
+    splitter->addWidget(left);
+    splitter->addWidget(right);
+    splitter->setStretchFactor(0, 1);
+    splitter->setStretchFactor(1, 1);
+    splitter->setSizes({ 500, 500 });   // 默认左右各占一半，可拖动调整
+
+    mainLayout->addWidget(splitter);
 
     // ── 信号 ──
     connect(browseBtn, &QPushButton::clicked, this, &AnalysisPanel::onBrowseTruth);
-    connect(m_truthStandardCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AnalysisPanel::onTruthStandardChanged);
+    connect(m_truthFormatCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AnalysisPanel::onTruthFormatChanged);
+    connect(m_truthWeekSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+            this, &AnalysisPanel::onTruthWeekChanged);
     connect(m_heightAnomalySpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             [this](double v) { m_truth.heightAnomaly = v; });
     connect(addCmpBtn, &QPushButton::clicked, this, &AnalysisPanel::onAddCmpFile);
@@ -520,8 +597,10 @@ void AnalysisPanel::buildUi()
             this, &AnalysisPanel::onCmpTimeColChanged);
     connect(m_cmpDayCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &AnalysisPanel::onCmpDayColChanged);
-    connect(m_cmpStandardCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &AnalysisPanel::onCmpStandardChanged);
+    connect(m_cmpFormatCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &AnalysisPanel::onCmpFormatChanged);
+    connect(m_cmpWeekSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+            this, &AnalysisPanel::onCmpWeekChanged);
     connect(addMetricBtn, &QPushButton::clicked, this, &AnalysisPanel::onAddMetric);
     connect(rmMetricBtn,  &QPushButton::clicked, this, &AnalysisPanel::onRemoveMetric);
     connect(addSceneBtn, &QPushButton::clicked, this, &AnalysisPanel::onAddScene);
@@ -539,8 +618,9 @@ void AnalysisPanel::buildUi()
 
     // 忙碌时禁用
     m_busyWidgets = {
-        browseBtn, m_truthStandardCombo, m_heightAnomalySpin, m_leapSpin,
-        addCmpBtn, rmCmpBtn, m_cmpFileList, m_cmpTimeCombo, m_cmpDayCombo, m_cmpStandardCombo,
+        browseBtn, m_truthFormatCombo, m_truthWeekSpin, m_heightAnomalySpin, m_leapSpin,
+        addCmpBtn, rmCmpBtn, m_cmpFileList, m_cmpTimeCombo, m_cmpDayCombo,
+        m_cmpFormatCombo, m_cmpWeekSpin,
         addMetricBtn, rmMetricBtn, m_mapTable,
         m_sceneNameEdit, m_sceneStartEdit, m_sceneEndEdit,
         addSceneBtn, rmSceneBtn, m_sceneList, m_startBtn
@@ -554,6 +634,10 @@ void AnalysisPanel::buildUi()
                 if (r < 0 || r >= m_mappings.size()) return;
                 m_mappings[r].name = it->text();
             });
+
+    // 双击结果表某行：弹出对应对比项曲线窗口（非模态、可缩放）
+    connect(m_resultTable, &QTableWidget::cellDoubleClicked,
+            this, &AnalysisPanel::onResultRowDoubleClicked);
 
     rebuildMappingTable();
     rebuildResultTable();
@@ -607,8 +691,15 @@ void AnalysisPanel::onTruthLoadFinished()
     m_truth = TruthSource();
     m_truth.path = m_pendingTruthPath;
     m_truth.summary = s;
-    m_truth.timeStandard = static_cast<TimeStandard>(m_truthStandardCombo->currentIndex());
+    m_truth.timeFormat = static_cast<TimeFormat>(m_truthFormatCombo->currentIndex());
+    m_truth.weekNum = m_truthWeekSpin->value();
     m_truth.heightAnomaly = m_heightAnomalySpin->value();
+
+    // 真值文件若含 Week 列，自动带入 GPS 周数（避免用户手填），并同步到输入框
+    if (s.hasWeek) {
+        m_truth.weekNum = s.week;
+        m_truthWeekSpin->setValue(s.week);
+    }
     recomputeTruthTimeGps();
 
     m_truthPathEdit->setText(m_truth.path);
@@ -620,13 +711,14 @@ void AnalysisPanel::onTruthLoadFinished()
 void AnalysisPanel::recomputeTruthTimeGps()
 {
     if (m_truth.summary.samples.isEmpty()) {
-        m_truth.timeGps.clear();
+        m_truth.timeUtc.clear();
         return;
     }
     const TruthSummary &s = m_truth.summary;
-    m_truth.timeGps.resize(s.samples.size());
+    m_truth.timeUtc.resize(s.samples.size());
     for (int i = 0; i < s.samples.size(); ++i)
-        m_truth.timeGps[i] = toGpsTime(s.firstTime + s.samples[i].t, m_truth.timeStandard, m_leapSeconds);
+        m_truth.timeUtc[i] = toUtcAbsSec(m_truth.timeFormat, s.firstTime + s.samples[i].t, 0.0,
+                                         m_truth.weekNum, m_leapSeconds);
 }
 
 void AnalysisPanel::refreshTruthInfo()
@@ -638,18 +730,26 @@ void AnalysisPanel::refreshTruthInfo()
     const TruthSummary &s = m_truth.summary;
     m_truthInfoLabel->setText(
         QStringLiteral("样本 %1，时长 %2s，采样率 %3Hz；"
-                       "时间范围 %4 ~ %5（GPS 周内秒）")
+                       "时间范围 %4 ~ %5（UTC 绝对秒）")
             .arg(s.totalSamples)
             .arg(s.durationSec, 0, 'f', 1)
             .arg(s.sampleRate, 0, 'f', 2)
-            .arg(m_truth.timeGps.isEmpty() ? 0.0 : m_truth.timeGps.first(), 0, 'f', 3)
-            .arg(m_truth.timeGps.isEmpty() ? 0.0 : m_truth.timeGps.last(), 0, 'f', 3));
+            .arg(m_truth.timeUtc.isEmpty() ? 0.0 : m_truth.timeUtc.first(), 0, 'f', 3)
+            .arg(m_truth.timeUtc.isEmpty() ? 0.0 : m_truth.timeUtc.last(), 0, 'f', 3));
 }
 
-void AnalysisPanel::onTruthStandardChanged(int idx)
+void AnalysisPanel::onTruthFormatChanged(int idx)
 {
     if (m_truth.summary.samples.isEmpty()) return;
-    m_truth.timeStandard = static_cast<TimeStandard>(idx);
+    m_truth.timeFormat = static_cast<TimeFormat>(idx);
+    recomputeTruthTimeGps();
+    refreshTruthInfo();
+    updateAlignStatus();
+}
+
+void AnalysisPanel::onTruthWeekChanged(double v)
+{
+    m_truth.weekNum = v;
     recomputeTruthTimeGps();
     refreshTruthInfo();
     updateAlignStatus();
@@ -703,13 +803,19 @@ void AnalysisPanel::startLoadCmpFiles(const QStringList &paths)
             c.milliseconds = td.milliseconds;
             detectSpeedColumns(c.header, &c.speedColumn, &c.dirColumn);
 
-            // 时间列名含 UTC 时，默认按 UTC 基准（GPS = UTC + 闰秒）
-            if (c.timeDayColumn >= 0 && c.timeDayColumn < c.header.size() &&
-                c.header[c.timeDayColumn].toLower().contains(QStringLiteral("utc")))
-                c.timeStandard = TimeStandard::Utc;
-            else if (c.timeColumn >= 0 && c.timeColumn < c.header.size() &&
-                     c.header[c.timeColumn].toLower().contains(QStringLiteral("utc")))
-                c.timeStandard = TimeStandard::Utc;
+            // 根据表头推断初始时间格式（仅预填，用户可手动改）
+            c.timeFormat = TimeFormat::GpsSow;
+            if (c.milliseconds) {
+                c.timeFormat = TimeFormat::GpsSowMs;
+            } else if (c.timeDayColumn >= 0 && c.timeDayColumn < c.header.size()) {
+                const QString dh = c.header[c.timeDayColumn].toLower();
+                if (dh.contains(QStringLiteral("utc")) || dh.contains(QStringLiteral("day")))
+                    c.timeFormat = TimeFormat::UtcDaySod;   // 绝对天数 + 天内秒
+                else if (dh.contains(QStringLiteral("周")) || dh.contains(QStringLiteral("week")))
+                    c.timeFormat = TimeFormat::GpsWeekSow;  // 周数 + 周内秒
+                else
+                    c.timeFormat = TimeFormat::GpsDaySod;   // 周内天 + 天内秒
+            }
 
             // 读取秒/毫秒列（仅时间列，保持轻量）；存原始值，换算交给 recomputeCmpTimeGps
             QVector<double> raw;
@@ -749,7 +855,7 @@ void AnalysisPanel::onCmpLoadFinished()
         }
         m_cmpFiles.append(c);
         for (MetricMapping &m : m_mappings)
-            m.cmpCols.append(-1);
+            m.cmpCols.append({-1, -1});
         ++okCount;
     }
 
@@ -783,14 +889,13 @@ void AnalysisPanel::recomputeCmpTimeGps(int fileIdx)
 {
     if (fileIdx < 0 || fileIdx >= m_cmpFiles.size()) return;
     CmpSource &c = m_cmpFiles[fileIdx];
-    // 从原始时间列换算到 GPS 周内秒（幂等：每次都以 timeRaw/timeDayRaw 为基准，切换标准不会重复换算）
-    c.timeGps.resize(c.timeRaw.size());
+    // 从原始时间列换算到 UTC 绝对秒（幂等：每次都以 timeRaw/timeDayRaw 为基准）
+    c.timeUtc.resize(c.timeRaw.size());
     for (int i = 0; i < c.timeRaw.size(); ++i) {
-        const double sec = c.milliseconds ? c.timeRaw[i] / 1000.0 : c.timeRaw[i];   // 毫秒 → 秒
-        if (c.timeDayColumn >= 0 && c.timeDayRaw.size() == c.timeRaw.size())
-            c.timeGps[i] = daySodToGpsWeekSec(c.timeDayRaw[i], sec, c.timeStandard, m_leapSeconds);
-        else
-            c.timeGps[i] = toGpsTime(sec, c.timeStandard, m_leapSeconds);
+        const double colA = c.timeRaw[i];          // 主时间列（秒/毫秒）
+        const double colB = (c.timeDayColumn >= 0 && c.timeDayRaw.size() == c.timeRaw.size())
+                            ? c.timeDayRaw[i] : 0.0;   // 第二时间列（周数/天数）
+        c.timeUtc[i] = toUtcAbsSec(c.timeFormat, colA, colB, c.weekNum, m_leapSeconds);
     }
 }
 
@@ -809,7 +914,7 @@ void AnalysisPanel::refreshCmpFileList()
 void AnalysisPanel::onCmpFileSelected(int /*row*/)
 {
     refreshCmpTimeCombo();
-    refreshCmpStandardCombo();
+    refreshCmpFormatCombo();
 }
 
 void AnalysisPanel::refreshCmpTimeCombo()
@@ -836,15 +941,18 @@ void AnalysisPanel::refreshCmpTimeCombo()
     m_cmpDayCombo->setCurrentIndex((dc >= 0 && dc < m_cmpFiles[row].header.size()) ? dc + 1 : 0);
 }
 
-void AnalysisPanel::refreshCmpStandardCombo()
+void AnalysisPanel::refreshCmpFormatCombo()
 {
     const int row = m_cmpFileList->currentRow();
     if (row < 0 || row >= m_cmpFiles.size()) {
-        m_cmpStandardCombo->setEnabled(false);
+        m_cmpFormatCombo->setEnabled(false);
+        m_cmpWeekSpin->setEnabled(false);
         return;
     }
-    m_cmpStandardCombo->setEnabled(true);
-    m_cmpStandardCombo->setCurrentIndex(static_cast<int>(m_cmpFiles[row].timeStandard));
+    m_cmpFormatCombo->setEnabled(true);
+    m_cmpFormatCombo->setCurrentIndex(static_cast<int>(m_cmpFiles[row].timeFormat));
+    m_cmpWeekSpin->setValue(m_cmpFiles[row].weekNum);
+    m_cmpWeekSpin->setEnabled(fmtNeedsWeek(m_cmpFiles[row].timeFormat));
 }
 
 void AnalysisPanel::onCmpTimeColChanged(int idx)
@@ -889,11 +997,21 @@ void AnalysisPanel::onCmpDayColChanged(int idx)
     updateAlignStatus();
 }
 
-void AnalysisPanel::onCmpStandardChanged(int idx)
+void AnalysisPanel::onCmpFormatChanged(int idx)
 {
     const int row = m_cmpFileList->currentRow();
     if (row < 0 || row >= m_cmpFiles.size()) return;
-    m_cmpFiles[row].timeStandard = static_cast<TimeStandard>(idx);
+    m_cmpFiles[row].timeFormat = static_cast<TimeFormat>(idx);
+    m_cmpWeekSpin->setEnabled(fmtNeedsWeek(m_cmpFiles[row].timeFormat));
+    recomputeCmpTimeGps(row);
+    updateAlignStatus();
+}
+
+void AnalysisPanel::onCmpWeekChanged(double v)
+{
+    const int row = m_cmpFileList->currentRow();
+    if (row < 0 || row >= m_cmpFiles.size()) return;
+    m_cmpFiles[row].weekNum = v;
     recomputeCmpTimeGps(row);
     updateAlignStatus();
 }
@@ -901,21 +1019,21 @@ void AnalysisPanel::onCmpStandardChanged(int idx)
 // 显示当前真值 vs 选中对比文件的时间对齐情况
 void AnalysisPanel::updateAlignStatus()
 {
-    if (m_truth.timeGps.isEmpty()) {
+    if (m_truth.timeUtc.isEmpty()) {
         m_alignInfoLabel->setText(QString());
         return;
     }
     const int row = m_cmpFileList->currentRow();
-    if (row < 0 || row >= m_cmpFiles.size() || m_cmpFiles[row].timeGps.isEmpty()) {
+    if (row < 0 || row >= m_cmpFiles.size() || m_cmpFiles[row].timeUtc.isEmpty()) {
         m_alignInfoLabel->setText(QString());
         return;
     }
-    const int n = exactMatchTimes(m_truth.timeGps, m_cmpFiles[row].timeGps).size();
+    const int n = exactMatchTimes(m_truth.timeUtc, m_cmpFiles[row].timeUtc).size();
     m_alignInfoLabel->setText(
         QStringLiteral("时间对齐：匹配 %1 个时间戳（共 %2 / %3）")
             .arg(n)
-            .arg(m_truth.timeGps.size())
-            .arg(m_cmpFiles[row].timeGps.size()));
+            .arg(m_truth.timeUtc.size())
+            .arg(m_cmpFiles[row].timeUtc.size()));
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -924,9 +1042,9 @@ void AnalysisPanel::updateAlignStatus()
 void AnalysisPanel::onAddMetric()
 {
     MetricMapping m;
-    m.field = TruthField::Lat;
-    m.name = truthFieldName(m.field);
-    m.cmpCols = QVector<int>(m_cmpFiles.size(), -1);
+    m.type = MetricType::HorizPos;
+    m.name = metricName(m.type);
+    m.cmpCols = QVector<MetricMapping::FileCols>(m_cmpFiles.size());
     m_mappings.append(m);
     rebuildMappingTable();
 }
@@ -954,9 +1072,12 @@ void AnalysisPanel::rebuildMappingTable()
 {
     m_mapTable->blockSignals(true);
 
-    QStringList headers{ QStringLiteral("指标名"), QStringLiteral("真值字段"), QStringLiteral("扣均值") };
-    for (const auto &c : m_cmpFiles)
-        headers << QFileInfo(c.path).fileName();
+    // 表头：指标名 | 指标类型 | 扣均值 | 每个对比文件两列（列1/列2，复合指标两列都用，单列只用列1）
+    QStringList headers{ QStringLiteral("指标名"), QStringLiteral("指标类型"), QStringLiteral("扣均值") };
+    for (const auto &c : m_cmpFiles) {
+        headers << QFileInfo(c.path).fileName() + QStringLiteral(" 列1");
+        headers << QFileInfo(c.path).fileName() + QStringLiteral(" 列2");
+    }
 
     m_mapTable->clear();
     m_mapTable->setColumnCount(headers.size());
@@ -965,10 +1086,16 @@ void AnalysisPanel::rebuildMappingTable()
     m_mapTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     m_mapTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
-    // 真值字段下拉列表
-    QStringList fieldNames;
-    for (int i = 0; i <= static_cast<int>(TruthField::VelU); ++i)
-        fieldNames << truthFieldName(static_cast<TruthField>(i));
+    // 指标类型下拉列表（顺序必须与 MetricType 枚举一致）
+    const QStringList metricLabels{
+        QStringLiteral("水平位置误差（列1=纬度，列2=经度）"),
+        QStringLiteral("高程误差"),
+        QStringLiteral("水平速度误差（列1=北向，列2=东向）"),
+        QStringLiteral("天向速度误差"),
+        QStringLiteral("横滚(Roll)"),
+        QStringLiteral("俯仰(Pitch)"),
+        QStringLiteral("航向(Heading)"),
+    };
 
     for (int r = 0; r < m_mappings.size(); ++r) {
         MetricMapping &m = m_mappings[r];
@@ -976,7 +1103,7 @@ void AnalysisPanel::rebuildMappingTable()
         auto *nameItem = new QTableWidgetItem(m.name);
         m_mapTable->setItem(r, 0, nameItem);
 
-        putCombo(m_mapTable, r, 1, fieldNames, static_cast<int>(m.field));
+        putCombo(m_mapTable, r, 1, metricLabels, static_cast<int>(m.type));
 
         auto *ck = new QCheckBox(m_mapTable);
         ck->setChecked(m.subtractMean);
@@ -987,6 +1114,7 @@ void AnalysisPanel::rebuildMappingTable()
         ckLay->setContentsMargins(0, 0, 0, 0);
         m_mapTable->setCellWidget(r, 2, ckWrap);
 
+        const bool twoCols = metricNeedsTwoCols(m.type);
         for (int f = 0; f < m_cmpFiles.size(); ++f) {
             QStringList items = m_cmpFiles[f].header;
             // 若存在前向速度 + 速度方向列，追加两个派生项（索引 = header.size() / +1）
@@ -994,7 +1122,16 @@ void AnalysisPanel::rebuildMappingTable()
                 items << QStringLiteral("北向速度(前向速度×cos方向)");
                 items << QStringLiteral("东向速度(前向速度×sin方向)");
             }
-            putCombo(m_mapTable, r, 3 + f, items, m.cmpCols.value(f, -1));
+            const MetricMapping::FileCols fc = m.cmpCols.value(f);
+            putCombo(m_mapTable, r, 3 + f * 2, items, fc.primary);
+
+            // 列2：复合指标启用；单列指标禁用并置空
+            auto *c2 = new QComboBox(m_mapTable);
+            c2->addItems(items);
+            if (twoCols && fc.secondary >= 0 && fc.secondary < items.size())
+                c2->setCurrentIndex(fc.secondary);
+            c2->setEnabled(twoCols);
+            m_mapTable->setCellWidget(r, 3 + f * 2 + 1, c2);
         }
     }
 
@@ -1005,12 +1142,18 @@ void AnalysisPanel::rebuildMappingTable()
 
         if (auto *fc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 1))) {
             connect(fc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                    [this, rr](int idx) {
+                    [this, rr, cmpCount](int idx) {
                         if (rr >= 0 && rr < m_mappings.size()) {
-                            m_mappings[rr].field = static_cast<TruthField>(idx);
+                            const MetricType nt = static_cast<MetricType>(idx);
                             if (m_mappings[rr].name.isEmpty() ||
-                                m_mappings[rr].name == truthFieldName(static_cast<TruthField>((idx + 8) % 9)))
-                                m_mappings[rr].name = truthFieldName(static_cast<TruthField>(idx));
+                                m_mappings[rr].name == metricName(m_mappings[rr].type))
+                                m_mappings[rr].name = metricName(nt);
+                            m_mappings[rr].type = nt;
+                            // 类型变化可能改变「是否两列」，同步该行列2控件的启用状态
+                            const bool twoCols = metricNeedsTwoCols(nt);
+                            for (int f = 0; f < cmpCount; ++f)
+                                if (auto *c2 = qobject_cast<QComboBox*>(m_mapTable->cellWidget(rr, 3 + f * 2 + 1)))
+                                    c2->setEnabled(twoCols);
                         }
                     });
         }
@@ -1026,13 +1169,23 @@ void AnalysisPanel::rebuildMappingTable()
 
         for (int f = 0; f < cmpCount; ++f) {
             const int ff = f;
-            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 3 + f))) {
+            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 3 + f * 2))) {
                 connect(cc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
                         [this, rr, ff](int idx) {
                             if (rr >= 0 && rr < m_mappings.size()) {
                                 if (m_mappings[rr].cmpCols.size() <= ff)
                                     m_mappings[rr].cmpCols.resize(ff + 1);
-                                m_mappings[rr].cmpCols[ff] = idx;
+                                m_mappings[rr].cmpCols[ff].primary = idx;
+                            }
+                        });
+            }
+            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 3 + f * 2 + 1))) {
+                connect(cc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+                        [this, rr, ff](int idx) {
+                            if (rr >= 0 && rr < m_mappings.size()) {
+                                if (m_mappings[rr].cmpCols.size() <= ff)
+                                    m_mappings[rr].cmpCols.resize(ff + 1);
+                                m_mappings[rr].cmpCols[ff].secondary = idx;
                             }
                         });
             }
@@ -1048,25 +1201,34 @@ void AnalysisPanel::rebuildMappingTable()
 void AnalysisPanel::onAddScene()
 {
     bool ok1 = false, ok2 = false;
-    const double startSec = m_sceneStartEdit->text().trimmed().toDouble(&ok1);
-    const double endSec   = m_sceneEndEdit->text().trimmed().toDouble(&ok2);
+    const double startSod = m_sceneStartEdit->text().trimmed().toDouble(&ok1);
+    const double endSod   = m_sceneEndEdit->text().trimmed().toDouble(&ok2);
     if (!ok1 || !ok2) {
         QMessageBox::warning(this, QStringLiteral("输入错误"),
-                             QStringLiteral("请填写有效的起始/结束时间（秒）。"));
+                             QStringLiteral("请填写有效的起始/结束时间（天内秒）。"));
         return;
     }
-    if (endSec <= startSec) {
+    if (startSod < 0.0 || endSod < 0.0 || endSod <= startSod) {
         QMessageBox::warning(this, QStringLiteral("输入错误"),
-                             QStringLiteral("结束时间必须大于起始时间。"));
+                             QStringLiteral("天内秒需在 0~86400 之间，且结束必须大于起始。"));
         return;
     }
+
+    // 场景起止以「天内秒」输入，内部换算成 UTC 绝对秒后再与时间列比较。
+    // 以真值首样本所在天的 0 点绝对秒为基准（数据基本同一天）。
+    if (m_truth.timeUtc.isEmpty()) {
+        QMessageBox::warning(this, QStringLiteral("提示"),
+                             QStringLiteral("请先导入真值文件，再添加场景。"));
+        return;
+    }
+    const double dayBase = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
 
     SceneSegment seg;
     seg.name = m_sceneNameEdit->text().trimmed();
     if (seg.name.isEmpty())
         seg.name = QStringLiteral("场景%1").arg(m_scenes.size() + 1);
-    seg.startSec = startSec;
-    seg.endSec   = endSec;
+    seg.startSec = dayBase + startSod;
+    seg.endSec   = dayBase + endSod;
     m_scenes.append(seg);
     refreshSceneList();
 }
@@ -1082,12 +1244,15 @@ void AnalysisPanel::onRemoveScene()
 void AnalysisPanel::refreshSceneList()
 {
     m_sceneList->clear();
+    const double dayBase = m_truth.timeUtc.isEmpty()
+                           ? 0.0
+                           : std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
     for (const auto &s : m_scenes) {
         QString name = s.name.isEmpty() ? QStringLiteral("场景%1").arg(m_sceneList->count() + 1) : s.name;
-        m_sceneList->addItem(QStringLiteral("%1  [%2s - %3s]")
+        m_sceneList->addItem(QStringLiteral("%1  [%2s - %3s]（天内秒）")
                                  .arg(name)
-                                 .arg(s.startSec, 0, 'f', 3)
-                                 .arg(s.endSec, 0, 'f', 3));
+                                 .arg(s.startSec - dayBase, 0, 'f', 3)
+                                 .arg(s.endSec - dayBase, 0, 'f', 3));
     }
 }
 
@@ -1142,65 +1307,123 @@ void AnalysisPanel::onStartCompare()
         [truth, cmp, mappings, effScenes, leap]() -> CompareOutcome {
             CompareOutcome out;
 
+            constexpr double R = 6378137.0;          // WGS84 长半轴（米），ENU 投影用
+            constexpr double DEG2RAD = 3.14159265358979323846 / 180.0;
+
             // 每个对比文件先做一次时间精确对齐（复用索引配对）
             QVector<QVector<MatchedPair>> matchIdx(cmp.size());
             for (int f = 0; f < cmp.size(); ++f)
-                matchIdx[f] = exactMatchTimes(truth.timeGps, cmp[f].timeGps);
+                matchIdx[f] = exactMatchTimes(truth.timeUtc, cmp[f].timeUtc);
+
+            // 提取真值字段（which：0=主字段，1=次字段；单字段指标忽略 which）
+            auto truthField = [&truth](MetricType t, int which) -> QVector<double> {
+                QVector<double> v;
+                v.reserve(truth.summary.samples.size());
+                for (const TruthSample &sp : truth.summary.samples) {
+                    switch (t) {
+                        case MetricType::HorizPos: v.append(which == 0 ? sp.lat : sp.lon); break;
+                        case MetricType::Height:   v.append(sp.h); break;
+                        case MetricType::HorizVel: v.append(which == 0 ? sp.velN : sp.velE); break;
+                        case MetricType::VertVel:  v.append(sp.velU); break;
+                        case MetricType::Roll:     v.append(sp.roll); break;
+                        case MetricType::Pitch:    v.append(sp.pitch); break;
+                        case MetricType::Heading:  v.append(sp.heading); break;
+                    }
+                }
+                return v;
+            };
+
+            // 读取对比文件某列（支持派生列：北向/东向速度 = 前向速度×cos/sin(方向)）
+            auto readCol = [&cmp](int f, int col, QVector<double> *out) -> bool {
+                if (col < 0) return false;
+                const int hdrSize = cmp[f].header.size();
+                QString err;
+                if (col == hdrSize || col == hdrSize + 1) {
+                    const bool velN = (col == hdrSize);
+                    QVector<double> spd, dir;
+                    if (!AnalysisPanel::readCmpColumn(cmp[f].path, cmp[f].dataStart, cmp[f].speedColumn, &spd, &err) ||
+                        !AnalysisPanel::readCmpColumn(cmp[f].path, cmp[f].dataStart, cmp[f].dirColumn, &dir, &err))
+                        return false;
+                    const int nv = qMin(spd.size(), dir.size());
+                    out->resize(nv);
+                    for (int i = 0; i < nv; ++i) {
+                        const double rad = qDegreesToRadians(dir[i]);
+                        (*out)[i] = velN ? spd[i] * std::cos(rad) : spd[i] * std::sin(rad);
+                    }
+                    return true;
+                }
+                return AnalysisPanel::readCmpColumn(cmp[f].path, cmp[f].dataStart, col, out, &err);
+            };
 
             for (const MetricMapping &m : mappings) {
-                // 真值字段取值
-                const QVector<double> truthVals = truthFieldValues(truth.summary, m.field);
-                // 应用高程异常（仅对高程/天向做偏置修正：真值 = 原始 + 异常）
-                double anomaly = 0.0;
-                if (m.field == TruthField::Height || m.field == TruthField::VelU)
-                    anomaly = truth.heightAnomaly;
-
-                const QString metricName = m.name.isEmpty() ? truthFieldName(m.field) : m.name;
+                const QString metricLabel = m.name.isEmpty() ? metricName(m.type) : m.name;
+                const bool twoCols = metricNeedsTwoCols(m.type);
 
                 for (int f = 0; f < cmp.size(); ++f) {
-                    const int cmpCol = m.cmpCols.value(f, -1);
+                    const MetricMapping::FileCols fc = m.cmpCols.value(f);
                     const int hdrSize = cmp[f].header.size();
-                    if (cmpCol < 0 || cmpCol >= hdrSize + 2) continue;
+                    if (fc.primary < 0 || fc.primary >= hdrSize + 2) continue;
+                    if (twoCols && (fc.secondary < 0 || fc.secondary >= hdrSize + 2)) continue;
 
-                    // 懒加载：只读该映射列（派生列则读速度/方向两列现场换算）
-                    QVector<double> cmpVals;
-                    QString err;
-                    if (cmpCol == hdrSize || cmpCol == hdrSize + 1) {
-                        // 派生列：北向速度 / 东向速度 = 前向速度 × cos/sin(方向)
-                        const bool velN = (cmpCol == hdrSize);
-                        QVector<double> spd, dir;
-                        if (!readCmpColumn(cmp[f].path, cmp[f].dataStart, cmp[f].speedColumn, &spd, &err) ||
-                            !readCmpColumn(cmp[f].path, cmp[f].dataStart, cmp[f].dirColumn, &dir, &err))
-                            continue;
-                        const int nv = qMin(spd.size(), dir.size());
-                        cmpVals.resize(nv);
-                        for (int i = 0; i < nv; ++i) {
-                            const double rad = qDegreesToRadians(dir[i]);
-                            cmpVals[i] = velN ? spd[i] * std::cos(rad)
-                                              : spd[i] * std::sin(rad);
-                        }
-                    } else if (!readCmpColumn(cmp[f].path, cmp[f].dataStart, cmpCol, &cmpVals, &err)) {
-                        continue;
-                    }
+                    // 读对比列（单/双列）
+                    QVector<double> cA, cB;
+                    if (!readCol(f, fc.primary, &cA)) continue;
+                    if (twoCols && !readCol(f, fc.secondary, &cB)) continue;
+
+                    // 真值字段
+                    const QVector<double> tA = truthField(m.type, 0);
+                    const QVector<double> tB = twoCols ? truthField(m.type, 1) : QVector<double>();
+
+                    // 高程异常：仅高程误差把真值抬高（真值 = 原始 + 异常）
+                    const double anomaly = (m.type == MetricType::Height) ? truth.heightAnomaly : 0.0;
+
+                    // ENU 投影参考点（轨迹首点）
+                    const double lat0 = truth.summary.samples.isEmpty() ? 0.0
+                                       : truth.summary.samples.first().lat;
+                    const double cosLat0 = std::cos(lat0 * DEG2RAD);
 
                     const QVector<MatchedPair> &pairs = matchIdx[f];
 
-                    // 误差曲线（全时段，一个对比项×文件一条）
-                    ErrorSeries es;
-                    es.label = QStringLiteral("%1 [%2]").arg(metricName, QFileInfo(cmp[f].path).fileName());
+                    CurveSeries es;
+                    es.metric = metricLabel;
+                    es.file   = QFileInfo(cmp[f].path).fileName();
+                    es.unit   = metricUnit(m.type);
 
                     for (const SceneSegment &sc : effScenes) {
                         double sum = 0.0, sumSq = 0.0;
                         int n = 0;
                         for (const MatchedPair &p : pairs) {
-                            const double t = truth.timeGps[p.aIdx];
+                            const double t = truth.timeUtc[p.aIdx];
                             if (t < sc.startSec || t > sc.endSec) continue;
-                            if (p.bIdx >= cmpVals.size()) continue;
+                            if (p.bIdx >= cA.size()) continue;
+                            if (twoCols && p.bIdx >= cB.size()) continue;
+                            if (p.aIdx >= tA.size()) continue;
 
-                            const double tv = truthVals[p.aIdx] + anomaly;   // 真值（含高程异常修正）
-                            const double cv = cmpVals[p.bIdx];
-                            if (!std::isfinite(tv) || !std::isfinite(cv)) continue;   // 跳过无效值（N/A 等）
-                            const double e = cv - tv;   // 误差 = 对比 - 真值
+                            double e = 0.0;
+                            switch (m.type) {
+                            case MetricType::HorizPos: {
+                                // 经纬度投影到局部切平面后求水平位置差（米）
+                                const double dLat = (cA[p.bIdx] - tA[p.aIdx]) * DEG2RAD;
+                                const double dLon = (cB[p.bIdx] - tB[p.aIdx]) * DEG2RAD;
+                                e = R * std::sqrt(dLat * dLat + dLon * dLon * cosLat0 * cosLat0);
+                                break;
+                            }
+                            case MetricType::Height:
+                                e = cA[p.bIdx] - (tA[p.aIdx] + anomaly);
+                                break;
+                            case MetricType::HorizVel: {
+                                // 合成水平速度 sqrt(VN²+VE²) 后做差
+                                const double vt = std::sqrt(tA[p.aIdx] * tA[p.aIdx] + tB[p.aIdx] * tB[p.aIdx]);
+                                const double vc = std::sqrt(cA[p.bIdx] * cA[p.bIdx] + cB[p.bIdx] * cB[p.bIdx]);
+                                e = vc - vt;
+                                break;
+                            }
+                            default:
+                                e = cA[p.bIdx] - tA[p.aIdx];   // 天向速度 / 姿态直接做差
+                                break;
+                            }
+
+                            if (!std::isfinite(e)) continue;
                             sum += e;
                             sumSq += e * e;
                             ++n;
@@ -1217,7 +1440,7 @@ void AnalysisPanel::onStartCompare()
 
                         CompareRow row;
                         row.scene  = sc.name;
-                        row.metric = metricName;
+                        row.metric = metricLabel;
                         row.file   = QFileInfo(cmp[f].path).fileName();
                         row.n      = n;
                         row.mean   = mean;
@@ -1277,7 +1500,8 @@ void AnalysisPanel::onCompareFinished()
         m_resultTable->setItem(r, 6, new QTableWidgetItem(fmtNum(row.twoSigma)));
     }
 
-    showErrorChart(out.series);
+    // 曲线不自动弹出，缓存起来，双击结果表某一行时再弹出对应曲线窗口
+    m_curSeries = out.series;
 }
 
 void AnalysisPanel::rebuildResultTable()
@@ -1291,49 +1515,32 @@ void AnalysisPanel::rebuildResultTable()
     m_resultTable->setRowCount(0);
     m_resultTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     m_resultTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-    clearErrorChart();
 }
 
-void AnalysisPanel::clearErrorChart()
+void AnalysisPanel::showCurveWindow(const CurveSeries &s)
 {
-    auto *empty = new QChart();
-    empty->setTitle(QStringLiteral("误差曲线"));
-    empty->legend()->setVisible(false);
-    m_errorChartView->setChart(empty);
+    // 单个对比项差值图窗口：非模态、可缩放，展示误差曲线（对比值 - 真值）
+    const QString title = QStringLiteral("%1 - %2").arg(s.metric, s.file);
+    auto *win = new CompareChartWindow(title, s.unit, s.time, s.error, this);
+    win->setAttribute(Qt::WA_DeleteOnClose, true);
+    win->show();
 }
 
-void AnalysisPanel::showErrorChart(const QVector<ErrorSeries> &series)
+void AnalysisPanel::onResultRowDoubleClicked(int row, int /*column*/)
 {
-    auto *chart = new QChart();
-    chart->setTitle(QStringLiteral("误差曲线"));
-    chart->setAnimationOptions(QChart::NoAnimation);
+    if (row < 0) return;
+    const QTableWidgetItem *mi = m_resultTable->item(row, 1);   // 指标
+    const QTableWidgetItem *fi = m_resultTable->item(row, 2);   // 对比文件
+    if (!mi || !fi) return;
 
-    static const QList<QColor> kColors = {
-        QColor(59, 130, 246), QColor(239, 68, 68), QColor(34, 197, 94),
-        QColor(234, 88, 12),  QColor(168, 85, 247), QColor(20, 184, 166)
-    };
-
-    int ci = 0;
-    for (const ErrorSeries &s : series) {
-        auto *ls = new QLineSeries(chart);
-        ls->setName(s.label);
-        ls->setColor(kColors[ci % kColors.size()]);
-        for (int i = 0; i < s.time.size(); ++i)
-            ls->append(s.time[i], s.error[i]);
-        chart->addSeries(ls);
-        ++ci;
+    const QString metric = mi->text();
+    const QString file   = fi->text();
+    for (const CurveSeries &s : m_curSeries) {
+        if (s.metric == metric && s.file == file) {
+            showCurveWindow(s);
+            return;
+        }
     }
-
-    chart->createDefaultAxes();
-    if (auto *ax = qobject_cast<QValueAxis*>(chart->axes(Qt::Horizontal).value(0)))
-        ax->setTitleText(QStringLiteral("时间（GPS 周内秒）"));
-    if (auto *ay = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).value(0)))
-        ay->setTitleText(QStringLiteral("误差"));
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-
-    m_errorChartView->setChart(chart);
 }
 
 } // namespace Analysis

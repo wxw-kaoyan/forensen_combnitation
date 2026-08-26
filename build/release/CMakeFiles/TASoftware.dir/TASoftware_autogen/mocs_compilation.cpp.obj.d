@@ -401,6 +401,9 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\SS4QYT5ZFG/moc_comparechartwindow.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
  B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
@@ -468,7 +471,6 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\release\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \

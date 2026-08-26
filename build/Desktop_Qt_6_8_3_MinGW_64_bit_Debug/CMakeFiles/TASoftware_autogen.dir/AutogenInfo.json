@@ -457,6 +457,12 @@
 			null
 		],
 		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.h",
+			"MU",
+			"SS4QYT5ZFG/moc_comparechartwindow.cpp",
+			null
+		],
+		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h",
 			"MU",
 			"V6PNYSY2WD/moc_imureader.cpp",
@@ -813,6 +819,11 @@
 		],
 		[
 			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.cpp",
 			"MU",
 			null
 		],

@@ -94,6 +94,8 @@ qt_add_executable(TASoftware
     modules/parse/downsampledialog.h
     modules/analysis/compare/analysispanel.cpp
     modules/analysis/compare/analysispanel.h
+    modules/analysis/compare/comparechartwindow.cpp
+    modules/analysis/compare/comparechartwindow.h
     modules/analysis/raw/rawanalysispanel.cpp
     modules/analysis/raw/rawanalysispanel.h
     modules/analysis/raw/rinexreader.cpp

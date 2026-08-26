@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-5ce141e970f17067893d.json",
+					"jsonFile" : "directory-.-Debug-25eab051ffc6c6a9ecba.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TASoftware::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TASoftware-Debug-7c27c56b5071eabcbb26.json",
+					"jsonFile" : "target-TASoftware-Debug-132e9f9127afef26eead.json",
 					"name" : "TASoftware",
 					"projectIndex" : 0
 				},

@@ -538,6 +538,37 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/raw/rawanalysispanel.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuturewatcher.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfutureinterface.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qresultstore.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfuture_impl.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthreadpool.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
  B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
@@ -570,37 +601,6 @@ CMakeFiles/TASoftware.dir/mainwindow.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/raw/rawanalysispanel.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
- B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
- B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
- B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
- B:/qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher \
- B:/qt/6.8.3/mingw_64/include/QtCore/qfuturewatcher.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qfuture.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qfutureinterface.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qresultstore.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qfuture_impl.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qthreadpool.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qthread.h \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
- B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis \
  B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules/analysis/raw/rinexreader.h \

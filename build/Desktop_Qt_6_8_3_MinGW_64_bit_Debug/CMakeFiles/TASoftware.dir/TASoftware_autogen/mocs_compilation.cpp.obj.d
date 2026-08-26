@@ -399,24 +399,35 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlist.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QStringList \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
- C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\SS4QYT5ZFG/moc_comparechartwindow.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractaxis.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChartGlobal \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchartglobal.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtcharts-config.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qtchartsexports.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPen \
  B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QFont \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractSeries \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractseries.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QChart \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qchart.h \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/QLegend \
+ B:/qt/6.8.3/mingw_64/include/QtCharts/qlegend.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsWidget \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicswidget.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicslayoutitem.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qurl.h \
@@ -427,7 +438,6 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QList \
- B:/qt/6.8.3/mingw_64/include/QtCore/QObject \
  B:/qt/6.8.3/mingw_64/include/QtCore/QRect \
  B:/qt/6.8.3/mingw_64/include/QtCore/qrect.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QSize \
@@ -446,6 +456,33 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainterpath.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QBrush \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QMargins \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsView \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsview.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\V6PNYSY2WD/moc_rawanalysispanel.cpp \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
+ B:/qt/6.8.3/mingw_64/include/QtGui/QWheelEvent \
+ B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QPointF \
  B:/qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
  B:/qt/6.8.3/mingw_64/include/QtGui/QColor \
@@ -470,43 +507,6 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qrunnable.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qexception.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qpromise.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractaxis.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QChartGlobal \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qchartglobal.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qtcharts-config.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qtchartsexports.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QPen \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpen.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QFont \
- B:/qt/6.8.3/mingw_64/include/QtGui/qfont.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QVariant \
- B:/qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractSeries \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qabstractseries.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QChart \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qchart.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QLegend \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qlegend.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsWidget \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicswidget.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicslayoutitem.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qevent.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsitem.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpainterpath.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QBrush \
- B:/qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QMargins \
- B:/qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsView \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsview.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
- B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis \
  B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.h \
@@ -521,6 +521,8 @@ CMakeFiles/TASoftware.dir/TASoftware_autogen/mocs_compilation.cpp.obj: \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atcmdstore.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\XMI3O3Z65X/moc_atparamdialog.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/atcmd/atparamdialog.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
  C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\TASoftware_autogen\3R4525YQTM/moc_commtool.cpp \
  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/commtool/commtool.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFile \

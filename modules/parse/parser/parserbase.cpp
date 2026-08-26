@@ -70,8 +70,8 @@ QString ParserBase::formatStatusFlags(uint16_t flags)
     if (flags & 0x0004) parts << QStringLiteral("已初始化");
     if (flags & 0x0008) parts << QStringLiteral("前轮转角有效");
     if (flags & 0x0010) parts << QStringLiteral("已收敛");
-    if (flags & 0x0020) parts << QStringLiteral("前轮IMU有效");
-    if (flags & 0x0040) parts << QStringLiteral("轮速脉冲有效");
+    if (flags & 0x0020) parts << QStringLiteral("前轮陀螺有效");
+    if (flags & 0x0040) parts << QStringLiteral("方向盘电机有效");
 
     uint8_t dir = (flags >> 7) & 0x03;
     if (dir == 1) parts << QStringLiteral("前进");

@@ -7,8 +7,6 @@
 #include <QStringList>
 #include <QVector>
 
-#include <QtCharts/QChartView>
-
 #include "../raw/truthreader.h"   // TruthSummary / TruthReader
 
 class QTableWidget;
@@ -26,11 +24,28 @@ namespace Analysis {
 // 时间标准：GPS 周内秒 / UTC 周内秒（两者相差闰秒，对齐前统一换算到 GPS）
 enum class TimeStandard { Gps = 0, Utc = 1 };
 
-// 真值物理量（对比项的可选字段，来自真值 GINS 输出）
-enum class TruthField {
-    Lat = 0, Lon, Height,
-    Roll, Pitch, Heading,
-    VelN, VelE, VelU
+// 时间格式：用户手动指定（自己看数据、自己选表头），统一换算到 UTC 绝对秒（Unix 纪元）
+enum class TimeFormat {
+    GpsSow     = 0,  // GPS 周内秒（单列，秒）
+    GpsSowMs   = 1,  // GPS 周内毫秒（单列，毫秒）
+    GpsWeekSow = 2,  // GPS 周 + 周内秒（两列：周数、周内秒）
+    GpsDaySod  = 3,  // GPS 天内秒（两列：周内天 0~6、天内秒）
+    UtcDaySod  = 4,  // UTC 天数 + 天内秒（两列：绝对天数、天内秒）
+    GpsAbsSec  = 5,  // GPS 绝对秒（单列，自 1980-01-06 起连续秒）
+    UtcAbsSec  = 6,  // UTC 绝对秒（单列，Unix 纪元 1970-01-01 起连续秒）
+    UtcSow     = 7,  // UTC 周内秒（单列，秒）
+    UtcWeekSow = 8,  // UTC 周 + 周内秒（两列：周数、周内秒）
+};
+
+// 对比指标：逐项计算「对比值 - 真值」的误差（误差曲线/差值图）
+enum class MetricType {
+    HorizPos = 0,  // 水平位置误差 (m)：经纬度投影到局部切平面后做差，对比文件需 纬度列 + 经度列
+    Height,        // 高程误差 (m)：单列
+    HorizVel,      // 水平速度误差 (m/s)：水平速度 sqrt(VN²+VE²) 后做差，对比文件需 北向列 + 东向列
+    VertVel,       // 天向速度误差 (m/s)：单列
+    Roll,          // 横滚 (deg)：单列
+    Pitch,         // 俯仰 (deg)：单列
+    Heading,       // 航向 (deg)：单列
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -48,19 +63,22 @@ public:
 
 private slots:
     void onBrowseTruth();
-    void onTruthStandardChanged(int idx);
+    void onTruthFormatChanged(int idx);
+    void onTruthWeekChanged(double v);
     void onAddCmpFile();
     void onRemoveCmpFile();
     void onCmpFileSelected(int row);
     void onCmpTimeColChanged(int idx);
     void onCmpDayColChanged(int idx);
-    void onCmpStandardChanged(int idx);
+    void onCmpFormatChanged(int idx);
+    void onCmpWeekChanged(double v);
     void onAddMetric();
     void onRemoveMetric();
     void onAddScene();
     void onRemoveScene();
     void onStartCompare();
     void onCompareFinished();
+    void onResultRowDoubleClicked(int row, int column);
 
 private:
     // 对比文件源：只缓存表头 + 时间列，数据列在分析时按需流式读取（避免全量缓存卡机）
@@ -68,32 +86,35 @@ private:
         QString         path;
         QStringList     header;
         int             dataStart  = 0;              // 数据起始行（0-based）
-        int             timeColumn = -1;             // 秒/毫秒列
-        int             timeDayColumn = -1;          // 天数列（天内秒模式；-1 = 周内秒模式）
+        int             timeColumn = -1;             // 主时间列（秒/毫秒列）
+        int             timeDayColumn = -1;          // 第二时间列（周数列/天数列；-1 = 单列格式）
         bool            milliseconds = false;        // 时间列单位：true=毫秒，false=秒
         int             speedColumn = -1;            // 前向速度列（派生 VelN/VelE 用）
         int             dirColumn   = -1;            // 速度方向列（deg，派生 VelN/VelE 用）
-        TimeStandard    timeStandard = TimeStandard::Gps;
-        QVector<double> timeRaw;                     // 秒/毫秒列原始值（未换算）
-        QVector<double> timeDayRaw;                  // 天数列原始值（天内秒模式）
-        QVector<double> timeGps;                     // 换算到 GPS 周内秒的时间列
+        TimeFormat      timeFormat = TimeFormat::GpsSow;  // 用户指定的时间格式
+        double          weekNum = 0;                 // GPS 周数（周内秒/毫秒/天内秒格式需要）
+        QVector<double> timeRaw;                     // 主时间列原始值（秒/毫秒，未换算）
+        QVector<double> timeDayRaw;                  // 第二时间列原始值（周数/天数）
+        QVector<double> timeUtc;                     // 统一换算后的 UTC 绝对秒（Unix 纪元）
     };
 
     // 真值源（复用原始分析 TruthReader 自动解析）
     struct TruthSource {
         QString       path;
         TruthSummary  summary;
-        TimeStandard  timeStandard = TimeStandard::Gps;
+        TimeFormat    timeFormat = TimeFormat::GpsSow;  // 真值时间格式
+        double        weekNum = 0;                   // GPS 周数（周内秒格式需要）
         double        heightAnomaly = 0.0;           // 高程异常（默认 0，可设置）
-        QVector<double> timeGps;                     // 换算到 GPS 周内秒
+        QVector<double> timeUtc;                     // 统一换算后的 UTC 绝对秒
     };
 
-    // 对比项：真值字段 ↔ 每个对比文件对应的列
+    // 对比项：指标类型 ↔ 每个对比文件对应的列（复合指标用两列）
     struct MetricMapping {
         QString     name;
-        TruthField  field = TruthField::Lat;
+        MetricType  type = MetricType::HorizPos;
         bool        subtractMean = false;
-        QVector<int> cmpCols;                        // 与 m_cmpFiles 一一对应，-1 未映射
+        struct FileCols { int primary = -1; int secondary = -1; };  // 复合指标两列，单列指标只用 primary
+        QVector<FileCols> cmpCols;                   // 与 m_cmpFiles 一一对应
     };
 
     struct SceneSegment {
@@ -108,16 +129,18 @@ private:
         int     n = 0;
         double  mean = 0, rms = 0, twoSigma = 0;
     };
-    struct ErrorSeries {
-        QString         label;
-        QVector<double> time;
-        QVector<double> error;
+    struct CurveSeries {
+        QString         metric;    // 指标名
+        QString         file;      // 对比文件名
+        QString         unit;      // 单位（deg/m/m/s）
+        QVector<double> time;      // 时间轴（UTC 绝对秒）
+        QVector<double> error;     // 误差（对比值 - 真值）
     };
     struct CompareOutcome {
         bool ok = false;
         QString err;
         QVector<CompareRow>   rows;
-        QVector<ErrorSeries>  series;
+        QVector<CurveSeries>  series;
     };
 
     // 数据
@@ -129,6 +152,7 @@ private:
     QString              m_lastDir;
     QString              m_pendingTruthPath;         // 真值加载中暂存路径，完成后写回 m_truth.path
     double               m_leapSeconds = 18.0;       // 闰秒（可配置，默认 18）
+    QVector<CurveSeries> m_curSeries;                // 最近一次分析的曲线数据（点击结果行时按需弹出）
 
     // 异步
     QFutureWatcherBase *m_watcher = nullptr;
@@ -136,14 +160,16 @@ private:
 
     // 控件
     QLineEdit      *m_truthPathEdit    = nullptr;
-    QComboBox      *m_truthStandardCombo = nullptr;
+    QComboBox      *m_truthFormatCombo = nullptr;
+    QDoubleSpinBox *m_truthWeekSpin    = nullptr;
     QDoubleSpinBox *m_heightAnomalySpin = nullptr;
     QLabel         *m_truthInfoLabel   = nullptr;
 
     QListWidget    *m_cmpFileList      = nullptr;
     QComboBox      *m_cmpTimeCombo     = nullptr;
     QComboBox      *m_cmpDayCombo      = nullptr;
-    QComboBox      *m_cmpStandardCombo = nullptr;
+    QComboBox      *m_cmpFormatCombo   = nullptr;
+    QDoubleSpinBox *m_cmpWeekSpin      = nullptr;
     QLabel         *m_alignInfoLabel   = nullptr;
 
     QTableWidget   *m_mapTable         = nullptr;
@@ -157,9 +183,6 @@ private:
     QProgressBar   *m_progressBar      = nullptr;
     QDoubleSpinBox *m_leapSpin         = nullptr;
 
-    // 误差曲线
-    QChartView *m_errorChartView = nullptr;
-
     void buildUi();
     void setBusy(bool busy);
 
@@ -172,21 +195,19 @@ private:
     void recomputeTruthTimeGps();
     void refreshCmpFileList();
     void refreshCmpTimeCombo();
-    void refreshCmpStandardCombo();
+    void refreshCmpFormatCombo();
     void recomputeCmpTimeGps(int fileIdx);
     void updateAlignStatus();
     void rebuildMappingTable();
     void rebuildResultTable();
     void refreshSceneList();
-    void clearErrorChart();
-    void showErrorChart(const QVector<ErrorSeries> &series);
+    void showCurveWindow(const CurveSeries &s);
 
     // 辅助
-    static QString truthFieldName(TruthField f);
-    static QString truthFieldUnit(TruthField f);
-    static QVector<double> truthFieldValues(const TruthSummary &s, TruthField f);
-    static double toGpsTime(double raw, TimeStandard std, double leap);
-    static double daySodToGpsWeekSec(double day, double sod, TimeStandard std, double leap);
+    static QString metricName(MetricType t);
+    static QString metricUnit(MetricType t);
+    static bool metricNeedsTwoCols(MetricType t);
+    static double toUtcAbsSec(TimeFormat fmt, double colA, double colB, double week, double leap);
     static bool readCmpHeader(const QString &path, QStringList *header, int *dataStart, QString *err);
     static bool readCmpColumn(const QString &path, int dataStart, int col, QVector<double> *out, QString *err);
 };

@@ -5,6 +5,7 @@
 #include "P66WHCG54J/moc_toolprocessmanager.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"
 #include "SS4QYT5ZFG/moc_analysispanel.cpp"
+#include "SS4QYT5ZFG/moc_comparechartwindow.cpp"
 #include "V6PNYSY2WD/moc_rawanalysispanel.cpp"
 #include "XMI3O3Z65X/moc_atcmdpanel.cpp"
 #include "XMI3O3Z65X/moc_atparamdialog.cpp"

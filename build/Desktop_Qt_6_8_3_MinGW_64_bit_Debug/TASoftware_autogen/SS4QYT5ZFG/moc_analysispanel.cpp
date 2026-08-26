@@ -40,18 +40,26 @@ static constexpr auto qt_meta_stringdata_ZN8Analysis13AnalysisPanelE = QtMocHelp
     "Analysis::AnalysisPanel",
     "onBrowseTruth",
     "",
-    "onTruthTimeColChanged",
+    "onTruthFormatChanged",
     "idx",
+    "onTruthWeekChanged",
+    "v",
     "onAddCmpFile",
     "onRemoveCmpFile",
     "onCmpFileSelected",
     "row",
     "onCmpTimeColChanged",
+    "onCmpDayColChanged",
+    "onCmpFormatChanged",
+    "onCmpWeekChanged",
     "onAddMetric",
     "onRemoveMetric",
     "onAddScene",
     "onRemoveScene",
-    "onStartCompare"
+    "onStartCompare",
+    "onCompareFinished",
+    "onResultRowDoubleClicked",
+    "column"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -63,7 +71,7 @@ Q_CONSTINIT static const uint qt_meta_data_ZN8Analysis13AnalysisPanelE[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,30 +79,42 @@ Q_CONSTINIT static const uint qt_meta_data_ZN8Analysis13AnalysisPanelE[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   80,    2, 0x08,    1 /* Private */,
-       3,    1,   81,    2, 0x08,    2 /* Private */,
-       5,    0,   84,    2, 0x08,    4 /* Private */,
-       6,    0,   85,    2, 0x08,    5 /* Private */,
-       7,    1,   86,    2, 0x08,    6 /* Private */,
-       9,    1,   89,    2, 0x08,    8 /* Private */,
-      10,    0,   92,    2, 0x08,   10 /* Private */,
-      11,    0,   93,    2, 0x08,   11 /* Private */,
-      12,    0,   94,    2, 0x08,   12 /* Private */,
-      13,    0,   95,    2, 0x08,   13 /* Private */,
-      14,    0,   96,    2, 0x08,   14 /* Private */,
+       1,    0,  116,    2, 0x08,    1 /* Private */,
+       3,    1,  117,    2, 0x08,    2 /* Private */,
+       5,    1,  120,    2, 0x08,    4 /* Private */,
+       7,    0,  123,    2, 0x08,    6 /* Private */,
+       8,    0,  124,    2, 0x08,    7 /* Private */,
+       9,    1,  125,    2, 0x08,    8 /* Private */,
+      11,    1,  128,    2, 0x08,   10 /* Private */,
+      12,    1,  131,    2, 0x08,   12 /* Private */,
+      13,    1,  134,    2, 0x08,   14 /* Private */,
+      14,    1,  137,    2, 0x08,   16 /* Private */,
+      15,    0,  140,    2, 0x08,   18 /* Private */,
+      16,    0,  141,    2, 0x08,   19 /* Private */,
+      17,    0,  142,    2, 0x08,   20 /* Private */,
+      18,    0,  143,    2, 0x08,   21 /* Private */,
+      19,    0,  144,    2, 0x08,   22 /* Private */,
+      20,    0,  145,    2, 0x08,   23 /* Private */,
+      21,    2,  146,    2, 0x08,   24 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Double,    6,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    8,
+    QMetaType::Void, QMetaType::Int,   10,
     QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Double,    6,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   10,   22,
 
        0        // eod
 };
@@ -110,9 +130,12 @@ Q_CONSTINIT const QMetaObject Analysis::AnalysisPanel::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<AnalysisPanel, std::true_type>,
         // method 'onBrowseTruth'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onTruthTimeColChanged'
+        // method 'onTruthFormatChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onTruthWeekChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<double, std::false_type>,
         // method 'onAddCmpFile'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onRemoveCmpFile'
@@ -123,6 +146,15 @@ Q_CONSTINIT const QMetaObject Analysis::AnalysisPanel::staticMetaObject = { {
         // method 'onCmpTimeColChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onCmpDayColChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onCmpFormatChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onCmpWeekChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<double, std::false_type>,
         // method 'onAddMetric'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onRemoveMetric'
@@ -132,7 +164,13 @@ Q_CONSTINIT const QMetaObject Analysis::AnalysisPanel::staticMetaObject = { {
         // method 'onRemoveScene'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onStartCompare'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onCompareFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onResultRowDoubleClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>
     >,
     nullptr
 } };
@@ -143,16 +181,22 @@ void Analysis::AnalysisPanel::qt_static_metacall(QObject *_o, QMetaObject::Call 
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->onBrowseTruth(); break;
-        case 1: _t->onTruthTimeColChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 2: _t->onAddCmpFile(); break;
-        case 3: _t->onRemoveCmpFile(); break;
-        case 4: _t->onCmpFileSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 5: _t->onCmpTimeColChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 6: _t->onAddMetric(); break;
-        case 7: _t->onRemoveMetric(); break;
-        case 8: _t->onAddScene(); break;
-        case 9: _t->onRemoveScene(); break;
-        case 10: _t->onStartCompare(); break;
+        case 1: _t->onTruthFormatChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 2: _t->onTruthWeekChanged((*reinterpret_cast< std::add_pointer_t<double>>(_a[1]))); break;
+        case 3: _t->onAddCmpFile(); break;
+        case 4: _t->onRemoveCmpFile(); break;
+        case 5: _t->onCmpFileSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 6: _t->onCmpTimeColChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 7: _t->onCmpDayColChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 8: _t->onCmpFormatChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: _t->onCmpWeekChanged((*reinterpret_cast< std::add_pointer_t<double>>(_a[1]))); break;
+        case 10: _t->onAddMetric(); break;
+        case 11: _t->onRemoveMetric(); break;
+        case 12: _t->onAddScene(); break;
+        case 13: _t->onRemoveScene(); break;
+        case 14: _t->onStartCompare(); break;
+        case 15: _t->onCompareFinished(); break;
+        case 16: _t->onResultRowDoubleClicked((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
         default: ;
         }
     }
@@ -177,14 +221,14 @@ int Analysis::AnalysisPanel::qt_metacall(QMetaObject::Call _c, int _id, void **_
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 17;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 17)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        _id -= 17;
     }
     return _id;
 }

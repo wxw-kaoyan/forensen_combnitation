@@ -535,6 +535,30 @@ modules/analysis/compare/analysispanel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s
 .PHONY : modules/analysis/compare/analysispanel.cpp.s
 
+modules/analysis/compare/comparechartwindow.obj: modules/analysis/compare/comparechartwindow.cpp.obj
+.PHONY : modules/analysis/compare/comparechartwindow.obj
+
+# target to build an object file
+modules/analysis/compare/comparechartwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj
+.PHONY : modules/analysis/compare/comparechartwindow.cpp.obj
+
+modules/analysis/compare/comparechartwindow.i: modules/analysis/compare/comparechartwindow.cpp.i
+.PHONY : modules/analysis/compare/comparechartwindow.i
+
+# target to preprocess a source file
+modules/analysis/compare/comparechartwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.i
+.PHONY : modules/analysis/compare/comparechartwindow.cpp.i
+
+modules/analysis/compare/comparechartwindow.s: modules/analysis/compare/comparechartwindow.cpp.s
+.PHONY : modules/analysis/compare/comparechartwindow.s
+
+# target to generate assembly for a file
+modules/analysis/compare/comparechartwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TASoftware.dir\build.make CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.s
+.PHONY : modules/analysis/compare/comparechartwindow.cpp.s
+
 modules/analysis/raw/imureader.obj: modules/analysis/raw/imureader.cpp.obj
 .PHONY : modules/analysis/raw/imureader.obj
 
@@ -1336,6 +1360,9 @@ help:
 	@echo ... modules/analysis/compare/analysispanel.obj
 	@echo ... modules/analysis/compare/analysispanel.i
 	@echo ... modules/analysis/compare/analysispanel.s
+	@echo ... modules/analysis/compare/comparechartwindow.obj
+	@echo ... modules/analysis/compare/comparechartwindow.i
+	@echo ... modules/analysis/compare/comparechartwindow.s
 	@echo ... modules/analysis/raw/imureader.obj
 	@echo ... modules/analysis/raw/imureader.i
 	@echo ... modules/analysis/raw/imureader.s

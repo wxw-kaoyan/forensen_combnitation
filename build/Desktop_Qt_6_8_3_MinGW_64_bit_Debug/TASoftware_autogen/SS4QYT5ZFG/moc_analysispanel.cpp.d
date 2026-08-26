@@ -151,9 +151,7 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_
   B:/qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   B:/qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   B:/qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
   B:/qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
-  B:/qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
   B:/qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   B:/qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
@@ -365,4 +363,4 @@ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
-  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/parse/columnextract.h
+  C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h

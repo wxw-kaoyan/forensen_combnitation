@@ -778,6 +778,8 @@ TASoftware_autogen/timestamp: \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/mainwindow.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/analysispanel.h \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.cpp \
+	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.cpp \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.h \
 	C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp \

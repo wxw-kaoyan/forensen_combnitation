@@ -379,6 +379,8 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QVector \
  B:/qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
+ C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\comparechartwindow.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QChartView \
  B:/qt/6.8.3/mingw_64/include/QtCharts/qchartview.h \
  B:/qt/6.8.3/mingw_64/include/QtCharts/QAbstractAxis \
@@ -449,7 +451,6 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qgraphicsscene.h \
- C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
@@ -555,12 +556,14 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QTableWidgetItem \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/QDoubleSpinBox \
  B:/qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/QSplitter \
+ B:/qt/6.8.3/mingw_64/include/QtWidgets/qsplitter.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QTextStream \
  B:/qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QStringConverter \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QRegularExpression \
  B:/qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QPainter \
- B:/qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
  B:/qt/6.8.3/mingw_64/include/QtConcurrent/QtConcurrent \
  B:/qt/6.8.3/mingw_64/include/QtConcurrent/QtConcurrentDepends \
  B:/qt/6.8.3/mingw_64/include/QtCore/QtCore \
@@ -885,7 +888,6 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstorageinfo.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringlistmodel.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
@@ -979,12 +981,4 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj: \
  B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentthreadengine.h \
  B:/qt/6.8.3/mingw_64/include/QtConcurrent/qtconcurrentversion.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QFutureWatcher \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QLineSeries \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qlineseries.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QXYSeries \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qxyseries.h \
- B:/qt/6.8.3/mingw_64/include/QtGui/QImage \
- B:/qt/6.8.3/mingw_64/include/QtGui/qimage.h \
- B:/qt/6.8.3/mingw_64/include/QtCharts/QValueAxis \
- B:/qt/6.8.3/mingw_64/include/QtCharts/qvalueaxis.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/QtMath

@@ -85,6 +85,7 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
     if (tCol < 0)
         tCol = findColumn(header, {QStringLiteral("utctime")});
 
+    const int weekCol = findColumn(header, {QStringLiteral("week")});
     const int latCol   = findColumn(header, {QStringLiteral("latitude"), QStringLiteral("lat")});
     const int lonCol   = findColumn(header, {QStringLiteral("longitude"), QStringLiteral("lon")});
     const int hCol     = findColumn(header, {QStringLiteral("hell"), QStringLiteral("hgt"), QStringLiteral("height")});
@@ -111,8 +112,9 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
     int maxCol = qMax(tCol, qMax(latCol, qMax(lonCol, hCol)));
     maxCol = qMax(maxCol, qMax(vnCol, qMax(veCol, qMax(vuCol,
                  qMax(rollCol, qMax(pitchCol, qMax(headCol, satCol)))))));
+    maxCol = qMax(maxCol, weekCol);
 
-    struct Raw { TruthSample s; double rawT = 0; };
+    struct Raw { TruthSample s; double rawT = 0; double rawWeek = 0; };
     QVector<Raw> tmp;
     tmp.reserve(lines.size() - dataStart);
 
@@ -144,6 +146,10 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
             double v = parts[tCol].toDouble(&ok);
             if (ok) r.rawT = v;
         }
+        if (weekCol >= 0) {
+            const double v = parts[weekCol].toDouble(&ok);
+            if (ok) r.rawWeek = v;
+        }
         if (!ok)
             continue;
         tmp.append(r);
@@ -161,6 +167,10 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
     s = TruthSummary();
     s.samples.reserve(tmp.size());
     s.firstTime = t0;
+    if (weekCol >= 0 && tmp.first().rawWeek != 0.0) {
+        s.hasWeek = true;
+        s.week = tmp.first().rawWeek;
+    }
 
     QVector<double> dtList;
     dtList.reserve(tmp.size() - 1);

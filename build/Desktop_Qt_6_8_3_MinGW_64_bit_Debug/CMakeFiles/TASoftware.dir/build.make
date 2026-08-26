@@ -683,11 +683,26 @@ CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s: cmake_fo
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.s"
 	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\analysispanel.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\compare\analysispanel.cpp.s
 
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/compare/comparechartwindow.cpp
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\compare\comparechartwindow.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\compare\comparechartwindow.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\comparechartwindow.cpp
+
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.i"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\comparechartwindow.cpp > CMakeFiles\TASoftware.dir\modules\analysis\compare\comparechartwindow.cpp.i
+
+CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.s"
+	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\compare\comparechartwindow.cpp -o CMakeFiles\TASoftware.dir\modules\analysis\compare\comparechartwindow.cpp.s
+
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/flags.make
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rawanalysispanel.cpp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj"
 	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rawanalysispanel.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rawanalysispanel.cpp
 
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.i: cmake_force
@@ -702,7 +717,7 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/T
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/rinexreader.cpp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj"
 	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\rinexreader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\rinexreader.cpp
 
 CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.i: cmake_force
@@ -717,7 +732,7 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TAS
 CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/imureader.cpp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj"
 	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\imureader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\imureader.cpp
 
 CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.i: cmake_force
@@ -732,7 +747,7 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/T
 CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/TASoftware.dir/includes_CXX.rsp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/modules/analysis/raw/truthreader.cpp
 CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj: CMakeFiles/TASoftware.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj"
 	B:\qt\Tools\mingw1310_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.obj -MF CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.obj.d -o CMakeFiles\TASoftware.dir\modules\analysis\raw\truthreader.cpp.obj -c C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\modules\analysis\raw\truthreader.cpp
 
 CMakeFiles/TASoftware.dir/modules/analysis/raw/truthreader.cpp.i: cmake_force
@@ -786,6 +801,7 @@ TASoftware_OBJECTS = \
 "CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj" \
+"CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj" \
 "CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj" \
@@ -835,6 +851,7 @@ TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/recodeconfig.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/columnextract.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/parse/downsampledialog.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/compare/analysispanel.cpp.obj
+TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/compare/comparechartwindow.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rawanalysispanel.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj
 TASoftware.exe: CMakeFiles/TASoftware.dir/modules/analysis/raw/imureader.cpp.obj
@@ -853,7 +870,7 @@ TASoftware.exe: B:/qt/6.8.3/mingw_64/lib/libQt6EntryPoint.a
 TASoftware.exe: CMakeFiles/TASoftware.dir/linkLibs.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/objects1.rsp
 TASoftware.exe: CMakeFiles/TASoftware.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX executable TASoftware.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation\build\Desktop_Qt_6_8_3_MinGW_64_bit_Debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Linking CXX executable TASoftware.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TASoftware.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying scripts/ to output directory"
 	B:\qt\Tools\CMake_64\bin\cmake.exe -E copy_directory C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/scripts C:/Users/wxw/Desktop/QT/TASoftware/forensen_combnitation/build/Desktop_Qt_6_8_3_MinGW_64_bit_Debug/scripts
