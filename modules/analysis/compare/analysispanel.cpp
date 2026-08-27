@@ -139,7 +139,7 @@ static TimeDetect detectTime(const QStringList &header)
     if (r.timeColumn < 0)
         r.timeColumn = 0;
 
-    // 4) 天内秒模式：时间列名含"天内"或"sod"，需配合天数列
+    // 4) 天内秒 / GPS 周模式：根据时间列名识别第二列
     if (r.timeColumn < header.size()) {
         const QString th = header[r.timeColumn].toLower();
         if (th.contains(QStringLiteral("天内")) || th.contains(QStringLiteral("sod"))) {
@@ -148,6 +148,17 @@ static TimeDetect detectTime(const QStringList &header)
                 const QString h = header[i].toLower();
                 if ((h.contains(QStringLiteral("天")) || h.contains(QStringLiteral("day"))) &&
                     !h.contains(QStringLiteral("秒")) && !h.contains(QStringLiteral("毫秒"))) {
+                    r.timeDayColumn = i;
+                    break;
+                }
+            }
+        } else if (th.contains(QStringLiteral("周内"))) {
+            // GPS 周 + 周内秒/毫秒模式：找 GPS 周数列
+            for (int i = 0; i < header.size(); ++i) {
+                if (i == r.timeColumn) continue;
+                const QString h = header[i].toLower();
+                if ((h.contains(QStringLiteral("周")) || h.contains(QStringLiteral("week"))) &&
+                    !h.contains(QStringLiteral("周内"))) {
                     r.timeDayColumn = i;
                     break;
                 }
@@ -264,6 +275,8 @@ double AnalysisPanel::toUtcAbsSec(TimeFormat fmt, double colA, double colB, doub
         return week * 604800.0 + colA + GPS_EPOCH_UNIX;
     case TimeFormat::UtcWeekSow:  // colA=UTC 周内秒, colB=UTC 周数
         return colB * 604800.0 + colA + GPS_EPOCH_UNIX;
+    case TimeFormat::GpsWeekSowMs:  // colA=周内毫秒, colB=GPS 周数
+        return colB * 604800.0 + colA / 1000.0 + GPS_EPOCH_UNIX - leap;
     }
     return 0.0;
 }
@@ -412,6 +425,7 @@ void AnalysisPanel::buildUi()
     m_truthFormatCombo->addItem(QStringLiteral("UTC 绝对秒"));
     m_truthFormatCombo->addItem(QStringLiteral("UTC 周内秒"));
     m_truthFormatCombo->addItem(QStringLiteral("UTC 周 + 周内秒"));
+    m_truthFormatCombo->addItem(QStringLiteral("GPS 周 + 周内毫秒"));
     truthOptForm->addRow(QStringLiteral("时间格式"), m_truthFormatCombo);
 
     m_truthWeekSpin = new QDoubleSpinBox(left);
@@ -462,6 +476,7 @@ void AnalysisPanel::buildUi()
     m_cmpFormatCombo->addItem(QStringLiteral("UTC 绝对秒"));
     m_cmpFormatCombo->addItem(QStringLiteral("UTC 周内秒"));
     m_cmpFormatCombo->addItem(QStringLiteral("UTC 周 + 周内秒"));
+    m_cmpFormatCombo->addItem(QStringLiteral("GPS 周 + 周内毫秒"));
     m_cmpFormatCombo->setEnabled(false);
     cmpOptForm->addRow(QStringLiteral("时间格式"), m_cmpFormatCombo);
 
@@ -543,11 +558,15 @@ void AnalysisPanel::buildUi()
     auto *sceneForm = new QFormLayout;
     m_sceneNameEdit = new QLineEdit(right);
     m_sceneNameEdit->setPlaceholderText(QStringLiteral("可选"));
+    m_sceneStdCombo = new QComboBox(right);
+    m_sceneStdCombo->addItem(QStringLiteral("UTC 天内秒"));
+    m_sceneStdCombo->addItem(QStringLiteral("GPS 天内秒"));
     m_sceneStartEdit = new QLineEdit(right);
     m_sceneStartEdit->setPlaceholderText(QStringLiteral("起始(天内秒)"));
     m_sceneEndEdit = new QLineEdit(right);
     m_sceneEndEdit->setPlaceholderText(QStringLiteral("结束(天内秒)"));
     sceneForm->addRow(QStringLiteral("场景名"), m_sceneNameEdit);
+    sceneForm->addRow(QStringLiteral("时间标准"), m_sceneStdCombo);
     sceneForm->addRow(QStringLiteral("起始(天内秒)"), m_sceneStartEdit);
     sceneForm->addRow(QStringLiteral("结束(天内秒)"), m_sceneEndEdit);
     rl->addLayout(sceneForm);
@@ -605,6 +624,11 @@ void AnalysisPanel::buildUi()
     connect(rmMetricBtn,  &QPushButton::clicked, this, &AnalysisPanel::onRemoveMetric);
     connect(addSceneBtn, &QPushButton::clicked, this, &AnalysisPanel::onAddScene);
     connect(rmSceneBtn,  &QPushButton::clicked, this, &AnalysisPanel::onRemoveScene);
+    connect(m_sceneStdCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            [this](int idx) {
+                m_sceneStd = static_cast<SceneTimeStd>(idx);
+                refreshSceneList();
+            });
     connect(m_startBtn, &QPushButton::clicked, this, &AnalysisPanel::onStartCompare);
     connect(m_leapSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             [this](double v) {
@@ -622,7 +646,7 @@ void AnalysisPanel::buildUi()
         addCmpBtn, rmCmpBtn, m_cmpFileList, m_cmpTimeCombo, m_cmpDayCombo,
         m_cmpFormatCombo, m_cmpWeekSpin,
         addMetricBtn, rmMetricBtn, m_mapTable,
-        m_sceneNameEdit, m_sceneStartEdit, m_sceneEndEdit,
+        m_sceneNameEdit, m_sceneStdCombo, m_sceneStartEdit, m_sceneEndEdit,
         addSceneBtn, rmSceneBtn, m_sceneList, m_startBtn
     };
 
@@ -805,7 +829,9 @@ void AnalysisPanel::startLoadCmpFiles(const QStringList &paths)
 
             // 根据表头推断初始时间格式（仅预填，用户可手动改）
             c.timeFormat = TimeFormat::GpsSow;
-            if (c.milliseconds) {
+            if (c.milliseconds && c.timeDayColumn >= 0) {
+                c.timeFormat = TimeFormat::GpsWeekSowMs;   // GPS 周 + 周内毫秒
+            } else if (c.milliseconds) {
                 c.timeFormat = TimeFormat::GpsSowMs;
             } else if (c.timeDayColumn >= 0 && c.timeDayColumn < c.header.size()) {
                 const QString dh = c.header[c.timeDayColumn].toLower();
@@ -824,7 +850,7 @@ void AnalysisPanel::startLoadCmpFiles(const QStringList &paths)
             else
                 c.dataStart = -1;
 
-            // 天内秒模式：读取天数列
+            // 第二时间列（天数列 / GPS 周数列）
             if (c.timeDayColumn >= 0) {
                 QVector<double> dayRaw;
                 if (AnalysisPanel::readCmpColumn(p, c.dataStart, c.timeDayColumn, &dayRaw, &err))
@@ -1028,12 +1054,29 @@ void AnalysisPanel::updateAlignStatus()
         m_alignInfoLabel->setText(QString());
         return;
     }
-    const int n = exactMatchTimes(m_truth.timeUtc, m_cmpFiles[row].timeUtc).size();
-    m_alignInfoLabel->setText(
-        QStringLiteral("时间对齐：匹配 %1 个时间戳（共 %2 / %3）")
-            .arg(n)
-            .arg(m_truth.timeUtc.size())
-            .arg(m_cmpFiles[row].timeUtc.size()));
+    const QVector<MatchedPair> pairs = exactMatchTimes(m_truth.timeUtc, m_cmpFiles[row].timeUtc);
+    const int n = pairs.size();
+
+    QString text = QStringLiteral("时间对齐：匹配 %1 个时间戳（共 %2 / %3）")
+                       .arg(n)
+                       .arg(m_truth.timeUtc.size())
+                       .arg(m_cmpFiles[row].timeUtc.size());
+
+    if (n > 0) {
+        // 重叠段首尾（UTC 绝对秒）
+        const double t0 = m_truth.timeUtc[pairs.first().aIdx];
+        const double t1 = m_truth.timeUtc[pairs.last().aIdx];
+        // 基准与场景输入一致：首样本所在 UTC 天 0 点；GPS 天 0 点 = UTC 天 0 点 - 闰秒
+        const double dayBaseUtc = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
+        const double dayBaseGps = dayBaseUtc - m_leapSeconds;
+        text += QStringLiteral("\n重叠段 UTC 天内秒：%1 ~ %2")
+                    .arg(t0 - dayBaseUtc, 0, 'f', 3)
+                    .arg(t1 - dayBaseUtc, 0, 'f', 3);
+        text += QStringLiteral("\n重叠段 GPS 天内秒：%1 ~ %2")
+                    .arg(t0 - dayBaseGps, 0, 'f', 3)
+                    .arg(t1 - dayBaseGps, 0, 'f', 3);
+    }
+    m_alignInfoLabel->setText(text);
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1208,20 +1251,20 @@ void AnalysisPanel::onAddScene()
                              QStringLiteral("请填写有效的起始/结束时间（天内秒）。"));
         return;
     }
-    if (startSod < 0.0 || endSod < 0.0 || endSod <= startSod) {
+    if (startSod < 0.0 || startSod > 86400.0 || endSod < 0.0 || endSod > 86400.0 || endSod <= startSod) {
         QMessageBox::warning(this, QStringLiteral("输入错误"),
                              QStringLiteral("天内秒需在 0~86400 之间，且结束必须大于起始。"));
         return;
     }
 
     // 场景起止以「天内秒」输入，内部换算成 UTC 绝对秒后再与时间列比较。
-    // 以真值首样本所在天的 0 点绝对秒为基准（数据基本同一天）。
+    // 基准由 sceneDayBase() 根据所选时间标准（UTC/GPS 天内秒）确定。
     if (m_truth.timeUtc.isEmpty()) {
         QMessageBox::warning(this, QStringLiteral("提示"),
                              QStringLiteral("请先导入真值文件，再添加场景。"));
         return;
     }
-    const double dayBase = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
+    const double dayBase = sceneDayBase();
 
     SceneSegment seg;
     seg.name = m_sceneNameEdit->text().trimmed();
@@ -1241,12 +1284,22 @@ void AnalysisPanel::onRemoveScene()
     refreshSceneList();
 }
 
+double AnalysisPanel::sceneDayBase() const
+{
+    if (m_truth.timeUtc.isEmpty())
+        return 0.0;
+    // UTC 天内秒基准：真值首样本所在 UTC 天的 0 点绝对秒
+    const double dayBaseUtc = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
+    // GPS 天内秒基准：GPS 天 0 点 = UTC 天 0 点 - 闰秒（GPS 领先 UTC）
+    if (m_sceneStd == SceneTimeStd::GpsDay)
+        return dayBaseUtc - m_leapSeconds;
+    return dayBaseUtc;
+}
+
 void AnalysisPanel::refreshSceneList()
 {
     m_sceneList->clear();
-    const double dayBase = m_truth.timeUtc.isEmpty()
-                           ? 0.0
-                           : std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
+    const double dayBase = sceneDayBase();
     for (const auto &s : m_scenes) {
         QString name = s.name.isEmpty() ? QStringLiteral("场景%1").arg(m_sceneList->count() + 1) : s.name;
         m_sceneList->addItem(QStringLiteral("%1  [%2s - %3s]（天内秒）")
@@ -1418,8 +1471,16 @@ void AnalysisPanel::onStartCompare()
                                 e = vc - vt;
                                 break;
                             }
+                            case MetricType::Heading: {
+                                // 航向角度差归一化到 [-180, 180)，避免 359° vs 1° 得 358° 的错误
+                                double de = cA[p.bIdx] - tA[p.aIdx];
+                                de = std::fmod(de + 180.0, 360.0);
+                                if (de < 0.0) de += 360.0;
+                                e = de - 180.0;
+                                break;
+                            }
                             default:
-                                e = cA[p.bIdx] - tA[p.aIdx];   // 天向速度 / 姿态直接做差
+                                e = cA[p.bIdx] - tA[p.aIdx];   // 天向速度 / Roll / Pitch 直接做差
                                 break;
                             }
 

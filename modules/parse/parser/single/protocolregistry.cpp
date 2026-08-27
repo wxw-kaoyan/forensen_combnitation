@@ -144,6 +144,53 @@ static QList<FieldDescriptor> laserFields()
     };
 }
 
+static QList<FieldDescriptor> nanfangLaserFields()
+{
+    return {
+        {"时间戳(ms)",      "timestamp",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.timestamp); }},
+        {"激光距离(mm)",    "laserDist",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.laserDist, 'f', 3); }},
+        {"横滚(deg)",       "roll",            [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.roll, 'f', 6); }},
+        {"俯仰(deg)",       "pitch",           [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.pitch, 'f', 6); }},
+        {"航向(deg)",       "yaw",             [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.yaw, 'f', 6); }},
+        {"发射点纬度(deg)", "emitLat",         [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.emitLat, 'f', 8); }},
+        {"发射点经度(deg)", "emitLon",         [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.emitLon, 'f', 8); }},
+        {"发射点高程(m)",   "emitAlt",         [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.emitAlt, 'f', 3); }},
+        {"光心纬度(deg)",   "centerLat",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.centerLat, 'f', 8); }},
+        {"光心经度(deg)",   "centerLon",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.centerLon, 'f', 8); }},
+        {"光心高程(m)",     "centerAlt",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.centerAlt, 'f', 3); }},
+        {"激光故障码",      "faultCode",       [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.faultCode); }},
+        {"精度因子(deg)",   "precisionFactor", [](const ParsedFrame &f) { return QString::number(f.nanfangLaser.precisionFactor, 'f', 6); }},
+    };
+}
+
+static QList<FieldDescriptor> zhdLaserFields()
+{
+    return {
+        {"时间戳(ms)",         "timestamp",       [](const ParsedFrame &f) { return QString::number(f.zhdLaser.timestamp); }},
+        {"激光距离(m)",        "laserDist",       [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserDist, 'f', 3); }},
+        {"横滚(deg)",          "roll",            [](const ParsedFrame &f) { return QString::number(f.zhdLaser.roll, 'f', 6); }},
+        {"俯仰(deg)",          "pitch",           [](const ParsedFrame &f) { return QString::number(f.zhdLaser.pitch, 'f', 6); }},
+        {"航向(deg)",          "yaw",             [](const ParsedFrame &f) { return QString::number(f.zhdLaser.yaw, 'f', 6); }},
+        {"激光点纬度(deg)",    "laserLat",        [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserLat, 'f', 8); }},
+        {"激光点经度(deg)",    "laserLon",        [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserLon, 'f', 8); }},
+        {"激光点高程(m)",      "laserAlt",        [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserAlt, 'f', 3); }},
+        {"IMU纬度(deg)",       "imuLat",          [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuLat, 'f', 8); }},
+        {"IMU经度(deg)",       "imuLon",          [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuLon, 'f', 8); }},
+        {"IMU高程(m)",         "imuAlt",          [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuAlt, 'f', 3); }},
+        {"激光点纬度中误差(mm)","laserLatStd",     [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserLatStd); }},
+        {"激光点经度中误差(mm)","laserLonStd",     [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserLonStd); }},
+        {"激光点高程中误差(mm)","laserAltStd",     [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserAltStd); }},
+        {"横滚中误差(0.01deg)","rollStd",         [](const ParsedFrame &f) { return QString::number(f.zhdLaser.rollStd); }},
+        {"俯仰中误差(0.01deg)","pitchStd",        [](const ParsedFrame &f) { return QString::number(f.zhdLaser.pitchStd); }},
+        {"航向中误差(0.01deg)","yawStd",          [](const ParsedFrame &f) { return QString::number(f.zhdLaser.yawStd); }},
+        {"IMU纬度中误差(mm)",  "imuLatStd",       [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuLatStd); }},
+        {"IMU经度中误差(mm)",  "imuLonStd",       [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuLonStd); }},
+        {"IMU高程中误差(mm)",  "imuAltStd",       [](const ParsedFrame &f) { return QString::number(f.zhdLaser.imuAltStd); }},
+        {"激光错误类型",       "laserError",      [](const ParsedFrame &f) { return QString::number(f.zhdLaser.laserError); }},
+        {"精度因子(deg)",      "precisionFactor", [](const ParsedFrame &f) { return QString::number(f.zhdLaser.precisionFactor, 'f', 6); }},
+    };
+}
+
 static QList<FieldDescriptor> attitudeFields()
 {
     return {
@@ -350,6 +397,47 @@ const QList<ProtocolDescriptor> &protocolRegistry()
                     .arg(d.latStd).arg(d.lonStd).arg(d.elevStd);
             },
             laserFields(),
+        },
+        {
+            QStringLiteral("南方激光"),
+            ProtocolID::NanfangLaser,
+            true,  // 累加和校验
+            QStringLiteral("时间戳(ms),激光距离(mm),横滚(deg),俯仰(deg),航向(deg),发射点纬度(deg),发射点经度(deg),发射点高程(m),光心纬度(deg),光心经度(deg),光心高程(m),激光故障码,精度因子(deg)\n"),
+            [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::NanfangLaser, d, s); },
+            [](const ParsedFrame &f) -> QString {
+                const auto &d = f.nanfangLaser;
+                return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13\n")
+                    .arg(d.timestamp)
+                    .arg(d.laserDist, 0, 'f', 3)
+                    .arg(d.roll, 0, 'f', 6).arg(d.pitch, 0, 'f', 6).arg(d.yaw, 0, 'f', 6)
+                    .arg(d.emitLat, 0, 'f', 8).arg(d.emitLon, 0, 'f', 8).arg(d.emitAlt, 0, 'f', 3)
+                    .arg(d.centerLat, 0, 'f', 8).arg(d.centerLon, 0, 'f', 8).arg(d.centerAlt, 0, 'f', 3)
+                    .arg(d.faultCode)
+                    .arg(d.precisionFactor, 0, 'f', 6);
+            },
+            nanfangLaserFields(),
+        },
+        {
+            QStringLiteral("中海达激光"),
+            ProtocolID::ZhdLaser,
+            true,  // 累加和校验
+            QStringLiteral("时间戳(ms),激光距离(m),横滚(deg),俯仰(deg),航向(deg),激光点纬度(deg),激光点经度(deg),激光点高程(m),IMU纬度(deg),IMU经度(deg),IMU高程(m),激光点纬度中误差(mm),激光点经度中误差(mm),激光点高程中误差(mm),横滚中误差(0.01deg),俯仰中误差(0.01deg),航向中误差(0.01deg),IMU纬度中误差(mm),IMU经度中误差(mm),IMU高程中误差(mm),激光错误类型,精度因子(deg)\n"),
+            [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::ZhdLaser, d, s); },
+            [](const ParsedFrame &f) -> QString {
+                const auto &d = f.zhdLaser;
+                return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20,%21,%22\n")
+                    .arg(d.timestamp)
+                    .arg(d.laserDist, 0, 'f', 3)
+                    .arg(d.roll, 0, 'f', 6).arg(d.pitch, 0, 'f', 6).arg(d.yaw, 0, 'f', 6)
+                    .arg(d.laserLat, 0, 'f', 8).arg(d.laserLon, 0, 'f', 8).arg(d.laserAlt, 0, 'f', 3)
+                    .arg(d.imuLat, 0, 'f', 8).arg(d.imuLon, 0, 'f', 8).arg(d.imuAlt, 0, 'f', 3)
+                    .arg(d.laserLatStd).arg(d.laserLonStd).arg(d.laserAltStd)
+                    .arg(d.rollStd).arg(d.pitchStd).arg(d.yawStd)
+                    .arg(d.imuLatStd).arg(d.imuLonStd).arg(d.imuAltStd)
+                    .arg(d.laserError)
+                    .arg(d.precisionFactor, 0, 'f', 6);
+            },
+            zhdLaserFields(),
         },
         {
             QStringLiteral("姿态"),

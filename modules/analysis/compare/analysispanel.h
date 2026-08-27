@@ -35,7 +35,11 @@ enum class TimeFormat {
     UtcAbsSec  = 6,  // UTC 绝对秒（单列，Unix 纪元 1970-01-01 起连续秒）
     UtcSow     = 7,  // UTC 周内秒（单列，秒）
     UtcWeekSow = 8,  // UTC 周 + 周内秒（两列：周数、周内秒）
+    GpsWeekSowMs = 9,  // GPS 周 + 周内毫秒（两列：周数、周内毫秒）
 };
+
+// 场景起止时间标准：UTC 天内秒 / GPS 天内秒（两者相差闰秒，基准不同）
+enum class SceneTimeStd { UtcDay = 0, GpsDay = 1 };
 
 // 对比指标：逐项计算「对比值 - 真值」的误差（误差曲线/差值图）
 enum class MetricType {
@@ -152,6 +156,7 @@ private:
     QString              m_lastDir;
     QString              m_pendingTruthPath;         // 真值加载中暂存路径，完成后写回 m_truth.path
     double               m_leapSeconds = 18.0;       // 闰秒（可配置，默认 18）
+    SceneTimeStd         m_sceneStd = SceneTimeStd::UtcDay;  // 场景起止时间标准
     QVector<CurveSeries> m_curSeries;                // 最近一次分析的曲线数据（点击结果行时按需弹出）
 
     // 异步
@@ -178,6 +183,7 @@ private:
     QLineEdit      *m_sceneNameEdit    = nullptr;
     QLineEdit      *m_sceneStartEdit   = nullptr;
     QLineEdit      *m_sceneEndEdit     = nullptr;
+    QComboBox      *m_sceneStdCombo    = nullptr;
     QListWidget    *m_sceneList        = nullptr;
     QPushButton    *m_startBtn         = nullptr;
     QProgressBar   *m_progressBar      = nullptr;
@@ -201,6 +207,7 @@ private:
     void rebuildMappingTable();
     void rebuildResultTable();
     void refreshSceneList();
+    double sceneDayBase() const;
     void showCurveWindow(const CurveSeries &s);
 
     // 辅助

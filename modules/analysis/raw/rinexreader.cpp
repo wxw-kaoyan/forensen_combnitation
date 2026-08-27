@@ -2,6 +2,7 @@
 
 #include "common/rtklib/rtklib.h"
 
+#include <QFile>
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
@@ -36,6 +37,9 @@ QString RinexSummary::sysLetter(int mask)
     }
 }
 
+// RINEX 3 信噪比 SSI(1~9) → dBHz 经验映射（RINEX 3.03+ 部分接收机输出 dBHz，多数仍为 SSI）
+static const double SSI_TO_DBHZ[10] = {0.0, 12.0, 17.0, 22.0, 26.0, 30.0, 34.0, 38.0, 42.0, 46.0};
+
 bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
 {
     if (!QFileInfo::exists(file)) {
@@ -51,6 +55,17 @@ bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
     // RTKLIB 的 expath(WIN32) 只识别反斜杠 '\'，而 Qt 路径是正斜杠 '/'，
     // 必须转成原生分隔符，否则目录部分丢失、readrnx 打不开文件返回 0。
     const QByteArray path = QDir::toNativeSeparators(file).toLocal8Bit();
+
+    // 检测 RINEX 版本：v3 信噪比为 SSI(1~9)，v2 为 dBHz（单位换算不同）
+    bool isRinex3 = false;
+    {
+        QFile vf(file);
+        if (vf.open(QIODevice::ReadOnly)) {
+            isRinex3 = vf.readLine().left(9).trimmed().toDouble() > 2.99;
+            vf.close();
+        }
+    }
+
    // qDebug().noquote() << "[RinexReader] analyze file =" << file;
    //qDebug().noquote() << "[RinexReader] toLocal8Bit hex =" << QString::fromLatin1(path.toHex());
 
@@ -174,7 +189,10 @@ bool RinexReader::analyze(const QString &file, RinexSummary *out, QString *err)
 
             const QString code = QString::fromLatin1(codeStr);
             SnrStat &st = s.snrPerSysCode[sys][code];
-            const double snrDb = d.SNR[f] * 0.25;   // 0.25 dBHz → dBHz
+            const unsigned char snrRaw = d.SNR[f];
+            const double snrDb = isRinex3
+                ? SSI_TO_DBHZ[snrRaw > 9 ? 9 : snrRaw]   // RINEX3 SSI(1~9) → dBHz
+                : snrRaw * 0.25;                         // RINEX2 0.25dBHz → dBHz
             if (st.count == 0) { st.min = st.max = snrDb; }
             else {
                 st.min = std::min(st.min, snrDb);

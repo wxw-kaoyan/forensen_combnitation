@@ -682,6 +682,7 @@ static int decode_obsdata(FILE *fp, char *buff, double ver, int mask,
     sigind_t *ind;
     double val[MAXOBSTYPE]={0};
     unsigned char lli[MAXOBSTYPE]={0};
+    unsigned char snr[MAXOBSTYPE]={0};
     char satid[8]="";
     int i,j,n,m,stat=1,p[MAXOBSTYPE],k[16],l[16];
     
@@ -716,6 +717,7 @@ static int decode_obsdata(FILE *fp, char *buff, double ver, int mask,
         if (stat) {
             val[i]=str2num(buff,j,14)+ind->shift[i];
             lli[i]=(unsigned char)str2num(buff,j+14,1)&3;
+            if (ver>2.99) snr[i]=(unsigned char)str2num(buff,j+15,1); /* snr (v.3) */
         }
     }
     if (!stat) return 0;
@@ -775,7 +777,8 @@ static int decode_obsdata(FILE *fp, char *buff, double ver, int mask,
         if (p[i]<0||val[i]==0.0) continue;
         switch (ind->type[i]) {
             case 0: obs->P[p[i]]=val[i]; obs->code[p[i]]=ind->code[i]; break;
-            case 1: obs->L[p[i]]=val[i]; obs->LLI [p[i]]=lli[i];       break;
+            case 1: obs->L[p[i]]=val[i]; obs->LLI [p[i]]=lli[i];
+                    if (ver>2.99) obs->SNR[p[i]]=snr[i]; break;
             case 2: obs->D[p[i]]=(float)val[i];                        break;
             case 3: obs->SNR[p[i]]=(unsigned char)(val[i]*4.0+0.5);    break;
         }

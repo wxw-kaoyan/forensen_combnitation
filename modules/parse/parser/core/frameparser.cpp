@@ -152,6 +152,8 @@ ParsedFrame FrameParser::parsePayload(ProtocolID pid,
         case ProtocolID::FusionResult:  parseFusionResult(payload, f.fusion);       break;
         case ProtocolID::TiltMeasure:   parseTiltMeasure(payload, f.tilt);          break;
         case ProtocolID::Laser:         parseLaser(payload, f.laser);               break;
+        case ProtocolID::NanfangLaser:  parseNanfangLaser(payload, f.nanfangLaser); break;
+        case ProtocolID::ZhdLaser:      parseZhdLaser(payload, f.zhdLaser);         break;
         case ProtocolID::Attitude:      parseAttitude(payload, f.attitude);         break;
         case ProtocolID::Quat614P:      parseQuat614P(payload, f.quat614p);         break;
         case ProtocolID::Debug_IMU:     parseDebugImu(payload, f.debugImu);         break;
@@ -314,6 +316,49 @@ void FrameParser::parseLaser(const uint8_t *p, LaserData &out)
     out.elevStd      = p[67];
     out.tiltAngle    = readFloatLE(p + 72);
     out.checksum     = readU32LE(p + 76);
+}
+
+void FrameParser::parseNanfangLaser(const uint8_t *p, NanfangLaserData &out)
+{
+    out.timestamp       = readU32LE(p + 0);
+    out.laserDist       = readFloatLE(p + 4);
+    out.roll            = readFloatLE(p + 8);
+    out.pitch           = readFloatLE(p + 12);
+    out.yaw             = readFloatLE(p + 16);
+    out.emitLat         = readDoubleLE(p + 20);
+    out.emitLon         = readDoubleLE(p + 28);
+    out.emitAlt         = readDoubleLE(p + 36);
+    out.centerLat       = readDoubleLE(p + 44);
+    out.centerLon       = readDoubleLE(p + 52);
+    out.centerAlt       = readDoubleLE(p + 60);
+    out.faultCode       = p[68];
+    out.precisionFactor = readFloatLE(p + 69);
+}
+
+void FrameParser::parseZhdLaser(const uint8_t *p, ZhdLaserData &out)
+{
+    out.timestamp       = readU32LE(p + 0);
+    out.laserDist       = readFloatLE(p + 4);
+    out.roll            = readFloatLE(p + 8);
+    out.pitch           = readFloatLE(p + 12);
+    out.yaw             = readFloatLE(p + 16);
+    out.laserLat        = readDoubleLE(p + 20);
+    out.laserLon        = readDoubleLE(p + 28);
+    out.laserAlt        = readDoubleLE(p + 36);
+    out.imuLat          = readDoubleLE(p + 44);
+    out.imuLon          = readDoubleLE(p + 52);
+    out.imuAlt          = readDoubleLE(p + 60);
+    out.laserLatStd     = p[68];
+    out.laserLonStd     = p[69];
+    out.laserAltStd     = p[70];
+    out.rollStd         = p[71];
+    out.pitchStd        = p[72];
+    out.yawStd          = p[73];
+    out.imuLatStd       = p[74];
+    out.imuLonStd       = p[75];
+    out.imuAltStd       = p[76];
+    out.laserError      = p[77];
+    out.precisionFactor = readFloatLE(p + 78);
 }
 
 void FrameParser::parseAttitude(const uint8_t *p, AttitudeData &out)

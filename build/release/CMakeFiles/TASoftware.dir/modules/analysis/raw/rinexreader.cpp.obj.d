@@ -545,8 +545,7 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/winsvc.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/mcx.h \
  B:/qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/imm.h \
- B:/qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
- B:/qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QFile \
  B:/qt/6.8.3/mingw_64/include/QtCore/qfile.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
@@ -604,6 +603,9 @@ CMakeFiles/TASoftware.dir/modules/analysis/raw/rinexreader.cpp.obj: \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/codecvt \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_dir.h \
  B:/qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ B:/qt/6.8.3/mingw_64/include/QtCore/qfile.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
  B:/qt/6.8.3/mingw_64/include/QtCore/qlocale.h \

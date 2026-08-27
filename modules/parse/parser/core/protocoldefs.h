@@ -12,6 +12,8 @@ enum class ProtocolID : uint16_t {
     FusionResult     = 0x0166,  // 组合导航坐标系融合结果 (payload 94B)
     TiltMeasure      = 0x8166,  // 倾斜测量      (payload 105B, 内部区分值, 线协议同0x0166)
     Laser            = 0x0146,  // 激光协议      (payload 76B)
+    NanfangLaser     = 0x0140,  // 南方激光      (payload 73B, 累加和校验)
+    ZhdLaser         = 0x0446,  // 中海达激光    (payload 82B, 累加和校验)
     Attitude         = 0x0168,  // 姿态协议      (payload 36B)
     Quat614P         = 0x0199,  // 614P-pro_四元数(payload 46B, 累加和校验)
     // ── DEBUG 调试数据流 (FORSENSE 619, 0x51~0x56) ──
@@ -66,6 +68,8 @@ inline ProtocolID resolveProtocolID(uint16_t id, uint16_t len) {
         case 0x0023: return ProtocolID::Quaternion;
         case 0x0156: return ProtocolID::AG_Data;
         case 0x0146: return ProtocolID::Laser;
+        case 0x0140: return ProtocolID::NanfangLaser;
+        case 0x0446: return ProtocolID::ZhdLaser;
         case 0x0168: return ProtocolID::Attitude;
         case 0x0199: return ProtocolID::Quat614P;
         case 0x0051: return ProtocolID::Debug_IMU;
@@ -90,6 +94,8 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::FusionResult:  return "组合导航(融合)";
         case ProtocolID::TiltMeasure:   return "倾斜测量";
         case ProtocolID::Laser:         return "激光";
+        case ProtocolID::NanfangLaser:  return "南方激光";
+        case ProtocolID::ZhdLaser:      return "中海达激光";
         case ProtocolID::Attitude:      return "姿态";
         case ProtocolID::Quat614P:      return "614P-pro_四元数";
         case ProtocolID::Debug_IMU:     return "调试-组合导航IMU(0x51)";
@@ -274,6 +280,53 @@ struct LaserData {
     uint8_t  reserved[4];
     float    tiltAngle;      // deg
     uint32_t checksum;
+};
+
+// ════════════════════════════════════════════════════════════════
+//  南方激光 (ID=0x0140, payload=73B, 累加和校验)
+// ════════════════════════════════════════════════════════════════
+struct NanfangLaserData {
+    uint32_t timestamp;       // NMEA=UTC日内毫秒 / Novatel=GPS周内毫秒
+    float    laserDist;       // 激光距离 (mm)
+    float    roll;            // IMU 横滚 (deg)
+    float    pitch;           // IMU 俯仰 (deg)
+    float    yaw;             // IMU 航向 (deg)
+    double   emitLat;         // 激光发射点纬度 (deg)
+    double   emitLon;         // 激光发射点经度 (deg)
+    double   emitAlt;         // 激光发射点高程 (m)
+    double   centerLat;       // 激光光心纬度 (deg)
+    double   centerLon;       // 激光光心经度 (deg)
+    double   centerAlt;       // 激光光心高程 (m)
+    uint8_t  faultCode;       // 激光故障码
+    float    precisionFactor; // 精度因子 (deg)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  中海达激光 (ID=0x0446, payload=82B, 累加和校验)
+// ════════════════════════════════════════════════════════════════
+struct ZhdLaserData {
+    uint32_t timestamp;       // ms
+    float    laserDist;       // 激光距离 (m)
+    float    roll;            // IMU 横滚 (deg)
+    float    pitch;           // IMU 俯仰 (deg)
+    float    yaw;             // IMU 航向 (deg)
+    double   laserLat;        // 激光点纬度 (deg)
+    double   laserLon;        // 激光点经度 (deg)
+    double   laserAlt;        // 激光点高程 (m)
+    double   imuLat;          // IMU 纬度 (deg)
+    double   imuLon;          // IMU 经度 (deg)
+    double   imuAlt;          // IMU 高程 (m)
+    uint8_t  laserLatStd;     // 激光点纬度中误差 (mm)
+    uint8_t  laserLonStd;     // 激光点经度中误差 (mm)
+    uint8_t  laserAltStd;     // 激光点高程中误差 (mm)
+    uint8_t  rollStd;         // 横滚中误差 (deg*100)
+    uint8_t  pitchStd;        // 俯仰中误差 (deg*100)
+    uint8_t  yawStd;          // 航向中误差 (deg*100)
+    uint8_t  imuLatStd;       // IMU纬度中误差 (mm)
+    uint8_t  imuLonStd;       // IMU经度中误差 (mm)
+    uint8_t  imuAltStd;       // IMU高度中误差 (mm)
+    uint8_t  laserError;      // 激光错误类型
+    float    precisionFactor; // 精度因子 (deg)
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -543,6 +596,8 @@ struct ParsedFrame {
         FusionResult   fusion;
         TiltMeasure    tilt;
         LaserData      laser;
+        NanfangLaserData nanfangLaser;
+        ZhdLaserData   zhdLaser;
         AttitudeData   attitude;
         Quat614PData   quat614p;
         CanRtkData     canRtk;
