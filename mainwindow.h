@@ -7,6 +7,7 @@ class CommTool;
 class ToolProcessManager;
 class NtripPageManager;
 class ParsePanel;
+class SimulatorPanel;
 
 namespace Analysis { class AnalysisPanel; }
 
@@ -39,6 +40,9 @@ private:
 
     // 数据分析面板
     Analysis::AnalysisPanel *m_analysisPanel = nullptr;
+
+    // PPS + 数据模拟面板
+    SimulatorPanel *m_simulatorPanel = nullptr;
 };
 
 #endif // MAINWINDOW_H

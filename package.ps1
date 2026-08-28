@@ -78,6 +78,7 @@ foreach ($tool in $tools) {
 
 xcopy (Join-Path $ProjectDir "config.json") "$PackageDir\" /Y /Q
 xcopy (Join-Path $ProjectDir "at_commands.json") "$PackageDir\" /Y /Q
+xcopy (Join-Path $ProjectDir "sim_protocols.json") "$PackageDir\" /Y /Q
 
 # 复制 Python 解析脚本（凯芯数据解析依赖）
 $scriptsSrc = Join-Path $ProjectDir "scripts"

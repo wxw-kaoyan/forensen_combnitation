@@ -1,0 +1,76 @@
+{
+  "sim_protocols": [
+    {
+      "name": "GPRMC",
+      "format": "nmea",
+      "rateHz": 1,
+      "hasGpsTime": true,
+      "enabled": true,
+      "params": {
+        "status": "A",
+        "lat": 39.9042,
+        "lon": 116.4074,
+        "speedKnots": 0.5,
+        "courseDeg": 90.0,
+        "date": "280826",
+        "magVar": 0.0,
+        "magVarDir": "E"
+      }
+    },
+    {
+      "name": "GPGGA",
+      "format": "nmea",
+      "rateHz": 1,
+      "hasGpsTime": true,
+      "enabled": true,
+      "params": {
+        "lat": 39.9042,
+        "lon": 116.4074,
+        "quality": 1,
+        "numSats": 18,
+        "hdop": 1.0,
+        "alt": 50.0,
+        "geoidSep": 0.0
+      }
+    },
+    {
+      "name": "BESTPOSB",
+      "format": "novatel",
+      "rateHz": 50,
+      "hasGpsTime": true,
+      "enabled": true,
+      "params": {
+        "solStatus": "SOL_COMPUTED",
+        "posType": "NARROW_INT",
+        "lat": 39.9042,
+        "lon": 116.4074,
+        "height": 50.0,
+        "undulation": 0.0,
+        "datumId": 61,
+        "latStd": 0.01,
+        "lonStd": 0.01,
+        "heightStd": 0.02,
+        "diffAge": 0.0,
+        "solAge": 0.0,
+        "numSats": 18,
+        "numSatsInSol": 18
+      }
+    },
+    {
+      "name": "PSRVELB",
+      "format": "novatel",
+      "rateHz": 50,
+      "hasGpsTime": true,
+      "enabled": true,
+      "params": {
+        "solStatus": "SOL_COMPUTED",
+        "velType": "DOPPLER_VELOCITY",
+        "latency": 0.0,
+        "diffAge": 0.0,
+        "horSpeed": 0.5,
+        "trackGround": 90.0,
+        "verSpeed": 0.0
+      }
+    }
+  ]
+}

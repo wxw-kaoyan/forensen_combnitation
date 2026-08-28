@@ -53,6 +53,27 @@ qt_add_executable(TASoftware
     modules/commtool/atcmd/atcmdstore.h
     modules/commtool/atcmd/atparamdialog.cpp
     modules/commtool/atcmd/atparamdialog.h
+    modules/simulator/simulatorpanel.cpp
+    modules/simulator/simulatorpanel.h
+    modules/simulator/datasimulator.cpp
+    modules/simulator/datasimulator.h
+    modules/simulator/ppsgenerator.cpp
+    modules/simulator/ppsgenerator.h
+    modules/simulator/simprotocolregistry.cpp
+    modules/simulator/simprotocolregistry.h
+    modules/simulator/simclock.h
+    modules/simulator/simprotocol.h
+    modules/simulator/encoders/aa55encoder.cpp
+    modules/simulator/encoders/aa55encoder.h
+    modules/simulator/encoders/nmeaencoder.cpp
+    modules/simulator/encoders/nmeaencoder.h
+    modules/simulator/encoders/novatelencoder.cpp
+    modules/simulator/encoders/novatelencoder.h
+    modules/simulator/encoders/bytewriter.h
+    modules/simulator/protocols/bestposb.h
+    modules/simulator/protocols/gpgga.h
+    modules/simulator/protocols/gprmc.h
+    modules/simulator/protocols/psrvelb.h
     modules/parse/parser/parserbase.cpp
     modules/parse/parser/parserbase.h
     modules/parse/parser/parserfactory.h
@@ -159,6 +180,14 @@ add_custom_command(TARGET TASoftware POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/at_commands.json
         $<TARGET_FILE_DIR:TASoftware>/at_commands.json
     COMMENT "Copying at_commands.json to output directory"
+)
+
+# 构建后将 sim_protocols.json 拷贝到可执行文件目录（模拟协议库）
+add_custom_command(TARGET TASoftware POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/sim_protocols.json
+        $<TARGET_FILE_DIR:TASoftware>/sim_protocols.json
+    COMMENT "Copying sim_protocols.json to output directory"
 )
 
 qt_generate_deploy_app_script(

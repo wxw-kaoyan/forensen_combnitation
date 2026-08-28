@@ -6,6 +6,7 @@
 #include "modules/analysis/compare/analysispanel.h"
 #include "modules/analysis/raw/rawanalysispanel.h"
 #include "modules/parse/parsepanel.h"
+#include "modules/simulator/simulatorpanel.h"
 #include "common/toolprocess.h"
 #include "common/toolprocessmanager.h"
 #include "common/uiinitializer.h"
@@ -55,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
         m_analysisPanel = new Analysis::AnalysisPanel(ui->compareAnalysisTab);
         ui->verticalLayout_compareAnalysis->addWidget(m_analysisPanel);
     }
+
+    // ---- PPS + 数据模拟面板 ----
+    m_simulatorPanel = new SimulatorPanel(ui->simulatorTab);
+    ui->verticalLayout_simulator->addWidget(m_simulatorPanel);
 
     // ---- 常用工具 ----
     m_toolManager = new ToolProcessManager(this);
