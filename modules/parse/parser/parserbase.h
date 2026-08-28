@@ -14,7 +14,7 @@ struct ParseResult {
     QString    fullText;        // 完整文本（导出用）
     QString    infoText;        // 状态栏摘要
     ProtocolID protocolId = ProtocolID::Unknown;
-    QList<ParsedFrame> frames;  // 帧类分支缓存（供 New Code / 按帧导出）
+    QList<ParsedFrame> frames;  // 帧类分支缓存（供按帧导出）
     QString    externalCsvPath; // 外部脚本/进程生成的临时 CSV 路径（凯芯等）
 };
 

@@ -86,8 +86,6 @@ qt_add_executable(TASoftware
     modules/parse/parsepanel.cpp
     modules/parse/parsepanel.h
     modules/parse/parsepanel.ui
-    modules/parse/recodeconfig.cpp
-    modules/parse/recodeconfig.h
     modules/parse/columnextract.cpp
     modules/parse/columnextract.h
     modules/parse/downsampledialog.cpp

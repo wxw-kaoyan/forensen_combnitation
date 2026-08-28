@@ -8,11 +8,10 @@
 #include <functional>
 
 // ════════════════════════════════════════════════════════════════
-//  字段描述符 — New Code 功能中可勾选的字段
+//  字段描述符 — 协议字段（显示名 + 格式化提取）
 // ════════════════════════════════════════════════════════════════
 struct FieldDescriptor {
     QString name;       // 显示名，如 "GPS周"
-    QString fieldKey;   // config.json 中标识，如 "gpsWeek"
     // 从 ParsedFrame 中提取该字段的格式化字符串
     std::function<QString(const ParsedFrame &)> extract;
 };
@@ -34,7 +33,7 @@ struct ProtocolDescriptor {
     // 格式化单帧（CSV 或 原生文本）
     std::function<QString(const ParsedFrame &)> formatFn;
 
-    // New Code 可选字段列表
+    // 协议字段列表
     QList<FieldDescriptor> fields;
 };
 
