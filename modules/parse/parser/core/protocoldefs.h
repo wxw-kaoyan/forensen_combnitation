@@ -237,26 +237,27 @@ struct TiltMeasure {
     double   elev;         // m
     int16_t  laserBias[2]; // deg*1000
     uint16_t laserDist;    // mm
-    uint8_t  sampleCnt;    // 采点数
-    uint8_t  coordFlag;    // 0=尾坐标 6=杆底 8=手持
-    int16_t  temp;         // C*100
-    uint8_t  rollStd;      // deg*100
-    uint8_t  pitchStd;     // deg*100
-    float    tiltRoll;     // deg*100
-    float    tiltPitch;    // deg
+    uint8_t  sampleCnt;    // 采点数（收到一帧激光数据则加1）
+    uint8_t  coordFlag;    // POS_FLAG: 0=杆底 6=激光点 8=下视光斑
+    int16_t  temp;         // 温度 C*100
+    uint8_t  rollStd;      // 横滚角标准差 deg*100
+    uint8_t  pitchStd;     // 俯仰角标准差 deg*100
+    float    tiltRoll;     // 对中杆倾角 deg
+    float    tiltPitch;    // 精度因子 deg
     float    gyroRaw[3];   // deg/s
     float    accelRaw[3];  // g
-    uint32_t timestamp;
-    uint32_t sysStatus;
-    uint16_t poleHeight;   // mm
-    float    solutionRate; // 百分比
-    uint8_t  gnssFix;
-    uint8_t  gnssSatCnt;
-    uint8_t  rtkAge;       // s
-    int16_t  poleBias[2];  // deg*1000
-    float    rollDeg;      // deg
-    float    pitchDeg;     // deg
-    float    yawDeg;       // deg
+    uint32_t timestamp;    // NMEA=UTC日内毫秒 / Novatel=GPS周内毫秒
+    uint32_t sysStatus;    // 系统状态(见表8): 1初始化 3杆长 5杆臂 6标定 9保存 20旋转角 21诺瓦泰 22NMEA
+    uint16_t poleHeight;   // 当前杆长 mm（天线相位中心至杆底）
+    float    solutionRate; // 标定进度 百分比(-99=未校准)
+    uint8_t  gnssFix;      // GNSS定位: 0未定位 1单点 2伪距差分 4固定解 5浮点解
+    uint8_t  gnssSatCnt;   // GNSS卫星数量
+    uint8_t  rtkAge;       // RTK差分延时 s
+    int16_t  poleBias[2];  // 对中杆安装偏差角 deg*1000
+    float    azimuth;      // 方位角 deg
+    float    rollDeg;      // 横滚角 deg
+    float    pitchDeg;     // 俯仰角 deg
+    float    yawDeg;       // 航向角 deg
     uint32_t checksum;
 };
 

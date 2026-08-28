@@ -328,7 +328,7 @@ void CommTool::onSaveFileClicked()
 
     m_savePath = path;
     m_recvFile.setFileName(path);
-    if (!m_recvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!m_recvFile.open(QIODevice::WriteOnly)) {
         QMessageBox::warning(nullptr, QStringLiteral("保存文件"),
                              QStringLiteral("无法写入文件: %1").arg(m_recvFile.errorString()));
         return;
@@ -340,11 +340,6 @@ void CommTool::onSaveFileClicked()
         QStringLiteral("QPushButton { background: #e74c3c; color: white; border-radius: 8px; "
                        "padding: 8px 14px; font-weight: 600; }"
                        "QPushButton:hover { background: #c0392b; }"));
-
-    // 把当前已有的内容也写入
-    QString existing = m_ui->toolConsoleEdit->toPlainText();
-    if (!existing.isEmpty())
-        m_recvFile.write(existing.toUtf8());
 
     appendRecvText(QStringLiteral("[系统] 开始保存到 %1\n").arg(path));
 }
@@ -365,9 +360,9 @@ void CommTool::onParseToggled(bool enabled)
 
 void CommTool::appendRecvData(const QByteArray &data)
 {
-    // 流式保存到文件（始终保存原始字节）
+    // 流式保存到文件（始终保存原始字节，不做任何编码转换）
     if (m_saving && m_recvFile.isOpen()) {
-        m_recvFile.write(QString::fromLatin1(data).toUtf8());
+        m_recvFile.write(data);
     }
 
     // 解析模式：只输出选中协议的解析结果，其余全部过滤

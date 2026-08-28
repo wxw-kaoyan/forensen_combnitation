@@ -107,23 +107,38 @@ static QList<FieldDescriptor> fusionResultFields()
 static QList<FieldDescriptor> tiltMeasureFields()
 {
     return {
-        {"纬度(deg)",    "lat",        [](const ParsedFrame &f) { return QString::number(f.tilt.lat, 'f', 7); }},
-        {"经度(deg)",    "lon",        [](const ParsedFrame &f) { return QString::number(f.tilt.lon, 'f', 7); }},
-        {"高程(m)",      "elev",       [](const ParsedFrame &f) { return QString::number(f.tilt.elev, 'f', 3); }},
-        {"激光偏角X",    "laserBias0", [](const ParsedFrame &f) { return QString::number(f.tilt.laserBias[0]); }},
-        {"激光偏角Y",    "laserBias1", [](const ParsedFrame &f) { return QString::number(f.tilt.laserBias[1]); }},
-        {"激光距离(mm)", "laserDist",  [](const ParsedFrame &f) { return QString::number(f.tilt.laserDist); }},
-        {"采点数",       "sampleCnt",  [](const ParsedFrame &f) { return QString::number(f.tilt.sampleCnt); }},
-        {"坐标标志",     "coordFlag",  [](const ParsedFrame &f) { return QString::number(f.tilt.coordFlag); }},
-        {"RollStd",      "rollStd",    [](const ParsedFrame &f) { return QString::number(f.tilt.rollStd); }},
-        {"PitchStd",     "pitchStd",   [](const ParsedFrame &f) { return QString::number(f.tilt.pitchStd); }},
-        {"TiltRoll(deg)", "tiltRoll",  [](const ParsedFrame &f) { return QString::number(f.tilt.tiltRoll, 'f', 3); }},
-        {"TiltPitch(deg)","tiltPitch", [](const ParsedFrame &f) { return QString::number(f.tilt.tiltPitch, 'f', 3); }},
-        {"GNSS定位",     "gnssFix",    [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.tilt.gnssFix); }},
-        {"卫星数",       "gnssSatCnt", [](const ParsedFrame &f) { return QString::number(f.tilt.gnssSatCnt); }},
-        {"横滚(deg)",    "rollDeg",    [](const ParsedFrame &f) { return QString::number(f.tilt.rollDeg, 'f', 3); }},
-        {"俯仰(deg)",    "pitchDeg",   [](const ParsedFrame &f) { return QString::number(f.tilt.pitchDeg, 'f', 3); }},
-        {"航向(deg)",    "yawDeg",     [](const ParsedFrame &f) { return QString::number(f.tilt.yawDeg, 'f', 3); }},
+        {"纬度(deg)",        "lat",         [](const ParsedFrame &f) { return QString::number(f.tilt.lat, 'f', 7); }},
+        {"经度(deg)",        "lon",         [](const ParsedFrame &f) { return QString::number(f.tilt.lon, 'f', 7); }},
+        {"高程(m)",          "elev",        [](const ParsedFrame &f) { return QString::number(f.tilt.elev, 'f', 3); }},
+        {"激光偏角X",        "laserBias0",  [](const ParsedFrame &f) { return QString::number(f.tilt.laserBias[0]); }},
+        {"激光偏角Y",        "laserBias1",  [](const ParsedFrame &f) { return QString::number(f.tilt.laserBias[1]); }},
+        {"激光距离(mm)",     "laserDist",   [](const ParsedFrame &f) { return QString::number(f.tilt.laserDist); }},
+        {"采点数",           "sampleCnt",   [](const ParsedFrame &f) { return QString::number(f.tilt.sampleCnt); }},
+        {"坐标标志",         "coordFlag",   [](const ParsedFrame &f) { return QString::number(f.tilt.coordFlag); }},
+        {"温度(℃*100)",     "temp",        [](const ParsedFrame &f) { return QString::number(f.tilt.temp); }},
+        {"横滚标准差",       "rollStd",     [](const ParsedFrame &f) { return QString::number(f.tilt.rollStd); }},
+        {"俯仰标准差",       "pitchStd",    [](const ParsedFrame &f) { return QString::number(f.tilt.pitchStd); }},
+        {"对中杆倾角(deg)", "tiltRoll",    [](const ParsedFrame &f) { return QString::number(f.tilt.tiltRoll, 'f', 3); }},
+        {"精度因子",         "tiltPitch",   [](const ParsedFrame &f) { return QString::number(f.tilt.tiltPitch, 'f', 3); }},
+        {"陀螺X(deg/s)",     "gyroRaw0",    [](const ParsedFrame &f) { return QString::number(f.tilt.gyroRaw[0], 'f', 4); }},
+        {"陀螺Y(deg/s)",     "gyroRaw1",    [](const ParsedFrame &f) { return QString::number(f.tilt.gyroRaw[1], 'f', 4); }},
+        {"陀螺Z(deg/s)",     "gyroRaw2",    [](const ParsedFrame &f) { return QString::number(f.tilt.gyroRaw[2], 'f', 4); }},
+        {"加表X(g)",         "accelRaw0",   [](const ParsedFrame &f) { return QString::number(f.tilt.accelRaw[0], 'f', 4); }},
+        {"加表Y(g)",         "accelRaw1",   [](const ParsedFrame &f) { return QString::number(f.tilt.accelRaw[1], 'f', 4); }},
+        {"加表Z(g)",         "accelRaw2",   [](const ParsedFrame &f) { return QString::number(f.tilt.accelRaw[2], 'f', 4); }},
+        {"时间戳",           "timestamp",   [](const ParsedFrame &f) { return QString::number(f.tilt.timestamp); }},
+        {"系统状态",         "sysStatus",   [](const ParsedFrame &f) { return QString::number(f.tilt.sysStatus); }},
+        {"当前杆长(mm)",     "poleHeight",  [](const ParsedFrame &f) { return QString::number(f.tilt.poleHeight); }},
+        {"标定进度(%)",      "solutionRate",[](const ParsedFrame &f) { return QString::number(f.tilt.solutionRate, 'f', 3); }},
+        {"GNSS定位",         "gnssFix",     [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.tilt.gnssFix); }},
+        {"卫星数",           "gnssSatCnt",  [](const ParsedFrame &f) { return QString::number(f.tilt.gnssSatCnt); }},
+        {"RTK差分延时(s)",   "rtkAge",      [](const ParsedFrame &f) { return QString::number(f.tilt.rtkAge); }},
+        {"杆安装偏差X",      "poleBias0",   [](const ParsedFrame &f) { return QString::number(f.tilt.poleBias[0]); }},
+        {"杆安装偏差Y",      "poleBias1",   [](const ParsedFrame &f) { return QString::number(f.tilt.poleBias[1]); }},
+        {"方位角(deg)",      "azimuth",     [](const ParsedFrame &f) { return QString::number(f.tilt.azimuth, 'f', 3); }},
+        {"横滚角(deg)",      "rollDeg",     [](const ParsedFrame &f) { return QString::number(f.tilt.rollDeg, 'f', 3); }},
+        {"俯仰角(deg)",      "pitchDeg",    [](const ParsedFrame &f) { return QString::number(f.tilt.pitchDeg, 'f', 3); }},
+        {"航向角(deg)",      "yawDeg",      [](const ParsedFrame &f) { return QString::number(f.tilt.yawDeg, 'f', 3); }},
     };
 }
 
@@ -363,19 +378,24 @@ const QList<ProtocolDescriptor> &protocolRegistry()
             QStringLiteral("倾斜测量"),
             ProtocolID::TiltMeasure,
             false,
-            {}, // 非 CSV，原生文本格式
+            QStringLiteral("纬度(deg),经度(deg),高程(m),激光偏角X,激光偏角Y,激光距离(mm),采点数,坐标标志,温度(℃*100),横滚标准差,俯仰标准差,对中杆倾角(deg),精度因子,陀螺X(deg/s),陀螺Y(deg/s),陀螺Z(deg/s),加表X(g),加表Y(g),加表Z(g),时间戳,系统状态,当前杆长(mm),标定进度(%),GNSS定位,卫星数,RTK差分延时(s),杆安装偏差X,杆安装偏差Y,方位角(deg),横滚角(deg),俯仰角(deg),航向角(deg)\n"),
             [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::TiltMeasure, d, s); },
             [](const ParsedFrame &f) -> QString {
                 const auto &d = f.tilt;
-                return QStringLiteral("Lat:%1 deg Lon:%2 deg Elev:%3m LaserDist:%4mm LaserBias(%5,%6) deg*1000 SampleCnt:%7 Coord:%8 TiltRoll:%9 deg TiltPitch:%10 deg GNSS:%11 Sat:%12 Roll:%13 deg Pitch:%14 deg Yaw:%15 deg")
+                return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20,%21,%22,%23,%24,%25,%26,%27,%28,%29,%30,%31,%32\n")
                     .arg(d.lat, 0, 'f', 7).arg(d.lon, 0, 'f', 7).arg(d.elev, 0, 'f', 3)
-                    .arg(d.laserDist).arg(d.laserBias[0]).arg(d.laserBias[1])
-                    .arg(d.sampleCnt)
-                    .arg(d.coordFlag == 0 ? QStringLiteral("尾坐标") :
-                         d.coordFlag == 6 ? QStringLiteral("杆底") :
-                         d.coordFlag == 8 ? QStringLiteral("手持") : QString::number(d.coordFlag))
+                    .arg(d.laserBias[0]).arg(d.laserBias[1])
+                    .arg(d.laserDist).arg(d.sampleCnt).arg(d.coordFlag)
+                    .arg(d.temp)
+                    .arg(d.rollStd).arg(d.pitchStd)
                     .arg(d.tiltRoll, 0, 'f', 3).arg(d.tiltPitch, 0, 'f', 3)
-                    .arg(ParserBase::rtkStatusName(d.gnssFix)).arg(d.gnssSatCnt)
+                    .arg(d.gyroRaw[0], 0, 'f', 4).arg(d.gyroRaw[1], 0, 'f', 4).arg(d.gyroRaw[2], 0, 'f', 4)
+                    .arg(d.accelRaw[0], 0, 'f', 4).arg(d.accelRaw[1], 0, 'f', 4).arg(d.accelRaw[2], 0, 'f', 4)
+                    .arg(d.timestamp).arg(d.sysStatus).arg(d.poleHeight)
+                    .arg(d.solutionRate, 0, 'f', 3)
+                    .arg(ParserBase::rtkStatusName(d.gnssFix)).arg(d.gnssSatCnt).arg(d.rtkAge)
+                    .arg(d.poleBias[0]).arg(d.poleBias[1])
+                    .arg(d.azimuth, 0, 'f', 3)
                     .arg(d.rollDeg, 0, 'f', 3).arg(d.pitchDeg, 0, 'f', 3).arg(d.yawDeg, 0, 'f', 3);
             },
             tiltMeasureFields(),

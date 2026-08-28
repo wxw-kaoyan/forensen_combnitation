@@ -405,10 +405,15 @@ void ParsePanel::onExportClicked()
         if (text.isEmpty()) return;
     }
 
-    bool isCsv = text.startsWith("UTC天数") ||
-                 text.startsWith("Timer(us)") ||
-                 text.startsWith("GPS(ms)") ||
-                 text.startsWith("GPS周秒");
+    // 优先按当前协议描述符判断是否为 CSV；未知/外部协议回退到文本前缀判断
+    const ProtocolDescriptor *desc = findProtocol(m_activeProtocolId);
+    bool isCsv = (desc && !desc->csvHeader.isEmpty());
+    if (!isCsv) {
+        isCsv = text.startsWith("UTC天数") ||
+                text.startsWith("Timer(us)") ||
+                text.startsWith("GPS(ms)") ||
+                text.startsWith("GPS周秒");
+    }
     QString defaultExt = isCsv ? QStringLiteral(".csv") : QStringLiteral(".txt");
     QString defaultPath = QStringLiteral("parse_result") + defaultExt;
 

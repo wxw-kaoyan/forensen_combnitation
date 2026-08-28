@@ -292,10 +292,10 @@ void FrameParser::parseTiltMeasure(const uint8_t *p, TiltMeasure &out)
     out.rtkAge     = p[84];
     out.poleBias[0] = readI16LE(p + 85);
     out.poleBias[1] = readI16LE(p + 87);
-    out.rollDeg   = readFloatLE(p + 89);
-    out.pitchDeg  = readFloatLE(p + 93);
-    out.yawDeg    = readFloatLE(p + 97);
-    out.checksum  = readU32LE(p + 101);
+    out.azimuth   = readFloatLE(p + 89);
+    out.rollDeg   = readFloatLE(p + 93);
+    out.pitchDeg  = readFloatLE(p + 97);
+    out.yawDeg    = readFloatLE(p + 101);
 }
 
 void FrameParser::parseLaser(const uint8_t *p, LaserData &out)
