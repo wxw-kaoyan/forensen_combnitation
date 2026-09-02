@@ -57,12 +57,15 @@ signals:
 protected:
     ForwardTarget(const Config &cfg, DataPool *pool, QObject *parent);
     void readFromPool(); // 从 DataPool 拉取并写入输出设备
-    void saveNonGgaData(const QByteArray &raw); // 过滤 GGA 后保存
+    void saveData(const QByteArray &raw); // 过滤 GGA 后保存
+    QList<QByteArray> extractGgaLines(QByteArray &buffer); // 从缓冲中提取完整 GGA 行
 
     Config    m_config;
     DataPool *m_pool  = nullptr;
     int       m_consumerId = -1;
     bool      m_running = false;
+
+    QByteArray m_rxBuffer; // 接收缓冲：跨 readyRead 分片拼接未完成的行
 
     // 数据保存
     QFile *m_saveFile = nullptr;

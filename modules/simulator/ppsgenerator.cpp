@@ -1,21 +1,23 @@
 #include "modules/simulator/ppsgenerator.h"
 
+#include <QDateTime>
+#include <QElapsedTimer>
 #include <QSerialPort>
-#include <QTimer>
+#include <QThread>
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
+namespace {
+constexpr qint64 kSecNs        = 1000000000LL;    // 1 秒（ns）
+constexpr qint64 kPulseUs      = 5000;            // 脉宽 5ms
+constexpr qint64 kSpinMarginNs = 2000000LL;       // 忙等窗口 2ms
+} // namespace
 
 PpsGenerator::PpsGenerator(QObject *parent)
     : QObject(parent)
 {
-    m_secTimer = new QTimer(this);
-    m_secTimer->setTimerType(Qt::PreciseTimer);
-    m_secTimer->setInterval(1000);
-    connect(m_secTimer, &QTimer::timeout, this, &PpsGenerator::onSecondTick);
-
-    m_pulseTimer = new QTimer(this);
-    m_pulseTimer->setTimerType(Qt::PreciseTimer);
-    m_pulseTimer->setSingleShot(true);
-    m_pulseTimer->setInterval(5);
-    connect(m_pulseTimer, &QTimer::timeout, this, &PpsGenerator::onPulseOff);
 }
 
 PpsGenerator::~PpsGenerator()
@@ -25,7 +27,7 @@ PpsGenerator::~PpsGenerator()
 
 bool PpsGenerator::start(const QString &portName, int baudRate)
 {
-    if (m_port)
+    if (m_running.load())
         return true;
 
     m_port = new QSerialPort(portName, this);
@@ -43,18 +45,19 @@ bool PpsGenerator::start(const QString &portName, int baudRate)
         return false;
     }
 
-    m_port->setDataTerminalReady(false);
-    m_secTimer->start();
+    setDtr(false);
+    m_running.store(true);
+    m_thread = std::thread(&PpsGenerator::runLoop, this);
     return true;
 }
 
 void PpsGenerator::stop()
 {
-    m_secTimer->stop();
-    m_pulseTimer->stop();
+    if (m_running.exchange(false) && m_thread.joinable())
+        m_thread.join();
 
     if (m_port) {
-        m_port->setDataTerminalReady(false);
+        setDtr(false);
         m_port->close();
         m_port->deleteLater();
         m_port = nullptr;
@@ -63,21 +66,70 @@ void PpsGenerator::stop()
 
 bool PpsGenerator::isRunning() const
 {
-    return m_port && m_port->isOpen();
+    return m_running.load();
 }
 
-void PpsGenerator::onSecondTick()
+void PpsGenerator::runLoop()
 {
-    if (!m_port || !m_port->isOpen())
+#ifdef Q_OS_WIN
+    timeBeginPeriod(1);                                 // 将 Sleep 粒度提升到 ~1ms
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+#endif
+
+    QElapsedTimer ref;
+    ref.start();
+
+    // 首个上升沿对齐到下一个 UTC 整秒，使 PPS 秒边界与系统时间一致
+    const qint64 wallNowMs = QDateTime::currentMSecsSinceEpoch();
+    const qint64 refNowNs  = ref.nsecsElapsed();
+    qint64 targetNs = refNowNs + ((wallNowMs / 1000 + 1) * 1000 - wallNowMs) * 1000000;
+
+    while (m_running.load()) {
+        // 睡眠到目标前 2ms，剩余时间忙等自旋，规避系统睡眠精度导致的抖动
+        qint64 remainNs = targetNs - ref.nsecsElapsed();
+        if (remainNs > kSpinMarginNs)
+            QThread::usleep(static_cast<unsigned long>((remainNs - kSpinMarginNs) / 1000));
+
+        while (m_running.load() && ref.nsecsElapsed() < targetNs) {
+        }
+
+        if (!m_running.load())
+            break;
+
+        setDtr(true);       // 上升沿（µs 级对齐）
+        emit ppsTick();     // 通知数据模拟器（跨线程排队投递到主线程）
+
+        // 控制下降沿：脉宽 5ms
+        const qint64 fallNs = ref.nsecsElapsed() + kPulseUs * 1000;
+        remainNs = fallNs - ref.nsecsElapsed();
+        if (remainNs > kSpinMarginNs)
+            QThread::usleep(static_cast<unsigned long>((remainNs - kSpinMarginNs) / 1000));
+        while (m_running.load() && ref.nsecsElapsed() < fallNs) {
+        }
+        setDtr(false);      // 下降沿
+
+        // 绝对节拍网格：单拍过冲只影响本拍，不向下一拍累积漂移
+        targetNs += kSecNs;
+    }
+
+    setDtr(false);
+
+#ifdef Q_OS_WIN
+    timeEndPeriod(1);
+#endif
+}
+
+void PpsGenerator::setDtr(bool high)
+{
+    if (!m_port)
         return;
 
-    m_port->setDataTerminalReady(true);   // 上升沿
-    m_pulseTimer->start();                 // 5ms 后拉低
-    emit ppsTick();
-}
-
-void PpsGenerator::onPulseOff()
-{
-    if (m_port)
-        m_port->setDataTerminalReady(false);
+#ifdef Q_OS_WIN
+    // 直调原生 API：绕过 Qt 串口对象（归属主线程），并降低电平切换延迟
+    const HANDLE h = reinterpret_cast<HANDLE>(m_port->handle());
+    if (h && h != INVALID_HANDLE_VALUE)
+        EscapeCommFunction(h, high ? SETDTR : CLRDTR);
+#else
+    m_port->setDataTerminalReady(high);
+#endif
 }

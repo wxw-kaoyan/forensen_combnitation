@@ -48,10 +48,28 @@ void ForwardTarget::disableSave()
     }
 }
 
-void ForwardTarget::saveNonGgaData(const QByteArray &raw)
+void ForwardTarget::saveData(const QByteArray &raw)
 {
     if (!m_saveFile || !m_saveFile->isOpen()) return;
     m_saveFile->write(raw);
+}
+
+QList<QByteArray> ForwardTarget::extractGgaLines(QByteArray &buffer)
+{
+    QList<QByteArray> lines;
+    int start = 0;
+    for (int i = 0; i < buffer.size(); ++i) {
+        if (buffer[i] == '\n') {
+            QByteArray line = buffer.mid(start, i - start).trimmed();
+            start = i + 1;
+            if (line.startsWith("$") && line.contains("GGA"))
+                lines.append(line + "\r\n");
+        }
+    }
+    // 移除已处理的部分，未完成的行保留在缓冲中等待下次拼接
+    if (start > 0)
+        buffer.remove(0, start);
+    return lines;
 }
 
 // 工厂
@@ -165,23 +183,14 @@ void TcpForwardTarget::onReadyRead()
 {
     QByteArray raw = m_socket->readAll();
     emit rawDataReceived(raw);
-    saveNonGgaData(raw);
+    saveData(raw);
     if (!m_config.isGgaSource) return;
 
-    // 提取 $GPGGA 行
-    for (int i = 0; i < raw.size(); ) {
-        if (raw[i] == '$') {
-            int end = raw.indexOf('\n', i);
-            if (end < 0) end = raw.size();
-            QByteArray line = raw.mid(i, end - i).trimmed();
-        if (line.startsWith("$") && line.contains("GGA")) {
-                emit ggaDataReceived(line + "\r\n");
-            }
-            i = end + 1;
-        } else {
-            ++i;
-        }
-    }
+    // 跨分片拼接，逐完整行提取 GGA
+    m_rxBuffer.append(raw);
+    const QList<QByteArray> lines = extractGgaLines(m_rxBuffer);
+    for (const QByteArray &line : lines)
+        emit ggaDataReceived(line);
 }
 
 void TcpForwardTarget::onConnectTimeout()
@@ -281,21 +290,11 @@ void SerialForwardTarget::onReadyRead()
 {
     QByteArray raw = m_serial->readAll();
     emit rawDataReceived(raw);
-    saveNonGgaData(raw);
+    saveData(raw);
     if (!m_config.isGgaSource) return;
-
-    // 提取 $xxGGA 行
-    for (int i = 0; i < raw.size(); ) {
-        if (raw[i] == '$') {
-            int end = raw.indexOf('\n', i);
-            if (end < 0) end = raw.size();
-            QByteArray line = raw.mid(i, end - i).trimmed();
-        if (line.startsWith("$") && line.contains("GGA")) {
-                emit ggaDataReceived(line + "\r\n");
-            }
-            i = end + 1;
-        } else {
-            ++i;
-        }
-    }
+    // 跨分片拼接，逐完整行提取 GGA
+    m_rxBuffer.append(raw);
+    const QList<QByteArray> lines = extractGgaLines(m_rxBuffer);
+    for (const QByteArray &line : lines)
+        emit ggaDataReceived(line);
 }
