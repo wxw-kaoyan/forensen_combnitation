@@ -2,18 +2,66 @@
 """
 凯芯数据解析脚本
 调用方式：python kaixin_parse.py <dat_path> <out_csv_path>
-依赖：MATLAB R2019b (B:\\matlab), decode_kaixin.mexw64 (桌面)
+依赖：MATLAB Runtime 的 libmx.dll（自动搜索）与 decode_kaixin.mexw64（自动搜索脚本同目录/exe目录/桌面）
 输入给 mex 的是 uint8 原始字节数组（与 MATLAB 脚本一致）
 输出：CSV（UTF-8，103列，已做单位换算）+ stdout JSON摘要
 """
 import sys, os, json, ctypes, struct, collections, math
 import numpy as np
 
-MATLAB_BIN = r'B:\matlab\bin\win64'
-MEX_PATH   = r'C:\Users\wxw\Desktop\decode_kaixin.mexw64'
+def _find_matlab_bin():
+    """按优先级搜索包含 libmx.dll 的目录（MATLAB / MATLAB Runtime 的 bin/win64），返回目录；找不到返回 None"""
+    here = os.path.dirname(os.path.abspath(__file__))
+    exe_dir = os.path.dirname(here)
+    candidates = [
+        os.path.join(here, 'bin', 'win64'),            # 脚本同目录下打包的 Runtime
+        os.path.join(here, 'matlab', 'bin', 'win64'),
+        os.path.join(here, 'runtime', 'bin', 'win64'),
+        os.path.join(exe_dir, 'bin', 'win64'),         # exe 目录下打包的 Runtime
+        os.path.join(exe_dir, 'runtime', 'bin', 'win64'),
+        os.environ.get('MATLAB_BIN', ''),
+        os.path.join(os.environ.get('MATLAB_ROOT', ''), 'bin', 'win64'),
+        r'B:\matlab\bin\win64',                        # 开发机兜底
+    ]
 
-os.add_dll_directory(MATLAB_BIN)
-os.environ['PATH'] = MATLAB_BIN + os.pathsep + os.environ.get('PATH', '')
+    # MATLAB Runtime 常见安装目录（取版本号最高的子目录）
+    pf = os.environ.get('ProgramFiles', r'C:\Program Files')
+    rt_root = os.path.join(pf, 'MATLAB', 'MATLAB Runtime')
+    if os.path.isdir(rt_root):
+        try:
+            vers = sorted([d for d in os.listdir(rt_root) if d.upper().startswith('R')],
+                          reverse=True)
+        except OSError:
+            vers = []
+        for v in vers:
+            candidates.append(os.path.join(rt_root, v, 'bin', 'win64'))
+
+    for p in candidates:
+        if p and os.path.isfile(os.path.join(p, 'libmx.dll')):
+            return os.path.normpath(p)
+    return None
+
+
+def _find_mex():
+    """按优先级搜索 decode_kaixin.mexw64，返回路径；找不到返回 None"""
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(here, 'decode_kaixin.mexw64'),          # 与脚本同目录（打包后）
+        os.path.join(here, '..', 'decode_kaixin.mexw64'),    # 脚本上一级（exe 目录）
+        os.path.join(os.getcwd(), 'decode_kaixin.mexw64'),   # 当前工作目录
+        os.path.join(os.path.expanduser('~'), 'Desktop', 'decode_kaixin.mexw64'),  # 桌面（旧路径）
+    ]
+    for p in candidates:
+        p = os.path.normpath(p)
+        if os.path.isfile(p):
+            return p
+    return None
+
+
+MATLAB_BIN = _find_matlab_bin()
+if MATLAB_BIN:
+    os.add_dll_directory(MATLAB_BIN)
+    os.environ['PATH'] = MATLAB_BIN + os.pathsep + os.environ.get('PATH', '')
 
 # ──────────────────────────────────────────────
 # 全部 146 列名（0-based，对应 MATLAB 1-based 注释）
@@ -105,6 +153,10 @@ R2D = 180.0 / math.pi
 
 
 def _load_mex():
+    if not MATLAB_BIN:
+        raise FileNotFoundError(
+            "未找到 MATLAB 运行时 (libmx.dll)。\n"
+            "请安装 MATLAB Runtime，或将包含 libmx.dll 的 bin/win64 目录放到脚本/exe 目录下。")
     mx = ctypes.CDLL(os.path.join(MATLAB_BIN, 'libmx.dll'))
     mwSize = ctypes.c_size_t
     mxArray = ctypes.c_void_p
@@ -133,7 +185,12 @@ def _load_mex():
     GetN     = decl(mx, 'mxGetN',      mwSize,                       [mxArray])
     Destroy  = decl(mx, 'mxDestroyArray', None,                      [mxArray])
 
-    lib = ctypes.CDLL(MEX_PATH)
+    mex_path = _find_mex()
+    if not mex_path:
+        raise FileNotFoundError(
+            "未找到 decode_kaixin.mexw64（凯芯解码器）。\n"
+            "请将其放到 kaixin_parse.py 同目录、exe 目录或桌面。")
+    lib = ctypes.CDLL(mex_path)
     mexFn = lib.mexFunction
     mexFn.restype  = None
     mexFn.argtypes = [ctypes.c_int, ctypes.POINTER(mxArray),
