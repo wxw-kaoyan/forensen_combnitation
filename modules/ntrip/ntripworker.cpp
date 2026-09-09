@@ -185,7 +185,7 @@ void NTRIPWorker::sendNtripRequest()
         QStringLiteral(
             "GET /%1 HTTP/1.0\r\n"
             "Host: %2\r\n"
-            "User-Agent: NTRIP TASoftware/1.0\r\n"
+            "User-Agent: NTRIP Witt/1.0\r\n"
             "Authorization: Basic %3\r\n"
             "\r\n")
         .arg(m_mountpoint)

@@ -20,6 +20,7 @@
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QComboBox>
+#include <QStandardItemModel>
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QGroupBox>
@@ -98,7 +99,9 @@ ParsePanel::ParsePanel(QWidget *parent)
     connect(ui->clearButton,    &QPushButton::clicked, this, &ParsePanel::onClearClicked);
     connect(ui->newCodeButton,  &QPushButton::clicked, this, &ParsePanel::onNewCodeClicked);
     connect(ui->downsampleButton, &QPushButton::clicked, this, &ParsePanel::onDownsampleClicked);
-    setupProtocolButtons();
+    connect(ui->protocolCombo, QOverload<int>::of(&QComboBox::activated),
+            this, &ParsePanel::onProtocolComboActivated);
+    setupProtocolCombo();
 }
 
 ParsePanel::~ParsePanel()
@@ -107,29 +110,43 @@ ParsePanel::~ParsePanel()
 }
 
 // ═══════════════════════════════════════════════════
-//  动态生成协议按钮
+//  动态生成协议下拉框（按类分组）
 // ═══════════════════════════════════════════════════
 
-void ParsePanel::setupProtocolButtons()
+void ParsePanel::setupProtocolCombo()
 {
-    QList<ParserBase*> parsers = ParserFactory::createAll();
-    QLayout *layout = ui->filterLayout;
+    ui->protocolCombo->clear();
+    m_comboToParser.clear();
 
+    // 占位项（不可选）
+    ui->protocolCombo->addItem(QStringLiteral("请选择协议..."));
+    m_comboToParser.append(-1);
+
+    QList<ParserBase*> parsers = ParserFactory::createAll();
+    QString lastCategory;
+    int parserIndex = 0;
     for (auto *parser : parsers) {
-        auto *btn = new QPushButton(parser->buttonLabel(), this);
-        btn->setMinimumSize(90, 32);
-        btn->setStyleSheet(
-            "QPushButton{background:#e8edf2;color:#17324d;border:1px solid #bcc7d4;"
-            "border-radius:4px;font-size:12px;font-weight:600;padding:0 12px;}"
-            "QPushButton:hover{background:#d0dae5;}"
-            "QPushButton:checked{background:#17324d;color:white;border-color:#17324d;}");
-        btn->setCheckable(true);
-        btn->setProperty("parserIndex", m_protoButtons.size());
-        connect(btn, &QPushButton::clicked, this, &ParsePanel::onProtocolButtonClicked);
-        layout->addWidget(btn);
-        m_protoButtons.append(btn);
+        const QString cat = parser->category();
+        if (cat != lastCategory) {
+            ui->protocolCombo->addItem(QStringLiteral("── %1 ──").arg(cat));
+            m_comboToParser.append(-1);
+            lastCategory = cat;
+        }
+        ui->protocolCombo->addItem(parser->buttonLabel());
+        m_comboToParser.append(parserIndex);
+        ++parserIndex;
         delete parser;
     }
+
+    // 分类头 / 占位项设为不可选
+    if (auto *model = qobject_cast<QStandardItemModel*>(ui->protocolCombo->model())) {
+        for (int i = 0; i < m_comboToParser.size(); ++i) {
+            if (m_comboToParser.at(i) < 0 && model->item(i))
+                model->item(i)->setEnabled(false);
+        }
+    }
+
+    ui->protocolCombo->setCurrentIndex(0);
 }
 
 // ═══════════════════════════════════════════════════
@@ -158,8 +175,7 @@ void ParsePanel::onLoadFileClicked()
     m_cachedFrames.clear();
     m_activeProtocolId = ProtocolID::Unknown;
 
-    for (auto *b : m_protoButtons)
-        b->setChecked(false);
+    ui->protocolCombo->setCurrentIndex(0);
 
     m_filePath = path;
     updateFileInfo();
@@ -173,42 +189,27 @@ void ParsePanel::updateFileInfo()
         QStringLiteral("大小:%1KB").arg(fi.size() / 1024.0, 0, 'f', 1));
 }
 
-void ParsePanel::setButtonsEnabled(bool enabled)
+void ParsePanel::setComboEnabled(bool enabled)
 {
-    for (auto *b : m_protoButtons)
-        b->setEnabled(enabled);
+    ui->protocolCombo->setEnabled(enabled);
 }
 
 // ═══════════════════════════════════════════════════
-//  协议按钮点击 → 后台线程解析
+//  协议下拉选择 → 后台线程解析
 // ═══════════════════════════════════════════════════
 
-void ParsePanel::onProtocolButtonClicked()
+void ParsePanel::onProtocolComboActivated(int index)
 {
+    const int parserIdx = (index >= 0 && index < m_comboToParser.size())
+                              ? m_comboToParser.at(index) : -1;
+    if (parserIdx < 0)
+        return;  // 分类头 / 占位项不可选
+
     if (m_rawData.isEmpty()) {
         QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("请先加载文件。"));
-        auto *btn = qobject_cast<QPushButton*>(sender());
-        if (btn) btn->setChecked(false);
+        ui->protocolCombo->setCurrentIndex(0);
         return;
     }
-
-    auto *btn = qobject_cast<QPushButton*>(sender());
-    if (!btn) return;
-
-    // 互斥
-    for (auto *b : m_protoButtons) {
-        if (b != btn) b->setChecked(false);
-    }
-
-    if (!btn->isChecked()) {
-        ui->outputTextEdit->clear();
-        m_cachedFrames.clear();
-        m_activeProtocolId = ProtocolID::Unknown;
-        return;
-    }
-
-    int idx = btn->property("parserIndex").toInt();
-    if (idx < 0 || idx >= m_protoButtons.size()) return;
 
     bool skipCrc = !ui->crcCheckBox->isChecked();
     bool isBlf = m_filePath.endsWith(".blf", Qt::CaseInsensitive);
@@ -216,19 +217,19 @@ void ParsePanel::onProtocolButtonClicked()
     // 快速校验：检查协议/文件类型匹配
     {
         QList<ParserBase*> tmp = ParserFactory::createAll();
-        if (idx < tmp.size()) {
-            ParserBase *p = tmp[idx];
+        if (parserIdx < tmp.size()) {
+            ParserBase *p = tmp[parserIdx];
             if (isBlf && p->protocolId() != ProtocolID::Can_RTK) {
                 QMessageBox::information(this, QStringLiteral("提示"),
                     QStringLiteral("BLF 文件请使用 联试_CAN981 协议解析。"));
-                btn->setChecked(false);
+                ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
             }
             if (!isBlf && p->protocolId() == ProtocolID::Can_RTK) {
                 QMessageBox::information(this, QStringLiteral("提示"),
                     QStringLiteral("联试_CAN981 仅支持 BLF 文件。"));
-                btn->setChecked(false);
+                ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
             }
@@ -236,9 +237,9 @@ void ParsePanel::onProtocolButtonClicked()
         qDeleteAll(tmp);
     }
 
-    // 禁用按钮，显示「解析中...」
+    // 禁用下拉框，显示「解析中...」
     m_parsing = true;
-    setButtonsEnabled(false);
+    setComboEnabled(false);
     ui->outputTextEdit->setPlainText(QStringLiteral("解析中..."));
     ui->fileInfoLabel->setText(QStringLiteral("解析中..."));
 
@@ -255,13 +256,13 @@ void ParsePanel::onProtocolButtonClicked()
         m_activeProtocolId = result.protocolId;
         watcher->deleteLater();
         m_parsing = false;
-        setButtonsEnabled(true);
+        setComboEnabled(true);
     });
 
     QByteArray data = m_rawData;
     QString fpath = m_filePath;
     watcher->setFuture(QtConcurrent::run([=]() {
-        return doParse(idx, skipCrc, data, fpath);
+        return doParse(parserIdx, skipCrc, data, fpath);
     }));
 }
 
@@ -443,6 +444,5 @@ void ParsePanel::onClearClicked()
     m_cachedCsvPath.clear();
     m_cachedFrames.clear();
     m_activeProtocolId = ProtocolID::Unknown;
-    for (auto *b : m_protoButtons)
-        b->setChecked(false);
+    ui->protocolCombo->setCurrentIndex(0);
 }

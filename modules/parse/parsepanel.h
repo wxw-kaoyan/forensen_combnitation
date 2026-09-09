@@ -25,16 +25,16 @@ signals:
 
 private slots:
     void onLoadFileClicked();
-    void onProtocolButtonClicked();
+    void onProtocolComboActivated(int index);
     void onExportClicked();
     void onClearClicked();
     void onNewCodeClicked();
     void onDownsampleClicked();
 
 private:
-    void setupProtocolButtons();
+    void setupProtocolCombo();
     void updateFileInfo();
-    void setButtonsEnabled(bool enabled);
+    void setComboEnabled(bool enabled);
     static ParseResult doParse(int protocolIndex, bool skipCrc,
                                const QByteArray &rawData,
                                const QString &filePath);
@@ -46,7 +46,7 @@ private:
     QString          m_cachedCsvPath;    // 凯芯等外部生成的 CSV 路径
     ProtocolID       m_activeProtocolId = ProtocolID::Unknown;
     QList<ParsedFrame> m_cachedFrames;
-    QList<QPushButton*> m_protoButtons;
+    QList<int>       m_comboToParser;  // 下拉项索引 → 工厂解析器索引（分类头/占位项为 -1）
     bool m_parsing = false;
 };
 

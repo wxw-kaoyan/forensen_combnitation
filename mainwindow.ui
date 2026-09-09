@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TA Software</string>
+   <string>Witt</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1407,6 +1407,25 @@ QPushButton:hover { background: #95a5a6; }</string>
         <string>PPS数据模拟</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_simulator">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="otaTab">
+       <attribute name="title">
+        <string>OTA升级</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_ota">
         <property name="leftMargin">
          <number>0</number>
         </property>

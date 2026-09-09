@@ -1,5 +1,5 @@
-# TASoftware 打包脚本
-# 用法: cd 到 TASoftware 目录后运行  .\package.ps1
+# Witt 打包脚本
+# 用法: cd 到工程目录后运行  .\package.ps1
 # 首次需执行: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $ErrorActionPreference = "Stop"
@@ -40,10 +40,10 @@ if ($LASTEXITCODE -ne 0) { Write-Host "编译失败!" -ForegroundColor Red; exit
 
 Write-Host "=== 3. 打包 ===" -ForegroundColor Cyan
 
-# 先关闭正在运行的 TASoftware，避免 DLL 被占用
-$running = Get-Process -Name "TASoftware" -ErrorAction SilentlyContinue
+# 先关闭正在运行的 Witt，避免 DLL 被占用
+$running = Get-Process -Name "Witt" -ErrorAction SilentlyContinue
 if ($running) {
-    Write-Host "  检测到 TASoftware 正在运行，正在关闭..." -ForegroundColor Yellow
+    Write-Host "  检测到 Witt 正在运行，正在关闭..." -ForegroundColor Yellow
     $running | Stop-Process -Force
     Start-Sleep -Milliseconds 500
 }
@@ -54,9 +54,9 @@ if (Test-Path $PackageDir) {
 }
 New-Item -ItemType Directory -Force -Path $PackageDir | Out-Null
 
-Copy-Item (Join-Path $BuildDir "TASoftware.exe") $PackageDir -Force
+Copy-Item (Join-Path $BuildDir "Witt.exe") $PackageDir -Force
 
-& $WinDeploy (Join-Path $PackageDir "TASoftware.exe") `
+& $WinDeploy (Join-Path $PackageDir "Witt.exe") `
     --no-translations --no-system-d3d-compiler
 
 # 补上 MinGW 运行时 DLL
@@ -92,4 +92,4 @@ if (Test-Path $scriptsSrc) {
 Write-Host ""
 Write-Host "=== 打包完成 ===" -ForegroundColor Green
 Write-Host "输出目录: $PackageDir"
-Write-Host "运行: $PackageDir\TASoftware.exe"
+Write-Host "运行: $PackageDir\Witt.exe"

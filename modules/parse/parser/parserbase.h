@@ -30,6 +30,9 @@ public:
     // 按钮标签
     virtual QString buttonLabel() const = 0;
 
+    // 协议分类（用于 UI 按类分组下拉框）
+    virtual QString category() const { return QStringLiteral("其他"); }
+
     // 主协议 ID
     virtual ProtocolID protocolId() const = 0;
 

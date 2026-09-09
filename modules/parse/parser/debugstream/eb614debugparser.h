@@ -12,6 +12,7 @@ class Eb614DebugParser : public ParserBase
 {
 public:
     QString buttonLabel() const override { return QStringLiteral("614E-B调试数据流"); }
+    QString category() const override { return QStringLiteral("614E-B调试数据流"); }
     ProtocolID protocolId() const override { return ProtocolID::Eb614_IMU; }
 
     // 解析出全部 0x0101/0x0111/0x0131 帧

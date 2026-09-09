@@ -17,6 +17,7 @@ public:
         : m_desc(desc) {}
 
     QString buttonLabel() const override { return m_desc.label; }
+    QString category() const override { return QStringLiteral("标准帧协议"); }
     ProtocolID protocolId() const override { return m_desc.pid; }
 
     QList<ParsedFrame> parse(const QByteArray &rawData) override

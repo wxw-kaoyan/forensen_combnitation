@@ -11,6 +11,7 @@ class CanRtkParser : public ParserBase
 {
 public:
     QString buttonLabel() const override { return QStringLiteral("联试_CAN981"); }
+    QString category() const override { return QStringLiteral("CAN RTK"); }
     ProtocolID protocolId() const override { return ProtocolID::Can_RTK; }
 
     QList<ParsedFrame> parse(const QByteArray &rawData) override

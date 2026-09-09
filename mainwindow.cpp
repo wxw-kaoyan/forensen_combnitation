@@ -7,6 +7,7 @@
 #include "modules/analysis/raw/rawanalysispanel.h"
 #include "modules/parse/parsepanel.h"
 #include "modules/simulator/simulatorpanel.h"
+#include "modules/ota/ui/otapanel.h"
 #include "common/toolprocess.h"
 #include "common/toolprocessmanager.h"
 #include "common/uiinitializer.h"
@@ -60,6 +61,12 @@ MainWindow::MainWindow(QWidget *parent)
     // ---- PPS + 数据模拟面板 ----
     m_simulatorPanel = new SimulatorPanel(ui->simulatorTab);
     ui->verticalLayout_simulator->addWidget(m_simulatorPanel);
+
+    // ---- OTA 升级面板（独立模块：串口 / TCP 固件升级） ----
+    {
+        auto *otaPanel = new OtaPanel(ui->otaTab);
+        ui->verticalLayout_ota->addWidget(otaPanel);
+    }
 
     // ---- 常用工具 ----
     m_toolManager = new ToolProcessManager(this);

@@ -29,6 +29,7 @@ class KaixinFrameParser : public ParserBase
 {
 public:
     QString buttonLabel() const override { return QStringLiteral("611-AG调试数据流"); }
+    QString category() const override { return QStringLiteral("凯芯调试数据流"); }
     ProtocolID protocolId() const override { return ProtocolID::Kaixin_Data; }
 
     // 空实现（解析不走帧解析路径，而是通过 runPython 直接输出 CSV）

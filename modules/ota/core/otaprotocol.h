@@ -1,0 +1,56 @@
+#ifndef OTAPROTOCOL_H
+#define OTAPROTOCOL_H
+
+#include <QByteArray>
+#include <QString>
+#include <cstdint>
+
+// ════════════════════════════════════════════════════════════════
+//  OTA 升级协议层 — 帧定义 / CRC32 / 组帧 / 文件名 CRC 提取
+//  参照 Linux_UATR_OTA 工具：
+//    下行帧头 55 AA，上行帧头 AA 55；小端；
+//    CRC32 为 IEEE802.3 表驱动，初值 = 1，覆盖 sync~payload。
+//  本模块独立，不依赖 modules/parse。
+// ════════════════════════════════════════════════════════════════
+namespace OtaProtocol {
+
+// ── 命令字 ──
+enum Cmd : uint16_t {
+    NOP          = 0x00,
+    OK           = 0x10,   // ACK 成功标志
+    GET_SYNC     = 0x21,   // Bootloader 握手
+    GET_DEVICE   = 0x22,   // 读设备信息
+    CHIP_ERASE   = 0x23,   // 擦除 APP 区
+    CHIP_VERIFY  = 0x24,
+    PROG_MULTI   = 0x27,   // 64B/块烧写
+    GET_CRC      = 0x29,   // 回算固件 CRC32
+    REBOOT       = 0x30,   // 重启
+    RESET_MAGIC  = 0x88BB, // 硬复位魔术帧（强制进 BL）
+
+    ACK_CMD      = 0x0064, // 通用命令应答: command(u32)+result(u32)
+    ACK_CRC      = 0x753C, // result = 芯片侧固件 CRC32
+    ACK_OFFSET   = 0x753D, // result = 已确认烧写 offset
+};
+
+constexpr int kBlockSize = 64;       // 烧写块大小（字节）
+constexpr int kBootBaud  = 115200;   // Bootloader 固定波特率
+
+// ── CRC32（初值 1，与参考工具 crc_crc32 一致）──
+uint32_t crc32(const uint8_t *data, int len, uint32_t init = 1);
+
+// 计算整个固件文件的 CRC32（分块读取）；失败返回 0 并填 err
+uint32_t crc32File(const QString &path, QString *err = nullptr);
+
+// ── 组帧（下行，帧头 55 AA）──
+QByteArray buildLongCmd(uint16_t cmd);                       // 36B 长命令，参数全 0
+QByteArray buildDataFrame(uint32_t offset, uint16_t size,
+                          const uint8_t *data);              // 81B 数据帧
+QByteArray buildResetMagic();                                // 34B 硬复位魔术帧
+QByteArray handshakeString();                                // "HC32MCU_FORSENSE"
+
+// 从固件文件名提取 "#CRC<十进制>" 中的 CRC32；未找到返回 0
+uint32_t extractCrcFromFileName(const QString &fileName);
+
+} // namespace OtaProtocol
+
+#endif // OTAPROTOCOL_H

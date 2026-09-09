@@ -6,6 +6,7 @@ set(Qt6Charts_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts")
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Network SerialPort Concurrent Charts)
 
 qt_standard_project_setup()
+set(CMAKE_AUTORCC ON)
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -15,6 +16,8 @@ qt_add_executable(TASoftware
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    res/app_icon.rc
+    res/icons.qrc
     common/toolprocess.cpp
     common/toolprocess.h
     common/toolprocessmanager.cpp
@@ -123,7 +126,16 @@ qt_add_executable(TASoftware
     modules/analysis/raw/imureader.h
     modules/analysis/raw/truthreader.cpp
     modules/analysis/raw/truthreader.h
+    modules/ota/core/otaprotocol.cpp
+    modules/ota/core/otaprotocol.h
+    modules/ota/core/otaworker.cpp
+    modules/ota/core/otaworker.h
+    modules/ota/ui/otapanel.cpp
+    modules/ota/ui/otapanel.h
 )
+
+# 对外可执行文件名：Witt.exe（内部 target 名仍为 TASoftware，减少工程/构建配置改动）
+set_target_properties(TASoftware PROPERTIES OUTPUT_NAME "Witt")
 
 # RTKLIB .c files compiled as C++ (no C compiler available in this environment)
 # Suppress C++ warnings from legacy C code

@@ -12,6 +12,7 @@ class DebugFrameParser : public ParserBase
 {
 public:
     QString buttonLabel() const override { return QStringLiteral("AG调试数据流"); }
+    QString category() const override { return QStringLiteral("AG调试数据流"); }
     ProtocolID protocolId() const override { return ProtocolID::Debug_IMU; }
 
     // 解析出全部 0x51~0x56 帧

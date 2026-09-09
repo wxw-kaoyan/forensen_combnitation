@@ -11,6 +11,7 @@ class RtcmFrameParser : public ParserBase
 {
 public:
     QString buttonLabel() const override { return QStringLiteral("RTCM 3.x"); }
+    QString category() const override { return QStringLiteral("RTCM"); }
     ProtocolID protocolId() const override { return ProtocolID::Unknown; }
 
     QList<ParsedFrame> parse(const QByteArray &) override { return {}; }
