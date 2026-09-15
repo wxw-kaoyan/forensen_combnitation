@@ -13,7 +13,11 @@ AtParamDialog::AtParamDialog(const QString &cmdName,
                              QWidget *parent)
     : QDialog(parent)
 {
-    setWindowTitle(QStringLiteral("AT 指令参数"));
+    setWindowTitle(cmdName.startsWith(QLatin1Char('$'))
+                       ? (cmdName.contains(QStringLiteral("KMD"), Qt::CaseInsensitive)
+                              ? QStringLiteral("凯芯 KMD 指令参数")
+                              : QStringLiteral("NMEA 风格指令参数"))
+                       : QStringLiteral("AT 指令参数"));
     setMinimumWidth(380);
 
     auto *layout = new QVBoxLayout(this);

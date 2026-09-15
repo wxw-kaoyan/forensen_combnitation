@@ -3,7 +3,7 @@
 ================================================================================
 
 说明：整合来源 —— AT指令集.txt（芯片级指令） + 组合导航指令集.xls（组合导航级指令）
-分类：通用指令集 | 芯片指令集 | 组合导航指令集
+分类：通用指令集 | 芯片指令集 | 组合导航指令集 | 凯芯 KMD 协议 | 和芯 Unicore 指令
 格式：指令 | 响应 | 说明
 
 ================================================================================
@@ -135,4 +135,847 @@ AT+DRTK_USE=<值>             OK                 融合双天线数据
 AT+VEL_VAR_CONSTRAIN=<值>    OK                 速度方差约束 (如 0.01 / 0.04)
 AT+NHC_RATE=<频率>           OK                 配置 NHC 频率 (如 20 / 50)
 
+================================================================================
+四、凯芯评估板（KX-EVB-A-V1P1）配置与使用
+================================================================================
+
+说明：本章节整理自《7.2.2 KX-EVB-A-V1P1 使用手册_Draft_Rev.1.5》
+      该手册为评估板硬件手册，不含 AT 指令。
+      凯芯 AT 指令需参考《GNSS 协议指令参考手册》（待补充）。
+来源：北京凯芯微科技有限公司 | www.kisilicon.com | 文档状态：Draft
+适用：A8/A7/KT5030 系列 GNSS 产品评估
+
+--------------------------------------------------------------------------------
+4.1 评估套件组成
+--------------------------------------------------------------------------------
+
+编号  名称                      数量
+1     KX-EVB-A-V1P1 评估板      1
+2     USB Type-C 连接线         1
+
+--------------------------------------------------------------------------------
+4.2 EVB 连接器
+--------------------------------------------------------------------------------
+
+符号    描述
+J11     USB Type-C 连接器，用于 EVB 供电输入及数据通信（UART*3）
+J2      射频信号输入，连接 GNSS 天线
+J4      射频信号输入，连接 GNSS 从天线
+J9      PPS1 输出
+P1      UART1，RS232 电平
+J14     两路 CAN，与 UART2/3 复用
+J10     20 Pin 应用处理器 JTAG 接口
+
+--------------------------------------------------------------------------------
+4.3 开关 / 按钮
+--------------------------------------------------------------------------------
+
+符号    功能                  描述
+SW3     电源开关              控制 EVB +5V 电源开/关
+K1      复位                  系统复位（固件烧写时需通过 K1 复位板卡）
+J17     天线馈电配置选择       可选通过硬件或软件配置天线馈电
+SW2     拨码开关              模组复用功能选择
+SW4     拨码开关              模组复用功能选择（CAN/UART 复用）
+
+--------------------------------------------------------------------------------
+4.4 LED 指示灯
+--------------------------------------------------------------------------------
+
+符号        描述
+D22（红灯）  电源指示灯，EVB 供电正常时常亮
+D22（绿灯）  RTK 定位状态指示。亮灯：RTK Fix；灭灯：RTK 未定位
+D23         UART1 指示灯。红灯闪烁：正在发送；绿灯闪烁：正在接收
+D24         天线检测指示灯。
+            红灯亮：天线短路；绿灯亮：天线连接正常
+            红灯灭：天线未短路；绿灯灭：天线开路
+
+--------------------------------------------------------------------------------
+4.5 天线馈电配置
+--------------------------------------------------------------------------------
+
+馈电方式            配置操作
+EVB 板上控制馈电   跳线连接 J17 2-3 引脚，SW2.5 = OFF（拨码开关抬起）开启馈电
+软件控制馈电        跳线连接 J17 1-2 引脚，SW2.2 = ON（拨码开关按下），
+                    发送对应协议命令打开/关闭馈电（命令需参考《GNSS 协议指令参考手册》）
+
+注：软件控制天线馈电功能需配合产品固件使用。
+
+--------------------------------------------------------------------------------
+4.6 功能复用拨码配置
+--------------------------------------------------------------------------------
+
+编号  拨码配置       描述
+1     SW2.2 = ON    开启天线开短路检测功能及软件天线馈电控制
+2     SW2.3 = ON    开启 RTK 状态指示
+                    （不可与天线开短路检测功能或软件天线馈电同时开启）
+3     SW2.5 = OFF   硬件拨码开关控制天线馈电，OFF 为开启天线馈电
+4     SW4.1 = ON    使用 CAN1
+5     SW4.2 = ON    使用 CAN2
+6     SW4.1 = OFF   使用 UART2
+7     SW4.2 = OFF   使用 UART3
+
+注：未提到的拨码开关建议保留初始默认状态。复用功能与使用模组有关，
+    请配合对应模组用户手册进行功能配置。
+
+--------------------------------------------------------------------------------
+4.7 快速使用
+--------------------------------------------------------------------------------
+
+4.7.1 安装 PISA
+  PISA 是凯芯科技提供的 GNSS 可视化评估软件，用于凯芯 GNSS 产品/方案的配置、
+  测试及数据分析，适用于 Windows 10/11。
+  包含在凯芯科技发布包中，双击 PISA.exe 即可使用。
+
+4.7.2 连接板卡
+  1) 连接 GNSS 天线到天线接口
+  2) 将 EVB 通过 USB Type-C 线连接至 PC
+  3) 打开电源开关，EVB 上电
+  4) 打开 PC 端上位机软件进行调试
+  注：推荐直接插拔 USB 连接线控制板卡上/下电。
+
+4.7.3 RTK 设置（PISA 上使用 NTRIP）
+  连接差分数据：
+  1) 单击"流控"，打开差分数据配置窗口
+  2) 窗口左侧"输入"栏，依次配置 NTrip 主机/端口/挂载点/用户名及密码
+  3) 窗口右侧"输出"栏，配置输出串口
+  4) 单击输入栏中 NTrip "连接"，连接差分数据
+  5) "Rtcm 数据"栏中勾选"解析 Rtcm"，确认差分数据连接
+  查看定位状态：
+  单击"接收机"，打开接收机视图，定位状态显示为"4"表示进入 RTK FIX 状态。
+
+--------------------------------------------------------------------------------
+4.8 固件升级
+--------------------------------------------------------------------------------
+
+  注：仅支持通过 P1 UART1 或 USB 通信接口中的第一个串口进行固件烧写。
+
+  1) 连接待评估产品 UART1（第一个串口）至 PC 端
+  2) 双击打开 PISA 软件，单击"打开串口"，进入串口连接配置窗口
+  3) 选择与 UART1 连接的端口，波特率设为 460800，校验选择"无校验"，单击"连接"
+  4) 单击"更新固件"，进入固件升级窗口
+  5) 烧录类型保持"接收机固件"默认配置，单击右侧"选择"，
+     在本地选取待烧写的固件文件，单击"打开"
+  6) 单击"启动"，然后根据提示按下 EVB 板上"复位"按钮 K1 复位评估板，
+     开始固件烧写
+  7) 固件烧写完成后，重新复位板卡
+
+  注：请确保通过 EVB 板上复位按钮 K1 进行板卡复位。
+
+--------------------------------------------------------------------------------
+4.9 参考文档（待获取以补充指令集）
+--------------------------------------------------------------------------------
+
+  [1] GNSS 协议指令参考手册   ← 凯芯 AT 指令来源，待补充
+  [2] 模组用户手册
+
+================================================================================
+五、凯芯 KMD 协议指令集（Delos 平台）
+================================================================================
+
+说明：本章节整理自《Delos_协议指令参考手册》
+      文档编号：DC0002-C03 | 版本：1.3.25 | 状态：Draft | 发布日期：2025/06/03
+      凯芯 KMD 协议指令以 '$' 开头，格式：$KMDXXX,para1,para2...*CS\r\n
+      校验和为 '$' 与 '*' 之间所有字符的异或，以 16 进制表示。
+      输入指令中校验和可选；输出消息总是包含校验和。
+      字母均不区分大小写，单条指令长度不超过 256 字符。
+来源：北京凯芯微科技有限公司 | www.kisilicon.com
+适用：凯芯 Delos 平台系列产品（A8P/A7P/KT5030 等）
+分类：通用指令（查询/复位/恢复出厂） | 配置指令（串口/消息/PPS/GNSS/工作模式/基准站等）
+应答：配置类指令成功返回 KMDOK，失败返回 KMDFAIL；
+      查询类指令成功返回对应查询信息，失败返回 KMDFAIL。
+
+--------------------------------------------------------------------------------
+5.1 指令格式与应答机制
+--------------------------------------------------------------------------------
+
+指令格式：
+  $<消息名称>,<参数1>,<参数2>,...,<参数N>*<校验和>\r\n
+  - 消息名称：大写英文字母 + 数字，定义语句功能
+  - 参数：不定数量，以逗号分隔；可选参数可置空（,, 或 ,*）
+  - 校验和：'$' 后至 '*' 前所有字符的异或，16 进制表示
+  - 结尾符：\r\n（回车换行）
+  - 单条指令长度不超过 256 字符
+
+指令应答：
+  - 查询类指令：成功 → 输出对应查询信息；失败 → 输出 KMDFAIL
+  - 配置类指令：成功 → 输出 KMDOK；失败 → 输出 KMDFAIL
+  - 兼容 log 配置指令：成功 → OK + 查询信息；失败 → Command invalid / Command not supported
+
+--------------------------------------------------------------------------------
+5.2 通用指令（查询 / 复位 / 恢复出厂）
+--------------------------------------------------------------------------------
+
+--- 5.2.1 KMDVER 查询产品信息 ---
+  说明：KMDVER 指令用于查询产品相关信息。接收机收到 KMDVER 查询指令后，输出 KMDVER 消息，包含当前产品名称、版本、序列号等信息。
+  格式：
+    $KMDVER
+  输入示例：
+    $KMDVER
+  查询输出示例：
+    $KMDVER,A8P-KD, V2P0B1,D00631CD47A20541,AMR,1.2.0,RC5*36
+
+--- 5.2.2 KMD 查询接收机配置 ---
+  说明：KMD 指令用于查询接收机当前生效的配置和功能信息。接收机收到 KMD 查询指令后，分行输出所有串口配置 $KMDUART、消息输出配置 $KMDMSG、PPS 输出配置 $KMDPPS、GNSS 工作系统配置 $KMDGNSS、接收机工作模式配置 $KMDMODE、基准站相关配置 $KMDTXID/$KMDFIX/$KMDFIXAUTO/$KMDANT、卫星截止高度角配置 $KMDELEOFF 等信息。
+  格式：
+    $KMD
+  输入示例：
+    $KMD
+  查询输出示例：
+    $KMDUART,COM1,460800*2A
+    $KMDMSG,COM1,GGA,1.00*19
+    $KMDMSG,COM1,GSV,1.00*1A
+    $KMDPPS,1,1000000,10000,5,0,0*15
+    $KMDMODE,ROVER*31
+    $KMDELEOFF,BDS,5.0*3F
+    $KMDELEOFF,GPS,5.0*2E
+    $KMDNMEA,V411*0B
+
+--- 5.2.3 KMDFIXSTATUS 查询基准站坐标配置状态 ---
+  说明：KMDFIXSTATUS 指令用于查询接收机在基准站模式下的位置坐标配置状态。不同模式下设置的基准站坐标支持的坐标系不同，使用 KMDFIXSTATUS 查询获取的基准站坐标格式也会不同。
+  格式：
+    $KMDFIXSTATUS
+  输入示例：
+    $KMDFIXSTATUS
+  查询输出示例：
+    $KMDFIXSTATUS,5,0.000,0.000,0.000*1A
+
+--- 5.2.4 KMDDLS 查询芯片信息 ---
+  说明：KMDDLS 用于查询芯片相关信息
+  格式：
+    $KMDDLS
+  输入示例：
+    $KMDDLS
+  查询输出示例：
+    $KMDDLS,KT5030-KD,8421376*1F
+
+--- 5.2.5 KMDCMP 查询固件组件信息 ---
+  说明：KMDCMP 用于查询产品固件所使用到的组件信息
+  格式：
+    $KMDCMP
+  输入示例：
+    $KMDCMP
+  查询输出示例：
+    $KMDCMP,AP,209,SDK,2.1.8,r456,RTK,1.0.1,r342,DRV,1.1.2,r432,RTCM,1.0.0,r768*69
+
+--- 5.2.6 KMDCLR 清除当前所有消息输出（参考 KMDMSGCLR） ---
+  说明：KMDCLR 指令用于清除当前所有消息输出。
+  格式：
+    $KMDCLR
+  输入示例：
+    $KMDCLR
+
+--- 5.2.7 KMDMSGCLR 清除指定端口消息输出 ---
+  说明：KMDMSGCLR 指令用于清除指定端口的 KMDMSG 消息输出。KMDMSGCLR 将逐步替代 KMDCLR。
+  格式：
+    $KMDMSGCLR
+    $KMDMSGCLR,com
+  输入示例：
+    $KMDMSGCLR
+    $KMDMSGCLR, COM1
+
+--- 5.2.8 KMDRST 重启接收机 ---
+  说明：KMDRST 指令用于复位接收机，支持复位时清除保存在接收机中的卫星星历、卫星历书、位置信息、电离层和 UTC 参数等数据。接收机收到 KMDRST 指令后将强制重启。
+  格式：
+    $KMDRST,rstMask
+  输入示例：
+    $KMDRST,h00
+
+--- 5.2.9 KMDHWRST 硬件复位接收机 ---
+  说明：KMDHWRST 指令用于接收机硬件复位。如果未保存用户配置，执行 KMDHWRST 后接收机配置将恢复为出厂默认设置或上一次保存的用户设置。KMDHWRST 仅清除接收机配置中未保存的更改。
+  格式：
+    $KMDHWRST,delay
+  输入示例：
+    $KMDHWRST,0
+
+--- 5.2.10 KMDFACTORYRST 恢复出厂设置 ---
+  说明：KMDFACTORYRST 指令用于清除当前接收机设置，恢复出厂设置。注意：该指令会清除所有存储在非易失性存储器中的位置信息、卫星星历及用户设置等数据，并强制重启接收机，请谨慎使用。使用后需要等待 3s 方可进行其他操作。
+  格式：
+    $KMDFACTORYRST
+  输入示例：
+    $KMDFACTORYRST
+
+--------------------------------------------------------------------------------
+5.3 配置指令（串口 / 消息 / PPS / GNSS / 工作模式 / 基准站等）
+--------------------------------------------------------------------------------
+
+--- 5.3.1 KMDUART 串口配置 ---
+  说明：KMDUART 指令提供查询和配置接收机指定串口功能。
+  格式：
+    $KMDUART,com
+    $KMDUART,com,baudRate
+  输入示例：
+    $KMDUART,COM1
+    $KMDUART,COM1,460800
+    $KMDUART,COM3,115200
+  查询输出示例：
+    $KMDUART,COM1,460800*27
+
+--- 5.3.2 KMDMSG 根据消息名称查询/配置输出消息 ---
+  说明：KMDMSG 指令提供按照消息名称查询和设置指定消息输出配置功能。支持设置接收机输出串口、消息名称及消息输出频度。
+  格式：
+    $KMDMSG,com,msgName
+    $KMDMSG,com,msgName,msgCfg
+  输入示例：
+    $KMDMSG,COM1,RMC
+    $KMDMSG,ALL                          // 查询所有 COM 口所有 MSG 信息
+    $KMDMSG                              // 查询当前 COM 口的所有 MSG 信息
+    $KMDMSG,,RMC
+    $KMDMSG,COM1,RMC,1
+    $KMDMSG,COM1,RTCM1074,2,0
+    $KMDMSG,COM1,RTCM1074,2,1
+  查询输出示例：
+    $KMDMSG,COM1,RMC,1*2A
+
+--- 5.3.3 KMDDYN 配置接收机动态参数 ---
+  说明：KMDDYN 指令提供查询和配置接收机动态参数功能，用于匹配应用端优化接收机性能。该指令需重启接收机后生效，且仅对接收机工作在 ROVER 模式下有效，不适用于 BASE/MOVINGBASE 模式。
+  格式：
+    $KMDDYN
+  输入示例：
+    $KMDDYN
+  查询输出示例：
+    $KMDDYN,AUTO*32
+
+--- 5.3.4 KMDPPS PPS 输出配置 ---
+  说明：KMDPPS 指令提供查询和设置指定 PPS 消息输出配置功能。支持设置 PPS 输出消息的脉冲配置、输出模式、延迟等参数。
+  格式：
+    $KMDPPS,ppsId
+    $KMDPPS,ppsId,ppsInterval,ppsPulseWidth,ppsControlFlag,gnssFlag,ppsDelay
+  输入示例：
+    $KMDPPS,1
+    $KMDPPS,1,1000000,10000,1,0,0
+  查询输出示例：
+    $KMDPPS,1,1000000,10000,1,0,0*11
+
+--- 5.3.5 KMDGNSS GNSS 工作系统设置 ---
+  说明：KMDGNSS 指令提供查询和设置接收机 GNSS 工作系统和频点配置功能。
+  格式：
+    $KMDGNSS
+    $KMDGNSS,gnssSigEn
+  输入示例：
+    $KMDGNSS
+    $KMDGNSS,hD37D2F
+  查询输出示例：
+    $KMDGNSS,hD37D2F*7F                    // 缺省十六进制输出
+
+--- 5.3.6 KMDSATMASK 屏蔽接收机接收卫星 ---
+  说明：KMDSATMASK 指令提供查询和接收机接收卫星屏蔽功能。
+  格式：
+    $KMDSATMASK
+    $KMDSATMASK,gnssSys,SVID
+  输入示例：
+    $KMDSATMASK
+    $KMDSATMASK,BDS,hFFFF
+  查询输出示例：
+    $KMDSATMASK,BDS,hFFFF*2D
+
+--- 5.3.7 KMDMODE 接收机工作模式设置 ---
+  说明：KMDMODE 指令提供查询和设置接收机工作模式功能。支持模式：BASE（基准站）、BASEL（基准站轻量模式）、ROVER（流动站，默认）、MOVINGBASE（移动基站）、HEADING（定向）。
+  格式：
+    $KMDMODE
+    $KMDMODE,mode
+  输入示例：
+    $KMDMODE
+    $KMDMODE,BASE
+  查询输出示例：
+    $KMDMODE,BASE*78
+  注：基准站相关指令需在 BASE 模式下配置；MOVINGBASE 模式下 RTCMSTA 中基准站位置为接收机计算值。
+
+--- 5.3.8 KMDTXID 基准站 ID 设置 ---
+  说明：KMDTXID 指令提供查询和设置基准站 ID 功能。该设置影响 RTCM1005、RTCM1033 中基准站 ID 信息。
+  格式：
+    $KMDTXID
+    $KMDTXID,refId
+  输入示例：
+    $KMDTXID
+    $KMDTXID,0
+  查询输出示例：
+    $KMDTXID,0*5F
+  参数：refId 取值 0~4095
+
+--- 5.3.9 KMDFIX 设置基准站固定坐标 ---
+  说明：KMDFIX 指令提供查询和设置接收机的固定坐标值功能，以使接收机工作在基准站模式。强烈建议输入坐标精度保持在几米内，若偏差大于 100 米，基准站信息停止输出。
+  格式：
+    $KMDFIX
+    $KMDFIX,refId,lat,lon,height
+  输入示例：
+    $KMDFIX
+    $KMDFIX,5, 41.36136389,116.254891377,100.253
+  查询输出示例：
+    $KMDFIX,5,41.36136389,116.25489138,100.253*33
+
+--- 5.3.10 KMDFIXAUTO 自主优化模式设置基准站坐标 ---
+  说明：KMDFIXAUTO 指令提供查询和设置接收机自主优化定位坐标功能。自主优化模式下，当计算位置坐标在距离误差（tolerance）以内时使用内存中的固定坐标；超出距离误差时进行自主优化计算，直到满足精度或超时。接收机工作在基准站模式且未设置基准站坐标时，默认将当前定位结果 60 秒平均值设为基准站坐标。KMDFIXAUTO 仅支持地心地固坐标系。
+  格式：
+    $KMDFIXAUTO
+    $KMDFIXAUTO,refId,time,std1,std2,tolerance
+  输入示例：
+    $KMDFIXAUTO
+    $KMDFIXAUTO,1,60,1.5,2.5,5
+  查询输出示例：
+    $KMDFIXAUTO,1,60,1.50,2.50,5.00*19
+
+--- 5.3.11 KMDFIXAUTOCLR 清除基准站自主优化坐标 ---
+  说明：KMDFIXAUTOCLR 指令用于清除基准站自主优化坐标。建议基准站移动后使用 KMDFIXAUTO 命令前，先使用该命令清除已存坐标。
+  格式：
+    $KMDFIXAUTOCLR
+  输入示例：
+    $KMDFIXAUTOCLR
+
+--- 5.3.12 KMDANT 基准站天线配置 ---
+  说明：KMDANT 指令提供查询和设置基准站天线配置功能。用于设置基准站模式下的天线 ID、名称、型号等信息，影响 RTCM1033 差分电文中有关天线的描述。
+  格式：
+    $KMDANT
+    $KMDANT,refId,name,SN,setupId,type
+  输入示例：
+    $KMDANT
+    $KMDANT,1,NONE,NONE,0,NONE
+  查询输出示例：
+    $KMDANT,1,NONE,NONE,0,NONE*3E
+
+--- 5.3.13 KMDRTCM RTCM 编码配置 ---
+  说明：KMDRTCM 指令提供查询和设置 RTCM 编码功能。用于设置 RTCM 中多普勒符号、是否使用伪距平滑、输出模式等。
+  格式：
+    $KMDRTCM
+    $KMDRTCM,psrSmooth,clockComp,dopplerSign,el,measState,cn0
+  输入示例：
+    $KMDRTCM
+    $KMDRTCM,1,1,1,10,7,0
+  查询输出示例：
+    $KMDRTCM,1,1,1,-90,h7,0*30
+
+--- 5.3.14 KMDELEOFF 卫星的截止高度角设置 ---
+  说明：KMDELEOFF 指令提供查询和设置接收机跟踪卫星的截止高度角功能。当卫星高于截止高度角时，接收机自动搜索跟踪；低于截止高度角时停止跟踪。
+  格式：
+    $KMDELEOFF,gnssSys
+    $KMDELEOFF,gnssSys,eleCutOff
+  输入示例：
+    $KMDELEOFF
+  查询输出示例：
+    $KMDELEOFF,BDS,5.0*3F
+    $KMDELEOFF,GPS,5.0*2E
+    $KMDELEOFF,GAL,5.0*20
+    $KMDELEOFF,GLO,5.0*2E
+    $KMDELEOFF,QZSS,5.0*61
+    $KMDELEOFF,NAVIC,5.0*63
+    $KMDELEOFF,SBAS,5.0*69
+
+--- 5.3.15 KMDHDGOFFSET 航向和俯仰改正值设置 ---
+  说明：KMDHDGOFFSET 指令提供查询和配置接收机航向角和俯仰角的改正值。设置后会修正 HDT、KMDHEADING 等定向消息中的航向角和俯仰角信息。
+  格式：
+    $KMDHDGOFFSET
+    $KMDHDGOFFSET,headingOffset,pitchOffset
+  输入示例：
+    $KMDHDGOFFSET
+  查询输出示例：
+    $KMDHDGOFFSET,0.00,0.00*04
+
+--- 5.3.16 KMDRTKDIFFAGE 差分信息龄期设置 ---
+  说明：KMDRTKDIFFAGE 指令提供查询和设置差分信息龄期功能。
+  格式：
+    $KMDRTKDIFFAGE
+    $KMDRTKDIFFAGE,diffAge
+  输入示例：
+    $KMDRTKDIFFAGE
+    $KMDRTKDIFFAGE,60
+  查询输出示例：
+    $KMDRTKDIFFAGE,60*6B
+
+--- 5.3.17 KMDNMEA NMEA 版本配置 ---
+  说明：KMDNMEA 指令用于查询或配置 NMEA 版本，支持 NMEA 2.3 和 NMEA 4.11 版本。
+  格式：
+    $KMDNMEA
+    $KMDNMEA,version
+  输入示例：
+    $KMDNMEA
+    $KMDNMEA,V411
+  查询输出示例：
+    $KMDNMEA,V411*0B
+
+--- 5.3.18 KMDEVENTIN EVENT 配置 ---
+  说明：KMDEVENTIN 指令用于配置接收机 EVENT 相关功能，该功能仅 A8P 适用。注意 EVENT 事件响应频度为 ms 级。
+  格式：
+    $KMDEVENTIN
+    $KMDEVENTIN,option,polarity,guardTime
+  输入示例：
+    $KMDEVENTIN
+    $KMDEVENTIN,ENABLE,NEGATIVE,4
+  查询输出示例：
+    $KMDEVENTIN
+
+--- 5.3.19 KMDANTPOWER 天线馈电配置 ---
+  说明：KMDANTPOWER 指令用于查询或配置接收机内部电源对外部有源天线 LNA 的馈电。对于双天线接收机，同时启用/关闭主/从天线馈电。仅 A8P、A7P 适用。注意：配置馈电需匹配硬件使用，如馈电管脚被复用为其他功能，需先通过 KMDPINMUXSEL 命令恢复指定管脚为馈电功能。
+  格式：
+    $KMDANTPOWER
+    $KMDANTPOWER,ON
+  输入示例：
+    $KMDANTPOWER
+  查询输出示例：
+    $KMDANTPOWER,OFF*25
+
+--- 5.3.20 KMDANTFLAGPOL 天线检测有效电平配置 ---
+  说明：KMDANTFLAGPOL 指令用于查询或配置天线开短路检测的有效电平，修改后将影响 KMDANTFLAG 输出消息中天线检测状态标识。仅 A8P 适用。
+  格式：
+    $KMDANTFLAGPOL
+    $KMDANTFLAGPOL,HIGH,LOW
+  输入示例：
+    $KMDANTFLAGPOL
+  查询输出示例：
+    $KMDANTFLAGPOL,HIGH,LOW*1C
+
+--- 5.3.21 KMDANTOFFPOL 关闭天线馈电有效电平配置 ---
+  说明：KMDANTOFFPOL 指令用于查询或配置关闭内部天线馈电的有效电平配置。仅 A8P、A7P 适用。
+  格式：
+    $KMDANTOFFPOL
+    $KMDANTOFFPOL,HIGH
+  输入示例：
+    $KMDANTOFFPOL
+  查询输出示例：
+    $KMDANTOFFPOL,LOW*7D
+
+--- 5.3.22 KMDPINMUXSEL 管脚复用功能配置 ---
+  说明：KMDPINMUXSEL 指令用于查询或设置管脚复用功能。
+  格式：
+    $KMDPINMUXSEL
+  输入示例：
+    $KMDPINMUXSEL
+  查询输出示例：
+    $KMDPINMUXSEL,h1F*3C
+
+--- 5.3.23 KMDRNGSIGSW RANGE 语句信号类型配置 ---
+  说明：KMDRNGSIGSW 指令用于控制 KMDRANGEM、KMDRANGES、BASERANGE、RANGECMP 语句中输出的信号类型及 BASERANGE MSGID，开启后可将信号类型切换为兼容模式。
+  格式：
+    $KMDRNGSIGSW
+  输入示例：
+    $KMDRNGSIGSW
+    $KMDRNGSIGSW,DISABLE
+  查询输出示例：
+    $KMDRNGSIGSW,DISABLE*38
+
+--- 5.3.24 KMDUSRINFO 自定义信息 ---
+  说明：KMDUSRINFO 用于用户配置自定义信息。
+  格式：
+    $KMDUSRINFO
+    $KMDUSRINFO,<edit>,<cstHeader>,<cstInfo>,<RSV>
+  输入示例：
+    $KMDUSRINFO
+    $KMDUSRINFO,<edit>,<cstHeader>,<cstInfo>,<RSV>
+  查询输出示例：
+    $KMDUSRINFO,0,AAAAA,123456789*74
+
+--- 5.3.25 KMDNIC 抗干扰配置 ---
+  说明：KMDNIC 用于抗干扰配置。
+  格式：
+    $KMDNIC,sigEn
+    $KMDNIC
+  输入示例：
+    $KMDNIC,H7                // 十六进制，关闭抗干扰自适应。强制打开主天线 L1/L2_LOW/L2_HIGH 频点抗干扰
+    $KMDNIC,H80000000         // 使能抗干扰自适应（恢复缺省工作模式）
+    $KMDNIC
+  查询输出示例：
+    $KMDNIC,H7*CRC            // 缺省按 16 进制输出
+
+--- 5.3.26 KMDAGC 射频通道增益配置 ---
+  说明：KMDAGC 用于射频通道增益配置。
+  格式：
+    $KMDAGC, value1, value2, value3, value4
+    $KMDAGC
+  输入示例：
+    $KMDAGC,4,3,2,2
+    $KMDAGC
+  查询输出示例：
+    $KMDAGC,4,3,2,2*CRC
+
+--- 5.3.27 KMDSAVE 存储配置 ---
+  说明：KMDSAVE 指令用于将接收机的用户配置信息（如串口配置、输出消息配置、接收机工作模式等）存储到非易失性存储器（NVM）中，以便在接收机重启后继续使用该配置。注意：接收机恢复出厂设置（KMDFACTORYRST）后，存储在 NVM 中的用户配置信息被擦除，用户可根据需要重新配置并保存。
+  格式：
+    $KMDSAVE
+  输入示例：
+    $KMDSAVE
+  查询输出示例：
+    $KMDOK*XX                 // 保存成功后返回 KMDOK 应答
+
+================================================================================
+（凯芯 KMD 协议输出消息：KMDRANGEM/KMDRANGES/KSXT/NMEA/RTCM/BESTPOS 等
+  详见《Delos_协议指令参考手册》第 3 章，本章节仅整理输入指令部分）
+================================================================================
+
+
+================================================================================
+六、和芯星通 Unicore 指令集（N4 高精度产品）
+================================================================================
+
+说明：本章节整理自《Unicore Reference Commands Manual For N4 High Precision
+      Products_V2_CH_R1.41》（和芯星通科技(北京)有限公司）
+适用：UM960 / UM960L / UM980 / UM982 / UMD982 / UB9A0（N4/Nebulas IV 平台）
+分类：常用配置 | MODE 工作模式 | CONFIG 功能配置 | MASK 屏蔽 | AGNSS |
+      数据输出（NMEA/RTCM/Unicore log） | 其它（保存/复位/恢复出厂）
+应答：配置成功无显式应答或回显配置；查询指令输出对应 $CONFIG,... / #MODE,... 消息；
+      非法指令返回 ERROR/Command invalid。
+
+--------------------------------------------------------------------------------
+6.1 指令格式
+--------------------------------------------------------------------------------
+
+和芯接收机支持两种 ASCII 输入格式：
+
+  (1) 简化 ASCII（默认，推荐）—— 空格分隔、无校验、无 '$' 头：
+        RESET
+        CONFIG COM1 115200
+        MODE BASE 40.078983248 116.236601977 60.42
+        GPGGA COM1 1
+
+  (2) 带校验 ASCII —— '$' 开头、'*XX' 结尾，XX 为 '$' 与 '*' 间字符异或：
+        $RESET*55
+      默认状态模块只识别简化格式；如需使用带校验指令，必须先发送：
+        CONFIG CMDFORMAT 1
+      （仅 UM982/UMD982 支持 CMDFORMAT）
+
+通用规则：
+  - 指令不区分大小写，参数之间以空格分隔，以 \r\n 结尾
+  - 数据输出频率参数：1 / 0.5 / 0.2 / 0.1 / 0.05 / 0.02
+                      对应 1Hz / 2Hz / 5Hz / 10Hz / 20Hz / 50Hz
+    （50Hz 需特定产品、固件支持）
+  - 输出指令 [串口号] 省略 = 当前串口；[频率] 省略 = 只输出一次；
+    ONCHANGED = 内容变化时输出
+  - NMEA 消息请求一律用 GP 前缀输入（GPGGA/GPRMC...），不论实际解算系统
+
+--------------------------------------------------------------------------------
+6.2 常用配置速查（手册第 1 章）
+--------------------------------------------------------------------------------
+
+--- 基础命令 ---
+  VERSION                      查询版本号及授权信息
+  CONFIG                       查询接收机当前全部配置
+  SAVECONFIG                   保存配置到 NVM
+  FRESET                       清除全部用户设置/星历/位置并重启（波特率回 115200）
+  RESET                        重启接收机
+  UNLOG                        停止当前串口所有输出
+  CONFIG COM1 115200           设置 COM1 波特率（9600~921600）
+
+--- 卫星系统使能/屏蔽 ---
+  MASK BDS                     禁用 BDS（另可 GPS/GLO/GAL/QZSS）
+  UNMASK BDS                   启用 BDS（默认全系统跟踪）
+
+--- 基准站固定坐标（表 1-2） ---
+  MODE BASE 40.078983248 116.236601977 60.42
+  RTCM1006 COM2 10             基准站天线参考点坐标（含天线高），10s 一次
+  RTCM1033 COM2 10             接收机与天线说明
+  RTCM1074 COM2 1              GPS 差分电文，1Hz
+  RTCM1124 COM2 1              BDS 差分电文
+  RTCM1084 COM2 1              GLO 差分电文
+  RTCM1094 COM2 1              Galileo 差分电文
+  SAVECONFIG
+
+--- 基准站自主优化（表 1-3，无精确坐标时） ---
+  MODE BASE TIME 60            自主定位 60s 平均值为基准坐标（重启重新计算）
+  （RTCM 电文配置同上，最后 SAVECONFIG）
+
+--- 流动站 ---
+  MODE ROVER                   缺省流动站模式（自适应识别 RTCM 输入口/格式）
+  SAVECONFIG
+
+--- 双天线定向 Heading（UM982/UMD982） ---
+  GPTHS 1                      1Hz 输出 THS 航向信息
+  SAVECONFIG
+
+--- Heading2 移动基线定向（主天线 ↔ 基站 GNSS 天线） ---
+  MODE HEADING2
+  GPTHS2 ONCHANGED
+  SAVECONFIG
+
+--------------------------------------------------------------------------------
+6.3 MODE 工作模式指令
+--------------------------------------------------------------------------------
+
+  MODE                         查询当前工作模式
+                               回 #MODE,...;MODE ROVER SURVEY,*XX
+  MODE BASE                    缺省基站（当前定位 60s 平均，平面 2.5m/高程 3.5m 门限）
+  MODE BASE [lat lon height]   精确坐标基站（大地坐标；超范围视为 ECEF XYZ）
+  MODE BASE [X Y Z]            ECEF 地心地固坐标基站（米）
+  MODE BASE [ID]               基站 + 基站 ID（0~4095，仅 RTCM3.2）
+                               例：MODE BASE 1
+  MODE BASE [ID] TIME T [D]    自主优化基站：T≤3600s；D=0~10m 坐标复用距离
+                               例：MODE BASE TIME 60 5 / MODE BASE 1 TIME 60
+  MODE ROVER                   缺省流动站
+  MODE ROVER UAV [DEFAULT|HIGHDYN]   无人机动态（默认）/高机动
+  MODE ROVER SURVEY [DEFAULT|MOW]   精准测量（默认）/割草机
+  MODE ROVER AUTOMOTIVE        车载动态
+  MODE HEADING2 [FIXLENGTH]    定长基线（默认，两天线可同步动静）
+  MODE HEADING2 STATIC         两端均静止
+  MODE HEADING2 VARIABLELENGTH 基线距离实时变化
+  MODE HEADING2 LOWDYNAMIC     低动态（打桩机类，定长）
+  MODE HEADING2 TRACTOR        农机应用（定长）
+
+  各产品默认 Rover 模式：UM980=SURVEY，UM982/UMD982=UAV，UM960=SURVEY MOW
+
+--------------------------------------------------------------------------------
+6.4 CONFIG 功能配置指令（查询：CONFIG）
+--------------------------------------------------------------------------------
+
+--- 串口 ---
+  CONFIG COM1 115200 [8 n 1]   波特率(9600/19200/38400/57600/115200/230400/
+                               460800/921600) + 数据位 + 校验(n/o/e) + 停止位
+
+--- PPS / 时间 ---
+  CONFIG PPS ENABLE GPS POSITIVE 500000 1000 0 0
+                               使能/系统(GPS/BDS)/极性(POSITIVE/NEGATIVE)/
+                               周期us/脉宽us/延迟
+  CONFIG PPS DISABLE           关闭 PPS
+
+--- 定位引擎 ---
+  CONFIG UNDULATION 9.7        高程异常改正(米)；Auto=内置格网（基站前先配）
+  CONFIG DGPS TIMEOUT 100      伪距差分最大龄期(s)，0=禁止 DGPS
+  CONFIG RTK TIMEOUT 60        RTK 差分龄期(s)
+  CONFIG RTK RELIABILITY 3 1   RTK 可靠性参数
+  CONFIG STANDALONE ENABLE lat lon height   无差分短时厘米级保持
+  CONFIG STANDALONE DISABLE
+  CONFIG PPP ENABLE B2b-PPP    PPP 配置（特定版本）
+  CONFIG PPP CONVERGE ...
+  CONFIG RTKASITPPP ENABLE     RTK 辅助 PPP 收敛（UM982/UMD982）
+  CONFIG IONMODE GPSK8         电离层模型
+  CONFIG PVTALG MULTI          PVT 解算引擎
+  CONFIG PSRPOSBIAS ENABLE     PSRPOS 偏差补偿
+  CONFIG PSRVELDRPOS ENABLE    多普勒位置预测（默认使能）
+
+--- 定向 ---
+  CONFIG HEADING FIXLENGTH|VARIABLELENGTH|STATIC|LOWDYNAMIC
+  CONFIG HEADING LENGTH [len]  固定基线长度（米）
+  CONFIG HEADING OFFSET heading pitch   航向/俯仰偏移改正（度）
+  CONFIG ALGRESET HEADING      算法引擎复位
+
+--- SBAS / 平滑 / 多路径 ---
+  CONFIG SBAS ENABLE WAAS      使能 SBAS（WAAS/EGNOS/MSAS/GAGAN/AUTO）
+  CONFIG SBAS TIMEOUT 600
+  CONFIG SMOOTH RTKHEIGHT 10   RTK 高程平滑时间(s)
+  CONFIG SMOOTH HEADING 10     航向平滑
+  CONFIG SMOOTH PSRVEL ENABLE  多普勒速度平滑
+  CONFIG MMP ENABLE            伪距多路径抑制（UM980/UB9A0）
+
+--- 事件 EVENT ---
+  CONFIG EVENT ENABLE POSITIVE 10    使能/极性/保护时间(ms)
+  CONFIG EVENT DISABLE
+  CONFIG EVENT2 ENABLE POSITIVE 10   （UM982/UMD982）
+  CONFIG EVENT2 DISABLE
+
+--- 协议/RTCM ---
+  CONFIG NMEA0183 V410         NMEA 版本（V410 默认 / V411）
+  CONFIG RTCMB1CB2a ENABLE     BDS B1C&B2a 编入 RTCM（默认使能）
+  CONFIG RTCMSWITCHL2CL2P AUTO L2C/L2P 选择（UB9A0）
+  CONFIG RTCMPHASERATE POSITIVE 载波相位变化符号
+  CONFIG RTCMCLOCKOFFSET ENABLE RTCM 钟差补偿（默认使能）
+  CONFIG RTCMDECAUTO ENABLE    优先解析 RTCM3.2 过滤 3.0
+  CONFIG ALLEPHRTCM ENABLE     一次输出该系统全部星历
+  CONFIG SIGNALGROUP 1         跟踪通道/频点组合（1 / 2 3）
+
+--- 天线 ---
+  CONFIG ANTENNADELTAHEN h e n 天线高/东/北偏移（米）
+  CONFIG BASEANTENNAMODEL "名称" SN setupID type   基站天线信息(影响RTCM1033)
+
+--- 抗干扰/AGNSS ---
+  CONFIG ANTIJAM DISABLE|AUTO|FORCE   抗干扰（UM960/UM980/UB9A0）
+  CONFIG AGNSS ENABLE          辅助定位（首定位<5s）
+
+--- 网络（UB9A0，ETH1 / ICOM1~3 / NCOM1~3,20） ---
+  CONFIG ETH1 DHCP
+  CONFIG ETH1 ip mask gateway dns
+  CONFIG ICOM1 TCP 30001
+  CONFIG ICOM1 TCP 192.168.0.2 30001
+  CONFIG NCOM1 ip port mountpoint password           Ntrip Server
+  CONFIG NCOM20 ip port mountpoint user password     Ntrip Client
+
+--- 杂项 ---
+  CONFIG LOGSEQ 1|2            LOG 输出顺序
+  CONFIG VELSTDTHD ENABLE 120 120   速度 STD 门限（UM982/UMD982）
+  CONFIG AUTHCODE <授权码>      增加授权码
+  CONFIG CMDFORMAT 1           允许接收带校验指令（UM982/UMD982）
+
+--------------------------------------------------------------------------------
+6.5 MASK / UNMASK 屏蔽指令（查询：MASK）
+--------------------------------------------------------------------------------
+
+  MASK                         查询当前屏蔽配置
+  MASK GPS|BDS|GLO|GAL|QZSS    屏蔽整系统
+  MASK 10                      屏蔽高度角（-90~90°，默认 5°）
+  MASK B1 / MASK E5a           屏蔽指定频点
+  MASK GPS PRN 10              屏蔽指定系统指定卫星号
+  MASK RTCMCN0 30 [频点]       RTCM 用载噪比门限
+  MASK CN0 25 [频点]           跟踪载噪比门限
+  UNMASK GPS|BDS|GLO|GAL       解除系统屏蔽
+  UNMASK B1 / UNMASK E5a       解除频点屏蔽
+  UNMASK GPS PRN 10            解除单星屏蔽
+  注：系统级屏蔽与单星屏蔽不可混用。
+
+--------------------------------------------------------------------------------
+6.6 AGNSS 辅助信息输入（NMEA 风格，自带 XOR 校验）
+--------------------------------------------------------------------------------
+
+  $AIDPOS,纬度(ddmm.mmmmmm),N/S,经度(dddmm.mmmmmm),E/W,椭球高
+      例：$AIDPOS,4002.229934,N,11618.096855,E,37.254
+      （辅助位置与实际位置误差不宜超过 10000m）
+  $AIDTIME,年,月,日,时,分,秒,毫秒,闰秒
+      例：$AIDTIME,2021,12,3,15,2,36,400,18
+      （UTC 时间误差需 ±3s 内）
+
+--------------------------------------------------------------------------------
+6.7 数据输出指令
+--------------------------------------------------------------------------------
+
+通用格式：消息名 [串口号] [频率|ONCHANGED]，不指定端口=当前口，不指定频率=一次。
+
+--- 标准 NMEA（输入统一用 GP 前缀；输出按系统显示 GN/GB/GL/GA） ---
+  GPDTM COM1 1     坐标系信息          GPGBS COM1 1   卫星故障检测(RAIM)
+  GPGGA COM1 1     卫星定位信息        GPGLL COM1 1   地理位置
+  GPGNS COM1 1     定位数据            GPGRS COM1 1   定位残差
+  GPGSA COM1 1     参与解算卫星        GPGST COM1 1   伪距观测误差
+  GPGSV COM1 1     可视卫星            GPTHS COM1 1   航向（真航向）
+  GPRMC COM1 1     推荐最小定位        GPROT COM1 1   旋转速度方向
+  GPVTG COM1 1     地面航向速度        GPZDA COM1 1   日期时间
+
+--- Unicore 扩展 NMEA（从天线 H 后缀 / 姿态 / 定向） ---
+  GPGGAH/GPGLLH/GPGNSH/GPGSAH/GPGSVH/GPRMCH/GPVTGH   从天线对应消息
+  GPTHS2 COM1 1    Heading2 航向       GPHPR COM1 1   航向俯仰横滚
+  GPHPR2 COM1 1    Heading2 姿态       GPTRA2 COM1 1  方向角
+  GPHPD COM1 1     定位定向联合信息
+
+--- 常用 Unicore 二进制/ASCII log（加 A 后缀=ASCII，如 BESTNAVA） ---
+  VERSION          版本及授权（频率省略=一次）
+  BESTNAV COM1 1   最佳位置速度（经纬高）BESTNAVXYZ 为 ECEF
+  BESTNAVH ...     从天线最佳位置速度   ADRNAV         RTK 位置速度
+  PPPNAV           PPP 位置速度         SPPNAV         伪距位置速度
+  PVTSLN COM1 1    定位定向信息         UNIHEADING 1   双天线航向
+  UNIHEADING2      多流动站定向         HEADINGSTATUS  定向解算状态
+  RTKSTATUS        RTK 解算状态         KSXT COM1 1    定位定向数据语句
+  HWSTATUS         硬件状态             AGC            AGC 状态
+  JAMSTATUS        干扰检测             SATSINFO       参与定位卫星
+  BASEPOS          基准站位置           BASEINFO       基准站信息
+  UNILOGLIST       请求 log 列表输出
+
+--- 基准站 RTCM 差分电文输出 ---
+  RTCM1006 COM2 10    基站坐标（含天线高）  RTCM1033 COM2 10  接收机/天线说明
+  RTCM1074 COM2 1     GPS 改正              RTCM1084 COM2 1   GLO 改正
+  RTCM1094 COM2 1     Galileo 改正          RTCM1124 COM2 1   BDS 改正
+  RTCM1005 / RTCM1019 / RTCM1020 / RTCM1042 / RTCM1104 / RTCM1114 等同理
+  （完整 RTCM 消息号支持见手册第 7 章及附录 2）
+
+--------------------------------------------------------------------------------
+6.8 其它指令
+--------------------------------------------------------------------------------
+
+  UNLOG                    停止当前口全部输出
+  UNLOG GPGGA              停止当前口 GPGGA
+  UNLOG COM1               停止 COM1 全部输出
+  UNLOG COM2 GPGGA         停止 COM2 的 GPGGA
+  FRESET                   清 NVM（用户配置/星历/位置）并重启，波特率回 115200
+  RESET                    重启
+  RESET EPHEM              重启并清星历
+  RESET EPHEM ALMANAC IONUTC POSITION XOPARAM   多项清除
+  RESET ALL                清以上全部（XOPARAM/CLOCKDRIFT 除外）
+  SAVECONFIG               保存当前配置（LOG/端口等）到 NVM
+
+  提示：模拟信号与实际信号切换后建议 RESET EPHEM ALMANAC IONUTC POSITION；
+        长时间不定位可用 RESET XOPARAM（=CLOCKDRIFT）清晶振参数重新收敛。
+
+================================================================================
+（Unicore 输出消息字段定义共 79 节，详见手册第 7 章；本章节仅整理输入指令与
+  输出开启方式。CRC32 校验见附录 1，RTCM V3 电文见附录 2，EVENT 输出见附录 3）
 ================================================================================

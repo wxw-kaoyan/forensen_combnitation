@@ -4,6 +4,7 @@
 #include "atparamdialog.h"
 
 #include <QHBoxLayout>
+#include <QFrame>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -20,12 +21,17 @@ AtCmdPanel::AtCmdPanel(QWidget *parent)
 {
     m_ui->setupUi(this);
 
-    // 从指令库 JSON 加载 3 页指令列表
+    // 按指令库 JSON 动态生成各协议分类页（通用AT/芯片AT/组合导航AT/凯芯KMD...）
     const QList<AtCmdCategory> categories = AtCmdStore::loadCategories();
-    if (categories.size() >= 3) {
-        populateCommands(m_ui->commonScrollContent, categories.at(0).commands);
-        populateCommands(m_ui->chipScrollContent,   categories.at(1).commands);
-        populateCommands(m_ui->navScrollContent,    categories.at(2).commands);
+    m_ui->cmdTabWidget->clear();  // 移除 .ui 中的静态占位页
+    for (const auto &cat : categories) {
+        auto *scroll = new QScrollArea(m_ui->cmdTabWidget);
+        scroll->setFrameShape(QFrame::NoFrame);
+        scroll->setWidgetResizable(true);
+        auto *content = new QWidget(scroll);
+        scroll->setWidget(content);
+        populateCommands(content, cat.commands);
+        m_ui->cmdTabWidget->addTab(scroll, cat.name);
     }
 }
 
@@ -91,6 +97,10 @@ QWidget *AtCmdPanel::createCmdEntry(const AtCmdInfo &cmd)
 
 void AtCmdPanel::onSendClicked(const AtCmdInfo &cmd, QLineEdit *paramEdit)
 {
+    const bool isKmd = cmd.format.compare(QStringLiteral("KMD"), Qt::CaseInsensitive) == 0
+                       || cmd.command.startsWith(QLatin1Char('$'));
+    const bool isUnicore = cmd.format.compare(QStringLiteral("UNICORE"), Qt::CaseInsensitive) == 0;
+
     // 1) 有参指令 → 弹窗输入或从输入框读取
     QString paramValue;
     if (!cmd.paramHint.isEmpty()) {
@@ -101,18 +111,40 @@ void AtCmdPanel::onSendClicked(const AtCmdInfo &cmd, QLineEdit *paramEdit)
             if (dlg.exec() != QDialog::Accepted)
                 return;
             paramValue = dlg.paramValue();
-            if (paramValue.isEmpty()) return;
+            // AT 指令必须带参数；KMD/UNICORE 留空表示无参查询（如 MODE/CONFIG 查询）
+            if (paramValue.isEmpty() && !isKmd && !isUnicore) return;
             // 回填到输入框
             if (paramEdit) paramEdit->setText(paramValue);
         }
     }
 
     // 2) 拼完整指令
-    QString fullCmd = cmd.command;
-    if (!cmd.command.endsWith(QLatin1Char('=')) && !paramValue.isEmpty())
-        fullCmd += QLatin1Char('=');
-    fullCmd += paramValue;
-    fullCmd += QStringLiteral("\r\n");
+    QString fullCmd;
+    if (isKmd) {
+        // 凯芯 KMD/NMEA 风格：$NAME,para1,para2*CS  —— CS 为 '$' 与 '*' 间字符的异或
+        QString body = cmd.command;
+        if (!paramValue.isEmpty())
+            body += QLatin1Char(',') + paramValue;
+        quint8 checksum = 0;
+        const QByteArray bodyBytes = body.mid(1).toLatin1();  // 不含起始 '$'
+        for (char ch : bodyBytes)
+            checksum ^= static_cast<quint8>(ch);
+        fullCmd = body + QStringLiteral("*%1\r\n")
+                          .arg(checksum, 2, 16, QLatin1Char('0')).toUpper();
+    } else if (isUnicore) {
+        // 和芯 Unicore 简化 ASCII：CMD 与参数以空格分隔，无校验（模块默认格式）
+        fullCmd = cmd.command;
+        if (!paramValue.isEmpty())
+            fullCmd += QLatin1Char(' ') + paramValue;
+        fullCmd += QStringLiteral("\r\n");
+    } else {
+        // AT 风格：CMD=para
+        fullCmd = cmd.command;
+        if (!cmd.command.endsWith(QLatin1Char('=')) && !paramValue.isEmpty())
+            fullCmd += QLatin1Char('=');
+        fullCmd += paramValue;
+        fullCmd += QStringLiteral("\r\n");
+    }
     QByteArray cmdData = fullCmd.toUtf8();
 
     // 3) 确认弹窗

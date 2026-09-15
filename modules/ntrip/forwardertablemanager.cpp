@@ -375,11 +375,12 @@ void ForwarderTableManager::openDataViewer(int index)
     auto *viewer = new DataViewerDialog(title);
     viewer->setAttribute(Qt::WA_DeleteOnClose);
 
-    connect(dlg, &NTRIPLoginDialog::forwarderRawData, this,
-            [this, index](int idx, const QByteArray &data) {
+    // 上下文用 viewer（而非常驻的 this）：查看器窗口关闭时连接自动解除，
+    // 避免重复“打开查看器”导致同一数据块被追加多份
+    connect(dlg, &NTRIPLoginDialog::forwarderRawData, viewer,
+            [index, viewer](int idx, const QByteArray &data) {
                 if (idx != index) return;
-                if (m_dataViewers.contains(index))
-                    m_dataViewers[index]->appendData(data);
+                viewer->appendData(data);
             });
 
     connect(viewer, &QObject::destroyed, this, [this, index]() {

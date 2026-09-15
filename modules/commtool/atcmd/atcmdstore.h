@@ -9,9 +9,10 @@ class QJsonObject;
 // 单条 AT 指令描述
 struct AtCmdInfo
 {
-    QString command;       // 指令名，如 "AT+SET_BAUD="
+    QString command;       // 指令名，如 "AT+SET_BAUD=" 或 "$KMDUART"
     QString description;   // 功能说明
     QString paramHint;     // 参数提示，空串表示无参
+    QString format;        // 指令格式：空/"AT"=AT(CMD=param)；"KMD"=凯芯NMEA($NAME,p*CS)；"UNICORE"=和芯空格裸命令(CMD p)
 };
 
 // 指令板块

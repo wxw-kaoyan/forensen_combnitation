@@ -42,7 +42,7 @@ uint32_t crc32(const uint8_t *data, int len, uint32_t init = 1);
 uint32_t crc32File(const QString &path, QString *err = nullptr);
 
 // ── 组帧（下行，帧头 55 AA）──
-QByteArray buildLongCmd(uint16_t cmd);                       // 36B 长命令，参数全 0
+QByteArray buildLongCmd(uint16_t cmd);                       // 34B 长命令，参数全 0
 QByteArray buildDataFrame(uint32_t offset, uint16_t size,
                           const uint8_t *data);              // 81B 数据帧
 QByteArray buildResetMagic();                                // 34B 硬复位魔术帧

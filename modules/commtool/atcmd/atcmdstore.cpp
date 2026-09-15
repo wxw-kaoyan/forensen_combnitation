@@ -130,6 +130,8 @@ QJsonObject AtCmdStore::toJson(const AtCmdInfo &cmd)
     o[QStringLiteral("command")]     = cmd.command;
     o[QStringLiteral("description")] = cmd.description;
     o[QStringLiteral("paramHint")]   = cmd.paramHint;
+    if (!cmd.format.isEmpty())
+        o[QStringLiteral("format")] = cmd.format;
     return o;
 }
 
@@ -139,5 +141,6 @@ AtCmdInfo AtCmdStore::fromJson(const QJsonObject &obj)
     c.command     = obj.value(QStringLiteral("command")).toString();
     c.description = obj.value(QStringLiteral("description")).toString();
     c.paramHint   = obj.value(QStringLiteral("paramHint")).toString();
+    c.format      = obj.value(QStringLiteral("format")).toString();
     return c;
 }

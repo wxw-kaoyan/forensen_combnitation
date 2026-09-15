@@ -32,13 +32,13 @@
 
 ### 1.2 两种下行帧
 
-**长命令帧**（握手/擦除/校验/重启等无数据命令），总长 36 字节，payload = 24 字节（6 个 u32 参数）：
+**长命令帧**（握手/擦除/校验/重启等无数据命令），总长 34 字节，payload = 24 字节（6 个 u32 参数）：
 
 ```cpp
-struct OtaLongCmdFrame {        // 36 字节
+struct OtaLongCmdFrame {        // 34 字节（对应参考 MULTI_LONG_CMD_STRUCT，packed）
     uint8_t  header1, header2;  // 55 AA
     uint16_t id;                // 命令字
-    uint16_t length;            // = 26 (0x001A)
+    uint16_t length;            // = 24 (0x0018)
     uint32_t param[6];          // 命令参数，默认全 0
     uint32_t crc;
 };
@@ -156,7 +156,7 @@ namespace OtaProtocol {
     uint32_t crc32(const uint8_t *data, int len, uint32_t init = 1);
     uint32_t crc32File(const QString &path, QString *err = nullptr);
 
-    QByteArray buildLongCmd(uint16_t cmd);                       // 36B，参数全 0
+    QByteArray buildLongCmd(uint16_t cmd);                       // 34B，参数全 0
     QByteArray buildDataFrame(uint32_t offset, uint16_t size,
                               const uint8_t *data);              // 81B
     QByteArray buildResetMagic();                                // 34B 固定帧

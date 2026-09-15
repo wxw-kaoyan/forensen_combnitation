@@ -84,15 +84,16 @@ static inline void putU32(QByteArray &b, int pos, uint32_t v)
 
 QByteArray buildLongCmd(uint16_t cmd)
 {
-    // 36 字节：sync(2)+id(2)+len(2)+params(24)+crc(4)
-    QByteArray f(32, 0);  // CRC 之前部分（sync~params）
+    // 34 字节：sync(2)+id(2)+len(2)+params(24)+crc(4)
+    // 与参考 MULTI_LONG_CMD_STRUCT（packed）一致；硬复位魔术帧同结构可印证
+    QByteArray f(30, 0);  // CRC 之前部分（sync~params）
     f[0] = char(0x55);
     f[1] = char(0xAA);
     putU16(f, 2, cmd);
-    putU16(f, 4, 26);    // payload = 6×4 = 24
+    putU16(f, 4, 24);    // payload = 6×4 = 24
     uint32_t crc = crc32(reinterpret_cast<const uint8_t*>(f.constData()), f.size());
     f.append(4, 0);
-    putU32(f, 32, crc);
+    putU32(f, 30, crc);
     return f;
 }
 
