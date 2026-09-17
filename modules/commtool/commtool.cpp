@@ -81,6 +81,9 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     connect(m_ui->hexDisplayCheckBox, &QCheckBox::toggled,
             this, [this](bool checked) { m_hexDisplay = checked; });
 
+    // 接收区是只读日志窗口，不需要撤销/重做历史（否则每次插入都累积一条记录）
+    m_ui->toolConsoleEdit->setUndoRedoEnabled(false);
+
     // 初始状态
     setConnected(false);
 }
@@ -297,6 +300,7 @@ void CommTool::onSendClicked()
 void CommTool::onClearRecvClicked()
 {
     m_ui->toolConsoleEdit->clear();
+    m_recvBytes = 0;
     m_ui->recvCountLabel->setText(QStringLiteral("0 Bytes"));
 }
 
@@ -360,6 +364,13 @@ void CommTool::onParseToggled(bool enabled)
 
 void CommTool::appendRecvData(const QByteArray &data)
 {
+    // 累计接收字节数（累加计数，替代原先"每段数据全量导出文档"的 O(n) 做法）
+    m_recvBytes += data.size();
+    m_ui->recvCountLabel->setText(
+        m_recvBytes >= 1024
+            ? QStringLiteral("%1 KB").arg(QString::number(m_recvBytes / 1024.0, 'f', 1))
+            : QStringLiteral("%1 Bytes").arg(m_recvBytes));
+
     // 流式保存到文件（始终保存原始字节，不做任何编码转换）
     if (m_saving && m_recvFile.isOpen()) {
         m_recvFile.write(data);
@@ -378,11 +389,13 @@ void CommTool::appendRecvData(const QByteArray &data)
     }
 
     // 普通模式：显示原始数据
+    // 每段数据必须以换行结尾：二进制流本身几乎不含 '\n'，否则整个接收区会挤在
+    // 一个 block 里 —— 行数裁剪失效、QPlainTextEdit 排版开销随文档无限增长直至卡死
     QString text;
     if (m_hexDisplay) {
         text = QString::fromLatin1(data.toHex(' ').toUpper()) + QStringLiteral("\n");
     } else {
-        text = QString::fromLatin1(data);
+        text = QString::fromLatin1(data) + QStringLiteral("\n");
     }
     appendRecvText(text);
 }
@@ -409,12 +422,7 @@ void CommTool::appendRecvText(const QString &text)
         }
     }
 
-    // 更新字节计数
-    qint64 total = edit->toPlainText().toUtf8().size();
-    m_ui->recvCountLabel->setText(
-        total >= 1024
-            ? QStringLiteral("%1 KB").arg(QString::number(total / 1024.0, 'f', 1))
-            : QStringLiteral("%1 Bytes").arg(total));
+    // 字节计数已在 appendRecvData 中累加，这里不再全量导出文档
 
     if (atBottom && bar)
         bar->setValue(bar->maximum());

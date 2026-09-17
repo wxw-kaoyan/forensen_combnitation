@@ -74,6 +74,7 @@ private:
     // 接收区
     QFile  m_recvFile;
     QString m_savePath;
+    qint64 m_recvBytes = 0;   // 累计接收字节数（只累加，不随接收区裁剪回退）
     static constexpr int kMaxRecvLines = 200;
 };
 
