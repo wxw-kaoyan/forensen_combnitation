@@ -6,9 +6,12 @@
 #include "modules/commtool/realtimeparsepanel.h"
 #include "ui_mainwindow.h"
 
+#include <QAbstractItemView>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QCompleter>
 #include <QFileDialog>
+#include <QKeyEvent>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QScrollBar>
@@ -83,6 +86,9 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
 
     // 接收区是只读日志窗口，不需要撤销/重做历史（否则每次插入都累积一条记录）
     m_ui->toolConsoleEdit->setUndoRedoEnabled(false);
+
+    // ---- 发送框指令补全：边打字边匹配 AT 指令库 ----
+    setupCommandCompleter();
 
     // 初始状态
     setConnected(false);
@@ -522,5 +528,142 @@ bool CommTool::eventFilter(QObject *obj, QEvent *event)
         if (!m_connected && m_ui->connectionModeComboBox->currentIndex() == 0)
             refreshSerialPorts();
     }
+
+    // 发送框补全：候选浮层可见时接管 回车/Tab/Esc（↑↓ 交给 QCompleter 自己处理）
+    if (obj == m_ui->commandEdit && event->type() == QEvent::KeyPress
+        && m_cmdCompleter && m_cmdCompleter->popup()->isVisible()) {
+        switch (static_cast<QKeyEvent *>(event)->key()) {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+            acceptCurrentCompletion();
+            return true;
+        case Qt::Key_Escape:
+            m_cmdCompleter->popup()->hide();
+            return true;
+        default:
+            break;
+        }
+    }
+
     return QObject::eventFilter(obj, event);
+}
+
+// ==================== 发送框指令补全 ====================
+
+void CommTool::setupCommandCompleter()
+{
+    // 汇总全库指令（5 个分类 + 自定义）。候选串 = 指令名左对齐补空格到统一宽度 + 说明，
+    // 这样列表里能读到说明，补全时又能按固定宽度确定性还原出指令名。
+    QStringList names;
+    QStringList descs;
+    int width = 0;
+
+    auto append = [&](const AtCmdInfo &c) {
+        if (c.command.isEmpty() || names.contains(c.command))
+            return;   // 同一指令可能出现在多个分类，去重
+        names << c.command;
+        descs << c.description;
+        width = qMax(width, int(c.command.size()));
+    };
+
+    for (const AtCmdCategory &cat : AtCmdStore::loadCategories())
+        for (const AtCmdInfo &c : cat.commands)
+            append(c);
+    for (const AtCmdInfo &c : AtCmdStore::loadCustom())
+        append(c);
+
+    if (names.isEmpty())
+        return;
+
+    width += 2;
+    m_cmdNameWidth = width;
+
+    QStringList items;
+    items.reserve(names.size());
+    for (int i = 0; i < names.size(); ++i) {
+        QString line = names.at(i).leftJustified(width, QLatin1Char(' '));
+        if (!descs.at(i).isEmpty())
+            line += descs.at(i);
+        items << line;
+    }
+
+    m_cmdCompleter = new QCompleter(items, this);
+    m_cmdCompleter->setWidget(m_ui->commandEdit);          // 挂到发送框上
+    m_cmdCompleter->setCompletionMode(QCompleter::PopupCompletion);
+    m_cmdCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    m_cmdCompleter->setFilterMode(Qt::MatchStartsWith);    // 前缀匹配
+    m_cmdCompleter->setMaxVisibleItems(12);
+
+    // 后装的事件过滤器会先被调用：由本类接管回车/Tab/Esc，行为更确定
+    m_ui->commandEdit->installEventFilter(this);
+
+    connect(m_cmdCompleter, QOverload<const QString &>::of(&QCompleter::activated),
+            this, [this](const QString &text) { applyCompletion(text); });
+    connect(m_ui->commandEdit, &QPlainTextEdit::textChanged,
+            this, &CommTool::refreshCommandCompleter);
+}
+
+// 发送框当前行的文本（补全以此前缀去匹配）
+QString CommTool::currentLineText() const
+{
+    QTextCursor tc = m_ui->commandEdit->textCursor();
+    tc.select(QTextCursor::LineUnderCursor);
+    return tc.selectedText().trimmed();
+}
+
+void CommTool::refreshCommandCompleter()
+{
+    if (m_completing || !m_cmdCompleter)
+        return;
+
+    const QString prefix = currentLineText();
+    if (prefix.isEmpty() || prefix == m_lastCompleted) {
+        m_cmdCompleter->popup()->hide();
+        return;
+    }
+
+    m_cmdCompleter->setCompletionPrefix(prefix);
+
+    QAbstractItemView *popup = m_cmdCompleter->popup();
+    if (m_cmdCompleter->completionCount() == 0) {
+        popup->hide();   // 没有候选就不弹（例如已在输入参数部分）
+        return;
+    }
+
+    popup->setCurrentIndex(m_cmdCompleter->completionModel()->index(0, 0));
+    QRect rect = m_ui->commandEdit->cursorRect();
+    rect.setWidth(popup->sizeHintForColumn(0)
+                  + popup->verticalScrollBar()->sizeHint().width());
+    m_cmdCompleter->complete(rect);
+}
+
+void CommTool::acceptCurrentCompletion()
+{
+    if (!m_cmdCompleter)
+        return;
+    const QModelIndex idx = m_cmdCompleter->popup()->currentIndex();
+    if (!idx.isValid())
+        return;
+    applyCompletion(idx.data(Qt::EditRole).toString());
+}
+
+void CommTool::applyCompletion(const QString &text)
+{
+    // 候选串 = 指令名 + 空格补位 + 说明，按固定宽度取回指令名
+    const QString cmd = text.left(m_cmdNameWidth).trimmed();
+    if (cmd.isEmpty())
+        return;
+
+    m_completing = true;
+    QTextCursor tc = m_ui->commandEdit->textCursor();
+    tc.select(QTextCursor::LineUnderCursor);   // 整行替换，参数由用户接着输
+    tc.insertText(cmd);
+    m_ui->commandEdit->setTextCursor(tc);
+    m_completing = false;
+
+    m_lastCompleted = cmd;
+    if (m_cmdCompleter)
+        m_cmdCompleter->popup()->hide();
 }

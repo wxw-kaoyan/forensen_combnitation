@@ -11,6 +11,7 @@ class QThread;
 class TcpConnection;
 class SerialConnection;
 class AtCmdPanel;
+class QCompleter;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -51,6 +52,13 @@ private:
     void refreshSerialPorts();
     void refreshFavoriteCommands();
 
+    // 发送框指令补全（匹配 AT 指令库）
+    void setupCommandCompleter();
+    void refreshCommandCompleter();
+    void acceptCurrentCompletion();
+    void applyCompletion(const QString &text);
+    QString currentLineText() const;
+
     Ui::MainWindow *m_ui;
 
     // AT 指令面板
@@ -70,6 +78,12 @@ private:
     bool m_connected = false;
     bool m_hexDisplay = false;
     bool m_saving = false;
+
+    // 发送框指令补全
+    QCompleter *m_cmdCompleter  = nullptr;
+    int         m_cmdNameWidth  = 0;    // 候选串里指令名占的宽度，用于还原指令名
+    bool        m_completing    = false;// 正在程序化填入，避免递归触发补全
+    QString     m_lastCompleted;        // 上次补全结果，避免同一前缀反复弹窗
 
     // 接收区
     QFile  m_recvFile;
