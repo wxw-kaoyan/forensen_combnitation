@@ -16,14 +16,21 @@ class StreamFramer
 public:
     StreamFramer() = default;
 
-    // 喂入一段新数据，返回本次解析出的完整帧（CRC 校验通过）
-    QList<ParsedFrame> feed(const QByteArray &data);
+    // 喂入一段新数据，返回本次解析出的完整帧。
+    // skipCrc = true 时不做 CRC 校验（与离线解析默认行为一致）
+    QList<ParsedFrame> feed(const QByteArray &data, bool skipCrc = true);
 
-    // 清空内部缓冲（断开连接/清空时调用）
+    // 清空内部缓冲与统计（断开连接/切换模式时调用）
     void reset();
+
+    // 诊断统计：找到的完整帧数 / 因 CRC 被丢弃的帧数
+    qint64 framesFound() const { return m_found; }
+    qint64 framesCrcRejected() const { return m_crcRejected; }
 
 private:
     QByteArray m_buffer;
+    qint64 m_found = 0;
+    qint64 m_crcRejected = 0;
 };
 
 #endif // STREAMFRAMER_H

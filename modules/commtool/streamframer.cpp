@@ -8,9 +8,11 @@ static constexpr int kMaxFrameLen = 4096;
 void StreamFramer::reset()
 {
     m_buffer.clear();
+    m_found = 0;
+    m_crcRejected = 0;
 }
 
-QList<ParsedFrame> StreamFramer::feed(const QByteArray &data)
+QList<ParsedFrame> StreamFramer::feed(const QByteArray &data, bool skipCrc)
 {
     m_buffer.append(data);
     QList<ParsedFrame> frames;
@@ -41,16 +43,26 @@ QList<ParsedFrame> StreamFramer::feed(const QByteArray &data)
             continue;
         }
 
-        // CRC32 校验（覆盖帧头 + payload，与 FrameParser::parseAll 一致）
-        const uint32_t crcExpected = FrameParser::computeCrc32(p, kHeaderSize + payloadLen);
-        const uint32_t crcReceived =
-            static_cast<uint32_t>(p[total - 4]) |
-            (static_cast<uint32_t>(p[total - 3]) << 8) |
-            (static_cast<uint32_t>(p[total - 2]) << 16) |
-            (static_cast<uint32_t>(p[total - 1]) << 24);
-        const bool crcOk = (crcReceived == crcExpected);
+        ++m_found;
 
-        // 仅输出 CRC 校验通过的帧，过滤流中的噪声/误同步
+        // CRC32 校验（覆盖帧头 + payload，与 FrameParser::parseAll 一致）
+        // 离线解析默认跳过校验（crcCheckBox 默认不勾），实时保持一致，避免
+        // 因 CRC 算法/初值差异导致"离线能解析、实时一个帧都出不来"
+        bool crcOk = true;
+        uint32_t crcExpected = 0;
+        uint32_t crcReceived = 0;
+        if (!skipCrc) {
+            crcExpected = FrameParser::computeCrc32(p, kHeaderSize + payloadLen);
+            crcReceived =
+                static_cast<uint32_t>(p[total - 4]) |
+                (static_cast<uint32_t>(p[total - 3]) << 8) |
+                (static_cast<uint32_t>(p[total - 2]) << 16) |
+                (static_cast<uint32_t>(p[total - 1]) << 24);
+            crcOk = (crcReceived == crcExpected);
+        }
+        if (!crcOk)
+            ++m_crcRejected;
+
         if (crcOk) {
             ProtocolID pid = resolveProtocolID(frameId, payloadLen);
             ParsedFrame frame = FrameParser::parsePayload(pid, p + kHeaderSize, payloadLen, 0);

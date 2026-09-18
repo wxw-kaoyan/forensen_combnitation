@@ -72,6 +72,16 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::parseToggled,
             this, &CommTool::onParseToggled);
 
+    // 解析结果直接刷新到「接收消息」大框：原地显示"名称 + 数值"（10Hz 节流）
+    connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::displayTextReady,
+            this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            m_ui->toolConsoleEdit->clear();
+            return;
+        }
+        m_ui->toolConsoleEdit->setPlainText(text);
+    });
+
     // ---- 清空接收按钮 ----
     connect(m_ui->clearConsoleButton, &QPushButton::clicked,
             this, &CommTool::onClearRecvClicked);
@@ -358,14 +368,6 @@ void CommTool::onParseToggled(bool enabled)
 {
     m_parsing = enabled;
     m_framer.reset(); // 切换模式时清空半包缓冲，避免残留
-
-    // 开始解析时输出一行表头，方便对数据列
-    if (enabled && m_ui->realtimeParsePanel) {
-        const QString hdr = RealtimeParsePanel::headerLine(
-            m_ui->realtimeParsePanel->currentProtocol());
-        if (!hdr.isEmpty())
-            appendRecvText(hdr);
-    }
 }
 
 void CommTool::appendRecvData(const QByteArray &data)
@@ -382,19 +384,18 @@ void CommTool::appendRecvData(const QByteArray &data)
         m_recvFile.write(data);
     }
 
-    // 解析模式：只输出选中协议的解析结果，其余全部过滤
-    if (m_parsing) {
-        const ProtocolID pid = m_ui->realtimeParsePanel
-            ? m_ui->realtimeParsePanel->currentProtocol() : ProtocolID::Debug_IMU;
-        const QList<ParsedFrame> frames = m_framer.feed(data);
-        for (const ParsedFrame &f : frames) {
-            if (f.protocol == pid)
-                appendRecvText(RealtimeParsePanel::frameToText(f));
-        }
-        return;
+    // 实时解析：帧交给监视面板（面板按 10Hz 节流刷新），接收区让位、不再刷原始数据
+    if (m_parsing && m_ui->realtimeParsePanel) {
+        const bool skipCrc = !m_ui->realtimeParsePanel->strictCrc();
+        const QList<ParsedFrame> frames = m_framer.feed(data, skipCrc);
+        for (const ParsedFrame &f : frames)
+            m_ui->realtimeParsePanel->submitFrame(f);
+        m_ui->realtimeParsePanel->setFramerStats(m_framer.framesFound(),
+                                                 m_framer.framesCrcRejected());
+        return;   // 解析模式下接收区静默：原始数据不再持续刷屏占满界面
     }
 
-    // 普通模式：显示原始数据
+    // 非解析模式：接收区显示原始数据
     // 每段数据必须以换行结尾：二进制流本身几乎不含 '\n'，否则整个接收区会挤在
     // 一个 block 里 —— 行数裁剪失效、QPlainTextEdit 排版开销随文档无限增长直至卡死
     QString text;
