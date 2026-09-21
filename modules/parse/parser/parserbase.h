@@ -58,7 +58,8 @@ public:
     // 协议名
     static QString protocolNameStatic(ProtocolID pid);
     static QString rtkStatusName(uint8_t s);
-    static QString formatStatusFlags(uint16_t flags);
+    static QString formatStatusFlags(uint32_t flags);
+    static QString formatAttValid(uint8_t v);
 
 protected:
     bool m_skipCrc = true;  // 默认不校验 CRC

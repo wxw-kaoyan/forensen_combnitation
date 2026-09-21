@@ -62,7 +62,7 @@ QString ParserBase::rtkStatusName(uint8_t s)
     }
 }
 
-QString ParserBase::formatStatusFlags(uint16_t flags)
+QString ParserBase::formatStatusFlags(uint32_t flags)
 {
     QStringList parts;
     if (flags & 0x0001) parts << QStringLiteral("RTK有效");
@@ -79,4 +79,13 @@ QString ParserBase::formatStatusFlags(uint16_t flags)
 
     if (parts.isEmpty()) return QStringLiteral("0x%1").arg(flags, 0, 16);
     return QStringLiteral("0x%1[%2]").arg(flags, 0, 16).arg(parts.join(','));
+}
+
+QString ParserBase::formatAttValid(uint8_t v)
+{
+    QStringList parts;
+    if (v & 0x01) parts << QStringLiteral("姿态有效");
+    if (v & 0x02) parts << QStringLiteral("前轮转角有效");
+    if (parts.isEmpty()) return QStringLiteral("0x%1").arg(v, 0, 16);
+    return QStringLiteral("0x%1[%2]").arg(v, 0, 16).arg(parts.join(','));
 }

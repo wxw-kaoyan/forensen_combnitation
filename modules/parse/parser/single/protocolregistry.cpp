@@ -67,8 +67,8 @@ static QList<FieldDescriptor> agDataFields()
         {"AccelY(g)",  [](const ParsedFrame &f) { return QString::number(f.agData.accelY, 'f', 6); }},
         {"AccelZ(g)",  [](const ParsedFrame &f) { return QString::number(f.agData.accelZ, 'f', 6); }},
         {"RTK状态",    [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.agData.rtkStatus); }},
-        {"姿态有效",   [](const ParsedFrame &f) { return QString::number(f.agData.attValid); }},
-        {"状态标志",   [](const ParsedFrame &f){ return QStringLiteral("0x") + QString::number(f.agData.statusFlag, 16); }},
+        {"姿态有效",   [](const ParsedFrame &f) { return ParserBase::formatAttValid(f.agData.attValid); }},
+        {"状态标志",   [](const ParsedFrame &f) { return ParserBase::formatStatusFlags(f.agData.statusFlag); }},
     };
 }
 
@@ -337,13 +337,14 @@ const QList<ProtocolDescriptor> &protocolRegistry()
             [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::AG_Data, d, s); },
             [](const ParsedFrame &f) -> QString {
                 const auto &d = f.agData;
-                return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,0x%13\n")
+                return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13\n")
                     .arg(d.gpsTime)
                     .arg(d.roll, 0, 'f', 6).arg(d.pitch, 0, 'f', 6).arg(d.yaw, 0, 'f', 6)
                     .arg(d.gyroX, 0, 'f', 4).arg(d.gyroY, 0, 'f', 4).arg(d.gyroZ, 0, 'f', 4)
                     .arg(d.accelX, 0, 'f', 6).arg(d.accelY, 0, 'f', 6).arg(d.accelZ, 0, 'f', 6)
                     .arg(ParserBase::rtkStatusName(d.rtkStatus))
-                    .arg(d.attValid).arg(d.statusFlag, 0, 8);
+                    .arg(ParserBase::formatAttValid(d.attValid))
+                    .arg(ParserBase::formatStatusFlags(d.statusFlag));
             },
             agDataFields(),
         },
