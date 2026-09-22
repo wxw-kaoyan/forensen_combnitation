@@ -558,17 +558,13 @@ void AnalysisPanel::buildUi()
     auto *sceneForm = new QFormLayout;
     m_sceneNameEdit = new QLineEdit(right);
     m_sceneNameEdit->setPlaceholderText(QStringLiteral("可选"));
-    m_sceneStdCombo = new QComboBox(right);
-    m_sceneStdCombo->addItem(QStringLiteral("UTC 天内秒"));
-    m_sceneStdCombo->addItem(QStringLiteral("GPS 天内秒"));
     m_sceneStartEdit = new QLineEdit(right);
     m_sceneStartEdit->setPlaceholderText(QStringLiteral("起始(天内秒)"));
     m_sceneEndEdit = new QLineEdit(right);
     m_sceneEndEdit->setPlaceholderText(QStringLiteral("结束(天内秒)"));
     sceneForm->addRow(QStringLiteral("场景名"), m_sceneNameEdit);
-    sceneForm->addRow(QStringLiteral("时间标准"), m_sceneStdCombo);
-    sceneForm->addRow(QStringLiteral("起始(天内秒)"), m_sceneStartEdit);
-    sceneForm->addRow(QStringLiteral("结束(天内秒)"), m_sceneEndEdit);
+    sceneForm->addRow(QStringLiteral("起始(UTC天内秒)"), m_sceneStartEdit);
+    sceneForm->addRow(QStringLiteral("结束(UTC天内秒)"), m_sceneEndEdit);
     rl->addLayout(sceneForm);
 
     auto *sceneBtnRow = new QHBoxLayout;
@@ -624,11 +620,6 @@ void AnalysisPanel::buildUi()
     connect(rmMetricBtn,  &QPushButton::clicked, this, &AnalysisPanel::onRemoveMetric);
     connect(addSceneBtn, &QPushButton::clicked, this, &AnalysisPanel::onAddScene);
     connect(rmSceneBtn,  &QPushButton::clicked, this, &AnalysisPanel::onRemoveScene);
-    connect(m_sceneStdCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            [this](int idx) {
-                m_sceneStd = static_cast<SceneTimeStd>(idx);
-                refreshSceneList();
-            });
     connect(m_startBtn, &QPushButton::clicked, this, &AnalysisPanel::onStartCompare);
     connect(m_leapSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             [this](double v) {
@@ -646,7 +637,7 @@ void AnalysisPanel::buildUi()
         addCmpBtn, rmCmpBtn, m_cmpFileList, m_cmpTimeCombo, m_cmpDayCombo,
         m_cmpFormatCombo, m_cmpWeekSpin,
         addMetricBtn, rmMetricBtn, m_mapTable,
-        m_sceneNameEdit, m_sceneStdCombo, m_sceneStartEdit, m_sceneEndEdit,
+        m_sceneNameEdit, m_sceneStartEdit, m_sceneEndEdit,
         addSceneBtn, rmSceneBtn, m_sceneList, m_startBtn
     };
 
@@ -1257,8 +1248,8 @@ void AnalysisPanel::onAddScene()
         return;
     }
 
-    // 场景起止以「天内秒」输入，内部换算成 UTC 绝对秒后再与时间列比较。
-    // 基准由 sceneDayBase() 根据所选时间标准（UTC/GPS 天内秒）确定。
+    // 场景起止以「UTC 天内秒」输入，内部换算成 UTC 绝对秒后再与时间列比较。
+    // 基准由 sceneDayBase() 给出（真值首样本所在 UTC 天的 0 点）。
     if (m_truth.timeUtc.isEmpty()) {
         QMessageBox::warning(this, QStringLiteral("提示"),
                              QStringLiteral("请先导入真值文件，再添加场景。"));
@@ -1288,12 +1279,8 @@ double AnalysisPanel::sceneDayBase() const
 {
     if (m_truth.timeUtc.isEmpty())
         return 0.0;
-    // UTC 天内秒基准：真值首样本所在 UTC 天的 0 点绝对秒
-    const double dayBaseUtc = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
-    // GPS 天内秒基准：GPS 天 0 点 = UTC 天 0 点 - 闰秒（GPS 领先 UTC）
-    if (m_sceneStd == SceneTimeStd::GpsDay)
-        return dayBaseUtc - m_leapSeconds;
-    return dayBaseUtc;
+    // 场景起止统一使用 UTC 天内秒：基准取真值首样本所在 UTC 天的 0 点绝对秒
+    return std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
 }
 
 void AnalysisPanel::refreshSceneList()
@@ -1302,7 +1289,7 @@ void AnalysisPanel::refreshSceneList()
     const double dayBase = sceneDayBase();
     for (const auto &s : m_scenes) {
         QString name = s.name.isEmpty() ? QStringLiteral("场景%1").arg(m_sceneList->count() + 1) : s.name;
-        m_sceneList->addItem(QStringLiteral("%1  [%2s - %3s]（天内秒）")
+        m_sceneList->addItem(QStringLiteral("%1  [%2s - %3s]（UTC 天内秒）")
                                  .arg(name)
                                  .arg(s.startSec - dayBase, 0, 'f', 3)
                                  .arg(s.endSec - dayBase, 0, 'f', 3));

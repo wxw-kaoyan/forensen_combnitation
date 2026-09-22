@@ -165,20 +165,31 @@ void ParsePanel::onLoadFileClicked()
         QMessageBox::warning(this, QStringLiteral("加载失败"), QStringLiteral("无法打开文件。"));
         return;
     }
+
+    // 先彻底释放上一次的解析结果与原始数据，再读入新文件，
+    // 避免新旧数据同时驻留导致内存峰值翻倍
+    releaseParsedData();
+    QByteArray().swap(m_rawData);
+
     m_rawData = tryDecodeHexText(file.readAll());
     file.close();
-
-    m_filePath.clear();
-    ui->outputTextEdit->clear();
-    m_cachedFullText.clear();
-    m_cachedCsvPath.clear();
-    m_cachedFrames.clear();
-    m_activeProtocolId = ProtocolID::Unknown;
 
     ui->protocolCombo->setCurrentIndex(0);
 
     m_filePath = path;
     updateFileInfo();
+}
+
+// 释放上一次解析占用的内存。
+// 注意：clear() 只析构元素、不释放已分配的 capacity，
+// 大文件（几十万帧）下残留会很明显，因此用 swap 与临时空对象交换强制归还。
+void ParsePanel::releaseParsedData()
+{
+    ui->outputTextEdit->clear();
+    QString().swap(m_cachedFullText);
+    QString().swap(m_cachedCsvPath);
+    QList<ParsedFrame>().swap(m_cachedFrames);
+    m_activeProtocolId = ProtocolID::Unknown;
 }
 
 void ParsePanel::updateFileInfo()
@@ -439,10 +450,6 @@ void ParsePanel::onExportClicked()
 
 void ParsePanel::onClearClicked()
 {
-    ui->outputTextEdit->clear();
-    m_cachedFullText.clear();
-    m_cachedCsvPath.clear();
-    m_cachedFrames.clear();
-    m_activeProtocolId = ProtocolID::Unknown;
+    releaseParsedData();
     ui->protocolCombo->setCurrentIndex(0);
 }

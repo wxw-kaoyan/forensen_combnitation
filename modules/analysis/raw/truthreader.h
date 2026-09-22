@@ -18,6 +18,7 @@ namespace Analysis {
 // 单个真值样本
 struct TruthSample {
     double t = 0;        // 相对首样本时间（秒）
+    double utcSow = -1;  // UTC 周内秒（文件含 UTC 时间列时有效，否则为 -1）
     double lat = 0;      // 纬度 (deg)
     double lon = 0;      // 经度 (deg)
     double h   = 0;      // 椭球高 (m)

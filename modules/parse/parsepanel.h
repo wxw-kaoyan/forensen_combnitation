@@ -35,6 +35,8 @@ private:
     void setupProtocolCombo();
     void updateFileInfo();
     void setComboEnabled(bool enabled);
+    // 彻底释放上一次解析占用的内存（含容器 capacity，避免残留）
+    void releaseParsedData();
     static ParseResult doParse(int protocolIndex, bool skipCrc,
                                const QByteArray &rawData,
                                const QString &filePath);

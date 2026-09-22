@@ -29,6 +29,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QtMath>
+#include <limits>
 #include <memory>
 
 namespace Analysis {
@@ -219,7 +220,7 @@ void RawAnalysisPanel::onTypeChanged(int index)
 
     if (m_currentType == DataType::Imu)
         m_pathEdit->setPlaceholderText(
-            QStringLiteral("选择 IMU 数据文件（CSV：时间 + 加计三轴 + 陀螺三轴）"));
+            QStringLiteral("选择 IMU 数据文件（CSV 表格 或 诺瓦泰 RAWIMUA 二进制）"));
     else if (m_currentType == DataType::Truth)
         m_pathEdit->setPlaceholderText(
             QStringLiteral("选择真值文件（GINS 后处理输出 .txt）"));
@@ -243,6 +244,9 @@ void RawAnalysisPanel::resetResults()
     clearChartPage(m_truthAttSplitter);
     clearChartPage(m_truthSatSplitter);
     m_outcome = AnalyzeOutcome();
+    // 轨迹缓存与旧结果一并释放（swap 保证容量也归还，避免切换类型后内存叠加）
+    QVector<QPointF>().swap(m_trajPath);
+    QVector<double>().swap(m_trajTimes);
     m_reportLabel->setText(QStringLiteral("尚未分析"));
 }
 
@@ -251,7 +255,9 @@ void RawAnalysisPanel::onBrowse()
     QString title, filter;
     if (m_currentType == DataType::Imu) {
         title = QStringLiteral("选择 IMU 数据文件");
-        filter = QStringLiteral("IMU 数据文件 (*.csv *.txt);;所有文件 (*.*)");
+        filter = QStringLiteral("IMU 数据文件 (*.csv *.txt *.dat *.log *.imu *.bin);;"
+                                "诺瓦泰 RAWIMUA (*.dat *.log *.imu *.bin);;"
+                                "文本表格 (*.csv *.txt);;所有文件 (*.*)");
     } else if (m_currentType == DataType::Truth) {
         title = QStringLiteral("选择真值文件");
         filter = QStringLiteral("真值文件 (*.txt *.out);;所有文件 (*.*)");
@@ -784,30 +790,58 @@ void RawAnalysisPanel::attachYScrollBar(QValueAxis *axisY, QScrollBar *bar)
 // ═══════════════════════════════════════════════════════════════
 void RawAnalysisPanel::showImuReport(const ImuSummary &s)
 {
+    const QString fmt = s.formatText.isEmpty()
+                            ? QStringLiteral("文本表格（CSV/TXT）") : s.formatText;
+
     QString report = QStringLiteral(
         "<p style='font-size:14px;font-weight:700;color:#12263f;margin-bottom:6px;'>"
         "IMU 原始数据质量检测报告</p>"
         "<table cellspacing='0' cellpadding='2' style='font-size:13px;color:#33475b;'>"
-        "<tr><td style='color:#63768c;width:110px;'>样本总数</td>"
+        "<tr><td style='color:#63768c;width:110px;'>数据格式</td>"
         " <td><b>%1</b></td></tr>"
+        "<tr><td style='color:#63768c;'>样本总数</td>"
+        " <td><b>%2</b></td></tr>"
         "<tr><td style='color:#63768c;'>时长</td>"
-        " <td><b>%2 秒</b></td></tr>"
+        " <td><b>%3 秒</b></td></tr>"
         "<tr><td style='color:#63768c;'>采样率</td>"
-        " <td><b>%3 Hz</b></td></tr>"
-        "<tr><td style='color:#63768c;'>丢包数</td>"
-        " <td><b>%4</b>（总间断 %5 秒）</td></tr>"
+        " <td><b>%4 Hz</b></td></tr>"
         "<tr><td style='color:#63768c;'>加计单位</td>"
-        " <td><b>%6</b></td></tr>"
+        " <td><b>%5</b></td></tr>"
         "<tr><td style='color:#63768c;'>陀螺单位</td>"
-        " <td><b>%7</b></td></tr>"
+        " <td><b>%6</b></td></tr>"
         "</table>")
+        .arg(fmt)
         .arg(s.totalSamples)
         .arg(s.durationSec, 0, 'f', 1)
         .arg(s.sampleRate, 0, 'f', 2)
-        .arg(s.gapCount)
-        .arg(s.totalGapSec, 0, 'f', 1)
         .arg(s.accelUnitText)
         .arg(s.gyroUnitText);
+
+    // ── 丢数检查 ──
+    report += QStringLiteral(
+        "<p style='font-size:13px;font-weight:600;color:#12263f;margin:12px 0 4px;'>"
+        "丢数检查</p>"
+        "<table cellspacing='0' cellpadding='2' style='font-size:13px;color:#33475b;'>"
+        "<tr><td style='color:#63768c;width:110px;'>丢数事件</td><td><b>%1</b> 次</td></tr>"
+        "<tr><td style='color:#63768c;'>丢样本数</td><td><b>%2</b></td></tr>"
+        "<tr><td style='color:#63768c;'>总间断时长</td><td><b>%3</b> 秒</td></tr>"
+        "</table>")
+        .arg(s.gapEvents)
+        .arg(s.gapCount)
+        .arg(s.totalGapSec, 0, 'f', 3);
+
+    // ── 回退检查 ──
+    report += QStringLiteral(
+        "<p style='font-size:13px;font-weight:600;color:#12263f;margin:12px 0 4px;'>"
+        "回退检查</p>"
+        "<table cellspacing='0' cellpadding='2' style='font-size:13px;color:#33475b;'>"
+        "<tr><td style='color:#63768c;width:110px;'>回退次数</td><td><b>%1</b> 次</td></tr>"
+        "<tr><td style='color:#63768c;'>单次最大回退</td><td><b>%2</b> 秒</td></tr>"
+        "<tr><td style='color:#63768c;'>累计回退</td><td><b>%3</b> 秒</td></tr>"
+        "</table>")
+        .arg(s.rollbackCount)
+        .arg(s.maxRollbackSec, 0, 'f', 3)
+        .arg(s.totalRollbackSec, 0, 'f', 3);
 
     // 各轴统计
     auto axisRow = [](const QString &name, const AxisStat &st) {
@@ -842,14 +876,26 @@ void RawAnalysisPanel::showImuReport(const ImuSummary &s)
         "<th style='text-align:left;color:#63768c;'>均值</th></tr>%2</table>")
         .arg(accRows, gyrRows);
 
-    if (s.gapCount > 0) {
-        report += QStringLiteral("<p style='color:#dc2626;font-size:13px;margin-top:8px;'>"
-                                 "<b>异常提示：</b>存在 %1 个丢包（共 %2 秒）</p>")
-                      .arg(s.gapCount)
-                      .arg(s.totalGapSec, 0, 'f', 1);
-    } else {
+    // ── 异常汇总 ──
+    QStringList warns;
+    if (s.gapEvents > 0) {
+        warns << QStringLiteral("丢数 %1 次（共丢 %2 个样本，间断 %3 秒）")
+                     .arg(s.gapEvents).arg(s.gapCount).arg(s.totalGapSec, 0, 'f', 3);
+    }
+    if (s.rollbackCount > 0) {
+        warns << QStringLiteral("时间回退 %1 次（单次最大 %2 秒，累计 %3 秒）")
+                     .arg(s.rollbackCount)
+                     .arg(s.maxRollbackSec, 0, 'f', 3)
+                     .arg(s.totalRollbackSec, 0, 'f', 3);
+    }
+
+    if (warns.isEmpty()) {
         report += QStringLiteral("<p style='color:#16a34a;font-size:13px;margin-top:8px;'>"
-                                 "<b>数据质量正常，无明显丢包。</b></p>");
+                                 "<b>数据质量正常，无丢数与回退。</b></p>");
+    } else {
+        report += QStringLiteral("<p style='color:#dc2626;font-size:13px;margin-top:8px;'>"
+                                 "<b>异常提示：</b>%1</p>")
+                      .arg(warns.join(QStringLiteral("；")));
     }
 
     m_reportLabel->setText(report);
@@ -1163,6 +1209,8 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
     // 投影为米并统计包围盒，供 X/Y 等比例尺取轴范围
     m_trajPath.clear();
     m_trajPath.reserve(ds.size());
+    m_trajTimes.clear();
+    m_trajTimes.reserve(ds.size());
     double minE = 0, maxE = 0, minN = 0, maxN = 0;
     bool hasBox = false;
     for (const TruthSample &sp : ds) {
@@ -1170,6 +1218,7 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
         const double n = (sp.lat - lat0) * kMetersPerDeg;
         series->append(e, n);
         m_trajPath.append(QPointF(e, n));
+        m_trajTimes.append(sp.utcSow);   // 与轨迹点一一对应，供点击/搜索时间
         if (!hasBox) { minE = maxE = e; minN = maxN = n; hasBox = true; }
         else {
             minE = qMin(minE, e); maxE = qMax(maxE, e);
@@ -1226,19 +1275,90 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
     view->setRenderHint(QPainter::Antialiasing, false);   // 大数据量关闭抗锯齿
     view->setMinimumHeight(160);
 
+    // ── 选中点高亮（黄色），配合点击/搜索显示该点 UTC 周内秒 ──
+    auto *pickDot = new QScatterSeries(chart);
+    pickDot->setColor(QColor(250, 204, 21));
+    pickDot->setMarkerSize(14.0);
+    pickDot->setName(QStringLiteral("选中点"));
+    chart->addSeries(pickDot);
+    pickDot->attachAxis(axisX);
+    pickDot->attachAxis(axisY);
+    pickDot->setVisible(false);
+
+    auto *timeLabel = new QLabel(QStringLiteral("UTC 周内秒：点击轨迹上的点查看"));
+    timeLabel->setStyleSheet(QStringLiteral("color:#33475b;font-size:12px;"));
+
+    // 点击轨迹 → 查找最近轨迹点，显示其 UTC 周内秒
+    view->setClickHandler([this, timeLabel, pickDot](const QPointF &v) {
+        if (m_trajPath.isEmpty()) return;
+        int best = 0;
+        double bestD = std::numeric_limits<double>::max();
+        for (int i = 0; i < m_trajPath.size(); ++i) {
+            const QPointF d = m_trajPath.at(i) - v;
+            const double dd = d.x() * d.x() + d.y() * d.y();
+            if (dd < bestD) { bestD = dd; best = i; }
+        }
+        pickDot->clear();
+        pickDot->append(m_trajPath.at(best));
+        pickDot->setVisible(true);
+        if (best < m_trajTimes.size() && m_trajTimes.at(best) >= 0)
+            timeLabel->setText(QStringLiteral("UTC 周内秒：%1").arg(m_trajTimes.at(best), 0, 'f', 3));
+        else
+            timeLabel->setText(QStringLiteral("UTC 周内秒：（该文件无 UTC 时间列）"));
+    });
+
     auto *container = new QWidget();
     auto *v = new QVBoxLayout(container);
     v->setContentsMargins(0, 0, 0, 0);
     v->setSpacing(4);
 
-    // 播放控制行：开始按钮（绿色点沿轨迹播放）
+    // 播放控制行：开始按钮（绿色点沿轨迹播放）+ UTC 周内秒搜索
     auto *playBtn = new QPushButton(QStringLiteral("开始"), container);
     playBtn->setFixedWidth(72);
     connect(playBtn, &QPushButton::clicked, this, &RawAnalysisPanel::onTrajPlayClicked);
+
+    auto *findEdit = new QLineEdit(container);
+    findEdit->setPlaceholderText(QStringLiteral("输入 UTC 周内秒"));
+    findEdit->setFixedWidth(140);
+    auto *findBtn = new QPushButton(QStringLiteral("定位"), container);
+    findBtn->setFixedWidth(56);
+
+    // 输入时间 → 定位到最接近的轨迹点
+    auto doLocate = [this, findEdit, timeLabel, pickDot]() {
+        bool ok = false;
+        const double target = findEdit->text().trimmed().toDouble(&ok);
+        if (!ok || m_trajTimes.isEmpty()) {
+            timeLabel->setText(QStringLiteral("请输入有效的 UTC 周内秒"));
+            return;
+        }
+        int best = -1;
+        double bestD = std::numeric_limits<double>::max();
+        for (int i = 0; i < m_trajTimes.size(); ++i) {
+            if (m_trajTimes.at(i) < 0) continue;
+            const double dd = qAbs(m_trajTimes.at(i) - target);
+            if (dd < bestD) { bestD = dd; best = i; }
+        }
+        if (best < 0 || best >= m_trajPath.size()) {
+            timeLabel->setText(QStringLiteral("未找到该时间对应的轨迹点"));
+            return;
+        }
+        pickDot->clear();
+        pickDot->append(m_trajPath.at(best));
+        pickDot->setVisible(true);
+        timeLabel->setText(QStringLiteral("UTC 周内秒：%1（已定位）")
+                               .arg(m_trajTimes.at(best), 0, 'f', 3));
+    };
+    connect(findBtn, &QPushButton::clicked, this, [doLocate]() { doLocate(); });
+    connect(findEdit, &QLineEdit::returnPressed, this, [doLocate]() { doLocate(); });
+
     auto *btnRow = new QHBoxLayout();
     btnRow->setContentsMargins(0, 0, 0, 0);
+    btnRow->setSpacing(6);
     btnRow->addWidget(playBtn);
+    btnRow->addWidget(timeLabel);
     btnRow->addStretch();
+    btnRow->addWidget(findEdit);
+    btnRow->addWidget(findBtn);
     v->addLayout(btnRow);
 
     auto *bodyLayout = new QHBoxLayout();

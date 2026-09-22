@@ -5,10 +5,12 @@
 #include <QVBoxLayout>
 #include <QPainter>
 #include <QWheelEvent>
+#include <QMouseEvent>
 #include <QPointF>
 #include <QColor>
 #include <QStringList>
 #include <QFutureWatcher>
+#include <functional>
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 #include <QtCharts/QValueAxis>
@@ -61,7 +63,16 @@ public:
     // 地图模式：X/Y 同步等比缩放，保持轨迹几何比例（默认关闭，仅轨迹图开启）
     void setLinkedZoom(bool on) { m_linkedZoom = on; }
 
+    // 左键点击回调：回传点击位置对应的图表坐标值（仅轨迹图使用）
+    void setClickHandler(std::function<void(const QPointF &)> fn) { m_clickHandler = std::move(fn); }
+
 protected:
+    void mousePressEvent(QMouseEvent *ev) override {
+        if (m_clickHandler && ev->button() == Qt::LeftButton)
+            m_clickHandler(chart()->mapToValue(ev->pos()));
+        QChartView::mousePressEvent(ev);
+    }
+
     void wheelEvent(QWheelEvent *ev) override {
         if (ev->angleDelta().y() == 0) return;
         const double factor = ev->angleDelta().y() > 0 ? 0.85 : 1.15;
@@ -93,6 +104,7 @@ private:
     QValueAxis *m_xAxis = nullptr;
     QValueAxis *m_yAxis = nullptr;
     bool m_linkedZoom = false;
+    std::function<void(const QPointF &)> m_clickHandler;
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -166,6 +178,7 @@ private:
     QTimer          *m_trajPlayTimer = nullptr;   // 播放定时器
     QScatterSeries  *m_trajPlayDot   = nullptr;   // 绿色起点/播放点（沿轨迹移动）
     QVector<QPointF> m_trajPath;                  // 投影后的轨迹点（东/北，米）
+    QVector<double>  m_trajTimes;                 // 轨迹点对应的 UTC 周内秒（与 m_trajPath 一一对应）
     double           m_trajPlayPos   = 0.0;       // 当前播放位置（浮点索引）
     double           m_trajDuration  = 0.0;       // 数据总时长（秒）
 

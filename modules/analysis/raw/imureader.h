@@ -7,12 +7,18 @@
 namespace Analysis {
 
 // ════════════════════════════════════════════════════════════════
-//  IMU 原始数据（New Code 导出的 CSV）读取与质量统计
-//  固定格式：时间 + 加计三轴 + 陀螺三轴（列名自动识别，单位自动识别）
-//  · 丢包检测（采样间隔 > 中位数间隔 × 容差）
-//  · 各轴统计（min/max/mean）
-//  · 加速度模值 / 角速度模值（判静止、判异常）
+//  IMU 原始数据读取与质量统计
+//  支持两种输入格式，按文件内容自动判别：
+//   · CSV/TXT  —— 时间 + 加计三轴 + 陀螺三轴（列名自动识别，单位自动识别）
+//   · RAWIMUA  —— 诺瓦泰二进制（AA 44 13 同步头 / MsgID 0x05B6 / 56 字节帧）
+//  检查项：丢数（采样间隔异常）、回退（时间戳倒退）
 // ════════════════════════════════════════════════════════════════
+
+// 输入格式
+enum class ImuFormat {
+    Csv = 0,      // 文本（CSV/空格/Tab 分隔）
+    RawImua = 1   // 诺瓦泰 RAWIMUA 二进制
+};
 
 // 单轴统计
 struct AxisStat {
@@ -39,10 +45,18 @@ struct ImuSummary {
     double lastTime     = 0;   // 末样本原始时间
     double durationSec  = 0;   // 时长（秒）
     double sampleRate   = 0;   // 采样率（Hz，按中位数间隔）
+    ImuFormat format    = ImuFormat::Csv;
+    QString formatText;        // 格式描述（用于报告）
 
-    // ── 丢包 ──
-    int    gapCount   = 0;     // 丢包数（间隔超容差的样本数）
+    // ── 丢数检查 ──
+    int    gapEvents   = 0;    // 丢数事件次数（间隔超容差的次数）
+    int    gapCount    = 0;    // 丢样本总数（估算）
     double totalGapSec = 0;    // 总间断时长（秒）
+
+    // ── 回退检查 ──
+    int    rollbackCount    = 0;    // 时间倒退次数
+    double maxRollbackSec   = 0;    // 单次最大倒退量（秒）
+    double totalRollbackSec = 0;    // 累计倒退量（秒）
 
     // ── 单位识别结果（仅展示） ──
     QString accelUnitText;   // 如 "m/s²" 或 "g（已换算为 m/s²）"
@@ -61,9 +75,10 @@ struct ImuSummary {
 class ImuReader
 {
 public:
-    // 读取并统计 IMU CSV 文件。
-    // 成功返回 true，失败在 err 里写原因。
-    static bool analyze(const QString &file, ImuSummary *out, QString *err);
+    // 读取并统计 IMU 文件（自动判别 CSV / RAWIMUA）。
+    // skipCrc 仅对 RAWIMUA 生效：为 true 时不做帧 CRC 校验。
+    static bool analyze(const QString &file, ImuSummary *out, QString *err,
+                        bool skipCrc = false);
 };
 
 } // namespace Analysis

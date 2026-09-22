@@ -85,6 +85,7 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
     if (tCol < 0)
         tCol = findColumn(header, {QStringLiteral("utctime")});
 
+    const int utcCol  = findColumn(header, {QStringLiteral("utctime")});
     const int weekCol = findColumn(header, {QStringLiteral("week")});
     const int latCol   = findColumn(header, {QStringLiteral("latitude"), QStringLiteral("lat")});
     const int lonCol   = findColumn(header, {QStringLiteral("longitude"), QStringLiteral("lon")});
@@ -113,6 +114,7 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
     maxCol = qMax(maxCol, qMax(vnCol, qMax(veCol, qMax(vuCol,
                  qMax(rollCol, qMax(pitchCol, qMax(headCol, satCol)))))));
     maxCol = qMax(maxCol, weekCol);
+    maxCol = qMax(maxCol, utcCol);
 
     struct Raw { TruthSample s; double rawT = 0; double rawWeek = 0; };
     QVector<Raw> tmp;
@@ -149,6 +151,11 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
         if (weekCol >= 0) {
             const double v = parts[weekCol].toDouble(&ok);
             if (ok) r.rawWeek = v;
+        }
+        if (utcCol >= 0) {
+            bool okU = true;
+            const double v = parts[utcCol].toDouble(&okU);
+            if (okU) r.s.utcSow = v;   // UTC 周内秒，供轨迹图上点击/搜索时间用
         }
         if (!ok)
             continue;

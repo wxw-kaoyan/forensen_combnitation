@@ -4,7 +4,9 @@
 #include <QTextStream>
 #include <QtGlobal>
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <functional>
 
 namespace Analysis {
 
@@ -109,27 +111,84 @@ void accumulate(AxisStat &st, double v)
 
 constexpr double kPi = 3.14159265358979323846;
 
-} // namespace
+// ── 统一中间表示（已换算为 m/s² / rad/s） ──
+struct RawImu { double t, ax, ay, az, gx, gy, gz; };
 
-bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
+// 由已换算的样本序列生成摘要：采样率、丢数、回退、各轴统计、模值曲线
+void finalizeSummary(QVector<RawImu> &raw, ImuSummary *out)
 {
-    if (!out) return false;
+    ImuSummary &s = *out;
+    const double t0 = raw.first().t;
+    s.firstTime = t0;
+    s.lastTime  = raw.last().t;
+    s.durationSec = s.lastTime - s.firstTime;
 
-    QFile f(file);
-    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        if (err) *err = QStringLiteral("无法打开文件：%1").arg(file);
-        return false;
+    s.samples.reserve(raw.size());
+    s.accelMag.reserve(raw.size());
+    s.gyroMag.reserve(raw.size());
+    QVector<double> dtList;
+    dtList.reserve(raw.size());
+
+    for (int i = 0; i < raw.size(); ++i) {
+        const RawImu &r = raw[i];
+        ImuSample smp;
+        smp.t  = r.t - t0;
+        smp.ax = r.ax; smp.ay = r.ay; smp.az = r.az;
+        smp.gx = r.gx; smp.gy = r.gy; smp.gz = r.gz;
+        s.samples.append(smp);
+
+        const double am = std::sqrt(smp.ax * smp.ax + smp.ay * smp.ay + smp.az * smp.az);
+        const double gm = std::sqrt(smp.gx * smp.gx + smp.gy * smp.gy + smp.gz * smp.gz);
+        s.accelMag.append({smp.t, am});
+        s.gyroMag.append({smp.t, gm});
+
+        accumulate(s.accX, smp.ax);
+        accumulate(s.accY, smp.ay);
+        accumulate(s.accZ, smp.az);
+        accumulate(s.gyrX, smp.gx);
+        accumulate(s.gyrY, smp.gy);
+        accumulate(s.gyrZ, smp.gz);
+
+        if (i > 0)
+            dtList << (raw[i].t - raw[i - 1].t);
     }
+    s.totalSamples = s.samples.size();
 
+    // ── 采样率 / 丢数 / 回退 ──
+    const double dtMed = median(dtList);
+    if (dtMed > 0.0) {
+        s.sampleRate = 1.0 / dtMed;
+        const double tol = dtMed * 1.5;   // 间隔容差
+        for (double dt : dtList) {
+            if (dt < -1e-9) {
+                // 时间倒退（回退）
+                s.rollbackCount++;
+                s.totalRollbackSec += -dt;
+                if (-dt > s.maxRollbackSec) s.maxRollbackSec = -dt;
+            } else if (dt > tol) {
+                // 丢数
+                s.gapEvents++;
+                s.gapCount += qMax(0, qRound(dt / dtMed) - 1);
+                s.totalGapSec += dt - dtMed;
+            }
+        }
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  CSV / 文本格式
+// ════════════════════════════════════════════════════════════════
+bool parseCsvImpl(const QByteArray &data, ImuSummary *out, QString *err)
+{
     QStringList lines;
-    QTextStream ts(&f);
-    while (!ts.atEnd()) {
-        const QString line = ts.readLine().trimmed();
-        if (!line.isEmpty())
-            lines << line;
+    {
+        QTextStream ts(data);
+        while (!ts.atEnd()) {
+            const QString line = ts.readLine().trimmed();
+            if (!line.isEmpty())
+                lines << line;
+        }
     }
-    f.close();
-
     if (lines.isEmpty()) {
         if (err) *err = QStringLiteral("文件为空");
         return false;
@@ -138,7 +197,6 @@ bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
     const QChar delim = detectDelimiter(lines.first());
     const QStringList header = splitLine(lines.first(), delim);
 
-    // 识别列
     const int tCol  = findTimeColumn(header);
     const int axCol = findAccelColumn(header, 'x');
     const int ayCol = findAccelColumn(header, 'y');
@@ -164,10 +222,9 @@ bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
         return false;
     }
 
-    // 读原始样本
-    struct Raw { double t, ax, ay, az, gx, gy, gz; };
-    QVector<Raw> raw;
-    raw.reserve(lines.size() - 1);
+    struct CsvRaw { double t, ax, ay, az, gx, gy, gz; };
+    QVector<CsvRaw> raw;
+    raw.reserve(lines.size());
 
     const int maxCol = qMax(tCol, qMax(qMax(axCol, ayCol),
                         qMax(azCol, qMax(gxCol, qMax(gyCol, gzCol)))));
@@ -183,7 +240,7 @@ bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
             return ok ? v : 0.0;
         };
 
-        Raw r;
+        CsvRaw r;
         r.t  = num(tCol);
         r.ax = num(axCol);
         r.ay = num(ayCol);
@@ -202,12 +259,10 @@ bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
     }
 
     // ── 单位识别 ──
-    // 加速度：模值中位数判断（静止段占多数时接近重力）
-    //   m/s² 静止 ≈ 9.8；g 静止 ≈ 1；cm/s² 静止 ≈ 980
     QVector<double> accMagRaw, gyrMagRaw;
     accMagRaw.reserve(raw.size());
     gyrMagRaw.reserve(raw.size());
-    for (const Raw &r : raw) {
+    for (const CsvRaw &r : raw) {
         accMagRaw << std::sqrt(r.ax * r.ax + r.ay * r.ay + r.az * r.az);
         gyrMagRaw << std::sqrt(r.gx * r.gx + r.gy * r.gy + r.gz * r.gz);
     }
@@ -231,68 +286,199 @@ bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err)
         gyrText = QStringLiteral("°/s（已换算为 rad/s）");
     }
 
-    // ── 换算 + 填充样本（t 为相对首样本秒） ──
-    const double t0 = raw.first().t;
+    QVector<RawImu> conv;
+    conv.reserve(raw.size());
+    for (const CsvRaw &r : raw) {
+        RawImu c;
+        c.t  = r.t;
+        c.ax = r.ax * accScale; c.ay = r.ay * accScale; c.az = r.az * accScale;
+        c.gx = r.gx * gyrScale; c.gy = r.gy * gyrScale; c.gz = r.gz * gyrScale;
+        conv.append(c);
+    }
+
     ImuSummary &s = *out;
     s = ImuSummary();
+    s.format     = ImuFormat::Csv;
+    s.formatText = QStringLiteral("文本表格（CSV/TXT）");
     s.accelUnitText = accText;
-    s.gyroUnitText = gyrText;
-    s.firstTime = t0;
-    s.lastTime = raw.last().t;
-    s.durationSec = s.lastTime - s.firstTime;
+    s.gyroUnitText  = gyrText;
 
-    s.samples.reserve(raw.size());
-    s.accelMag.reserve(raw.size());
-    s.gyroMag.reserve(raw.size());
-
-    QVector<double> dtList;
-    dtList.reserve(raw.size() - 1);
-
-    for (int i = 0; i < raw.size(); ++i) {
-        const Raw &r = raw[i];
-        ImuSample smp;
-        smp.t  = r.t - t0;
-        smp.ax = r.ax * accScale;
-        smp.ay = r.ay * accScale;
-        smp.az = r.az * accScale;
-        smp.gx = r.gx * gyrScale;
-        smp.gy = r.gy * gyrScale;
-        smp.gz = r.gz * gyrScale;
-        s.samples.append(smp);
-
-        const double am = std::sqrt(smp.ax * smp.ax + smp.ay * smp.ay + smp.az * smp.az);
-        const double gm = std::sqrt(smp.gx * smp.gx + smp.gy * smp.gy + smp.gz * smp.gz);
-        s.accelMag.append({smp.t, am});
-        s.gyroMag.append({smp.t, gm});
-
-        accumulate(s.accX, smp.ax);
-        accumulate(s.accY, smp.ay);
-        accumulate(s.accZ, smp.az);
-        accumulate(s.gyrX, smp.gx);
-        accumulate(s.gyrY, smp.gy);
-        accumulate(s.gyrZ, smp.gz);
-
-        if (i > 0)
-            dtList << (raw[i].t - raw[i - 1].t);
-    }
-
-    s.totalSamples = s.samples.size();
-
-    // ── 采样率 + 丢包 ──
-    const double dtMed = median(dtList);
-    if (dtMed > 0.0) {
-        s.sampleRate = 1.0 / dtMed;
-        const double tol = dtMed * 1.5;   // 间隔容差
-        for (double dt : dtList) {
-            if (dt > tol) {
-                const int dropped = qMax(0, qRound(dt / dtMed) - 1);
-                s.gapCount += dropped;
-                s.totalGapSec += dt - dtMed;
-            }
-        }
-    }
-
+    finalizeSummary(conv, out);
     return true;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RAWIMUA（诺瓦泰二进制）
+//    帧结构：AA 44 13 | 0x28 | MsgID 0x05B6 | ... | 数据 24B | CRC32(4B)
+//    整帧 56 字节，头部 28 字节，CRC 覆盖前 52 字节
+//    CRC32：poly 0xEDB88320，初值 0，无最终取反（非标准 CRC32）
+//    时间：Byte8..11 = GPS 周内毫秒(u32 LE)，Byte14..15 = GPS 周(u16 LE)
+// ════════════════════════════════════════════════════════════════
+constexpr int kRawFrameLen  = 56;
+constexpr int kRawDataOff   = 28;
+constexpr double kWeekSec   = 604800.0;
+
+// 加速度比例因子：优先由静止段（模值中位数 ≈ 1g）自动标定，
+// 标定不可用时退回该默认值（m/s²/LSB）。
+constexpr double kRawAccelScaleFallback = 3.0517578125e-5;   // 2^-15
+// 角速度比例因子（rad/s/LSB）。不同 IMU 型号取值不同，后续可按实物核对。
+constexpr double kRawGyroScale = 9.5367431640625e-7;         // 2^-20
+
+const quint32 *crcTableRaw()
+{
+    static const std::array<quint32, 256> s = [] {
+        std::array<quint32, 256> a{};
+        for (quint32 i = 0; i < 256; ++i) {
+            quint32 c = i;
+            for (int k = 0; k < 8; ++k)
+                c = (c & 1u) ? ((c >> 1) ^ 0xEDB88320u) : (c >> 1);
+            a[i] = c;
+        }
+        return a;
+    }();
+    return s.data();
+}
+
+inline quint32 crc32Raw(const quint8 *p, int n, quint32 crc = 0)
+{
+    const quint32 *t = crcTableRaw();
+    while (n--)
+        crc = ((crc >> 8) & 0x00FFFFFFu) ^ t[(crc ^ *p++) & 0xFFu];
+    return crc;
+}
+
+inline qint32 i32le(const quint8 *p)
+{
+    return qint32(quint32(p[0]) | (quint32(p[1]) << 8) |
+                  (quint32(p[2]) << 16) | (quint32(p[3]) << 24));
+}
+inline quint32 u32le(const quint8 *p)
+{
+    return quint32(p[0]) | (quint32(p[1]) << 8) |
+           (quint32(p[2]) << 16) | (quint32(p[3]) << 24);
+}
+inline quint16 u16le(const quint8 *p)
+{
+    return quint16(quint16(p[0]) | (quint16(p[1]) << 8));
+}
+
+bool parseRawImuaImpl(const QByteArray &data, bool skipCrc, ImuSummary *out, QString *err)
+{
+    const quint8 *d = reinterpret_cast<const quint8 *>(data.constData());
+    const int n = data.size();
+    if (n < kRawFrameLen) {
+        if (err) *err = QStringLiteral("文件太小，不足一帧（56 字节）");
+        return false;
+    }
+
+    int crcFail = 0;
+    // 帧遍历：checkCrc 控制是否做 CRC 校验；回调收到帧首指针。
+    // 采用两次遍历（先标定比例因子、再产出样本），避免缓存整份中间数据。
+    auto forEachFrame = [&](bool checkCrc, const std::function<void(const quint8 *)> &fn) {
+        int i = 0;
+        while (i + kRawFrameLen <= n) {
+            if (!(d[i] == 0xAA && d[i + 1] == 0x44 && d[i + 2] == 0x13)) { ++i; continue; }
+            // 头校验：头部长度 + MsgID(0x05B6)
+            if (!(d[i + 3] == 0x28 && d[i + 4] == 0xB6 && d[i + 5] == 0x05)) { ++i; continue; }
+            if (checkCrc && !skipCrc && crc32Raw(d + i, 52) != u32le(d + i + 52)) {
+                ++crcFail; ++i;      // 逐字节前移重新同步
+                continue;
+            }
+            fn(d + i);
+            i += kRawFrameLen;
+        }
+    };
+
+    // 第一遍：统计加速度模值，用于比例因子自动标定
+    QVector<double> accMag;
+    accMag.reserve(n / kRawFrameLen + 1);
+    forEachFrame(true, [&](const quint8 *f) {
+        const quint8 *p = f + kRawDataOff;
+        const double z = i32le(p), y = i32le(p + 4), x = i32le(p + 8);
+        accMag << std::sqrt(x * x + y * y + z * z);
+    });
+
+    if (accMag.isEmpty()) {
+        if (err) {
+            *err = QStringLiteral("未找到有效 RAWIMUA 帧（同步头/MsgID 不符，CRC 失败 %1 次）")
+                       .arg(crcFail);
+        }
+        return false;
+    }
+
+    // 静止段占多数时，加速度模值中位数 ≈ 1g，据此反推比例因子
+    const double med = median(accMag);
+    double accScale = kRawAccelScaleFallback;
+    QString accText = QStringLiteral("m/s²（比例因子按默认值换算）");
+    if (med > 1.0) {
+        accScale = 9.80665 / med;
+        accText = QStringLiteral("m/s²（比例因子由静止段自动标定）");
+    }
+
+    // 第二遍：产出换算后的样本（CRC 已校验过，不再重复）
+    QVector<RawImu> conv;
+    conv.reserve(accMag.size());
+    forEachFrame(false, [&](const quint8 *f) {
+        RawImu c;
+        c.t  = double(u16le(f + 14)) * kWeekSec + double(u32le(f + 8)) / 1000.0;
+        const quint8 *p = f + kRawDataOff;
+        c.az = double(i32le(p))      * accScale;
+        c.ay = double(i32le(p + 4))  * accScale;
+        c.ax = double(i32le(p + 8))  * accScale;
+        c.gz = double(i32le(p + 12)) * kRawGyroScale;
+        c.gy = double(i32le(p + 16)) * kRawGyroScale;
+        c.gx = double(i32le(p + 20)) * kRawGyroScale;
+        conv.append(c);
+    });
+
+    ImuSummary &s = *out;
+    s = ImuSummary();
+    s.format     = ImuFormat::RawImua;
+    s.formatText = QStringLiteral("诺瓦泰 RAWIMUA（二进制，%1 帧%2）")
+                       .arg(conv.size())
+                       .arg(crcFail > 0 ? QStringLiteral("，CRC 失败 %1 次").arg(crcFail)
+                                        : QString());
+    s.accelUnitText = accText;
+    s.gyroUnitText  = QStringLiteral("rad/s（比例因子 2^-20，可按实物核对）");
+
+    finalizeSummary(conv, out);
+    return true;
+}
+
+bool looksLikeRawImua(const QByteArray &data)
+{
+    const int lim = qMin(data.size(), 4096);
+    for (int i = 0; i + 2 < lim; ++i) {
+        if (static_cast<quint8>(data[i])     == 0xAA &&
+            static_cast<quint8>(data[i + 1]) == 0x44 &&
+            static_cast<quint8>(data[i + 2]) == 0x13)
+            return true;
+    }
+    return false;
+}
+
+} // namespace
+
+bool ImuReader::analyze(const QString &file, ImuSummary *out, QString *err, bool skipCrc)
+{
+    if (!out) return false;
+
+    QFile f(file);
+    if (!f.open(QIODevice::ReadOnly)) {
+        if (err) *err = QStringLiteral("无法打开文件：%1").arg(file);
+        return false;
+    }
+    const QByteArray data = f.readAll();
+    f.close();
+
+    if (data.isEmpty()) {
+        if (err) *err = QStringLiteral("文件为空");
+        return false;
+    }
+
+    if (looksLikeRawImua(data))
+        return parseRawImuaImpl(data, skipCrc, out, err);
+    return parseCsvImpl(data, out, err);
 }
 
 } // namespace Analysis
