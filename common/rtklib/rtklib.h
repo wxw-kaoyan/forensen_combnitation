@@ -40,6 +40,8 @@
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
 typedef void *pthread_mutex_t;
 #endif
+#else
+#include <pthread.h>
 #endif
 
 /* enable all GNSS systems for decoding */

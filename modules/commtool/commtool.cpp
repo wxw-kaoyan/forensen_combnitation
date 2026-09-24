@@ -36,6 +36,12 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
 {
     m_connThread->start();
 
+    // ---- 布局比例：窗口放大时主要由「接收消息」区吸收多余宽度，
+    //      配置区固定 340、发送区保持自身最佳尺寸不随窗口拉伸 ----
+    m_ui->commMainHLayout->setStretch(0, 0);  // 配置区（固定宽度）
+    m_ui->commMainHLayout->setStretch(1, 4);  // 接收消息区（吸收大部分多余空间）
+    m_ui->commMainHLayout->setStretch(2, 0);  // 发送区（不放大）
+
     // ---- AT 指令面板 ----
     m_atPanel = m_ui->atCmdPanel;
     connect(m_atPanel, &AtCmdPanel::sendData,

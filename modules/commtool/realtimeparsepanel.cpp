@@ -46,7 +46,6 @@ QList<RealtimeParsePanel::FrameEntry> RealtimeParsePanel::streamingFrames()
     QList<FrameEntry> list;
 
     for (const ProtocolDescriptor &d : protocolRegistry()) {
-        if (d.pid == ProtocolID::TiltMeasure) continue;  // 与组合导航同 ID，仅长度区分
         list.append({d.pid, QStringLiteral("标准帧协议"), d.label});
     }
 

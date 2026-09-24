@@ -122,6 +122,7 @@ private slots:
     void onBrowse();
     void onAnalyze();
     void onAnalyzeFinished();
+    void onOpenChartWorkbench();
     void onTypeChanged(int index);
     void onTreeNodeClicked(QTreeWidgetItem *item, int /*column*/);
     void onTrajPlayClicked();

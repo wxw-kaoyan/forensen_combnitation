@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 3.19)
 project(TASoftware LANGUAGES CXX)
 
-set(Qt6_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6")
-set(Qt6Charts_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts")
+# Linux/ARM 下用 C 编译器构建 RTKLIB 的 .c：
+# C 惯用法（如 strrchr 返回 const char* 赋给 char*）在 C++ 下会直接报错，
+# 而 Windows 侧因 MinGW 的 CRT 把 strrchr 声明为返回非 const 才能通过，故沿用原方式。
+if (NOT WIN32)
+    enable_language(C)
+endif()
+
+# Windows 下 Qt 装在自定义路径；Linux/ARM 下由系统包提供，交给 find_package 自行定位
+if (WIN32)
+    set(Qt6_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6")
+    set(Qt6Charts_DIR "B:/qt/6.8.3/mingw_64/lib/cmake/Qt6Charts")
+endif()
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Network SerialPort Concurrent Charts)
 
 qt_standard_project_setup()
@@ -10,13 +20,19 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR})
 
+# Windows 专属资源（.rc 图标）；Linux/ARM 下不参与编译
+set(APP_RES_SOURCES "")
+if (WIN32)
+    list(APPEND APP_RES_SOURCES res/app_icon.rc)
+endif()
+
 qt_add_executable(TASoftware
     WIN32 MACOSX_BUNDLE
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    res/app_icon.rc
+    ${APP_RES_SOURCES}
     res/icons.qrc
     common/toolprocess.cpp
     common/toolprocess.h
@@ -126,6 +142,10 @@ qt_add_executable(TASoftware
     modules/analysis/raw/imureader.h
     modules/analysis/raw/truthreader.cpp
     modules/analysis/raw/truthreader.h
+    modules/analysis/chart/chartwindow.cpp
+    modules/analysis/chart/chartwindow.h
+    modules/analysis/chart/chartworkbench.cpp
+    modules/analysis/chart/chartworkbench.h
     modules/ota/core/otaprotocol.cpp
     modules/ota/core/otaprotocol.h
     modules/ota/core/otaworker.cpp
@@ -137,18 +157,20 @@ qt_add_executable(TASoftware
 # 对外可执行文件名：Witt.exe（内部 target 名仍为 TASoftware，减少工程/构建配置改动）
 set_target_properties(TASoftware PROPERTIES OUTPUT_NAME "Witt")
 
-# RTKLIB .c files compiled as C++ (no C compiler available in this environment)
-# Suppress C++ warnings from legacy C code
-set_source_files_properties(
-    common/rtklib/rtkcmn.c
-    common/rtklib/rtcm.c
-    common/rtklib/rtcm3.c
-    common/rtklib/rtcm_stubs.c
-    common/rtklib/rinex.c
-    PROPERTIES
-        LANGUAGE CXX
-        COMPILE_FLAGS "-Wno-write-strings"
-)
+# Windows 下无可用 C 编译器，RTKLIB .c 以 C++ 方式编译并抑制旧式 C 代码告警；
+# Linux/ARM 下按 C 编译（见文件开头的 enable_language(C)），无需特殊处理。
+if (WIN32)
+    set_source_files_properties(
+        common/rtklib/rtkcmn.c
+        common/rtklib/rtcm.c
+        common/rtklib/rtcm3.c
+        common/rtklib/rtcm_stubs.c
+        common/rtklib/rinex.c
+        PROPERTIES
+            LANGUAGE CXX
+            COMPILE_FLAGS "-Wno-write-strings"
+    )
+endif()
 
 target_include_directories(TASoftware
     PRIVATE
@@ -169,8 +191,12 @@ target_link_libraries(TASoftware
         Qt::SerialPort
         Qt::Concurrent
         Qt::Charts
-        winmm
 )
+
+# winmm 仅 Windows 需要（PPS 高精度定时器 timeBeginPeriod）
+if (WIN32)
+    target_link_libraries(TASoftware PRIVATE winmm)
+endif()
 
 install(TARGETS TASoftware
     BUNDLE  DESTINATION .

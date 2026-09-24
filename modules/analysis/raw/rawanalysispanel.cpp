@@ -1,5 +1,6 @@
 #include "rawanalysispanel.h"
 #include "rinexreader.h"
+#include "../chart/chartworkbench.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -38,6 +39,12 @@ RawAnalysisPanel::RawAnalysisPanel(QWidget *parent)
     : QWidget(parent)
 {
     buildUi();
+}
+
+void RawAnalysisPanel::onOpenChartWorkbench()
+{
+    auto *w = new ChartWorkbench(this);
+    w->show();
 }
 
 void RawAnalysisPanel::buildUi()
@@ -93,13 +100,16 @@ void RawAnalysisPanel::buildUi()
     // 分析进行中按钮置灰（禁用态），避免重复触发；重新选文件后可再次分析新文件
     m_analyzeBtn->setStyleSheet(
         QStringLiteral("QPushButton:disabled { background:#b8c0ca; color:#5b6472; }"));
+    auto *chartBtn = new QPushButton(QStringLiteral("通用绘图"), rightPanel);
     fileRow->addWidget(m_pathEdit, 1);
     fileRow->addWidget(m_browseBtn);
     fileRow->addWidget(m_analyzeBtn);
+    fileRow->addWidget(chartBtn);
     rightLayout->addLayout(fileRow);
 
     connect(m_browseBtn, &QPushButton::clicked, this, &RawAnalysisPanel::onBrowse);
     connect(m_analyzeBtn, &QPushButton::clicked, this, &RawAnalysisPanel::onAnalyze);
+    connect(chartBtn, &QPushButton::clicked, this, &RawAnalysisPanel::onOpenChartWorkbench);
 
     rightLayout->addStretch(0);
 
