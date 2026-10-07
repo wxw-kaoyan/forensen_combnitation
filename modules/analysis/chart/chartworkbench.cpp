@@ -31,6 +31,16 @@ const QColor kCurveColors[] = {
     QColor(16, 185, 129),  // 深绿
 };
 constexpr int kCurveColorCount = int(sizeof(kCurveColors) / sizeof(kCurveColors[0]));
+
+// 在表头里按关键词优先级猜列（用于自动选中经度/纬度列）
+int guessColumn(const QStringList &header, const QStringList &keys)
+{
+    for (const QString &k : keys)
+        for (int i = 0; i < header.size(); ++i)
+            if (header[i].toLower().contains(k))
+                return i;
+    return -1;
+}
 } // namespace
 
 ChartWorkbench::ChartWorkbench(QWidget *parent)
@@ -63,6 +73,22 @@ ChartWorkbench::ChartWorkbench(QWidget *parent)
     timeRow->addStretch(1);
     layout->addLayout(timeRow);
 
+    // ── 轨迹：经度列(X) + 纬度列(Y) ──
+    auto *trajRow = new QHBoxLayout();
+    trajRow->addWidget(new QLabel(QStringLiteral("轨迹  经度列:"), this));
+    m_lonCombo = new QComboBox(this);
+    m_lonCombo->setMinimumWidth(150);
+    trajRow->addWidget(m_lonCombo);
+    trajRow->addWidget(new QLabel(QStringLiteral("纬度列:"), this));
+    m_latCombo = new QComboBox(this);
+    m_latCombo->setMinimumWidth(150);
+    trajRow->addWidget(m_latCombo);
+    m_trajBtn = new QPushButton(QStringLiteral("生成轨迹"), this);
+    trajRow->addWidget(m_trajBtn);
+    trajRow->addStretch(1);
+    layout->addLayout(trajRow);
+    connect(m_trajBtn, &QPushButton::clicked, this, &ChartWorkbench::onGenerateTrajectory);
+
     // ── 数据列选择（勾选多列，各画一条曲线） ──
     layout->addWidget(new QLabel(QStringLiteral("数据列（Y 轴，可多选，各生成一条曲线）:"), this));
     m_colList = new QListWidget(this);
@@ -94,6 +120,9 @@ void ChartWorkbench::setBusy(bool busy, const QString &msg)
 {
     m_browseBtn->setEnabled(!busy);
     m_generateBtn->setEnabled(!busy);
+    m_trajBtn->setEnabled(!busy);
+    m_lonCombo->setEnabled(!busy);
+    m_latCombo->setEnabled(!busy);
     m_selAllBtn->setEnabled(!busy);
     m_deselAllBtn->setEnabled(!busy);
     if (!msg.isEmpty())
@@ -143,6 +172,16 @@ void ChartWorkbench::onLoadFinished()
     m_timeCombo->addItems(m_table.header);
     if (m_table.timeColumn >= 0 && m_table.timeColumn < m_table.header.size())
         m_timeCombo->setCurrentIndex(m_table.timeColumn);
+
+    // 经/纬度列（按表头关键词自动选中）
+    m_lonCombo->clear();
+    m_lonCombo->addItems(m_table.header);
+    m_latCombo->clear();
+    m_latCombo->addItems(m_table.header);
+    const int gLon = guessColumn(m_table.header, QStringList{QStringLiteral("经度"), QStringLiteral("lon"), QStringLiteral("lng")});
+    const int gLat = guessColumn(m_table.header, QStringList{QStringLiteral("纬度"), QStringLiteral("lat")});
+    if (gLon >= 0) m_lonCombo->setCurrentIndex(gLon);
+    if (gLat >= 0) m_latCombo->setCurrentIndex(gLat);
 
     // 数据列（排除时间列默认不勾选，其余默认不勾选，由用户选择）
     m_colList->clear();
@@ -250,6 +289,59 @@ void ChartWorkbench::startExtract()
         }));
 }
 
+// 生成轨迹图：X = 经度列，Y = 纬度列
+void ChartWorkbench::onGenerateTrajectory()
+{
+    if (m_extracting) return;
+    if (m_table.header.isEmpty() || m_table.rows.isEmpty()) {
+        m_statusLabel->setText(QStringLiteral("请先加载文件"));
+        return;
+    }
+    const int lonCol = m_lonCombo->currentIndex();
+    const int latCol = m_latCombo->currentIndex();
+    if (lonCol < 0 || latCol < 0) {
+        m_statusLabel->setText(QStringLiteral("请选择经度列和纬度列"));
+        return;
+    }
+    if (lonCol == latCol) {
+        m_statusLabel->setText(QStringLiteral("经度列和纬度列不能是同一列"));
+        return;
+    }
+    startExtractTrajectory();
+}
+
+void ChartWorkbench::startExtractTrajectory()
+{
+    m_extracting = true;
+    setBusy(true, QStringLiteral("提取轨迹中..."));
+
+    const QList<QStringList> rows = m_table.rows;   // 隐式共享浅拷贝，后台只读安全
+    const QStringList header = m_table.header;
+    const int lonCol = m_lonCombo->currentIndex();
+    const int latCol = m_latCombo->currentIndex();
+    const QString baseName = QFileInfo(m_table.path).fileName();
+    const QString xLabel = (lonCol >= 0 && lonCol < header.size()) ? header[lonCol] : QStringLiteral("经度");
+    const QString yName  = (latCol >= 0 && latCol < header.size()) ? header[latCol] : QStringLiteral("纬度");
+
+    m_extractWatcher = new QFutureWatcher<ExtractResult>(this);
+    connect(m_extractWatcher, &QFutureWatcher<ExtractResult>::finished,
+            this, &ChartWorkbench::onGenerateFinished);
+    m_extractWatcher->setFuture(
+        QtConcurrent::run([rows, lonCol, latCol, baseName, xLabel, yName]() -> ExtractResult {
+            ExtractResult r;
+            r.trajectory = true;
+            r.xLabel = xLabel;
+            r.x = extractColumn(rows, lonCol);
+            ChartWindow::Curve curve;
+            curve.name  = yName;
+            curve.y     = extractColumn(rows, latCol);
+            curve.color = kCurveColors[0];
+            r.curves.append(curve);
+            r.title = QStringLiteral("%1 — 轨迹(%2 × %3)").arg(baseName, xLabel, yName);
+            return r;
+        }));
+}
+
 void ChartWorkbench::onGenerateFinished()
 {
     ExtractResult r = m_extractWatcher->result();
@@ -260,7 +352,7 @@ void ChartWorkbench::onGenerateFinished()
 
     if (r.curves.isEmpty()) return;
 
-    auto *win = new ChartWindow(r.title, r.xLabel, r.x, r.curves);
+    auto *win = new ChartWindow(r.title, r.xLabel, r.x, r.curves, r.trajectory);
     win->show();
 }
 

@@ -2,6 +2,7 @@
 #define PROTOCOLDEFS_H
 
 #include <cstdint>
+#include <QString>
 
 // ── 帧 ID 枚举 ──
 enum class ProtocolID : uint16_t {
@@ -30,8 +31,22 @@ enum class ProtocolID : uint16_t {
     // ── 凯芯调试数据流 (0x0109~0x0114, 通过外部 Python 调用 decode_kaixin.mexw64 解析) ──
     Kaixin_Data      = 0x0109,  // 凯芯数据（综合解析，输出单一 CSV）
     Can_RTK          = 0xCD01,  // CAN RTK数据 (CAN ID=0x1CEBFF9A) 内部区分值
+    // ── 联适 CAN 数据流 ──
+    LsNav_Gps        = 0xCD02,  // 联适DEBUG数据流 0x1CFF9B9A 包4~11 (GNSS/导航 20Hz) 内部区分值
+    LsNav_Imu        = 0xCD03,  // 联适DEBUG数据流 0x1CFF9B9A 包1~3  (IMU原始 100Hz) 内部区分值
+    LsNav_Param      = 0xCD04,  // 联适DEBUG数据流 0x1CFF9B9A 包12~14(参数/版本) 内部区分值
+    LsImuLog         = 0xCD05,  // 联适排查数据帧 0x1FFFFF9A (6包, 滤波器内部状态 1Hz)
+    // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
+    Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
+    Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
     Unknown          = 0xFFFF,
 };
+
+// 联适 DEBUG 数据流 0x1CFF9B9A 的三个分组（按包号拆分）
+inline bool isLsNavProtocol(ProtocolID pid) {
+    uint16_t v = static_cast<uint16_t>(pid);
+    return v >= 0xCD02 && v <= 0xCD04;
+}
 
 // DEBUG 调试数据流是否属于 0x51~0x56
 inline bool isDebugProtocol(ProtocolID pid) {
@@ -109,6 +124,12 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::Eb614_KF:      return "614E-B-KF(0x0131)";
         case ProtocolID::Kaixin_Data:   return "凯芯数据(0x0109~0x0114)";
         case ProtocolID::Can_RTK:       return "联试_CAN981";
+        case ProtocolID::LsNav_Gps:     return "NAVDATA_联适-GNSS";
+        case ProtocolID::LsNav_Imu:     return "NAVDATA_联适-IMU";
+        case ProtocolID::LsNav_Param:   return "NAVDATA_联适-参数";
+        case ProtocolID::LsImuLog:      return "IMULOG_联适";
+        case ProtocolID::Novatel_BestPos: return "BESTPOS_诺瓦泰(42)";
+        case ProtocolID::Novatel_PsrVel:  return "PSRVEL_诺瓦泰(100)";
         default:                        return "未知";
     }
 }
@@ -578,6 +599,166 @@ struct CanRtkData {
 };
 
 // ════════════════════════════════════════════════════════════════
+//  联适 DEBUG 数据流 (CAN ID=0x1CFF9B9A) — 14 包，多字节大端
+//  包1~3: IMU 原始 (100Hz) / 包4~11: GNSS+导航 (20Hz) / 包12~14: 参数 (0.1Hz)
+// ════════════════════════════════════════════════════════════════
+struct LsNavImuData {
+    uint32_t timeGpsMs;     // GPS 周内毫秒
+    uint16_t weekNumImu;    // IMU GPS 周
+    double   accel[3];      // 加表 (g)     = raw / 3276.8
+    double   gyro[3];       // 陀螺 (deg/s) = raw / 52.0127
+    double   temperature;   // IMU 温度 (C) = raw / 10
+    uint8_t  kfInitDone;
+};
+
+struct LsNavGpsData {
+    uint32_t itow;          // GPS 周内毫秒
+    uint16_t weekNumGps;
+    uint8_t  fixType;       // 50=窄巷固定
+    uint32_t revcTimeMs;
+    uint8_t  numSV;
+    uint8_t  multiSVs;
+    double   lat;           // 纬度 (deg)   = raw / 1e7
+    double   lon;           // 经度 (deg)   = raw / 1e7
+    double   alt;           // 海拔 (m)     = raw / 1000
+    double   vn;            // 北向速度 (m/s) = raw / 1000
+    double   ve;            // 东向速度 (m/s)
+    double   vd;            // 地向速度 (m/s)
+    double   gspeed;        // 地速 (m/s)
+    double   headMot;       // 运动航向 (deg) = raw / 1000
+    int16_t  pHacc;
+    int16_t  pVacc;
+    int16_t  vHacc;
+    int16_t  llExtend;
+    uint16_t diffAge;
+    uint8_t  kfIndexGet;
+};
+
+struct LsNavParamData {
+    int16_t  gpsPosX, gpsPosY, gpsPosZ;  // 主天线杆臂 (m) = raw / 100
+    uint8_t  rtkFlag;
+    int16_t  odPosX, odPosY, odPosZ;     // 后轮中心杆臂 (m) = raw / 100
+    uint32_t version;
+    uint32_t resetReason;                // 单片机重启原因保存结果
+};
+
+// ════════════════════════════════════════════════════════════════
+//  联适排查数据帧 (CAN ID=0x1FFFFF9A, 6×8B, 1Hz) — 大端
+//  滤波器/IMU 内部状态，用于排查航向、零偏、静态检测等问题
+// ════════════════════════════════════════════════════════════════
+struct LsImuLogData {
+    uint8_t  initStatus;        // 初始化状态
+    uint8_t  filterSelect;      // 滤波器筛选值
+    double   initHeading;       // 初始化的航向角 (deg) = raw/100
+    uint8_t  deviceStatus;      // 设备状态
+    uint8_t  betposGapCnt;      // 1s 内 betpos 间隔>200ms 的数量
+    uint8_t  psrvelGapCnt;      // 1s 内 psrvel 间隔>200ms 的数量
+    uint32_t zuptCnt;           // ZUPT 计数值
+    uint8_t  staticFlag;        // 动静态标记
+    uint32_t straightCnt;       // 直行计数值
+    double   yawInstallBias;    // 航向安装偏差角 (deg) = raw/100
+    uint8_t  betposCnt;         // 1s 内解析的 betpos 数量
+    double   gyroZBias;         // 陀螺 z 轴零偏 (deg/h)
+    uint16_t delayMs;           // 延迟值 (ms)
+    uint8_t  psrvelCnt;         // 1s 内解析的 psrvel 数量
+    uint32_t imuStaticCnt;      // IMU 静态计数值
+    uint8_t  filterState;       // 滤波器状态
+    uint8_t  resetFlag;         // 重置标记位
+    double   pitchInstallBias;  // 俯仰安装偏差角 (deg) = raw/100
+    double   resN;              // 北向残差 (m) = raw/100
+    double   resE;              // 东向残差 (m)
+    double   resU;              // 天向残差 (m)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  诺瓦泰 NovAtel OEM 二进制 (同步头 AA 44 12, 28B 头 + payload + CRC32)
+// ════════════════════════════════════════════════════════════════
+struct NovatelBestPosData {
+    uint16_t gpsWeek;
+    uint32_t gpsWeekMs;
+    int32_t  solStatus;      // 解状态
+    int32_t  posType;        // 定位类型
+    double   lat;            // 纬度 (deg)
+    double   lon;            // 经度 (deg)
+    double   height;         // 椭球高 (m)
+    double   undulation;     // 高程异常 (m)
+    int32_t  datumId;        // 61 = WGS84
+    double   latStd;         // 纬度标准差 (m)
+    double   lonStd;         // 经度标准差 (m)
+    double   heightStd;      // 高程标准差 (m)
+    double   diffAge;        // 差分龄期 (s)
+    double   solAge;         // 解龄期 (s)
+    uint8_t  numSVs;         // 可见星数
+    uint8_t  numSolnSVs;     // 参与解算星数
+    uint8_t  numSolnL1SVs;   // L1 参与解算星数
+    uint8_t  numSolnMultiSVs;// 多频参与解算星数
+};
+
+struct NovatelPsrVelData {
+    uint16_t gpsWeek;
+    uint32_t gpsWeekMs;
+    int32_t  solStatus;      // 解状态
+    int32_t  velType;        // 速度类型 8=DOPPLER_VELOCITY
+    double   latency;        // 延迟 (s)
+    double   diffAge;        // 差分龄期 (s)
+    double   horSpeed;       // 水平速度 (m/s)
+    double   trackGround;    // 地面航向 (deg)
+    double   verSpeed;       // 垂直速度 (m/s)
+};
+
+// 诺瓦泰定位类型名称（posType，联适 DEBUG 流与本机 OEM 二进制共用同一张表）
+inline QString novatelPosTypeName(int32_t v)
+{
+    switch (v) {
+        case 0:  return QStringLiteral("NONE");
+        case 1:  return QStringLiteral("FIXEDPOS");
+        case 2:  return QStringLiteral("FIXEDHEIGHT");
+        case 16: return QStringLiteral("单点(SINGLE)");
+        case 17: return QStringLiteral("伪距差分(PSRDIFF)");
+        case 18: return QStringLiteral("SBAS(WAAS)");
+        case 32: return QStringLiteral("L1浮点(L1_FLOAT)");
+        case 33: return QStringLiteral("无电离层浮点(IONOFREE_FLOAT)");
+        case 34: return QStringLiteral("窄巷浮点(NARROW_FLOAT)");
+        case 48: return QStringLiteral("L1固定(L1_INT)");
+        case 49: return QStringLiteral("宽巷固定(WIDE_INT)");
+        case 50: return QStringLiteral("窄巷固定(NARROW_INT)");
+        case 69: return QStringLiteral("PPP");
+        default: return QString::number(v);
+    }
+}
+
+// 诺瓦泰解状态名称（solStatus）
+inline QString novatelSolStatusName(int32_t v)
+{
+    switch (v) {
+        case 0:  return QStringLiteral("SOL_COMPUTED");
+        case 1:  return QStringLiteral("INSUFFICIENT_OBS");
+        case 2:  return QStringLiteral("NO_CONVERGENCE");
+        case 3:  return QStringLiteral("SINGULARITY");
+        case 4:  return QStringLiteral("COV_TRACE");
+        case 5:  return QStringLiteral("TEST_DIST");
+        case 6:  return QStringLiteral("COLD_START");
+        case 7:  return QStringLiteral("V_H_LIMIT");
+        case 8:  return QStringLiteral("VARIANCE");
+        case 9:  return QStringLiteral("RESIDUALS");
+        case 10: return QStringLiteral("INTEGRITY_WARNING");
+        case 13: return QStringLiteral("PENDING");
+        case 18: return QStringLiteral("INVALID_FIX");
+        default: return QString::number(v);
+    }
+}
+
+// 诺瓦泰速度类型名称（velType）
+inline QString novatelVelTypeName(int32_t v)
+{
+    switch (v) {
+        case 0: return QStringLiteral("NO_VELOCITY");
+        case 8: return QStringLiteral("DOPPLER_VELOCITY");
+        default: return QString::number(v);
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
 //  通用解析结果
 // ════════════════════════════════════════════════════════════════
 struct ParsedFrame {
@@ -602,6 +783,12 @@ struct ParsedFrame {
         AttitudeData   attitude;
         Quat614PData   quat614p;
         CanRtkData     canRtk;
+        LsNavImuData   lsNavImu;
+        LsNavGpsData   lsNavGps;
+        LsNavParamData lsNavParam;
+        LsImuLogData   lsImuLog;
+        NovatelBestPosData novatelBestPos;
+        NovatelPsrVelData  novatelPsrVel;
         DebugImuData   debugImu;
         DebugGpsData   debugGps;
         DebugDrtkData  debugDrtk;

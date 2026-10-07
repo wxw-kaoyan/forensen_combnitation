@@ -106,8 +106,11 @@ qt_add_executable(TASoftware
     modules/parse/parser/external/kaixinframeparser.cpp
     modules/parse/parser/external/kaixinframeparser.h
     modules/parse/parser/can/canrtkparser.h
+    modules/parse/parser/can/lsnavparser.h
+    modules/parse/parser/can/lsimulogparser.h
     modules/parse/parser/other/rtcmframeparser.cpp
     modules/parse/parser/other/rtcmframeparser.h
+    modules/parse/parser/other/novatelparser.h
     modules/parse/parser/core/frameparser.cpp
     modules/parse/parser/core/frameparser.h
     modules/parse/parser/core/protocoldefs.h

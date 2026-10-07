@@ -9,6 +9,9 @@
 #include "modules/parse/parser/external/kaixinframeparser.h"
 #include "modules/parse/parser/single/protocolregistry.h"
 #include "modules/parse/parser/can/canrtkparser.h"
+#include "modules/parse/parser/can/lsnavparser.h"
+#include "modules/parse/parser/can/lsimulogparser.h"
+#include "modules/parse/parser/other/novatelparser.h"
 #include <QList>
 
 // ════════════════════════════════════════════════════════════════
@@ -26,9 +29,13 @@ public:
         // 特殊协议
         result.append(new RtcmFrameParser);
         result.append(new CanRtkParser);
+        result.append(new LsNavParser);
+        result.append(new LsImuLogParser);
         result.append(new DebugFrameParser);
         result.append(new Eb614DebugParser);
         result.append(new KaixinFrameParser);
+        result.append(new NovatelBestPosParser);
+        result.append(new NovatelPsrVelParser);
         return result;
     }
 };

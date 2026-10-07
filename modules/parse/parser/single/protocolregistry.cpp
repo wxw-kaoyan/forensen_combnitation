@@ -270,6 +270,140 @@ static QList<ParsedFrame> genericFrameParse(ProtocolID pid, const QByteArray &ra
 }
 
 // ════════════════════════════════════════════════════════════════
+//  联适 NAVDATA / IMULOG 字段列表
+// ════════════════════════════════════════════════════════════════
+static QList<FieldDescriptor> lsNavImuFields()
+{
+    return {
+        {"GPS周内毫秒(ms)", [](const ParsedFrame &f) { return QString::number(f.lsNavImu.timeGpsMs); }},
+        {"IMU周",           [](const ParsedFrame &f) { return QString::number(f.lsNavImu.weekNumImu); }},
+        {"加表X(g)",        [](const ParsedFrame &f) { return QString::number(f.lsNavImu.accel[0], 'f', 5); }},
+        {"加表Y(g)",        [](const ParsedFrame &f) { return QString::number(f.lsNavImu.accel[1], 'f', 5); }},
+        {"加表Z(g)",        [](const ParsedFrame &f) { return QString::number(f.lsNavImu.accel[2], 'f', 5); }},
+        {"陀螺X(deg/s)",    [](const ParsedFrame &f) { return QString::number(f.lsNavImu.gyro[0], 'f', 5); }},
+        {"陀螺Y(deg/s)",    [](const ParsedFrame &f) { return QString::number(f.lsNavImu.gyro[1], 'f', 5); }},
+        {"陀螺Z(deg/s)",    [](const ParsedFrame &f) { return QString::number(f.lsNavImu.gyro[2], 'f', 5); }},
+        {"温度(C)",         [](const ParsedFrame &f) { return QString::number(f.lsNavImu.temperature, 'f', 1); }},
+        {"KF初始化",        [](const ParsedFrame &f) { return QString::number(f.lsNavImu.kfInitDone); }},
+    };
+}
+
+static QList<FieldDescriptor> lsNavGpsFields()
+{
+    return {
+        {"GPS周内毫秒(ms)", [](const ParsedFrame &f) { return QString::number(f.lsNavGps.itow); }},
+        {"GPS周",           [](const ParsedFrame &f) { return QString::number(f.lsNavGps.weekNumGps); }},
+        {"定位类型",        [](const ParsedFrame &f) { return QString::number(f.lsNavGps.fixType); }},
+        {"定位类型名",      [](const ParsedFrame &f) { return novatelPosTypeName(f.lsNavGps.fixType); }},
+        {"接收时刻(ms)",    [](const ParsedFrame &f) { return QString::number(f.lsNavGps.revcTimeMs); }},
+        {"卫星数",          [](const ParsedFrame &f) { return QString::number(f.lsNavGps.numSV); }},
+        {"双频星数",        [](const ParsedFrame &f) { return QString::number(f.lsNavGps.multiSVs); }},
+        {"纬度(deg)",       [](const ParsedFrame &f) { return QString::number(f.lsNavGps.lat, 'f', 7); }},
+        {"经度(deg)",       [](const ParsedFrame &f) { return QString::number(f.lsNavGps.lon, 'f', 7); }},
+        {"海拔(m)",         [](const ParsedFrame &f) { return QString::number(f.lsNavGps.alt, 'f', 3); }},
+        {"北向速度(m/s)",   [](const ParsedFrame &f) { return QString::number(f.lsNavGps.vn, 'f', 3); }},
+        {"东向速度(m/s)",   [](const ParsedFrame &f) { return QString::number(f.lsNavGps.ve, 'f', 3); }},
+        {"地向速度(m/s)",   [](const ParsedFrame &f) { return QString::number(f.lsNavGps.vd, 'f', 3); }},
+        {"地速(m/s)",       [](const ParsedFrame &f) { return QString::number(f.lsNavGps.gspeed, 'f', 3); }},
+        {"运动航向(deg)",   [](const ParsedFrame &f) { return QString::number(f.lsNavGps.headMot, 'f', 3); }},
+        {"水平位置精度",    [](const ParsedFrame &f) { return QString::number(f.lsNavGps.pHacc); }},
+        {"垂直位置精度",    [](const ParsedFrame &f) { return QString::number(f.lsNavGps.pVacc); }},
+        {"水平速度精度",    [](const ParsedFrame &f) { return QString::number(f.lsNavGps.vHacc); }},
+        {"ll_extend",       [](const ParsedFrame &f) { return QString::number(f.lsNavGps.llExtend); }},
+        {"差分龄期",        [](const ParsedFrame &f) { return QString::number(f.lsNavGps.diffAge); }},
+        {"滤波器索引",      [](const ParsedFrame &f) { return QString::number(f.lsNavGps.kfIndexGet); }},
+    };
+}
+
+static QList<FieldDescriptor> lsNavParamFields()
+{
+    return {
+        {"主天线杆臂X(m)", [](const ParsedFrame &f) { return QString::number(f.lsNavParam.gpsPosX / 100.0, 'f', 2); }},
+        {"主天线杆臂Y(m)", [](const ParsedFrame &f) { return QString::number(f.lsNavParam.gpsPosY / 100.0, 'f', 2); }},
+        {"主天线杆臂Z(m)", [](const ParsedFrame &f) { return QString::number(f.lsNavParam.gpsPosZ / 100.0, 'f', 2); }},
+        {"RTK标记",        [](const ParsedFrame &f) { return QString::number(f.lsNavParam.rtkFlag); }},
+        {"后轮杆臂X(m)",   [](const ParsedFrame &f) { return QString::number(f.lsNavParam.odPosX / 100.0, 'f', 2); }},
+        {"后轮杆臂Y(m)",   [](const ParsedFrame &f) { return QString::number(f.lsNavParam.odPosY / 100.0, 'f', 2); }},
+        {"后轮杆臂Z(m)",   [](const ParsedFrame &f) { return QString::number(f.lsNavParam.odPosZ / 100.0, 'f', 2); }},
+        {"版本",           [](const ParsedFrame &f) { return QString::number(f.lsNavParam.version); }},
+        {"重启原因",       [](const ParsedFrame &f) { return QString::number(f.lsNavParam.resetReason); }},
+    };
+}
+
+static QList<FieldDescriptor> lsImuLogFields()
+{
+    return {
+        {"初始化状态",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.initStatus); }},
+        {"滤波器筛选值",       [](const ParsedFrame &f) { return QString::number(f.lsImuLog.filterSelect); }},
+        {"初始化航向角(deg)",  [](const ParsedFrame &f) { return QString::number(f.lsImuLog.initHeading, 'f', 2); }},
+        {"设备状态",           [](const ParsedFrame &f) { return QString::number(f.lsImuLog.deviceStatus); }},
+        {"betpos超时间隔数",   [](const ParsedFrame &f) { return QString::number(f.lsImuLog.betposGapCnt); }},
+        {"psrvel超时间隔数",   [](const ParsedFrame &f) { return QString::number(f.lsImuLog.psrvelGapCnt); }},
+        {"ZUPT计数",           [](const ParsedFrame &f) { return QString::number(f.lsImuLog.zuptCnt); }},
+        {"动静态标记",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.staticFlag); }},
+        {"直行计数",           [](const ParsedFrame &f) { return QString::number(f.lsImuLog.straightCnt); }},
+        {"航向安装偏差(deg)",  [](const ParsedFrame &f) { return QString::number(f.lsImuLog.yawInstallBias, 'f', 2); }},
+        {"betpos数量",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.betposCnt); }},
+        {"陀螺Z零偏(deg/h)",   [](const ParsedFrame &f) { return QString::number(f.lsImuLog.gyroZBias, 'f', 0); }},
+        {"延迟(ms)",           [](const ParsedFrame &f) { return QString::number(f.lsImuLog.delayMs); }},
+        {"psrvel数量",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.psrvelCnt); }},
+        {"IMU静态计数",        [](const ParsedFrame &f) { return QString::number(f.lsImuLog.imuStaticCnt); }},
+        {"滤波器状态",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.filterState); }},
+        {"重置标记位",         [](const ParsedFrame &f) { return QString::number(f.lsImuLog.resetFlag); }},
+        {"俯仰安装偏差(deg)",  [](const ParsedFrame &f) { return QString::number(f.lsImuLog.pitchInstallBias, 'f', 2); }},
+        {"北向残差(m)",        [](const ParsedFrame &f) { return QString::number(f.lsImuLog.resN, 'f', 2); }},
+        {"东向残差(m)",        [](const ParsedFrame &f) { return QString::number(f.lsImuLog.resE, 'f', 2); }},
+        {"天向残差(m)",        [](const ParsedFrame &f) { return QString::number(f.lsImuLog.resU, 'f', 2); }},
+    };
+}
+
+// ════════════════════════════════════════════════════════════════
+//  诺瓦泰 NovAtel 字段列表
+// ════════════════════════════════════════════════════════════════
+static QList<FieldDescriptor> novatelBestPosFields()
+{
+    return {
+        {"GPS周",           [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.gpsWeek); }},
+        {"GPS周内毫秒(ms)", [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.gpsWeekMs); }},
+        {"解状态",          [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.solStatus); }},
+        {"解状态名",        [](const ParsedFrame &f) { return novatelSolStatusName(f.novatelBestPos.solStatus); }},
+        {"定位类型",        [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.posType); }},
+        {"定位类型名",      [](const ParsedFrame &f) { return novatelPosTypeName(f.novatelBestPos.posType); }},
+        {"纬度(deg)",       [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.lat, 'f', 9); }},
+        {"经度(deg)",       [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.lon, 'f', 9); }},
+        {"椭球高(m)",       [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.height, 'f', 4); }},
+        {"高程异常(m)",     [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.undulation, 'f', 3); }},
+        {"基准",            [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.datumId); }},
+        {"纬度标准差(m)",   [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.latStd, 'f', 4); }},
+        {"经度标准差(m)",   [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.lonStd, 'f', 4); }},
+        {"高程标准差(m)",   [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.heightStd, 'f', 4); }},
+        {"差分龄期(s)",     [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.diffAge, 'f', 1); }},
+        {"解龄期(s)",       [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.solAge, 'f', 1); }},
+        {"卫星数",          [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.numSVs); }},
+        {"参与解算星数",    [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.numSolnSVs); }},
+        {"L1星数",          [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.numSolnL1SVs); }},
+        {"多频星数",        [](const ParsedFrame &f) { return QString::number(f.novatelBestPos.numSolnMultiSVs); }},
+    };
+}
+
+static QList<FieldDescriptor> novatelPsrVelFields()
+{
+    return {
+        {"GPS周",           [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.gpsWeek); }},
+        {"GPS周内毫秒(ms)", [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.gpsWeekMs); }},
+        {"解状态",          [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.solStatus); }},
+        {"解状态名",        [](const ParsedFrame &f) { return novatelSolStatusName(f.novatelPsrVel.solStatus); }},
+        {"速度类型",        [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.velType); }},
+        {"速度类型名",      [](const ParsedFrame &f) { return novatelVelTypeName(f.novatelPsrVel.velType); }},
+        {"延迟(s)",         [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.latency, 'f', 3); }},
+        {"差分龄期(s)",     [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.diffAge, 'f', 1); }},
+        {"水平速度(m/s)",   [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.horSpeed, 'f', 5); }},
+        {"地面航向(deg)",   [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.trackGround, 'f', 5); }},
+        {"垂直速度(m/s)",   [](const ParsedFrame &f) { return QString::number(f.novatelPsrVel.verSpeed, 'f', 5); }},
+    };
+}
+
+// ════════════════════════════════════════════════════════════════
 //  协议注册表（所有标准帧协议）
 // ════════════════════════════════════════════════════════════════
 const QList<ProtocolDescriptor> &protocolRegistry()
@@ -508,12 +642,68 @@ static const ProtocolDescriptor kCanRtkDescriptor = {
     canRtkFields(),
 };
 
+// ── 联适 NAVDATA / IMULOG 也注册描述符（仅用于字段/CSV 查询，解析走专用解析器） ──
+static const ProtocolDescriptor kLsNavImuDescriptor = {
+    QStringLiteral("NAVDATA_联适-IMU"),
+    ProtocolID::LsNav_Imu,
+    false,
+    QStringLiteral("GPS周内毫秒(ms),IMU周,加表X(g),加表Y(g),加表Z(g),陀螺X(deg/s),陀螺Y(deg/s),陀螺Z(deg/s),温度(C),KF初始化\n"),
+    {}, {}, lsNavImuFields(),
+};
+
+static const ProtocolDescriptor kLsNavGpsDescriptor = {
+    QStringLiteral("NAVDATA_联适-GNSS"),
+    ProtocolID::LsNav_Gps,
+    false,
+    QStringLiteral("GPS周内毫秒(ms),GPS周,定位类型,定位类型名,接收时刻(ms),卫星数,双频星数,纬度(deg),经度(deg),海拔(m),北向速度(m/s),东向速度(m/s),地向速度(m/s),地速(m/s),运动航向(deg),水平位置精度,垂直位置精度,水平速度精度,ll_extend,差分龄期,滤波器索引\n"),
+    {}, {}, lsNavGpsFields(),
+};
+
+static const ProtocolDescriptor kLsNavParamDescriptor = {
+    QStringLiteral("NAVDATA_联适-参数"),
+    ProtocolID::LsNav_Param,
+    false,
+    QStringLiteral("主天线杆臂X(m),主天线杆臂Y(m),主天线杆臂Z(m),RTK标记,后轮杆臂X(m),后轮杆臂Y(m),后轮杆臂Z(m),版本,重启原因\n"),
+    {}, {}, lsNavParamFields(),
+};
+
+static const ProtocolDescriptor kLsImuLogDescriptor = {
+    QStringLiteral("IMULOG_联适"),
+    ProtocolID::LsImuLog,
+    false,
+    QStringLiteral("初始化状态,滤波器筛选值,初始化航向角(deg),设备状态,betpos超时间隔数,psrvel超时间隔数,ZUPT计数,动静态标记,直行计数,航向安装偏差(deg),betpos数量,陀螺Z零偏(deg/h),延迟(ms),psrvel数量,IMU静态计数,滤波器状态,重置标记位,俯仰安装偏差(deg),北向残差(m),东向残差(m),天向残差(m)\n"),
+    {}, {}, lsImuLogFields(),
+};
+
+// ── 诺瓦泰 NovAtel 也注册描述符（仅用于字段/CSV 查询，解析走专用解析器） ──
+static const ProtocolDescriptor kNovatelBestPosDescriptor = {
+    QStringLiteral("BESTPOS_诺瓦泰"),
+    ProtocolID::Novatel_BestPos,
+    false,
+    QStringLiteral("GPS周,GPS周内毫秒(ms),解状态,解状态名,定位类型,定位类型名,纬度(deg),经度(deg),椭球高(m),高程异常(m),基准,纬度标准差(m),经度标准差(m),高程标准差(m),差分龄期(s),解龄期(s),卫星数,参与解算星数,L1星数,多频星数\n"),
+    {}, {}, novatelBestPosFields(),
+};
+
+static const ProtocolDescriptor kNovatelPsrVelDescriptor = {
+    QStringLiteral("PSRVEL_诺瓦泰"),
+    ProtocolID::Novatel_PsrVel,
+    false,
+    QStringLiteral("GPS周,GPS周内毫秒(ms),解状态,解状态名,速度类型,速度类型名,延迟(s),差分龄期(s),水平速度(m/s),地面航向(deg),垂直速度(m/s)\n"),
+    {}, {}, novatelPsrVelFields(),
+};
+
 const ProtocolDescriptor *findProtocol(ProtocolID pid)
 {
     for (const auto &d : protocolRegistry()) {
         if (d.pid == pid) return &d;
     }
-    if (pid == ProtocolID::Can_RTK) return &kCanRtkDescriptor;
+    if (pid == ProtocolID::Can_RTK)  return &kCanRtkDescriptor;
+    if (pid == ProtocolID::LsNav_Imu)   return &kLsNavImuDescriptor;
+    if (pid == ProtocolID::LsNav_Gps)   return &kLsNavGpsDescriptor;
+    if (pid == ProtocolID::LsNav_Param) return &kLsNavParamDescriptor;
+    if (pid == ProtocolID::LsImuLog)    return &kLsImuLogDescriptor;
+    if (pid == ProtocolID::Novatel_BestPos) return &kNovatelBestPosDescriptor;
+    if (pid == ProtocolID::Novatel_PsrVel)  return &kNovatelPsrVelDescriptor;
     return nullptr;
 }
 

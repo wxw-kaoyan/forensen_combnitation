@@ -24,6 +24,7 @@ namespace Analysis {
 //  通用绘图工作台（独立非模态窗口）
 //  选一个 CSV 文件 → 自动识别表头 → 选时间列 + 勾选若干数据列 →
 //  点「生成窗口」弹出一个 ChartWindow；可反复生成多个窗口对比。
+//  另支持「生成轨迹」：选经度列(X) + 纬度列(Y) 直接画出运动轨迹。
 //  数据加载与列提取均在后台线程，避免大文件阻塞 UI。
 // ════════════════════════════════════════════════════════════════
 class ChartWorkbench : public QWidget
@@ -38,6 +39,7 @@ private slots:
     void onSelectAll();
     void onDeselectAll();
     void onGenerate();
+    void onGenerateTrajectory();   // 按经/纬度列生成轨迹图
     void onGenerateFinished();
 
 private:
@@ -47,10 +49,12 @@ private:
         QString                    xLabel;
         QVector<double>            x;
         QVector<ChartWindow::Curve> curves;
+        bool                       trajectory = false;   // true = 经纬度轨迹
     };
 
     void startLoad(const QString &path);
     void startExtract();
+    void startExtractTrajectory();   // 提取经度列(X) + 纬度列(Y) 单曲线
     static QVector<double> extractColumn(const QList<QStringList> &rows, int col);
 
     QLineEdit   *m_pathEdit    = nullptr;
@@ -59,6 +63,9 @@ private:
     QListWidget *m_colList     = nullptr;
     QPushButton *m_selAllBtn   = nullptr;
     QPushButton *m_deselAllBtn = nullptr;
+    QComboBox   *m_lonCombo    = nullptr;   // 经度列
+    QComboBox   *m_latCombo    = nullptr;   // 纬度列
+    QPushButton *m_trajBtn     = nullptr;   // 生成轨迹
     QPushButton *m_generateBtn = nullptr;
     QLabel      *m_statusLabel = nullptr;
 

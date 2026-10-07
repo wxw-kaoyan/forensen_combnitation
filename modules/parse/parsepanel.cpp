@@ -224,22 +224,29 @@ void ParsePanel::onProtocolComboActivated(int index)
 
     bool skipCrc = !ui->crcCheckBox->isChecked();
     bool isBlf = m_filePath.endsWith(".blf", Qt::CaseInsensitive);
+    // CAN 日志：BLF 二进制 或 文本 .log
+    bool isCanLog = isBlf || m_filePath.endsWith(".log", Qt::CaseInsensitive);
 
     // 快速校验：检查协议/文件类型匹配
     {
         QList<ParserBase*> tmp = ParserFactory::createAll();
         if (parserIdx < tmp.size()) {
             ParserBase *p = tmp[parserIdx];
-            if (isBlf && p->protocolId() != ProtocolID::Can_RTK) {
+            const ProtocolID pid = p->protocolId();
+            // 仅支持 CAN 日志(BLF / .log)的协议：联试_CAN981 / NAVDATA_联适 / IMULOG_联适
+            const bool canProtocol = (pid == ProtocolID::Can_RTK
+                                      || pid == ProtocolID::LsNav_Gps
+                                      || pid == ProtocolID::LsImuLog);
+            if (isBlf && !canProtocol) {
                 QMessageBox::information(this, QStringLiteral("提示"),
-                    QStringLiteral("BLF 文件请使用 联试_CAN981 协议解析。"));
+                    QStringLiteral("BLF 文件请使用 联试_CAN981 / NAVDATA_联适 / IMULOG_联适 协议解析。"));
                 ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
             }
-            if (!isBlf && p->protocolId() == ProtocolID::Can_RTK) {
+            if (!isCanLog && canProtocol) {
                 QMessageBox::information(this, QStringLiteral("提示"),
-                    QStringLiteral("联试_CAN981 仅支持 BLF 文件。"));
+                    QStringLiteral("联试_CAN981 / NAVDATA_联适 / IMULOG_联适 仅支持 BLF 或 CAN 文本日志(.log)。"));
                 ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
@@ -405,6 +412,33 @@ void ParsePanel::onExportClicked()
         int written = exportFrameCsvs(m_cachedFrames, dir, pids, names,
                                       &Eb614DebugParser::csvHeaderFor,
                                       &Eb614DebugParser::formatFrameFor);
+        QMessageBox::information(this, QStringLiteral("导出成功"),
+                                 QStringLiteral("已导出 %1 个 CSV 到 %2")
+                                     .arg(written).arg(dir));
+        return;
+    }
+
+    // 联适 NAVDATA：按包组分导出 3 个 CSV（IMU 100Hz / GNSS 20Hz / 参数）
+    if (isLsNavProtocol(m_activeProtocolId)) {
+        if (m_cachedFrames.isEmpty()) {
+            QMessageBox::information(this, QStringLiteral("提示"),
+                                     QStringLiteral("请先解析 NAVDATA_联适 数据后再导出。"));
+            return;
+        }
+        QString dir = QFileDialog::getExistingDirectory(
+            this, QStringLiteral("选择 NAVDATA_联适 数据导出目录"));
+        if (dir.isEmpty()) return;
+        const QList<ProtocolID> pids = {
+            ProtocolID::LsNav_Imu, ProtocolID::LsNav_Gps, ProtocolID::LsNav_Param
+        };
+        const QList<QString> names = {
+            QStringLiteral("NAVDATA_联适_IMU_100Hz.csv"),
+            QStringLiteral("NAVDATA_联适_GNSS_20Hz.csv"),
+            QStringLiteral("NAVDATA_联适_参数.csv"),
+        };
+        int written = exportFrameCsvs(m_cachedFrames, dir, pids, names,
+                                      &LsNavParser::csvHeaderFor,
+                                      &LsNavParser::formatFrameFor);
         QMessageBox::information(this, QStringLiteral("导出成功"),
                                  QStringLiteral("已导出 %1 个 CSV 到 %2")
                                      .arg(written).arg(dir));
