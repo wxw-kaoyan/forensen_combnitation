@@ -11,6 +11,7 @@
 #include "modules/parse/parser/can/canrtkparser.h"
 #include "modules/parse/parser/can/lsnavparser.h"
 #include "modules/parse/parser/can/lsimulogparser.h"
+#include "modules/parse/parser/can/a3parser.h"
 #include "modules/parse/parser/other/novatelparser.h"
 #include <QList>
 
@@ -36,6 +37,7 @@ public:
         result.append(new KaixinFrameParser);
         result.append(new NovatelBestPosParser);
         result.append(new NovatelPsrVelParser);
+        result.append(new A3Parser);
         return result;
     }
 };

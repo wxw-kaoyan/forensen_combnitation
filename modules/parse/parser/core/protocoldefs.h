@@ -36,6 +36,7 @@ enum class ProtocolID : uint16_t {
     LsNav_Imu        = 0xCD03,  // 联适DEBUG数据流 0x1CFF9B9A 包1~3  (IMU原始 100Hz) 内部区分值
     LsNav_Param      = 0xCD04,  // 联适DEBUG数据流 0x1CFF9B9A 包12~14(参数/版本) 内部区分值
     LsImuLog         = 0xCD05,  // 联适排查数据帧 0x1FFFFF9A (6包, 滤波器内部状态 1Hz)
+    A3_Imu           = 0xCD06,  // A3 IMU 异常测试协议 (CANFD ID=0x272, 64B, 小端, 500Hz)
     // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
     Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
     Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
@@ -706,6 +707,24 @@ struct NovatelPsrVelData {
     double   verSpeed;       // 垂直速度 (m/s)
 };
 
+// ════════════════════════════════════════════════════════════════
+//  A3 IMU 异常测试协议 (CANFD ID=0x272, 64B, 小端, 500Hz)
+//  帧 17 字段：Cycle / GPSWeek / GPSWeekMs / GYR[3] / ACC[3] / Temp /
+//              Q[4] / RunStatus / 10 监控标志位 / CRC
+// ════════════════════════════════════════════════════════════════
+struct A3ImuData {
+    uint8_t  cycle;          // 循环计数 0-255
+    uint16_t gpsWeek;        // GPS 周
+    uint32_t gpsWeekMs;      // GPS 周内毫秒
+    float    gyro[3];        // 陀螺 X/Y/Z (deg/s)
+    float    accel[3];       // 加表 X/Y/Z (m/s²)
+    float    temperature;    // 温度 (C)（已 ×0.01 解码）
+    float    quat[4];        // 四元数 Q0/Q1/Q2/Q3
+    uint8_t  runStatus;      // 运行状态位 (bit0~5)
+    uint8_t  flags[10];      // 10 监控标志位 (byte50~59)
+    uint32_t crc;            // CRC（接收值）
+};
+
 // 诺瓦泰定位类型名称（posType，联适 DEBUG 流与本机 OEM 二进制共用同一张表）
 inline QString novatelPosTypeName(int32_t v)
 {
@@ -789,6 +808,7 @@ struct ParsedFrame {
         LsImuLogData   lsImuLog;
         NovatelBestPosData novatelBestPos;
         NovatelPsrVelData  novatelPsrVel;
+        A3ImuData          a3Imu;
         DebugImuData   debugImu;
         DebugGpsData   debugGps;
         DebugDrtkData  debugDrtk;

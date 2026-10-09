@@ -404,6 +404,41 @@ static QList<FieldDescriptor> novatelPsrVelFields()
 }
 
 // ════════════════════════════════════════════════════════════════
+//  A3 IMU 异常测试协议 (CANFD ID=0x272, 64B, 小端) 字段列表
+// ════════════════════════════════════════════════════════════════
+static QList<FieldDescriptor> a3ImuFields()
+{
+    return {
+        {"Cycle",                   [](const ParsedFrame &f) { return QString::number(f.a3Imu.cycle); }},
+        {"GPS周",                    [](const ParsedFrame &f) { return QString::number(f.a3Imu.gpsWeek); }},
+        {"GPS周内毫秒(ms)",         [](const ParsedFrame &f) { return QString::number(f.a3Imu.gpsWeekMs); }},
+        {"陀螺X(deg/s)",            [](const ParsedFrame &f) { return QString::number(f.a3Imu.gyro[0], 'f', 5); }},
+        {"陀螺Y(deg/s)",            [](const ParsedFrame &f) { return QString::number(f.a3Imu.gyro[1], 'f', 5); }},
+        {"陀螺Z(deg/s)",            [](const ParsedFrame &f) { return QString::number(f.a3Imu.gyro[2], 'f', 5); }},
+        {"加表X(m/s²)",             [](const ParsedFrame &f) { return QString::number(f.a3Imu.accel[0], 'f', 5); }},
+        {"加表Y(m/s²)",             [](const ParsedFrame &f) { return QString::number(f.a3Imu.accel[1], 'f', 5); }},
+        {"加表Z(m/s²)",             [](const ParsedFrame &f) { return QString::number(f.a3Imu.accel[2], 'f', 5); }},
+        {"温度(C)",                 [](const ParsedFrame &f) { return QString::number(f.a3Imu.temperature, 'f', 2); }},
+        {"Q0",                      [](const ParsedFrame &f) { return QString::number(f.a3Imu.quat[0], 'f', 5); }},
+        {"Q1",                      [](const ParsedFrame &f) { return QString::number(f.a3Imu.quat[1], 'f', 5); }},
+        {"Q2",                      [](const ParsedFrame &f) { return QString::number(f.a3Imu.quat[2], 'f', 5); }},
+        {"Q3",                      [](const ParsedFrame &f) { return QString::number(f.a3Imu.quat[3], 'f', 5); }},
+        {"RunStatus",               [](const ParsedFrame &f) { return QStringLiteral("0x") + QString::number(f.a3Imu.runStatus, 16).rightJustified(2, '0'); }},
+        {"陀螺硬件失效计数",        [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[0]); }},
+        {"加计硬件失效计数",        [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[1]); }},
+        {"陀螺超量程计数",          [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[2]); }},
+        {"协方差奇异重置计数",      [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[3]); }},
+        {"协方差对角线负数计数",    [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[4]); }},
+        {"航向方差下溢计数",        [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[5]); }},
+        {"EKF健康状态位寄存器",     [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[6]); }},
+        {"姿态步突跳超限计数",      [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[7]); }},
+        {"CAN报文+秒脉冲同步",      [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[8]); }},
+        {"系统异常状态寄存器",      [](const ParsedFrame &f) { return QString::number(f.a3Imu.flags[9]); }},
+        {"CRC",                     [](const ParsedFrame &f) { return QStringLiteral("0x") + QString::number(f.a3Imu.crc, 16).rightJustified(8, '0'); }},
+    };
+}
+
+// ════════════════════════════════════════════════════════════════
 //  协议注册表（所有标准帧协议）
 // ════════════════════════════════════════════════════════════════
 const QList<ProtocolDescriptor> &protocolRegistry()
@@ -692,6 +727,15 @@ static const ProtocolDescriptor kNovatelPsrVelDescriptor = {
     {}, {}, novatelPsrVelFields(),
 };
 
+// ── A3 IMU 异常测试协议（仅用于字段/CSV 查询，解析走专用解析器） ──
+static const ProtocolDescriptor kA3ImuDescriptor = {
+    QStringLiteral("A3协议解析"),
+    ProtocolID::A3_Imu,
+    false,
+    QStringLiteral("Cycle,GPS周,GPS周内毫秒(ms),陀螺X(deg/s),陀螺Y(deg/s),陀螺Z(deg/s),加表X(m/s²),加表Y(m/s²),加表Z(m/s²),温度(C),Q0,Q1,Q2,Q3,RunStatus,陀螺硬件失效计数,加计硬件失效计数,陀螺超量程计数,协方差奇异重置计数,协方差对角线负数计数,航向方差下溢计数,EKF健康状态位寄存器,姿态步突跳超限计数,CAN报文+秒脉冲同步,系统异常状态寄存器,CRC\n"),
+    {}, {}, a3ImuFields(),
+};
+
 const ProtocolDescriptor *findProtocol(ProtocolID pid)
 {
     for (const auto &d : protocolRegistry()) {
@@ -704,6 +748,7 @@ const ProtocolDescriptor *findProtocol(ProtocolID pid)
     if (pid == ProtocolID::LsImuLog)    return &kLsImuLogDescriptor;
     if (pid == ProtocolID::Novatel_BestPos) return &kNovatelBestPosDescriptor;
     if (pid == ProtocolID::Novatel_PsrVel)  return &kNovatelPsrVelDescriptor;
+    if (pid == ProtocolID::A3_Imu)          return &kA3ImuDescriptor;
     return nullptr;
 }
 

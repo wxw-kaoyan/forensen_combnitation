@@ -108,6 +108,7 @@ qt_add_executable(TASoftware
     modules/parse/parser/can/canrtkparser.h
     modules/parse/parser/can/lsnavparser.h
     modules/parse/parser/can/lsimulogparser.h
+    modules/parse/parser/can/a3parser.h
     modules/parse/parser/other/rtcmframeparser.cpp
     modules/parse/parser/other/rtcmframeparser.h
     modules/parse/parser/other/novatelparser.h

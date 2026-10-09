@@ -157,7 +157,7 @@ void ParsePanel::onLoadFileClicked()
 {
     QString path = QFileDialog::getOpenFileName(
         this, QStringLiteral("选择二进制数据文件"),
-        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf);;BLF文件 (*.blf);;所有文件 (*)"));
+        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf *.txt);;BLF文件 (*.blf);;所有文件 (*)"));
     if (path.isEmpty()) return;
 
     QFile file(path);
@@ -224,8 +224,10 @@ void ParsePanel::onProtocolComboActivated(int index)
 
     bool skipCrc = !ui->crcCheckBox->isChecked();
     bool isBlf = m_filePath.endsWith(".blf", Qt::CaseInsensitive);
-    // CAN 日志：BLF 二进制 或 文本 .log
-    bool isCanLog = isBlf || m_filePath.endsWith(".log", Qt::CaseInsensitive);
+    // CAN 日志：BLF 二进制 或 文本 .log/.txt
+    bool isCanLog = isBlf
+                    || m_filePath.endsWith(".log", Qt::CaseInsensitive)
+                    || m_filePath.endsWith(".txt", Qt::CaseInsensitive);
 
     // 快速校验：检查协议/文件类型匹配
     {
@@ -233,20 +235,22 @@ void ParsePanel::onProtocolComboActivated(int index)
         if (parserIdx < tmp.size()) {
             ParserBase *p = tmp[parserIdx];
             const ProtocolID pid = p->protocolId();
-            // 仅支持 CAN 日志(BLF / .log)的协议：联试_CAN981 / NAVDATA_联适 / IMULOG_联适
+            // 仅支持 CAN 日志(BLF / .log / .txt)的协议：
+            //   联试_CAN981 / NAVDATA_联适 / IMULOG_联适 / A3协议解析
             const bool canProtocol = (pid == ProtocolID::Can_RTK
                                       || pid == ProtocolID::LsNav_Gps
-                                      || pid == ProtocolID::LsImuLog);
+                                      || pid == ProtocolID::LsImuLog
+                                      || pid == ProtocolID::A3_Imu);
             if (isBlf && !canProtocol) {
                 QMessageBox::information(this, QStringLiteral("提示"),
-                    QStringLiteral("BLF 文件请使用 联试_CAN981 / NAVDATA_联适 / IMULOG_联适 协议解析。"));
+                    QStringLiteral("BLF 文件请使用 联试_CAN981 / NAVDATA_联适 / IMULOG_联适 / A3协议解析 协议解析。"));
                 ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
             }
             if (!isCanLog && canProtocol) {
                 QMessageBox::information(this, QStringLiteral("提示"),
-                    QStringLiteral("联试_CAN981 / NAVDATA_联适 / IMULOG_联适 仅支持 BLF 或 CAN 文本日志(.log)。"));
+                    QStringLiteral("联试_CAN981 / NAVDATA_联适 / IMULOG_联适 / A3协议解析 仅支持 BLF 或 CAN 文本日志(.log/.txt)。"));
                 ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
