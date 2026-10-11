@@ -44,6 +44,8 @@ qt_add_executable(TASoftware
     common/tcpconnection.h
     common/serialconnection.cpp
     common/serialconnection.h
+    common/pcanconnection.cpp
+    common/pcanconnection.h
     modules/ntrip/ntripdialog.cpp
     modules/ntrip/ntripdialog.h
     modules/ntrip/NTRIP.ui

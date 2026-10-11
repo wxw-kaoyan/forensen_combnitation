@@ -64,6 +64,16 @@ xcopy "$MingwBin\libgcc_s_seh-1.dll" "$PackageDir\" /Y /Q
 xcopy "$MingwBin\libstdc++-6.dll"     "$PackageDir\" /Y /Q
 xcopy "$MingwBin\libwinpthread-1.dll"  "$PackageDir\" /Y /Q
 
+# PCAN-Basic DLL（PCAN 连接类运行时动态加载；拷入包内固定版本，
+# 未装驱动的机器上虽有 DLL 但无法打开通道，会走错误提示）
+$pcanDll = Join-Path $env:SystemRoot "System32\PCANBasic.dll"
+if (Test-Path $pcanDll) {
+    Copy-Item $pcanDll $PackageDir -Force
+    Write-Host "  已复制: PCANBasic.dll" -ForegroundColor Gray
+} else {
+    Write-Host "  跳过: PCANBasic.dll (本机未找到，目标机需安装 PEAK 驱动)" -ForegroundColor Yellow
+}
+
 # 内嵌常用工具
 $tools = @("Converter3.0.7.exe", "rtkplot.exe")
 foreach ($tool in $tools) {
