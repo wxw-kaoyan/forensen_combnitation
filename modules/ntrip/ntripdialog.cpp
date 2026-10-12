@@ -133,11 +133,13 @@ void NTRIPLoginDialog::closeEvent(QCloseEvent *event)
 
 DataPool *NTRIPLoginDialog::dataPool() const { return m_dataPool; }
 
-QString NTRIPLoginDialog::host() const       { return ui->ntripHostEdit->text(); }
-QString NTRIPLoginDialog::port() const       { return ui->ntripPortEdit->text(); }
-QString NTRIPLoginDialog::mountpoint() const { return ui->ntripMountEdit->text(); }
-QString NTRIPLoginDialog::user() const       { return ui->ntripUserEdit->text(); }
-QString NTRIPLoginDialog::password() const   { return ui->ntripPasswordEdit->text(); }
+// 各字段统一去掉首尾空白：手输/粘贴很容易带上看不见的空格，
+// 而空格会改变 base64(user:password) 或挂载点/端口，导致 caster 报 401/404
+QString NTRIPLoginDialog::host() const       { return ui->ntripHostEdit->text().trimmed(); }
+QString NTRIPLoginDialog::port() const       { return ui->ntripPortEdit->text().trimmed(); }
+QString NTRIPLoginDialog::mountpoint() const { return ui->ntripMountEdit->text().trimmed(); }
+QString NTRIPLoginDialog::user() const       { return ui->ntripUserEdit->text().trimmed(); }
+QString NTRIPLoginDialog::password() const   { return ui->ntripPasswordEdit->text().trimmed(); }
 bool    NTRIPLoginDialog::isConnected() const { return m_connected; }
 
 void NTRIPLoginDialog::setHost(const QString &v)       { ui->ntripHostEdit->setText(v); }

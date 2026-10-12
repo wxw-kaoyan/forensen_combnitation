@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFile>
+#include <QDir>
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDebug>
@@ -157,7 +158,8 @@ void ParsePanel::onLoadFileClicked()
 {
     QString path = QFileDialog::getOpenFileName(
         this, QStringLiteral("选择二进制数据文件"),
-        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf *.txt);;BLF文件 (*.blf);;所有文件 (*)"));
+        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf *.txt);;"
+                                  "AimRT 录包 (*.mcap);;BLF文件 (*.blf);;所有文件 (*)"));
     if (path.isEmpty()) return;
 
     QFile file(path);
@@ -171,7 +173,12 @@ void ParsePanel::onLoadFileClicked()
     releaseParsedData();
     QByteArray().swap(m_rawData);
 
-    m_rawData = tryDecodeHexText(file.readAll());
+    // AimRT 录包（MCAP）动辄上百兆，其解析只用文件路径（数据由脚本直接读取），
+    // 因此只取头部少量字节作为"已加载"标记，避免整包读进内存
+    if (path.endsWith(QStringLiteral(".mcap"), Qt::CaseInsensitive))
+        m_rawData = file.read(1024);
+    else
+        m_rawData = tryDecodeHexText(file.readAll());
     file.close();
 
     ui->protocolCombo->setCurrentIndex(0);
@@ -251,6 +258,24 @@ void ParsePanel::onProtocolComboActivated(int index)
             if (!isCanLog && canProtocol) {
                 QMessageBox::information(this, QStringLiteral("提示"),
                     QStringLiteral("联试_CAN981 / NAVDATA_联适 / IMULOG_联适 / A3协议解析 仅支持 BLF 或 CAN 文本日志(.log/.txt)。"));
+                ui->protocolCombo->setCurrentIndex(0);
+                qDeleteAll(tmp);
+                return;
+            }
+
+            // AimRT 录包（MCAP）与普通数据文件互不通用
+            const bool isMcap = m_filePath.endsWith(QStringLiteral(".mcap"), Qt::CaseInsensitive);
+            const bool bagProtocol = isAimrtBagProtocol(pid);
+            if (isMcap && !bagProtocol) {
+                QMessageBox::information(this, QStringLiteral("提示"),
+                    QStringLiteral("MCAP 录包请使用「AimRT IMU 录包(MCAP)」协议解析。"));
+                ui->protocolCombo->setCurrentIndex(0);
+                qDeleteAll(tmp);
+                return;
+            }
+            if (!isMcap && bagProtocol) {
+                QMessageBox::information(this, QStringLiteral("提示"),
+                    QStringLiteral("「AimRT IMU 录包(MCAP)」仅支持 .mcap 文件。"));
                 ui->protocolCombo->setCurrentIndex(0);
                 qDeleteAll(tmp);
                 return;
@@ -337,6 +362,43 @@ void ParsePanel::onDownsampleClicked()
 
 void ParsePanel::onExportClicked()
 {
+    // AimRT 录包：每个话题一个 CSV（共 2 个），导出到用户选择的目录
+    if (isAimrtBagProtocol(m_activeProtocolId) && !m_cachedCsvPath.isEmpty()
+        && QFileInfo(m_cachedCsvPath).isDir()) {
+        const QString dir = QFileDialog::getExistingDirectory(
+            this, QStringLiteral("选择 AimRT IMU CSV 导出目录"));
+        if (dir.isEmpty()) return;
+
+        const QStringList files =
+            QDir(m_cachedCsvPath).entryList({QStringLiteral("*.csv")}, QDir::Files);
+        if (files.isEmpty()) {
+            QMessageBox::warning(this, QStringLiteral("导出失败"),
+                                 QStringLiteral("输出目录里没有找到 CSV：\n%1").arg(m_cachedCsvPath));
+            return;
+        }
+
+        int copied = 0;
+        qint64 total = 0;
+        for (const QString &name : files) {
+            const QString src = QDir(m_cachedCsvPath).filePath(name);
+            const QString dst = QDir(dir).filePath(name);
+            QFile::remove(dst);   // 目标已存在时 QFile::copy 会失败
+            if (QFile::copy(src, dst)) {
+                ++copied;
+                total += QFileInfo(dst).size();
+            }
+        }
+        if (copied == files.size()) {
+            QMessageBox::information(this, QStringLiteral("导出成功"),
+                QStringLiteral("已导出 %1 个 CSV，共 %2 MB\n%3")
+                    .arg(copied).arg(total / 1024.0 / 1024.0, 0, 'f', 1).arg(dir));
+        } else {
+            QMessageBox::warning(this, QStringLiteral("导出部分失败"),
+                QStringLiteral("成功 %1 / %2 个 CSV").arg(copied).arg(files.size()));
+        }
+        return;
+    }
+
     // 凯芯数据：直接复制临时 CSV 到用户选择的位置
     if (isKaixinProtocol(m_activeProtocolId) && !m_cachedCsvPath.isEmpty()) {
         QString path = QFileDialog::getSaveFileName(

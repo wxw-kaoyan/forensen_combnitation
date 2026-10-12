@@ -40,6 +40,8 @@ enum class ProtocolID : uint16_t {
     // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
     Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
     Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
+    // ── AimRT（MCAP）录包 — 非帧格式，通过外部 Python 脚本导出 IMU 数据 ──
+    Aimrt_ImuBag     = 0xE100,  // AimRT 录包 IMU (MCAP，每话题一个 CSV)
     Unknown          = 0xFFFF,
 };
 
@@ -65,6 +67,11 @@ inline bool isEb614Protocol(ProtocolID pid) {
 inline bool isKaixinProtocol(ProtocolID pid) {
     uint16_t v = static_cast<uint16_t>(pid);
     return v >= 0x0109 && v <= 0x0114;
+}
+
+// AimRT（MCAP）录包 — 非帧格式，走外部 Python 脚本
+inline bool isAimrtBagProtocol(ProtocolID pid) {
+    return pid == ProtocolID::Aimrt_ImuBag;
 }
 
 inline bool isFusionResult(uint16_t id, uint16_t len) {
@@ -130,6 +137,7 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::LsNav_Param:   return "NAVDATA_联适-参数";
         case ProtocolID::LsImuLog:      return "IMULOG_联适";
         case ProtocolID::Novatel_BestPos: return "BESTPOS_诺瓦泰(42)";
+        case ProtocolID::Aimrt_ImuBag:  return "AimRT IMU 录包(MCAP)";
         case ProtocolID::Novatel_PsrVel:  return "PSRVEL_诺瓦泰(100)";
         default:                        return "未知";
     }

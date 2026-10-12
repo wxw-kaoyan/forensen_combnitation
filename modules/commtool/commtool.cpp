@@ -42,6 +42,17 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     m_ui->commMainHLayout->setStretch(1, 4);  // 接收消息区（吸收大部分多余空间）
     m_ui->commMainHLayout->setStretch(2, 0);  // 发送区（不放大）
 
+    // ---- 纵向比例：整页「标题 / 配置+接收 / 发送区」三段显式指定拉伸，
+    //      中间行吸收全部多余高度、发送区恒为自然高度。若三段拉伸都为 0，
+    //      Qt 会按各项 sizeHint 分配多余高度，而左侧 tab 页的 sizeHint 高度
+    //      差异极大（常用AT指令页是滚动列表、很高；实时解析页内容很矮），
+    //      结果切到「实时解析」后发送区会抢走高度、把接收消息区挤扁 ----
+    m_ui->verticalLayout_4->setStretch(0, 0);  // 标题行
+    m_ui->verticalLayout_4->setStretch(1, 1);  // 配置 + 接收消息（吸收多余高度）
+    m_ui->verticalLayout_4->setStretch(2, 0);  // 发送区（不放大）
+    // 双保险：发送区垂直方向不超过自身 sizeHint，任何情况下都不被拉高
+    m_ui->commSendFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
     // ---- AT 指令面板 ----
     m_atPanel = m_ui->atCmdPanel;
     connect(m_atPanel, &AtCmdPanel::sendData,

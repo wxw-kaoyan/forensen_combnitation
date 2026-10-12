@@ -12,7 +12,8 @@ class TcpConnection;
 class DataPool;
 
 // 在独立线程中运行的 NTRIP 连接工作器
-// 负责 NTRIP HTTP/1.0 握手、GGA 发送、接收 RTCM 数据流
+// 负责 NTRIP 1.0/2.0 握手（HTTP/1.1 + Ntrip-Version，响应兼容 ICY / HTTP 两种格式，
+// 2.0 的 Transfer-Encoding: chunked 会去分块）、GGA 发送、接收 RTCM 数据流
 // 底层 TCP 连接委托给 TcpConnection 基础设施
 // 此外持有所有 ForwardTarget（转发目标），转发逻辑均在此工作线程执行，不阻塞主线程
 // GGA 双模式:
@@ -72,6 +73,8 @@ private slots:
 
 private:
     void sendNtripRequest();
+    void feedStream(const QByteArray &raw);   // 去分块 + 统计 + 写入数据池 + 下发
+    QByteArray dechunk(const QByteArray &in); // NTRIP 2.0 分块传输去块头
     void sendGGA();
     void startGgaTimer();
     void stopGgaTimer();
@@ -93,6 +96,12 @@ private:
     bool m_ggaSent = false;
     bool m_useFixGGA = true;  // 默认 FixGGA 模式
     QByteArray m_headerBuffer;
+
+    // NTRIP 2.0 分块传输（Transfer-Encoding: chunked）解析状态
+    bool       m_chunked = false;   // 本次响应是否为分块传输
+    int        m_chunkState = 0;    // 0=读块长度行 1=读块数据 2=吃块尾换行
+    int        m_chunkRemain = 0;   // 当前块剩余字节数
+    QByteArray m_chunkBuf;          // 尚未处理完的分块原始字节
 
     double m_ggaLon = 0.0;
     double m_ggaLat = 0.0;

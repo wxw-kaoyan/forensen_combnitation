@@ -7,6 +7,7 @@
 #include "modules/parse/parser/debugstream/debugframeparser.h"
 #include "modules/parse/parser/debugstream/eb614debugparser.h"
 #include "modules/parse/parser/external/kaixinframeparser.h"
+#include "modules/parse/parser/external/aimrtbagparser.h"
 #include "modules/parse/parser/single/protocolregistry.h"
 #include "modules/parse/parser/can/canrtkparser.h"
 #include "modules/parse/parser/can/lsnavparser.h"
@@ -35,6 +36,7 @@ public:
         result.append(new DebugFrameParser);
         result.append(new Eb614DebugParser);
         result.append(new KaixinFrameParser);
+        result.append(new AimrtBagParser);
         result.append(new NovatelBestPosParser);
         result.append(new NovatelPsrVelParser);
         result.append(new A3Parser);

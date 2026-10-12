@@ -4,6 +4,28 @@
 
 #include <QDateTime>
 
+namespace {
+
+// 常见非 200 响应 → 中文排查提示（省去逐个猜）
+QString ntripStatusHint(const QByteArray &header)
+{
+    QByteArray firstLine = header.left(header.indexOf('\n'));
+    if (firstLine.contains("401"))
+        return QStringLiteral("\n\n提示：401 认证被拒 —— 核对账号/密码是否属于该服务器、"
+                              "该账号是否已授权此挂载点、客户端公网 IP 是否已在该服务登记；"
+                              "部分服务还限制同一账号只能单连接，占线也会被拒。");
+    if (firstLine.contains("404"))
+        return QStringLiteral("\n\n提示：404 挂载点不存在 —— 核对挂载点名称拼写与大小写。");
+    if (firstLine.contains("503"))
+        return QStringLiteral("\n\n提示：503 服务暂不可用 —— 可能是 caster 侧临时故障，"
+                              "或该账号已在别处登录（单连接限制），请先断开其它会话再试。");
+    if (firstLine.contains("400"))
+        return QStringLiteral("\n\n提示：400 请求被拒 —— 通常是协议版本/请求格式不被该 caster 接受。");
+    return {};
+}
+
+} // namespace
+
 NTRIPWorker::NTRIPWorker(QObject *parent)
     : QObject(parent)
     , m_conn(new TcpConnection(this))
@@ -39,6 +61,12 @@ void NTRIPWorker::start(const QString &host, quint16 port,
     m_hasReceivedHeader = false;
     m_ggaSent = false;
     m_headerBuffer.clear();
+
+    // 重置分块解析状态（上一次连接可能停在半块中间）
+    m_chunked = false;
+    m_chunkState = 0;
+    m_chunkRemain = 0;
+    m_chunkBuf.clear();
 
     // 重置速率统计
     m_bytesInInterval = 0;
@@ -128,15 +156,19 @@ void NTRIPWorker::onDataReceived(const QByteArray &raw)
             emit statusChanged(QStringLiteral("[5] HTTP响应 (标准):\n") + header);
 
             if (!header.contains("200")) {
-                emit errorOccurred(QStringLiteral("NTRIP 服务器返回错误:\n") + header);
+                emit errorOccurred(QStringLiteral("NTRIP 服务器返回错误:\n") + header
+                                   + ntripStatusHint(header));
                 m_conn->disconnectFromHost();
                 return;
             }
 
+            // NTRIP 2.0：HTTP/1.1 响应常用 chunked 分块传 RTCM，需要去分块
+            m_chunked = header.toLower().contains("transfer-encoding: chunked");
+
             QByteArray body = m_headerBuffer.mid(headerEnd + 4);
             m_headerBuffer.clear();
             if (!body.isEmpty())
-                emit dataReady(body);
+                feedStream(body);
             return;
         }
 
@@ -151,7 +183,7 @@ void NTRIPWorker::onDataReceived(const QByteArray &raw)
                 QByteArray body = m_headerBuffer.mid(lineEnd + 2);
                 m_headerBuffer.clear();
                 if (!body.isEmpty())
-                    emit dataReady(body);
+                    feedStream(body);
                 return;
             }
         }
@@ -160,13 +192,88 @@ void NTRIPWorker::onDataReceived(const QByteArray &raw)
         return;
     }
 
-    // 阶段 2：RTCM 数据流
-    m_bytesInInterval += raw.size();
-    m_totalBytes += raw.size();
+    // 阶段 2：RTCM 数据流（chunked 时先在 feedStream 里去掉块头）
+    feedStream(raw);
+}
+
+// ── RTCM 流出口：去分块 → 速率统计 → 写入数据池 → 下发 ──
+
+void NTRIPWorker::feedStream(const QByteArray &raw)
+{
+    const QByteArray data = m_chunked ? dechunk(raw) : raw;
+    if (data.isEmpty())
+        return;
+
+    m_bytesInInterval += data.size();
+    m_totalBytes += data.size();
     // 直接写入 DataPool，避免跨线程跳转（DataPool 内部有 QReadWriteLock，线程安全）
     if (m_dataPool)
-        m_dataPool->feed(raw);
-    emit dataReady(raw);
+        m_dataPool->feed(data);
+    emit dataReady(data);
+}
+
+// ── NTRIP 2.0：Transfer-Encoding: chunked 去分块 ──
+// 服务器按块发送（<十六进制长度>\r\n<数据>\r\n … 0\r\n\r\n），必须剥掉块头，
+// 否则数据池 / 转发目标 / 存档文件里会掺进长度行，后续 RTCM 解析全部对不上。
+// 分块边界可能落在 TCP 分段中间，故用 m_chunkBuf + 状态机跨调用续处理。
+QByteArray NTRIPWorker::dechunk(const QByteArray &in)
+{
+    QByteArray out;
+    m_chunkBuf.append(in);
+
+    while (!m_chunkBuf.isEmpty()) {
+        if (m_chunkState == 0) {
+            // 读块长度行（带块扩展时形如 "1a3f;ext"）
+            int eol = m_chunkBuf.indexOf("\r\n");
+            int skip = 2;
+            if (eol < 0) {                       // 容忍只用 \n 结尾的服务器
+                eol = m_chunkBuf.indexOf('\n');
+                skip = 1;
+            }
+            if (eol < 0)
+                break;                           // 长度行还没收全，等下一段
+            QByteArray line = m_chunkBuf.left(eol);
+            const int semi = line.indexOf(';');
+            if (semi >= 0)
+                line = line.left(semi);
+            bool ok = false;
+            const int size = line.trimmed().toInt(&ok, 16);
+            m_chunkBuf.remove(0, eol + skip);
+            if (!ok) {
+                // 不是合法分块：判定服务器实际没分块，剩余字节原样透传
+                m_chunked = false;
+                out.append(m_chunkBuf);
+                m_chunkBuf.clear();
+                break;
+            }
+            if (size == 0) {                     // 结束块，后面的 trailer 直接丢弃
+                m_chunkBuf.clear();
+                break;
+            }
+            m_chunkRemain = size;
+            m_chunkState = 1;
+        } else if (m_chunkState == 1) {
+            const int take = qMin(m_chunkRemain, int(m_chunkBuf.size()));
+            if (take <= 0)
+                break;                           // 块数据还没收全
+            out.append(m_chunkBuf.left(take));
+            m_chunkBuf.remove(0, take);
+            m_chunkRemain -= take;
+            if (m_chunkRemain == 0)
+                m_chunkState = 2;
+        } else {
+            // 吃掉块尾换行（\r\n 或 \n）
+            if (m_chunkBuf.at(0) == '\r') {
+                if (m_chunkBuf.size() < 2)
+                    break;                       // 换行还没收全
+                m_chunkBuf.remove(0, 2);
+            } else {
+                m_chunkBuf.remove(0, 1);
+            }
+            m_chunkState = 0;
+        }
+    }
+    return out;
 }
 
 void NTRIPWorker::onConnectionError(const QString &err)
@@ -179,16 +286,25 @@ void NTRIPWorker::onConnectionError(const QString &err)
 
 void NTRIPWorker::sendNtripRequest()
 {
+    // NTRIP 2.0：请求行用 HTTP/1.1 并带 Ntrip-Version 头（协议规定的 2.0 标识）。
+    // NTRIP 1.0 的 caster 会忽略这个头、也接受 HTTP/1.1 请求行，响应侧对
+    // ICY / HTTP 两种格式都做了兼容，因此不需要再做协议版本开关。
     QByteArray auth = (m_user + ":" + m_password).toUtf8().toBase64();
+
+    // 挂载点归一化：手输常多带一个前导 '/'，会拼成 GET //NAME 被 caster 判 404
+    QString mount = m_mountpoint;
+    while (mount.startsWith(QLatin1Char('/')))
+        mount.remove(0, 1);
 
     QString req =
         QStringLiteral(
-            "GET /%1 HTTP/1.0\r\n"
+            "GET /%1 HTTP/1.1\r\n"
             "Host: %2\r\n"
-            "User-Agent: NTRIP Witt/1.0\r\n"
+            "Ntrip-Version: Ntrip/2.0\r\n"
+            "User-Agent: NTRIP Witt/2.0\r\n"
             "Authorization: Basic %3\r\n"
             "\r\n")
-        .arg(m_mountpoint)
+        .arg(mount)
         .arg(m_host + ":" + QString::number(m_port))
         .arg(QString::fromLatin1(auth));
 

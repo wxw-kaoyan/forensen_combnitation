@@ -107,6 +107,8 @@ qt_add_executable(TASoftware
     modules/parse/parser/debugstream/eb614debugparser.h
     modules/parse/parser/external/kaixinframeparser.cpp
     modules/parse/parser/external/kaixinframeparser.h
+    modules/parse/parser/external/aimrtbagparser.cpp
+    modules/parse/parser/external/aimrtbagparser.h
     modules/parse/parser/can/canrtkparser.h
     modules/parse/parser/can/lsnavparser.h
     modules/parse/parser/can/lsimulogparser.h
