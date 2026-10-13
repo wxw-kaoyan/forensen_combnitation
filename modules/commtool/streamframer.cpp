@@ -59,6 +59,14 @@ QList<ParsedFrame> StreamFramer::feed(const QByteArray &data, bool skipCrc)
                 (static_cast<uint32_t>(p[total - 2]) << 16) |
                 (static_cast<uint32_t>(p[total - 1]) << 24);
             crcOk = (crcReceived == crcExpected);
+            if (!crcOk) {
+                // 兼容：部分固件帧尾写 16 位字节累加和（高 16 位为 0）
+                const uint32_t sum = FrameParser::computeSum16(p, kHeaderSize + payloadLen);
+                if (crcReceived == sum) {
+                    crcOk = true;
+                    crcExpected = sum;
+                }
+            }
         }
         if (!crcOk)
             ++m_crcRejected;

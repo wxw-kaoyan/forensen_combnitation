@@ -31,6 +31,10 @@ public:
     // 累加和校验 (8-bit, 所有字节求和取低 8 位)
     static uint8_t computeChecksum8(const uint8_t *data, int len);
 
+    // 累加和校验 (16-bit, 覆盖 AA55 + ID + len + payload)
+    // 兼容部分固件把校验写成帧尾 4 字节 [和低][和高][00][00] 的情况
+    static uint32_t computeSum16(const uint8_t *data, int len);
+
     // 从 payload 解析为具体结构体
     static ParsedFrame parsePayload(ProtocolID pid,
                                    const uint8_t *payload, int payloadLen,

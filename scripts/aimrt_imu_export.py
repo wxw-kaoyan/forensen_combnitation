@@ -7,7 +7,7 @@
                                [-t 话题 ...] [--check-rate 500]
 
 输出：
-    <输出目录>/<包名>/<话题名>.csv    每个话题一个 CSV
+    <输出目录>/<包名>/<话题短名>.csv    每个话题一个 CSV
     stdout 先打印人类可读统计，再在一对标记之间打印 JSON 摘要（供上位机解析）：
         AIMRT_SUMMARY_BEGIN
         { ... }
@@ -64,8 +64,14 @@ SUMMARY_BEGIN = "AIMRT_SUMMARY_BEGIN"
 SUMMARY_END = "AIMRT_SUMMARY_END"
 
 
+def topic_short(topic):
+    parts = topic.strip("/").split("/")
+    return parts[-2] if len(parts) >= 2 else parts[-1]
+
+
 def topic_to_filename(topic):
-    return topic.strip("/").replace("/", "_") + ".csv"
+    # 文件名用话题短名（CSV 已放在与 mcap 同名的文件夹下）
+    return topic_short(topic) + ".csv"
 
 
 def quat_to_euler_deg(x, y, z, w):

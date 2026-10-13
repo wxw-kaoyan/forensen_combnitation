@@ -172,10 +172,9 @@ ParseResult AimrtBagParser::parseToResult(const QByteArray &rawData, const QStri
         return result;
     }
 
-    // CSV 落到临时目录：单包两个话题约 60MB，不适合放工程目录
-    const QString stem = QFileInfo(filePath).completeBaseName();
-    const QString outDir = QDir::tempPath() + QStringLiteral("/aimrt_imu_") + stem;
-    QDir().mkpath(outDir);
+    // CSV 落到 mcap 同目录下的同名文件夹：<mcap目录>/<stem>/<话题>.csv
+    // （脚本会在 outDir 下自动建 <stem> 子目录，C++ 这里只传 mcap 所在目录）
+    const QString outDir = QFileInfo(filePath).absolutePath();
 
     const AimrtResult ar = runPython(filePath, outDir);
     if (!ar.ok) {

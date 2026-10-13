@@ -56,6 +56,18 @@ uint8_t FrameParser::computeChecksum8(const uint8_t *data, int len)
     return sum;
 }
 
+// ==================== 累加和校验 (16-bit，帧尾 4 字节兼容) ====================
+// 部分固件不用 CRC32，而是在帧尾 4 字节写 [和低][和高][00][00]，
+// 即对 AA55 + ID + len + payload 逐字节求和（低 16 位有效）。
+
+uint32_t FrameParser::computeSum16(const uint8_t *data, int len)
+{
+    uint32_t sum = 0;
+    for (int i = 0; i < len; ++i)
+        sum += data[i];
+    return sum & 0xFFFFu;
+}
+
 // ==================== 帧查找 ====================
 
 int FrameParser::findNextFrame(const QByteArray &data, int startPos)
@@ -114,6 +126,14 @@ QList<ParsedFrame> FrameParser::parseAll(const QByteArray &data, bool skipCrc) c
             crcExpected = computeCrc32(p, static_cast<int>(kHeaderSize + payloadLen));
             crcReceived = readU32LE(p + kHeaderSize + payloadLen);
             crcOk = (crcReceived == crcExpected);
+            if (!crcOk) {
+                // 兼容：部分固件帧尾写 16 位字节累加和（高 16 位为 0）
+                const uint32_t sum = computeSum16(p, static_cast<int>(kHeaderSize + payloadLen));
+                if (crcReceived == sum) {
+                    crcOk = true;
+                    crcExpected = sum;
+                }
+            }
         }
 
         ProtocolID pid = resolveProtocolID(frameId, payloadLen);

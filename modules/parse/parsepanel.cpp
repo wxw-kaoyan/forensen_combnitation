@@ -30,6 +30,9 @@
 #include <QTemporaryFile>
 
 // ── 将 hex 文本转换为二进制；非 hex 文本原样返回 ──
+// 纯文本记录仪（如 FAIL.DAT）每行是 "aa,55,66,01,..." 的十六进制字节，
+// 但整份文件里可能夹着设备命令回显（如 "@SYS CONFIG OK"）等文字行。
+// 因此按行解码：只跳过文字行，不影响其余帧；并先做二进制判据防止误转。
 static int hexDigitValue(char c)
 {
     if (c >= '0' && c <= '9') return c - '0';
@@ -38,30 +41,46 @@ static int hexDigitValue(char c)
     return -1;
 }
 
+static bool isHexSeparator(char c)
+{
+    return c == ' ' || c == '\t' || c == '\r' || c == ',' || c == ';' || c == ':';
+}
+
 static QByteArray tryDecodeHexText(const QByteArray &raw)
 {
-    QByteArray hex;
-    hex.reserve(raw.size());
+    // 二进制判据：出现高位字节或控制字符（除 CR/LF/TAB）即视为二进制，原样返回。
+    // hex 文本只可能由 0-9a-fA-F 与 , ; : 空格 TAB CR LF 组成。
     for (char c : raw) {
-        if (c == ' ' || c == '\t' || c == '\r' || c == '\n' ||
-            c == ',' || c == ';' || c == ':') {
-            continue;  // 分隔符
-        }
-        if (hexDigitValue(c) < 0) {
-            return raw;  // 含非 hex 字符 → 视为二进制，原样返回
-        }
-        hex.append(c);
+        const unsigned char u = static_cast<unsigned char>(c);
+        if (u >= 0x80) return raw;
+        if (u < 0x20 && c != '\r' && c != '\n' && c != '\t') return raw;
     }
-    if (hex.isEmpty() || (hex.size() % 2) != 0) {
-        return raw;
-    }
+
     QByteArray bin;
-    bin.reserve(hex.size() / 2);
-    for (int i = 0; i + 1 < hex.size(); i += 2) {
-        int hi = hexDigitValue(hex.at(i));
-        int lo = hexDigitValue(hex.at(i + 1));
-        bin.append(static_cast<char>((hi << 4) | lo));
+    bin.reserve(raw.size() / 3 + 1);
+    int hexLines = 0, textLines = 0;
+    const QList<QByteArray> lines = raw.split('\n');
+    for (const QByteArray &line : lines) {
+        QByteArray hex;
+        bool hexOnly = true;
+        for (char c : line) {
+            if (isHexSeparator(c)) continue;
+            if (hexDigitValue(c) < 0) { hexOnly = false; break; }
+            hex.append(c);
+        }
+        // 非 hex 行（设备回显等文字）：跳过，不计入帧数据
+        if (!hexOnly || hex.isEmpty() || (hex.size() % 2) != 0) {
+            if (!line.trimmed().isEmpty()) ++textLines;
+            continue;
+        }
+        for (int i = 0; i + 1 < hex.size(); i += 2)
+            bin.append(static_cast<char>((hexDigitValue(hex.at(i)) << 4)
+                                         | hexDigitValue(hex.at(i + 1))));
+        ++hexLines;
     }
+    // 一行都没解出、或文字行比 hex 行还多 → 不是 hex 记录，原样返回
+    if (hexLines == 0 || textLines > hexLines)
+        return raw;
     return bin;
 }
 

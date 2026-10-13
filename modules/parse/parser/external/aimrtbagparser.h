@@ -63,7 +63,7 @@ public:
     ParseResult parseToResult(const QByteArray &rawData, const QString &filePath) override;
 
     // 在调用线程中同步执行（耗时约数十秒，应在工作线程中调用）
-    // mcapPath: 单个 .mcap；outDir: CSV 输出目录
+    // mcapPath: 单个 .mcap；outDir: CSV 输出目录（脚本会在其下建 <stem> 子目录）
     static AimrtResult runPython(const QString &mcapPath, const QString &outDir,
                                  double checkRateHz = 500.0);
 };
