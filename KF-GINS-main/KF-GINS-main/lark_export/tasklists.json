@@ -1,0 +1,9 @@
+﻿{
+  "ok": true,
+  "identity": "user",
+  "data": {
+    "has_more": false,
+    "items": [],
+    "page_token": ""
+  }
+}
