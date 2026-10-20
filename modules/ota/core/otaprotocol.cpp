@@ -116,20 +116,15 @@ QByteArray buildDataFrame(uint32_t offset, uint16_t size, const uint8_t *data)
     return f;
 }
 
-QByteArray buildResetMagic()
+QByteArray buildEnterBootCmd()
 {
-    // 硬复位魔术帧（id=0x88BB, len=24），参考 do_upload() 原样固化
-    static const uint8_t kMagic[34] = {
+    // 进 Bootloader 固定帧（id=0x88BB, len=24）；字节与量产版 SDK 的 kEnterBootCmd 完全一致
+    static const uint8_t kEnter[34] = {
         0x55,0xaa,0xbb,0x88,0x18,0x00,0x00,0x00,0xc8,0x42,0x00,0x00,0x48,0x43,0x2c,0x01,
         0x00,0x00,0x90,0x01,0x00,0x00,0xf4,0x01,0x00,0x00,0x58,0x02,0x00,0x00,0x40,0x97,
         0x46,0x6a
     };
-    return QByteArray(reinterpret_cast<const char*>(kMagic), sizeof(kMagic));
-}
-
-QByteArray handshakeString()
-{
-    return QByteArray("HC32MCU_FORSENSE");
+    return QByteArray(reinterpret_cast<const char*>(kEnter), sizeof(kEnter));
 }
 
 uint32_t extractCrcFromFileName(const QString &fileName)

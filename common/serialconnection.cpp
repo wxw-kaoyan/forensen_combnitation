@@ -47,8 +47,15 @@ void SerialConnection::connectToPort(const QString &portName, int baudRate,
 
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
         QString err = m_serialPort->errorString();
+        // 权限类错误基本都是串口被别的进程占着（Windows 下 Access is denied）
+        const bool busy = (m_serialPort->error() == QSerialPort::PermissionError);
         cleanup();
-        emit errorOccurred(QStringLiteral("串口 %1 打开失败: %2").arg(portName, err));
+        if (busy) {
+            emit errorOccurred(QStringLiteral("串口 %1 被其他进程占用，请先关闭使用该设备的进程：%2")
+                                   .arg(portName, err));
+        } else {
+            emit errorOccurred(QStringLiteral("串口 %1 打开失败: %2").arg(portName, err));
+        }
         return;
     }
 
@@ -70,6 +77,19 @@ void SerialConnection::send(const QByteArray &data)
 {
     if (m_serialPort && m_serialPort->isOpen())
         m_serialPort->write(data);
+}
+
+void SerialConnection::setBaudRate(int baudRate)
+{
+    if (m_serialPort && m_serialPort->isOpen())
+        m_serialPort->setBaudRate(baudRate);
+}
+
+bool SerialConnection::drainTx(int timeoutMs)
+{
+    if (!m_serialPort || !m_serialPort->isOpen())
+        return false;
+    return m_serialPort->waitForBytesWritten(timeoutMs);
 }
 
 // ---- 内部槽 ----

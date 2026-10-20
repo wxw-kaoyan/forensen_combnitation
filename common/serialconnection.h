@@ -22,6 +22,10 @@ public slots:
                        int timeoutMs = 1000);
     void disconnectFromPort();
     void send(const QByteArray &data);
+    // 已打开状态下热切换波特率（升级探测波特率用）；串口未打开时忽略
+    void setBaudRate(int baudRate);
+    // 等待发送缓冲区排空，返回是否在超时内写完（切波特率前用，防止字节卡在半途）
+    bool drainTx(int timeoutMs = 1000);
 
 signals:
     void connected();
