@@ -116,6 +116,8 @@ qt_add_executable(TASoftware
     modules/parse/parser/other/rtcmframeparser.cpp
     modules/parse/parser/other/rtcmframeparser.h
     modules/parse/parser/other/novatelparser.h
+    modules/parse/parser/other/epsonparser.h
+    modules/parse/parser/other/ahrsaa5parser.h
     modules/parse/parser/core/frameparser.cpp
     modules/parse/parser/core/frameparser.h
     modules/parse/parser/core/protocoldefs.h

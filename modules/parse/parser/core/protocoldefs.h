@@ -37,6 +37,8 @@ enum class ProtocolID : uint16_t {
     LsNav_Param      = 0xCD04,  // 联适DEBUG数据流 0x1CFF9B9A 包12~14(参数/版本) 内部区分值
     LsImuLog         = 0xCD05,  // 联适排查数据帧 0x1FFFFF9A (6包, 滤波器内部状态 1Hz)
     A3_Imu           = 0xCD06,  // A3 IMU 异常测试协议 (CANFD ID=0x272, 64B, 小端, 500Hz)
+    Epson_Imu        = 0xCD07,  // 爱普生 IMU 串口协议 (固定38B帧: 同步2B+数据32B+累加和2B+帧尾2B)
+    Ahrs_Aa5         = 0xCD08,  // AHRS 标准协议 (26B帧: AA A5+Index+9×int16+2校验+0D 0A)
     // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
     Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
     Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
@@ -139,6 +141,8 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::Novatel_BestPos: return "BESTPOS_诺瓦泰(42)";
         case ProtocolID::Aimrt_ImuBag:  return "AimRT IMU 录包(MCAP)";
         case ProtocolID::Novatel_PsrVel:  return "PSRVEL_诺瓦泰(100)";
+        case ProtocolID::Epson_Imu:       return "爱普生IMU";
+        case ProtocolID::Ahrs_Aa5:        return "AHRS(AA A5)";
         default:                        return "未知";
     }
 }
@@ -733,6 +737,48 @@ struct A3ImuData {
     uint32_t crc;            // CRC（接收值）
 };
 
+// ════════════════════════════════════════════════════════════════
+//  爱普生 IMU 串口协议 (固定 38B 帧, 数据区 32B 小端 int16)
+//  帧: SYNC1=0x80 SYNC2=0x01 | 数据区32B | 校验和2B(低字节在前) | END=0x0D 0x0A
+//  数据区: [0..1]计数 [2..3]状态 [4..9]陀螺 [10..15]加表
+//          [16..17]俯仰 [18..19]横滚 [20..21]航向 [22..23]温度 [24..31]四元数
+// ════════════════════════════════════════════════════════════════
+struct EpsonImuData {
+    uint16_t counter;        // 帧计数/时间戳 (数据区[0..1], 实测步长 625)
+    int16_t  status;         // 状态字 (数据区[2..3], 实测恒为 3)
+    float    gyro[3];        // 陀螺 X/Y/Z (原始/64, deg/s)
+    float    accel[3];       // 加表 X/Y/Z (原始/1000, g)
+    float    pitch;          // 俯仰 (原始/100, deg)
+    float    yaw;            // 航向 (原始/100, deg)
+    float    roll;           // 横滚 (原始/100, deg)
+    float    temperature;    // 温度 (原始/100, °C) — 数据区[22..23]
+    float    quat[4];        // 四元数 W/X/Y/Z (原始/30000) — 数据区[24..31]
+    uint16_t checksum;       // 接收校验和（低字节在前）
+    uint16_t checksumCalc;   // 计算的 32B 累加和
+};
+
+// ════════════════════════════════════════════════════════════════
+//  AHRS 标准协议（《IMU规格标准》）— 26 字节定长帧
+//  AA A5 | Index | Roll | Pitch | Yaw | RateX/Y/Z | AccX/Y/Z | CS_A | CS_B | 0D 0A
+//  数值均为 int16 小端；角度 ×100(deg)、角速度 ×100(deg/s)、加速度 ×1000(g)
+//  固件 1683 输出顺序：r,p,y,gy,-gx,gz,ay,-ax,az（1675 为 gx,gy,gz,ax,ay,az）
+//  解析器已按 1683 还原为物理轴 gx/gy/gz、ax/ay/az
+//  ChecksumA(u16 LE) = (int16)Yaw + (int16)RateZ
+//  ChecksumB(u8)     = Index + Pitch + Roll + RateX + RateY + AccX + AccY + AccZ 各字节和
+// ════════════════════════════════════════════════════════════════
+struct AhrsAa5Data {
+    uint8_t  index;          // 帧序号，每帧 +1（u8 回绕）
+    float    roll;           // 横滚 (°，±180)
+    float    pitch;          // 俯仰 (°，±90)
+    float    yaw;            // 航向 (°，±180)
+    float    rate[3];        // 角速度 X/Y/Z (deg/s)
+    float    accel[3];       // 加速度 X/Y/Z (g)
+    uint16_t checksumA;      // 接收校验 A
+    uint16_t checksumACalc;  // 计算校验 A
+    uint8_t  checksumB;      // 接收校验 B
+    uint8_t  checksumBCalc;  // 计算校验 B
+};
+
 // 诺瓦泰定位类型名称（posType，联适 DEBUG 流与本机 OEM 二进制共用同一张表）
 inline QString novatelPosTypeName(int32_t v)
 {
@@ -817,6 +863,8 @@ struct ParsedFrame {
         NovatelBestPosData novatelBestPos;
         NovatelPsrVelData  novatelPsrVel;
         A3ImuData          a3Imu;
+        EpsonImuData       epsonImu;
+        AhrsAa5Data        ahrsAa5;
         DebugImuData   debugImu;
         DebugGpsData   debugGps;
         DebugDrtkData  debugDrtk;
