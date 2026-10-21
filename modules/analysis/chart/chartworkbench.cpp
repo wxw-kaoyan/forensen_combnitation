@@ -14,6 +14,8 @@
 #include <QFutureWatcher>
 #include <QtConcurrent/QtConcurrent>
 
+#include <cmath>
+
 namespace Analysis {
 
 namespace {
@@ -40,6 +42,46 @@ int guessColumn(const QStringList &header, const QStringList &keys)
             if (header[i].toLower().contains(k))
                 return i;
     return -1;
+}
+
+// 判断两列是否是经纬度（度）：经度 |lon|<=180、纬度 |lat|<=90，且不是全 0
+// 用于区分「经纬度」与「已换算好的平面坐标(m)」，后者不再二次换算
+bool looksLikeLonLatDegrees(const QVector<double> &lon, const QVector<double> &lat)
+{
+    const int n = qMin(lon.size(), lat.size());
+    bool anyNonZero = false;
+    for (int i = 0; i < n; ++i) {
+        if (std::isnan(lon[i]) || std::isnan(lat[i])) continue;
+        if (std::abs(lon[i]) > 180.0 || std::abs(lat[i]) > 90.0) return false;
+        if (lon[i] != 0.0 || lat[i] != 0.0) anyNonZero = true;
+    }
+    return anyNonZero;
+}
+
+// 经纬度(度) → 以首个有效点为原点的局部「东-北」平面坐标(m)
+// 等距圆柱近似：跨几百米~几公里的轨迹误差在厘米级，绘图足够
+void lonLatToEnuMeters(const QVector<double> &lon, const QVector<double> &lat,
+                       QVector<double> *east, QVector<double> *north)
+{
+    constexpr double kEarthRadius = 6378137.0;          // WGS-84 长半轴
+    constexpr double kDeg2Rad     = 0.017453292519943295;
+
+    int origin = 0;
+    for (int i = 0; i < qMin(lon.size(), lat.size()); ++i) {
+        if (lon[i] != 0.0 || lat[i] != 0.0) { origin = i; break; }
+    }
+
+    const double lon0     = lon.value(origin);
+    const double lat0     = lat.value(origin);
+    const double cosLat0  = std::cos(lat0 * kDeg2Rad);
+    const double mPerDeg  = kEarthRadius * kDeg2Rad;    // 每度纬度对应米数
+
+    east->resize(lon.size());
+    north->resize(lon.size());
+    for (int i = 0; i < lon.size(); ++i) {
+        (*east)[i]  = (lon[i] - lon0) * mPerDeg * cosLat0;
+        (*north)[i] = (lat.value(i) - lat0) * mPerDeg;
+    }
 }
 } // namespace
 
@@ -330,14 +372,31 @@ void ChartWorkbench::startExtractTrajectory()
         QtConcurrent::run([rows, lonCol, latCol, baseName, xLabel, yName]() -> ExtractResult {
             ExtractResult r;
             r.trajectory = true;
-            r.xLabel = xLabel;
-            r.x = extractColumn(rows, lonCol);
+
+            const QVector<double> lonVals = extractColumn(rows, lonCol);
+            const QVector<double> latVals = extractColumn(rows, latCol);
+
             ChartWindow::Curve curve;
-            curve.name  = yName;
-            curve.y     = extractColumn(rows, latCol);
+            if (looksLikeLonLatDegrees(lonVals, latVals)) {
+                // 经纬度（度）→ 以首点为原点的东/北平面坐标(m)，避免用 0.0001° 量级读数
+                QVector<double> east, north;
+                lonLatToEnuMeters(lonVals, latVals, &east, &north);
+                r.xLabel    = QStringLiteral("东向(m)");
+                curve.name  = QStringLiteral("北向(m)");
+                curve.y     = north;
+                r.x         = east;
+                r.title     = QStringLiteral("%1 — 轨迹(东向 × 北向, 单位 m)").arg(baseName);
+            } else {
+                // 选中的列已是平面坐标(m)，直接画
+                r.xLabel    = xLabel;
+                curve.name  = yName;
+                curve.y     = latVals;
+                r.x         = lonVals;
+                r.title     = QStringLiteral("%1 — 轨迹(%2 × %3)").arg(baseName, xLabel, yName);
+            }
+
             curve.color = kCurveColors[0];
             r.curves.append(curve);
-            r.title = QStringLiteral("%1 — 轨迹(%2 × %3)").arg(baseName, xLabel, yName);
             return r;
         }));
 }

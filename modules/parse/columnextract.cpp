@@ -14,6 +14,7 @@
 #include <QProgressBar>
 #include <QDialogButtonBox>
 #include <QRegularExpression>
+#include <QStringConverter>
 #include <QtConcurrent/QtConcurrent>
 #include <QFutureWatcher>
 #include <QApplication>
@@ -50,6 +51,58 @@ static QStringList splitFields(const QString &line, QChar delim)
     return line.split(delim);
 }
 
+// 手动校验字节序列是否为合法 UTF-8（GBK 等本地编码的高位字节会命中非法序列，从而正确判定为非 UTF-8）
+static bool isUtf8Bytes(const QByteArray &b)
+{
+    int i = 0;
+    const int n = b.size();
+    while (i < n) {
+        const uchar c = static_cast<uchar>(b[i]);
+        int len;
+        if (c < 0x80) { ++i; continue; }
+        else if ((c & 0xE0) == 0xC0) len = 2;
+        else if ((c & 0xF0) == 0xE0) len = 3;
+        else if ((c & 0xF8) == 0xF0) len = 4;
+        else return false;                        // 非法 UTF-8 起始字节
+        if (i + len > n) return true;             // 末尾截断，视作合法（可能切在多字节字符中间）
+        for (int k = 1; k < len; ++k)
+            if ((static_cast<uchar>(b[i + k]) & 0xC0) != 0x80)
+                return false;                     // 非法继续字节
+        i += len;
+    }
+    return true;
+}
+
+// ── 解码文本字节：BOM 优先；无 BOM 时合法 UTF-8 用 UTF-8，否则回退系统本地编码 ──
+// 中文 Windows 下的 Excel「CSV（逗号分隔）」导出的是 GBK，按 UTF-8 硬解会把中文表头读成乱码，
+// 进而导致「GPS周内秒」等时间列与经/纬度列的表头关键词匹配失败。
+static QString decodeTextBytes(const QByteArray &raw)
+{
+    QStringDecoder::Encoding enc = QStringDecoder::Utf8;
+    int skip = 0;
+
+    if (raw.startsWith("\xEF\xBB\xBF")) {
+        enc = QStringDecoder::Utf8;
+        skip = 3;
+    } else if (raw.startsWith("\xFF\xFE")) {
+        enc = QStringDecoder::Utf16LE;
+        skip = 2;
+    } else if (raw.startsWith("\xFE\xFF")) {
+        enc = QStringDecoder::Utf16BE;
+        skip = 2;
+    } else {
+        enc = isUtf8Bytes(raw.left(8192)) ? QStringDecoder::Utf8 : QStringDecoder::System;
+    }
+
+    QStringDecoder dec(enc);
+    QString text = dec(QByteArrayView(raw).sliced(skip));
+
+    // 统一换行：后续按 '\n' 切行且表头行不做 trim，必须清掉残留的 '\r'
+    text.replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
+    text.replace(QLatin1Char('\r'), QLatin1Char('\n'));
+    return text;
+}
+
 // ── 自动识别时间列（默认第 0 列） ──
 static int autoDetectTimeColumn(const QStringList &header)
 {
@@ -74,12 +127,15 @@ TextFileTable loadTextFileTable(const QString &path, int timeColumn)
     t.path = path;
 
     QFile f(path);
-    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!f.open(QIODevice::ReadOnly)) {
         t.error = QStringLiteral("无法打开文件");
         return t;
     }
-    const QString text = QString::fromUtf8(f.readAll());
+    const QByteArray raw = f.readAll();
     f.close();
+
+    // 按内容自适应编码（UTF-8 / UTF-8 BOM / UTF-16 / GBK 等系统本地编码）
+    const QString text = decodeTextBytes(raw);
 
     const QStringList lines = text.split('\n');
 

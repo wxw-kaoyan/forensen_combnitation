@@ -11,3 +11,5 @@ Makefile
 *.pdb
 *.obj
 赛力斯固件需求.md
+package.zip
+package.tar.gz
