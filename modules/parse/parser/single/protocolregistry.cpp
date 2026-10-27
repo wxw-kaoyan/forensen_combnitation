@@ -736,6 +736,139 @@ static const ProtocolDescriptor kA3ImuDescriptor = {
     {}, {}, a3ImuFields(),
 };
 
+// ── 同星 CAN 扩展帧 三组（仅用于字段/CSV 查询，解析走 TxCanParser） ──
+static QList<FieldDescriptor> txAttFields()
+{
+    return {
+        {"时间(s)",    [](const ParsedFrame &f) { return QString::number(f.txAtt.ascTime, 'f', 6); }},
+        {"横滚角(deg)",[](const ParsedFrame &f) { return QString::number(f.txAtt.roll, 'f', 3); }},
+        {"俯仰角(deg)",[](const ParsedFrame &f) { return QString::number(f.txAtt.pitch, 'f', 3); }},
+        {"航向角(deg)",[](const ParsedFrame &f) { return QString::number(f.txAtt.yaw, 'f', 3); }},
+        {"航迹角(deg)",[](const ParsedFrame &f) { return QString::number(f.txAtt.track, 'f', 3); }},
+    };
+}
+
+static QList<FieldDescriptor> txGyroFields()
+{
+    return {
+        {"时间(s)",       [](const ParsedFrame &f) { return QString::number(f.txGyro.ascTime, 'f', 6); }},
+        {"gyro_x(deg/s)", [](const ParsedFrame &f) { return QString::number(f.txGyro.gyro[0], 'f', 4); }},
+        {"gyro_y(deg/s)", [](const ParsedFrame &f) { return QString::number(f.txGyro.gyro[1], 'f', 4); }},
+        {"gyro_z(deg/s)", [](const ParsedFrame &f) { return QString::number(f.txGyro.gyro[2], 'f', 4); }},
+        {"预留",          [](const ParsedFrame &f) { return QString::number(f.txGyro.reserved); }},
+    };
+}
+
+static QList<FieldDescriptor> txAccelFields()
+{
+    return {
+        {"时间(s)",   [](const ParsedFrame &f) { return QString::number(f.txAccel.ascTime, 'f', 6); }},
+        {"acc_x(g)",  [](const ParsedFrame &f) { return QString::number(f.txAccel.accel[0], 'f', 4); }},
+        {"acc_y(g)",  [](const ParsedFrame &f) { return QString::number(f.txAccel.accel[1], 'f', 4); }},
+        {"acc_z(g)",  [](const ParsedFrame &f) { return QString::number(f.txAccel.accel[2], 'f', 4); }},
+        {"状态位",    [](const ParsedFrame &f) { return QStringLiteral("0x") + QString::number(f.txAccel.status, 16).rightJustified(4, '0'); }},
+    };
+}
+
+static QList<FieldDescriptor> txSecFields()
+{
+    return {
+        {"时间(s)",           [](const ParsedFrame &f) { return QString::number(f.txSec.ascTime, 'f', 6); }},
+        {"周内秒(ms)",        [](const ParsedFrame &f) { return QString::number(f.txSec.weekMs); }},
+        {"估计天线安装偏差角", [](const ParsedFrame &f) { return QString::number(f.txSec.antBiasRaw); }},
+        {"速度方向",          [](const ParsedFrame &f) { return QString::number(f.txSec.velDirection); }},
+        {"预留",              [](const ParsedFrame &f) { return QString::number(f.txSec.reserved); }},
+    };
+}
+
+static QList<FieldDescriptor> txPosFields()
+{
+    return {
+        {"时间(s)",    [](const ParsedFrame &f) { return QString::number(f.txPos.ascTime, 'f', 6); }},
+        {"经度(deg)",  [](const ParsedFrame &f) { return QString::number(f.txPos.lon, 'f', 8); }},
+        {"纬度(deg)",  [](const ParsedFrame &f) { return QString::number(f.txPos.lat, 'f', 8); }},
+        {"lon_raw",    [](const ParsedFrame &f) { return QString::number(f.txPos.lonRaw); }},
+        {"lat_raw",    [](const ParsedFrame &f) { return QString::number(f.txPos.latRaw); }},
+    };
+}
+
+static QList<FieldDescriptor> txHeightFields()
+{
+    return {
+        {"时间(s)",      [](const ParsedFrame &f) { return QString::number(f.txHeight.ascTime, 'f', 6); }},
+        {"椭球高(m)",    [](const ParsedFrame &f) { return QString::number(f.txHeight.height, 'f', 4); }},
+        {"周内秒(ms)",   [](const ParsedFrame &f) { return QString::number(f.txHeight.weekMs); }},
+        {"height_raw",   [](const ParsedFrame &f) { return QString::number(f.txHeight.heightRaw); }},
+    };
+}
+
+static QList<FieldDescriptor> txVelFields()
+{
+    return {
+        {"时间(s)",       [](const ParsedFrame &f) { return QString::number(f.txVel.ascTime, 'f', 6); }},
+        {"北向速度(m/s)", [](const ParsedFrame &f) { return QString::number(f.txVel.vn, 'f', 3); }},
+        {"东向速度(m/s)", [](const ParsedFrame &f) { return QString::number(f.txVel.ve, 'f', 3); }},
+        {"地向速度(m/s)", [](const ParsedFrame &f) { return QString::number(f.txVel.vd, 'f', 3); }},
+        {"地速(m/s)",     [](const ParsedFrame &f) { return QString::number(f.txVel.gspeed, 'f', 3); }},
+    };
+}
+
+static const ProtocolDescriptor kTxAttDescriptor = {
+    QStringLiteral("同星CAN-姿态"),
+    ProtocolID::Tx_Att,
+    false,
+    QStringLiteral("时间(s),帧ID,横滚角(deg),俯仰角(deg),航向角(deg),航迹角(deg),raw_roll,raw_pitch,raw_yaw,raw_track\n"),
+    {}, {}, txAttFields(),
+};
+
+static const ProtocolDescriptor kTxGyroDescriptor = {
+    QStringLiteral("同星CAN-陀螺"),
+    ProtocolID::Tx_Gyro,
+    false,
+    QStringLiteral("时间(s),帧ID,gyro_x(deg/s),gyro_y(deg/s),gyro_z(deg/s),预留,raw_x,raw_y,raw_z\n"),
+    {}, {}, txGyroFields(),
+};
+
+static const ProtocolDescriptor kTxAccelDescriptor = {
+    QStringLiteral("同星CAN-加表"),
+    ProtocolID::Tx_Accel,
+    false,
+    QStringLiteral("时间(s),帧ID,acc_x(g),acc_y(g),acc_z(g),状态位,RTK板卡有效,PPS有效,前轮转角有效,前轮陀螺有效,RTK固定解,RTK定向固定解,航向已初始化,raw_x,raw_y,raw_z\n"),
+    {}, {}, txAccelFields(),
+};
+
+static const ProtocolDescriptor kTxSecDescriptor = {
+    QStringLiteral("同星CAN-周内秒"),
+    ProtocolID::Tx_Sec,
+    false,
+    QStringLiteral("时间(s),帧ID,周内秒(ms),估计天线安装偏差角(raw),速度方向,预留\n"),
+    {}, {}, txSecFields(),
+};
+
+static const ProtocolDescriptor kTxPosDescriptor = {
+    QStringLiteral("同星CAN-经纬度"),
+    ProtocolID::Tx_Pos,
+    false,
+    QStringLiteral("时间(s),帧ID,经度(deg),纬度(deg),lon_raw,lat_raw\n"),
+    {}, {}, txPosFields(),
+};
+
+static const ProtocolDescriptor kTxHeightDescriptor = {
+    QStringLiteral("同星CAN-高程"),
+    ProtocolID::Tx_Height,
+    false,
+    QStringLiteral("时间(s),帧ID,椭球高(m),周内秒(ms),height_raw\n"),
+    {}, {}, txHeightFields(),
+};
+
+static const ProtocolDescriptor kTxVelDescriptor = {
+    QStringLiteral("同星CAN-速度"),
+    ProtocolID::Tx_Vel,
+    false,
+    QStringLiteral("时间(s),帧ID,北向速度(m/s),东向速度(m/s),地向速度(m/s),地速(m/s),raw_n,raw_e,raw_d,raw_g\n"),
+    {}, {}, txVelFields(),
+};
+
 const ProtocolDescriptor *findProtocol(ProtocolID pid)
 {
     for (const auto &d : protocolRegistry()) {
@@ -749,6 +882,13 @@ const ProtocolDescriptor *findProtocol(ProtocolID pid)
     if (pid == ProtocolID::Novatel_BestPos) return &kNovatelBestPosDescriptor;
     if (pid == ProtocolID::Novatel_PsrVel)  return &kNovatelPsrVelDescriptor;
     if (pid == ProtocolID::A3_Imu)          return &kA3ImuDescriptor;
+    if (pid == ProtocolID::Tx_Att)          return &kTxAttDescriptor;
+    if (pid == ProtocolID::Tx_Gyro)         return &kTxGyroDescriptor;
+    if (pid == ProtocolID::Tx_Accel)        return &kTxAccelDescriptor;
+    if (pid == ProtocolID::Tx_Sec)          return &kTxSecDescriptor;
+    if (pid == ProtocolID::Tx_Pos)          return &kTxPosDescriptor;
+    if (pid == ProtocolID::Tx_Height)       return &kTxHeightDescriptor;
+    if (pid == ProtocolID::Tx_Vel)          return &kTxVelDescriptor;
     return nullptr;
 }
 

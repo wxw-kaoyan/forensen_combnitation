@@ -13,10 +13,11 @@ ParseResult ParserBase::parseToResult(const QByteArray &rawData,
     ParseResult result;
     result.protocolId = protocolId();
     result.frames = parse(rawData);
+    result.hasCsvHeader = !csvHeader().isEmpty();
 
     QString text;
     QTextStream s(&text);
-    if (!csvHeader().isEmpty()) {
+    if (result.hasCsvHeader) {
         s << csvHeader();
         for (const auto &f : result.frames)
             s << formatFrame(f);

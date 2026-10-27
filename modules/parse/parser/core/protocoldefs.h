@@ -39,6 +39,13 @@ enum class ProtocolID : uint16_t {
     A3_Imu           = 0xCD06,  // A3 IMU 异常测试协议 (CANFD ID=0x272, 64B, 小端, 500Hz)
     Epson_Imu        = 0xCD07,  // 爱普生 IMU 串口协议 (固定38B帧: 同步2B+数据32B+累加和2B+帧尾2B)
     Ahrs_Aa5         = 0xCD08,  // AHRS 标准协议 (26B帧: AA A5+Index+9×int16+2校验+0D 0A)
+    Tx_Att           = 0xCD09,  // 同星/原极 CAN 扩展帧 姿态  (0x19FFCCxx, deg*100)
+    Tx_Gyro          = 0xCD0A,  // 同星/原极 CAN 扩展帧 陀螺  (0x19FFCDxx, deg/s*52.0127)
+    Tx_Accel         = 0xCD0B,  // 同星/原极 CAN 扩展帧 加表  (0x19FFCExx, g*3276.8 + 状态位)
+    Tx_Sec           = 0xCD0C,  // 同星/原极 CAN 扩展帧 周内秒+安装偏差角+速度方向 (0x19FFCE9B)
+    Tx_Pos           = 0xCD0D,  // 同星/原极 CAN 扩展帧 经纬度 (0x19CCFFxx, deg/1e7, int32)
+    Tx_Height        = 0xCD0E,  // 同星/原极 CAN 扩展帧 高程+周内秒 (0x19CCFF9B, /1e7, int32)
+    Tx_Vel           = 0xCD0F,  // 同星/原极 CAN 扩展帧 速度 (0x19FFD2xx, cm/s)
     // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
     Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
     Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
@@ -74,6 +81,31 @@ inline bool isKaixinProtocol(ProtocolID pid) {
 // AimRT（MCAP）录包 — 非帧格式，走外部 Python 脚本
 inline bool isAimrtBagProtocol(ProtocolID pid) {
     return pid == ProtocolID::Aimrt_ImuBag;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  同星/原极 CAN 扩展帧 (《通讯协议》1.4 节 表9~表15)
+//  29 位扩展帧 ID 拆解：前缀(19FF/19CC) | 数据组 | 设备地址
+//  末字节为设备地址，手册写 9A/9B，实测设备为 C4（可随节点变化），
+//  匹配时只按数据组比较，具体设备地址由解析器自动识别后过滤。
+// ════════════════════════════════════════════════════════════════
+static constexpr uint32_t kTxCanIdMask        = 0xFFFFFF00u;  // 只比高 24 位，忽略设备地址
+static constexpr uint32_t kTxAttCanIdBase     = 0x19FFCC00u;  // 表9  姿态
+static constexpr uint32_t kTxGyroCanIdBase    = 0x19FFCD00u;  // 表10 陀螺
+static constexpr uint32_t kTxAccelCanIdBase   = 0x19FFCE00u;  // 表11/表12 加表 或 周内秒(按设备地址区分)
+static constexpr uint32_t kTxVelCanIdBase     = 0x19FFD200u;  // 表15 速度
+static constexpr uint32_t kTxPosCanIdBase     = 0x19CCFF00u;  // 表13/表14 经纬度 或 高程(按设备地址区分)
+
+inline bool isTxAttCanId(uint32_t canId)   { return (canId & kTxCanIdMask) == kTxAttCanIdBase; }
+inline bool isTxGyroCanId(uint32_t canId)  { return (canId & kTxCanIdMask) == kTxGyroCanIdBase; }
+inline bool isTxAccelCanId(uint32_t canId) { return (canId & kTxCanIdMask) == kTxAccelCanIdBase; }
+inline bool isTxVelCanId(uint32_t canId)   { return (canId & kTxCanIdMask) == kTxVelCanIdBase; }
+inline bool isTxPosCanId(uint32_t canId)   { return (canId & kTxCanIdMask) == kTxPosCanIdBase; }
+
+// 同星/原极 CAN 七组（姿态/陀螺/加表/秒标志/经纬度/高程/速度）
+inline bool isTxProtocol(ProtocolID pid) {
+    uint16_t v = static_cast<uint16_t>(pid);
+    return v >= 0xCD09 && v <= 0xCD0F;
 }
 
 inline bool isFusionResult(uint16_t id, uint16_t len) {
@@ -143,6 +175,13 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::Novatel_PsrVel:  return "PSRVEL_诺瓦泰(100)";
         case ProtocolID::Epson_Imu:       return "爱普生IMU";
         case ProtocolID::Ahrs_Aa5:        return "AHRS(AA A5)";
+        case ProtocolID::Tx_Att:          return "同星CAN-姿态(0x19FFCCxx)";
+        case ProtocolID::Tx_Gyro:         return "同星CAN-陀螺(0x19FFCDxx)";
+        case ProtocolID::Tx_Accel:        return "同星CAN-加表(0x19FFCExx)";
+        case ProtocolID::Tx_Sec:          return "同星CAN-周内秒(0x19FFCE9B)";
+        case ProtocolID::Tx_Pos:          return "同星CAN-经纬度(0x19CCFFxx)";
+        case ProtocolID::Tx_Height:       return "同星CAN-高程(0x19CCFF9B)";
+        case ProtocolID::Tx_Vel:          return "同星CAN-速度(0x19FFD2xx)";
         default:                        return "未知";
     }
 }
@@ -779,6 +818,103 @@ struct AhrsAa5Data {
     uint8_t  checksumBCalc;  // 计算校验 B
 };
 
+// ════════════════════════════════════════════════════════════════
+//  同星 CAN 扩展帧 — 表9 姿态 (0x19FFCCxx, payload 8B)
+//  字节布局: [1..2]横滚 [3..4]俯仰 [5..6]航向 [7..8]航迹, int16 小端
+//  单位 deg*100（raw / 100 = deg）
+// ════════════════════════════════════════════════════════════════
+struct TxAttData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   roll;       // 横滚角 (deg)
+    double   pitch;      // 俯仰角 (deg)
+    double   yaw;        // 航向角 (deg)
+    double   track;      // 航迹角 (deg)
+    int16_t  raw[4];     // 原始值 (deg*100)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星 CAN 扩展帧 — 表10 陀螺 (0x19FFCDxx, payload 8B)
+//  字节布局: [1..2]gyro_x [3..4]gyro_y [5..6]gyro_z [7..8]预留, int16 小端
+//  单位 deg/s*52.0127（raw / 52.0127 = deg/s）
+//  预留位：接 G200 时输出前轮角度
+// ════════════════════════════════════════════════════════════════
+struct TxGyroData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   gyro[3];    // 陀螺 X/Y/Z (deg/s)
+    int16_t  reserved;   // 预留；接 G200 时为前轮转角
+    int16_t  raw[3];     // 原始值 (deg/s*52.0127)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星 CAN 扩展帧 — 表11 加表 (0x19FFCExx, payload 8B)
+//  字节布局: [1..2]acc_x [3..4]acc_y [5..6]acc_z [7..8]状态位, int16 小端
+//  单位 g*3276.8（raw / 3276.8 = g）
+//  状态位: bit0=RTK板卡数据有效 bit1=PPS有效 bit2=前轮转角有效
+//          bit3=前轮陀螺有效 bit4=RTK定位固定解 bit5=RTK定向固定解
+//          bit6=航向初始化标志(仅单天线车身陀螺)
+// ════════════════════════════════════════════════════════════════
+struct TxAccelData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   accel[3];   // 加表 X/Y/Z (g)
+    uint16_t status;     // 状态位
+    int16_t  raw[3];     // 原始值 (g*3276.8)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星/原极 CAN 扩展帧 — 表12 周内秒/安装偏差/速度方向 (0x19FFCE9B)
+//  字节布局: [1..4]周内秒(ms,int32) [5..6]估计天线安装偏差角 [7]速度方向 [8]预留
+//  备注：速度方向 1=前进 −1=后退；
+//        安装偏差角文档未标注标度，此处保留原始 int16
+// ════════════════════════════════════════════════════════════════
+struct TxSecData {
+    double   ascTime;       // ASC 行首时间戳 (s, 相对录制起点)
+    uint32_t weekMs;        // 周内秒 (ms)
+    int16_t  antBiasRaw;    // 估计天线安装偏差角 (原始值)
+    int8_t   velDirection;  // 速度方向 1=前进 -1=后退
+    uint8_t  reserved;      // 预留
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星/原极 CAN 扩展帧 — 表13 经纬度 (0x19CCFFxx)
+//  字节布局: [1..4]纬度(int32) [5..8]经度(int32)，单位 deg，raw/1e7
+//  注：文档表头写作「经度 | 纬度」，但实测数据（31.26N / 121.62E 上海）
+//      为「纬度 | 经度」，此处按实测顺序解码，raw 值同时输出供核对
+//  坐标系 WGS84，默认输出主天线相位中心位置
+// ════════════════════════════════════════════════════════════════
+struct TxPosData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   lon;        // 经度 (deg)
+    double   lat;        // 纬度 (deg)
+    int32_t  lonRaw;     // 原始值 (deg*1e7)
+    int32_t  latRaw;     // 原始值 (deg*1e7)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星/原极 CAN 扩展帧 — 表14 高程+周内秒 (0x19CCFF9B)
+//  字节布局: [1..4]高程(int32, 椭球高) [5..8]周内秒(int32, ms)
+//  高程单位 m，raw/1e7
+// ════════════════════════════════════════════════════════════════
+struct TxHeightData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   height;     // 椭球高 (m)
+    uint32_t weekMs;     // 周内秒 (ms)
+    int32_t  heightRaw;  // 原始值 (m*1e7)
+};
+
+// ════════════════════════════════════════════════════════════════
+//  同星/原极 CAN 扩展帧 — 表15 速度 (0x19FFD2xx)
+//  字节布局: [1..2]北向 [3..4]东向 [5..6]地向 [7..8]地速(平面), int16
+//  单位 cm/s，raw/100 = m/s
+// ════════════════════════════════════════════════════════════════
+struct TxVelData {
+    double   ascTime;    // ASC 行首时间戳 (s, 相对录制起点)
+    double   vn;         // 北向速度 (m/s)
+    double   ve;         // 东向速度 (m/s)
+    double   vd;         // 地向速度 (m/s)
+    double   gspeed;     // 地速/平面速度 (m/s)
+    int16_t  raw[4];     // 原始值 (cm/s)
+};
+
 // 诺瓦泰定位类型名称（posType，联适 DEBUG 流与本机 OEM 二进制共用同一张表）
 inline QString novatelPosTypeName(int32_t v)
 {
@@ -865,6 +1001,13 @@ struct ParsedFrame {
         A3ImuData          a3Imu;
         EpsonImuData       epsonImu;
         AhrsAa5Data        ahrsAa5;
+        TxAttData          txAtt;
+        TxGyroData         txGyro;
+        TxAccelData        txAccel;
+        TxSecData          txSec;
+        TxPosData          txPos;
+        TxHeightData       txHeight;
+        TxVelData          txVel;
         DebugImuData   debugImu;
         DebugGpsData   debugGps;
         DebugDrtkData  debugDrtk;

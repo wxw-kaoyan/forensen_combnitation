@@ -16,6 +16,7 @@ struct ParseResult {
     ProtocolID protocolId = ProtocolID::Unknown;
     QList<ParsedFrame> frames;  // 帧类分支缓存（供按帧导出）
     QString    externalCsvPath; // 外部脚本/进程生成的临时 CSV 路径（凯芯等）
+    bool       hasCsvHeader = false;  // 输出为 CSV（决定导出默认扩展名 .csv/.txt）
 };
 
 // ════════════════════════════════════════════════════════════════

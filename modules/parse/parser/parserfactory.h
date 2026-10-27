@@ -13,6 +13,7 @@
 #include "modules/parse/parser/can/lsnavparser.h"
 #include "modules/parse/parser/can/lsimulogparser.h"
 #include "modules/parse/parser/can/a3parser.h"
+#include "modules/parse/parser/can/txcanparser.h"
 #include "modules/parse/parser/other/novatelparser.h"
 #include "modules/parse/parser/other/epsonparser.h"
 #include "modules/parse/parser/other/ahrsaa5parser.h"
@@ -42,6 +43,7 @@ public:
         result.append(new NovatelBestPosParser);
         result.append(new NovatelPsrVelParser);
         result.append(new A3Parser);
+        result.append(new TxCanParser);
         result.append(new EpsonParser);
         result.append(new AhrsAa5Parser);
         return result;

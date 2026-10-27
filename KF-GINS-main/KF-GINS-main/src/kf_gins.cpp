@@ -37,6 +37,32 @@ bool loadConfig(YAML::Node &config, GINSOptions &options);
 void writeNavResult(double time, NavState &navstate, FileSaver &navfile, FileSaver &imuerrfile);
 void writeSTD(double time, Eigen::MatrixXd &cov, FileSaver &stdfile);
 
+/**
+ * @brief KF-GINS 主程序：读配置、逐历元解算、输出结果
+ *        KF-GINS entry: load config, process epoch by epoch, save results
+ *
+ * 用法 / usage: KF-GINS kf-gins.yaml
+ *
+ * 处理流程 / workflow:
+ *   1. 解析 YAML 到 GINSOptions（初值、噪声、杆臂），并换算为标准单位
+ *      parse YAML into GINSOptions and convert to standard units
+ *   2. 打开 IMU/GNSS 输入文件，以及三个输出文件（导航结果、IMU 误差、标准差）
+ *      open IMU/GNSS input files and three output files
+ *   3. 构造 GIEngine：分配 21 维状态协方差与 18 维噪声阵，按初值填充
+ *      construct GIEngine: allocate 21-state covariance and 18-noise matrix
+ *   4. 将 IMU 与 GNSS 数据流对齐到 starttime，作为滤波起点
+ *      align IMU and GNSS streams to starttime
+ *   5. 主循环：按时间推进，GNSS 时间早于 IMU 时先喂观测；每帧 IMU 做
+ *      机械编排 + EKF 预测/更新，随后落盘当前时间、状态与协方差
+ *      main loop: feed GNSS when behind, run mechanization + EKF per IMU frame
+ *   6. 收尾：关闭文件，打印处理区间与总耗时
+ *      close files and print processed interval and elapsed time
+ *
+ * @param argc 参数个数，须为 2 / must be 2
+ * @param argv argv[1] 为配置文件路径 / path of the YAML configuration file
+ * @return 0 成功；-1 表示参数、配置、文件打开或时间范围检查失败
+ *         0 on success; -1 on argument, config, file-open or time-range error
+ */
 int main(int argc, char *argv[]) {
 
     if (argc != 2) {

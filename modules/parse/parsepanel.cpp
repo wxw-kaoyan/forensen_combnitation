@@ -5,6 +5,7 @@
 #include "modules/parse/parser/debugstream/debugframeparser.h"
 #include "modules/parse/parser/debugstream/eb614debugparser.h"
 #include "modules/parse/parser/single/protocolregistry.h"
+#include "modules/parse/parser/can/txcanparser.h"
 #include "columnextract.h"
 #include "downsampledialog.h"
 
@@ -177,7 +178,7 @@ void ParsePanel::onLoadFileClicked()
 {
     QString path = QFileDialog::getOpenFileName(
         this, QStringLiteral("选择二进制数据文件"),
-        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf *.txt);;"
+        QString(), QStringLiteral("数据文件 (*.bin *.dat *.log *.raw *.blf *.txt *.trc *.asc);;"
                                   "AimRT 录包 (*.mcap);;BLF文件 (*.blf);;所有文件 (*)"));
     if (path.isEmpty()) return;
 
@@ -253,7 +254,9 @@ void ParsePanel::onProtocolComboActivated(int index)
     // CAN 日志：BLF 二进制 或 文本 .log/.txt
     bool isCanLog = isBlf
                     || m_filePath.endsWith(".log", Qt::CaseInsensitive)
-                    || m_filePath.endsWith(".txt", Qt::CaseInsensitive);
+                    || m_filePath.endsWith(".txt", Qt::CaseInsensitive)
+                    || m_filePath.endsWith(".trc", Qt::CaseInsensitive)
+                    || m_filePath.endsWith(".asc", Qt::CaseInsensitive);
 
     // 快速校验：检查协议/文件类型匹配
     {
@@ -319,6 +322,7 @@ void ParsePanel::onProtocolComboActivated(int index)
         m_cachedFullText = result.fullText;
         m_cachedCsvPath  = result.externalCsvPath;
         m_cachedFrames   = result.frames;
+        m_cachedHasCsv   = result.hasCsvHeader;
         m_activeProtocolId = result.protocolId;
         watcher->deleteLater();
         m_parsing = false;
@@ -530,20 +534,54 @@ void ParsePanel::onExportClicked()
         return;
     }
 
+    // 同星/原极 CAN：七组(姿态/陀螺/加表/周内秒/经纬度/高程/速度)分导出 7 个 CSV
+    if (isTxProtocol(m_activeProtocolId)) {
+        if (m_cachedFrames.isEmpty()) {
+            QMessageBox::information(this, QStringLiteral("提示"),
+                                     QStringLiteral("请先解析 同星CAN-IMU 数据后再导出。"));
+            return;
+        }
+        QString dir = QFileDialog::getExistingDirectory(
+            this, QStringLiteral("选择 同星CAN 数据导出目录"));
+        if (dir.isEmpty()) return;
+        const QList<ProtocolID> pids = {
+            ProtocolID::Tx_Att, ProtocolID::Tx_Gyro, ProtocolID::Tx_Accel,
+            ProtocolID::Tx_Sec, ProtocolID::Tx_Pos, ProtocolID::Tx_Height,
+            ProtocolID::Tx_Vel
+        };
+        const QList<QString> names = {
+            QStringLiteral("同星CAN_表9_0x19FFCC_姿态.csv"),
+            QStringLiteral("同星CAN_表10_0x19FFCD_陀螺.csv"),
+            QStringLiteral("同星CAN_表11_0x19FFCE_加表.csv"),
+            QStringLiteral("同星CAN_表12_0x19FFCE9B_周内秒.csv"),
+            QStringLiteral("同星CAN_表13_0x19CCFF_经纬度.csv"),
+            QStringLiteral("同星CAN_表14_0x19CCFF9B_高程.csv"),
+            QStringLiteral("同星CAN_表15_0x19FFD2_速度.csv"),
+        };
+        int written = exportFrameCsvs(m_cachedFrames, dir, pids, names,
+                                      &TxCanParser::csvHeaderFor,
+                                      &TxCanParser::formatFrameFor);
+        QMessageBox::information(this, QStringLiteral("导出成功"),
+                                 QStringLiteral("已导出 %1 个 CSV 到 %2")
+                                     .arg(written).arg(dir));
+        return;
+    }
+
     QString text = m_cachedFullText;
     if (text.isEmpty()) {
         text = ui->outputTextEdit->toPlainText();
         if (text.isEmpty()) return;
     }
 
-    // 优先按当前协议描述符判断是否为 CSV；未知/外部协议回退到文本前缀判断
+    // 是否为 CSV：优先用解析器自身的 csvHeader 判定（覆盖未注册描述符的协议）
     const ProtocolDescriptor *desc = findProtocol(m_activeProtocolId);
-    bool isCsv = (desc && !desc->csvHeader.isEmpty());
+    bool isCsv = m_cachedHasCsv || (desc && !desc->csvHeader.isEmpty());
     if (!isCsv) {
         isCsv = text.startsWith("UTC天数") ||
                 text.startsWith("Timer(us)") ||
                 text.startsWith("GPS(ms)") ||
-                text.startsWith("GPS周秒");
+                text.startsWith("GPS周秒") ||
+                text.startsWith("计数器");
     }
     QString defaultExt = isCsv ? QStringLiteral(".csv") : QStringLiteral(".txt");
     QString defaultPath = QStringLiteral("parse_result") + defaultExt;

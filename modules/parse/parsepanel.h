@@ -48,6 +48,7 @@ private:
     QString          m_cachedCsvPath;    // 凯芯等外部生成的 CSV 路径
     ProtocolID       m_activeProtocolId = ProtocolID::Unknown;
     QList<ParsedFrame> m_cachedFrames;
+    bool             m_cachedHasCsv = false;  // 当前解析结果是否为 CSV
     QList<int>       m_comboToParser;  // 下拉项索引 → 工厂解析器索引（分类头/占位项为 -1）
     bool m_parsing = false;
 };
