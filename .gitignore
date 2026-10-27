@@ -13,3 +13,10 @@ Makefile
 赛力斯固件需求.md
 package.zip
 package.tar.gz
+
+# KF-GINS 仿真输出（单文件常超 100 MB，GitHub 会拒收）
+output_navdata/
+**/cmp_data/
+*.nav
+KF_GINS_STD.txt
+KF_GINS_IMU_ERR.txt
