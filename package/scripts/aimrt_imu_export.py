@@ -13,6 +13,10 @@
         { ... }
         AIMRT_SUMMARY_END
 
+话题选择：不指定 -t 时，自动导出包内所有 schema 为 sensor_msgs/msg/Imu 的话题
+（不同版本机器人的话题命名不同，如 /body_drive/torso_imu/data、
+/aima/hal/imu/torso/state，因此不写死话题名）。
+
 CSV 每行一条消息：bag 记录时间、消息 header 时间、四元数、由四元数换算的欧拉角
 （度；roll [-180,180]、pitch [-90,90]、yaw [0,360)）、角速度、线加速度。
 丢包统计按 --check-rate（默认 500Hz）检查 header.stamp 的连续性，估算丢帧数。
@@ -35,11 +39,6 @@ if os.path.isdir(_LOCAL_LIBS):
 
 from mcap.reader import make_reader  # noqa: E402
 from mcap_ros2.decoder import DecoderFactory  # noqa: E402
-
-DEFAULT_TOPICS = [
-    "/body_drive/pelvis_imu/data",
-    "/body_drive/torso_imu/data",
-]
 
 COLUMNS = [
     "log_time_ns",             # bag 记录该消息的时间（纳秒）
@@ -72,6 +71,24 @@ def topic_short(topic):
 def topic_to_filename(topic):
     # 文件名用话题短名（CSV 已放在与 mcap 同名的文件夹下）
     return topic_short(topic) + ".csv"
+
+
+def discover_imu_topics(reader, schema_name="sensor_msgs/msg/Imu"):
+    """从包内自动发现所有 IMU 话题（按 schema 判定，不依赖话题命名）。
+
+    不同版本机器人的话题前缀不同（旧包 /body_drive/xxx_imu/data、
+    新包 /aima/hal/imu/torso/state），因此不写死话题名。
+    """
+    summary = reader.get_summary()
+    if summary is None:
+        return []
+    imu_schema_ids = {sid for sid, sc in summary.schemas.items()
+                      if sc.name == schema_name}
+    if not imu_schema_ids:
+        return []
+    topics = [ch.topic for ch in summary.channels.values()
+              if ch.schema_id in imu_schema_ids]
+    return sorted(set(topics))
 
 
 def quat_to_euler_deg(x, y, z, w):
@@ -149,8 +166,8 @@ def main():
                     default=None,
                     help="CSV 输出目录（默认：mcap 同级目录下的 imu_csv）")
     ap.add_argument("-t", "--topics",
-                    nargs="+", default=DEFAULT_TOPICS,
-                    help="要导出的话题（默认两个 IMU 话题）")
+                    nargs="+", default=None,
+                    help="要导出的话题（默认：自动发现包内所有 sensor_msgs/msg/Imu 话题）")
     ap.add_argument("--check-rate", type=float, default=500.0,
                     help="按该频率（Hz）检查采样是否丢帧，0 表示不检查")
     args = ap.parse_args()
@@ -166,29 +183,38 @@ def main():
     out_sub = os.path.join(out_dir, stem)
     os.makedirs(out_sub, exist_ok=True)
 
-    topics = list(args.topics)
     check = args.check_rate > 0
     exp_ns = int(round(1_000_000_000 / args.check_rate)) if check else 0
 
-    counts = {t: 0 for t in topics}
-    stamps = {t: [] for t in topics}
-    frame_ids = {t: "" for t in topics}
-    first_log = {t: 0 for t in topics}
-    last_log = {t: 0 for t in topics}
-    writes = {t: os.path.join(out_sub, topic_to_filename(t)) for t in topics}
-
+    counts, stamps, frame_ids, first_log, last_log = {}, {}, {}, {}, {}
+    writes = {}
     handles, writers = {}, {}
     try:
-        for t in topics:
-            fh = open(writes[t], "w", newline="", encoding="utf-8")
-            w = csv.writer(fh)
-            w.writerow(COLUMNS)
-            handles[t] = fh
-            writers[t] = w
-
         decoder_factory = DecoderFactory()
         with open(path, "rb") as f:
             reader = make_reader(f, decoder_factories=[decoder_factory])
+
+            # 未显式指定话题时，按 schema 自动发现包内全部 IMU 话题
+            if args.topics:
+                topics = list(args.topics)
+            else:
+                topics = discover_imu_topics(reader)
+                if not topics:
+                    sys.exit("包内未找到 sensor_msgs/msg/Imu 话题，可用 -t 手动指定")
+
+            for t in topics:
+                counts[t] = 0
+                stamps[t] = []
+                frame_ids[t] = ""
+                first_log[t] = 0
+                last_log[t] = 0
+                writes[t] = os.path.join(out_sub, topic_to_filename(t))
+                fh = open(writes[t], "w", newline="", encoding="utf-8")
+                w = csv.writer(fh)
+                w.writerow(COLUMNS)
+                handles[t] = fh
+                writers[t] = w
+
             for _schema, channel, message, decoded in reader.iter_decoded_messages(
                 topics=topics, log_time_order=True
             ):
