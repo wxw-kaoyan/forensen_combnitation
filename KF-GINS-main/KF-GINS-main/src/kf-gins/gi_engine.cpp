@@ -26,6 +26,25 @@
 #include "gi_engine.h"
 #include "insmech.h"
 
+/**
+ * @brief 构造组合导航解算引擎：保存配置、建立滤波矩阵、初始化状态与协方差
+ *        Construct the GNSS/INS engine: store options, allocate filter matrices,
+ *        initialize navigation state and covariance
+ *
+ * 执行顺序 / steps:
+ *   1. 保存配置副本并打印，时间戳清零
+ *      copy options, print them, reset timestamp
+ *   2. 按 21 维状态、18 维噪声源分配 Cov_ / Qc_ / dx_，并清零
+ *      allocate and zero Cov_(21x21), Qc_(18x18), dx_(21x1)
+ *   3. 用 IMU 噪声参数填 Qc_ 的 6 个对角块：
+ *      ARW/VRW 取方差本身；零偏与标度因数按一阶高斯-马尔科夫取 2/τ·σ²
+ *      fill the six diagonal blocks of Qc_ from IMU noise parameters
+ *   4. 用初始状态与初始标准差填充 pvacur_ 与 Cov_ 对角线
+ *      initialize pvacur_ and the diagonal of Cov_ from initstate/initstate_std
+ *
+ * @param [in] options 由 yaml 读入并已换算为标准单位的全部配置参数
+ *                     all configuration parameters, already converted to SI units
+ */
 GIEngine::GIEngine(GINSOptions &options) {
 
     this->options_ = options;

@@ -38,6 +38,10 @@ constexpr uint8_t  kSync2    = 0x01;
 constexpr uint8_t  kEnd1     = 0x0D;
 constexpr uint8_t  kEnd2     = 0x0A;
 
+// 计数器时基：实测每帧 +625，对应 100Hz 输出的 10ms，
+// 即 1 tick = 16µs（625 tick = 10ms，65536 tick ≈ 1.0486s 回绕）
+constexpr double   kCounterTickUs = 16.0;
+
 inline uint16_t checksum32(const uint8_t *p)
 {
     uint16_t s = 0;
@@ -137,7 +141,20 @@ public:
     QList<ParsedFrame> parse(const QByteArray &rawData) override
     {
         int crcFail = 0;
-        return epson_detail::scanSync(rawData, skipCrc(), crcFail);
+        QList<ParsedFrame> frames = epson_detail::scanSync(rawData, skipCrc(), crcFail);
+
+        // 计数器是 16 位时间戳（16µs/tick），按回绕累积成从 0 开始的相对时间
+        uint32_t ticks = 0;
+        uint16_t prev = 0;
+        for (int i = 0; i < frames.size(); ++i) {
+            const uint16_t c = frames[i].epsonImu.counter;
+            if (i > 0)
+                ticks += static_cast<uint16_t>(c - prev);
+            prev = c;
+            frames[i].epsonImu.timeSec =
+                ticks * epson_detail::kCounterTickUs * 1e-6;
+        }
+        return frames;
     }
 
     // 在默认输出基础上追加计数器连续性统计（丢帧检测）
@@ -178,9 +195,12 @@ public:
         for (const auto &f : r.frames)
             if (!f.crcOk) ++crcErr;
 
-        r.infoText = QStringLiteral("帧:%1 计数步长:%2 丢帧:%3 中断:%4 重复:%5 CRC错:%6")
-                         .arg(r.frames.size()).arg(step).arg(missing)
-                         .arg(breaks).arg(dup).arg(crcErr);
+        r.infoText = QStringLiteral("帧:%1 计数步长:%2(每帧%3ms) 推算帧率:%4Hz 丢帧:%5 中断:%6 重复:%7 CRC错:%8")
+                         .arg(r.frames.size()).arg(step)
+                         .arg(step * epson_detail::kCounterTickUs / 1000.0, 0, 'f', 2)
+                         .arg(step > 0 ? 1e6 / (step * epson_detail::kCounterTickUs) : 0.0,
+                              0, 'f', 2)
+                         .arg(missing).arg(breaks).arg(dup).arg(crcErr);
         return r;
     }
 
@@ -192,14 +212,14 @@ public:
             "加表X(g),加表Y(g),加表Z(g),"
             "Pitch(deg),Yaw(deg),Roll(deg),"
             "QW,QX,QY,QZ,"
-            "校验和(收),校验和(算),校验结果\n");
+            "校验和(收),校验和(算),校验结果,时间(s)\n");
     }
 
     QString formatFrame(const ParsedFrame &f) const override
     {
         const auto &v = f.epsonImu;
         return QStringLiteral(
-            "%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19\n")
+            "%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20\n")
             .arg(v.counter).arg(v.status)
             .arg(v.temperature, 0, 'f', 2)
             .arg(v.gyro[0], 0, 'f', 3).arg(v.gyro[1], 0, 'f', 3).arg(v.gyro[2], 0, 'f', 3)
@@ -209,7 +229,8 @@ public:
             .arg(v.quat[2], 0, 'f', 5).arg(v.quat[3], 0, 'f', 5)
             .arg(v.checksum, 4, 16, QChar('0'))
             .arg(v.checksumCalc, 4, 16, QChar('0'))
-            .arg(f.crcOk ? QStringLiteral("OK") : QStringLiteral("错"));
+            .arg(f.crcOk ? QStringLiteral("OK") : QStringLiteral("错"))
+            .arg(v.timeSec, 0, 'f', 4);
     }
 };
 

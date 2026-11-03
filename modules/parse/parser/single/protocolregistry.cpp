@@ -1,6 +1,7 @@
 #include "modules/parse/parser/single/protocolregistry.h"
 #include "modules/parse/parser/parserbase.h"
 #include "modules/parse/parser/core/frameparser.h"
+#include <QStringList>
 
 // ════════════════════════════════════════════════════════════════
 //  各协议字段列表
@@ -101,6 +102,119 @@ static QList<FieldDescriptor> fusionResultFields()
         {"双天线状态",   [](const ParsedFrame &f) { return f.fusion.dualAntStatus == 50 ? QStringLiteral("已定向") : QString::number(f.fusion.dualAntStatus); }},
         {"PosStd(cm)",   [](const ParsedFrame &f) { return QString::number(f.fusion.posStd); }},
         {"状态标志",     [](const ParsedFrame &f) { return ParserBase::formatStatusFlags(f.fusion.statusFlag); }},
+    };
+}
+
+// ── NAV_APPEND：实时接收区只给一条"结论"，内部含丢数判断 ──
+namespace {
+
+// 以 GPS 周计数 + 周内秒为绝对时间基准，自适应估计正常帧间隔
+struct NavGapState {
+    qint64 lastMs    = -1;   // 上一帧绝对时间 = 周*604800000 + 周内ms
+    qint64 interval  = 0;    // 正常帧间隔(ms)
+    qint64 totalLost = 0;    // 累计丢帧数
+};
+NavGapState g_navGap;
+
+const char *naviStatusText(uint8_t s)
+{
+    switch (s) {
+        case 0:  return "未初始化";
+        case 1:  return "收敛中";
+        case 2:  return "精度优";
+        case 3:  return "INS推算";
+        case 4:  return "精度差";
+        default: return "未知状态";
+    }
+}
+
+// 返回"帧间隔 + 丢数"描述，并更新累计统计
+QString navGapUpdate(const NavAppendData &d)
+{
+    const qint64 t = qint64(d.gpsWeek) * 604800000LL + qint64(d.gpsWeekMs);
+    QString txt = QStringLiteral("首帧");
+    if (g_navGap.lastMs >= 0) {
+        qint64 dt = t - g_navGap.lastMs;
+        if (dt < 0 && -dt > 300000000LL)   // 跨周回绕
+            dt += 604800000LL;
+        if (g_navGap.interval <= 0)
+            g_navGap.interval = dt;
+        else if (dt > 0 && dt * 2 <= g_navGap.interval * 3)
+            g_navGap.interval = dt;        // 跟随正常间隔
+        int lost = 0;
+        if (g_navGap.interval > 0 && dt * 2 > g_navGap.interval * 3)
+            lost = int((dt + g_navGap.interval / 2) / g_navGap.interval) - 1;
+        if (lost < 0) lost = 0;
+        g_navGap.totalLost += lost;
+        txt = QStringLiteral("间隔%1ms %2｜累计丢%3帧")
+                  .arg(dt)
+                  .arg(lost > 0 ? QStringLiteral("丢%1帧").arg(lost) : QStringLiteral("无丢数"))
+                  .arg(g_navGap.totalLost);
+    }
+    g_navGap.lastMs = t;
+    return txt;
+}
+
+} // namespace
+
+void resetNavGapStats()
+{
+    g_navGap = NavGapState{};
+}
+
+static QList<FieldDescriptor> navAppendFields()
+{
+    return {
+        {"GPS周",            [](const ParsedFrame &f) { return QString::number(f.navAppend.gpsWeek); }},
+        {"周内秒(ms)",       [](const ParsedFrame &f) { return QString::number(f.navAppend.gpsWeekMs); }},
+        {"纬度(deg)",        [](const ParsedFrame &f) { return QString::number(f.navAppend.lat, 'f', 9); }},
+        {"经度(deg)",        [](const ParsedFrame &f) { return QString::number(f.navAppend.lon, 'f', 9); }},
+        {"椭球高(m)",        [](const ParsedFrame &f) { return QString::number(f.navAppend.height, 'f', 3); }},
+        {"Vn(m/s)",          [](const ParsedFrame &f) { return QString::number(f.navAppend.vn, 'f', 3); }},
+        {"Ve(m/s)",          [](const ParsedFrame &f) { return QString::number(f.navAppend.ve, 'f', 3); }},
+        {"Vd(m/s)",          [](const ParsedFrame &f) { return QString::number(f.navAppend.vd, 'f', 3); }},
+        {"Roll(deg)",        [](const ParsedFrame &f) { return QString::number(f.navAppend.roll, 'f', 3); }},
+        {"Pitch(deg)",       [](const ParsedFrame &f) { return QString::number(f.navAppend.pitch, 'f', 3); }},
+        {"Yaw(deg)",         [](const ParsedFrame &f) { return QString::number(f.navAppend.yaw, 'f', 3); }},
+        {"纬度标准差(m)",    [](const ParsedFrame &f) { return QString::number(f.navAppend.latStd, 'f', 4); }},
+        {"经度标准差(m)",    [](const ParsedFrame &f) { return QString::number(f.navAppend.lonStd, 'f', 4); }},
+        {"高程标准差(m)",    [](const ParsedFrame &f) { return QString::number(f.navAppend.heightStd, 'f', 4); }},
+        {"Vn标准差",         [](const ParsedFrame &f) { return QString::number(f.navAppend.vnStd, 'f', 4); }},
+        {"Ve标准差",         [](const ParsedFrame &f) { return QString::number(f.navAppend.veStd, 'f', 4); }},
+        {"Vd标准差",         [](const ParsedFrame &f) { return QString::number(f.navAppend.vdStd, 'f', 4); }},
+        {"Roll标准差",       [](const ParsedFrame &f) { return QString::number(f.navAppend.rollStd, 'f', 4); }},
+        {"Pitch标准差",      [](const ParsedFrame &f) { return QString::number(f.navAppend.pitchStd, 'f', 4); }},
+        {"Yaw标准差",        [](const ParsedFrame &f) { return QString::number(f.navAppend.yawStd, 'f', 4); }},
+        {"加表X(g)",         [](const ParsedFrame &f) { return QString::number(f.navAppend.accel[0], 'f', 4); }},
+        {"加表Y(g)",         [](const ParsedFrame &f) { return QString::number(f.navAppend.accel[1], 'f', 4); }},
+        {"加表Z(g)",         [](const ParsedFrame &f) { return QString::number(f.navAppend.accel[2], 'f', 4); }},
+        {"陀螺X(deg/s)",     [](const ParsedFrame &f) { return QString::number(f.navAppend.gyro[0], 'f', 3); }},
+        {"陀螺Y(deg/s)",     [](const ParsedFrame &f) { return QString::number(f.navAppend.gyro[1], 'f', 3); }},
+        {"陀螺Z(deg/s)",     [](const ParsedFrame &f) { return QString::number(f.navAppend.gyro[2], 'f', 3); }},
+        {"温度(C)",          [](const ParsedFrame &f) { return QString::number(f.navAppend.imuTemp, 'f', 1); }},
+        {"定位状态",         [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.navAppend.gnssPosType); }},
+        {"航迹角(deg)",      [](const ParsedFrame &f) { return QString::number(f.navAppend.gnssTrackAngle, 'f', 3); }},
+        {"主星数",           [](const ParsedFrame &f) { return QString::number(f.navAppend.numSVsMain); }},
+        {"HDOP",             [](const ParsedFrame &f) { return QString::number(f.navAppend.hdop); }},
+        {"差分龄期(s)",      [](const ParsedFrame &f) { return QString::number(f.navAppend.diffAge); }},
+        {"双天线周内ms",     [](const ParsedFrame &f) { return QString::number(f.navAppend.dualWeekMs); }},
+        {"双天线定位",       [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.navAppend.dualPosType); }},
+        {"副星数",           [](const ParsedFrame &f) { return QString::number(f.navAppend.numSVsSlave); }},
+        {"双天线航向(deg)",  [](const ParsedFrame &f) { return QString::number(f.navAppend.dualHeading, 'f', 3); }},
+        {"状态位",           [](const ParsedFrame &f) { return QStringLiteral("0x%1").arg(f.navAppend.statusBits, 4, 16, QLatin1Char('0')); }},
+        {"导航状态",         [](const ParsedFrame &f) { return QString::number(f.navAppend.naviStatus); }},
+        {"结论", [](const ParsedFrame &f) {
+            const auto &d = f.navAppend;
+            QStringList v;
+            v << ParserBase::rtkStatusName(d.gnssPosType);
+            v << QStringLiteral("星%1/%2").arg(d.numSVsMain).arg(d.numSVsSlave);
+            v << QStringLiteral("%1N %2E").arg(d.lat, 0, 'f', 7).arg(d.lon, 0, 'f', 7);
+            v << QStringLiteral("高%1m").arg(d.height, 0, 'f', 2);
+            v << QStringLiteral("航向%1°").arg(d.yaw, 0, 'f', 2);
+            v << QString::fromUtf8(naviStatusText(d.naviStatus));
+            v << navGapUpdate(d);
+            return v.join(QStringLiteral(" ｜ "));
+        }},
     };
 }
 
@@ -543,6 +657,61 @@ const QList<ProtocolDescriptor> &protocolRegistry()
                     .arg(ParserBase::formatStatusFlags(d.statusFlag));
             },
             fusionResultFields(),
+        },
+        {
+            QStringLiteral("导航附加(NAV_APPEND)"),
+            ProtocolID::Nav_Append,
+            true,   // CRC32 初值1/多项式0xEDB88320/无最终异或，与 computeCrc32 一致
+            QStringLiteral("周,周内秒(ms),纬度,经度,椭球高(m),Vn,Ve,Vd,Roll,Pitch,Yaw,"
+                           "纬度σ(m),经度σ(m),高程σ(m),Vnσ,Veσ,Vdσ,Rollσ,Pitchσ,Yawσ,"
+                           "Ax(g),Ay(g),Az(g),Gx(dps),Gy(dps),Gz(dps),温度(C),"
+                           "定位状态,航迹角,主星数,HDOP,差分龄期,双天线周内ms,双天线定位,"
+                           "副星数,双天线航向,状态位,导航状态\n"),
+            [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::Nav_Append, d, s); },
+            [](const ParsedFrame &f) -> QString {
+                const auto &d = f.navAppend;
+                QStringList v;
+                v << QString::number(d.gpsWeek)
+                  << QString::number(d.gpsWeekMs)
+                  << QString::number(d.lat, 'f', 9)
+                  << QString::number(d.lon, 'f', 9)
+                  << QString::number(d.height, 'f', 3)
+                  << QString::number(d.vn, 'f', 3)
+                  << QString::number(d.ve, 'f', 3)
+                  << QString::number(d.vd, 'f', 3)
+                  << QString::number(d.roll, 'f', 3)
+                  << QString::number(d.pitch, 'f', 3)
+                  << QString::number(d.yaw, 'f', 3)
+                  << QString::number(d.latStd, 'f', 4)
+                  << QString::number(d.lonStd, 'f', 4)
+                  << QString::number(d.heightStd, 'f', 4)
+                  << QString::number(d.vnStd, 'f', 4)
+                  << QString::number(d.veStd, 'f', 4)
+                  << QString::number(d.vdStd, 'f', 4)
+                  << QString::number(d.rollStd, 'f', 4)
+                  << QString::number(d.pitchStd, 'f', 4)
+                  << QString::number(d.yawStd, 'f', 4)
+                  << QString::number(d.accel[0], 'f', 4)
+                  << QString::number(d.accel[1], 'f', 4)
+                  << QString::number(d.accel[2], 'f', 4)
+                  << QString::number(d.gyro[0], 'f', 3)
+                  << QString::number(d.gyro[1], 'f', 3)
+                  << QString::number(d.gyro[2], 'f', 3)
+                  << QString::number(d.imuTemp, 'f', 1)
+                  << ParserBase::rtkStatusName(d.gnssPosType)
+                  << QString::number(d.gnssTrackAngle, 'f', 3)
+                  << QString::number(d.numSVsMain)
+                  << QString::number(d.hdop)
+                  << QString::number(d.diffAge)
+                  << QString::number(d.dualWeekMs)
+                  << ParserBase::rtkStatusName(d.dualPosType)
+                  << QString::number(d.numSVsSlave)
+                  << QString::number(d.dualHeading, 'f', 3)
+                  << QStringLiteral("0x%1").arg(d.statusBits, 4, 16, QLatin1Char('0'))
+                  << QString::number(d.naviStatus);
+                return v.join(QLatin1Char(',')) + QLatin1Char('\n');
+            },
+            navAppendFields(),
         },
         {
             QStringLiteral("倾斜测量"),

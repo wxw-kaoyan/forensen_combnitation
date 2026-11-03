@@ -117,10 +117,32 @@ OtaPanel::OtaPanel(QWidget *parent)
     // ── 固件 ──
     auto *fwGroup = new QGroupBox(QStringLiteral("固件"), this);
     auto *fwLay = new QVBoxLayout(fwGroup);
+
+    // 协议行：原极 OTA（55 AA）/ 元鼎 YModem
+    auto *protoRow = new QHBoxLayout;
+    m_protocolCombo = new QComboBox;
+    m_protocolCombo->addItem(QStringLiteral("原极 OTA（55 AA 帧）"),
+                             int(OtaWorker::Protocol::YuanJi));
+    m_protocolCombo->addItem(QStringLiteral("元鼎 YModem OTA"),
+                             int(OtaWorker::Protocol::YuanDing));
+    m_blockSizeCombo = new QComboBox;
+    m_blockSizeCombo->addItem(QStringLiteral("1024 字节/块（STX）"), int(YModemOta::kBlock1024));
+    m_blockSizeCombo->addItem(QStringLiteral("128 字节/块（SOH）"), int(YModemOta::kBlock128));
+    m_allowNoCrcCheck = new QCheckBox(
+        QStringLiteral("固件文件名可无 #CRC（不做 CRC32 校验）"));
+    m_allowNoCrcCheck->setChecked(true);
+    protoRow->addWidget(new QLabel(QStringLiteral("升级协议:")));
+    protoRow->addWidget(m_protocolCombo);
+    protoRow->addWidget(new QLabel(QStringLiteral("YModem 块大小:")));
+    protoRow->addWidget(m_blockSizeCombo);
+    protoRow->addWidget(m_allowNoCrcCheck);
+    protoRow->addStretch();
+    fwLay->addLayout(protoRow);
+
     auto *fwRow = new QHBoxLayout;
     m_fwEdit = new QLineEdit;
     m_fwEdit->setReadOnly(true);
-    m_fwEdit->setPlaceholderText(QStringLiteral("选择 .firmware 固件文件（文件名需含 #CRC<CRC32>）"));
+    m_fwEdit->setPlaceholderText(QStringLiteral("选择固件文件（原极 .firmware / 元鼎 .bin 均可）"));
     auto *browseBtn = new QPushButton(QStringLiteral("浏览..."));
     fwRow->addWidget(m_fwEdit);
     fwRow->addWidget(browseBtn);
@@ -165,11 +187,14 @@ OtaPanel::OtaPanel(QWidget *parent)
     connect(browseBtn, &QPushButton::clicked, this, &OtaPanel::onBrowseFirmware);
     connect(m_linkCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &OtaPanel::onLinkModeChanged);
+    connect(m_protocolCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &OtaPanel::onProtocolChanged);
     connect(m_startBtn, &QPushButton::clicked, this, &OtaPanel::onStart);
     connect(m_versionBtn, &QPushButton::clicked, this, &OtaPanel::onReadVersion);
     connect(m_cancelBtn, &QPushButton::clicked, this, &OtaPanel::onCancel);
 
     refreshPorts();
+    onProtocolChanged(m_protocolCombo->currentIndex());
 }
 
 OtaPanel::~OtaPanel()
@@ -209,11 +234,25 @@ void OtaPanel::onLinkModeChanged(int index)
     m_versionBtn->setEnabled(serial && m_worker == nullptr);
 }
 
+void OtaPanel::onProtocolChanged(int index)
+{
+    Q_UNUSED(index);
+    const bool ym = (m_protocolCombo->currentData().toInt()
+                     == int(OtaWorker::Protocol::YuanDing));
+    m_blockSizeCombo->setEnabled(ym && m_worker == nullptr);
+    m_allowNoCrcCheck->setEnabled(!ym && m_worker == nullptr);
+    m_allowNoCrcCheck->setToolTip(
+        ym ? QStringLiteral("YModem 用 Block0 声明固件长度，不需要 #CRC")
+           : QString());
+    // YModem 由设备回 'C' 握手，不需要「自动进 BL」选项
+    m_autoResetCheck->setEnabled(!ym && m_worker == nullptr);
+}
+
 void OtaPanel::onBrowseFirmware()
 {
     QString path = QFileDialog::getOpenFileName(
         this, QStringLiteral("选择固件文件"), QString(),
-        QStringLiteral("固件文件 (*.firmware);;所有文件 (*)"));
+        QStringLiteral("固件文件 (*.firmware *.bin);;所有文件 (*)"));
     if (path.isEmpty())
         return;
     m_fwEdit->setText(path);
@@ -229,8 +268,14 @@ void OtaPanel::updateFirmwareInfo(const QString &path)
     uint32_t localCrc = OtaProtocol::crc32File(path, &crcErr);
 
     QString text = QStringLiteral("大小: %1 KB").arg(fi.size() / 1024.0, 0, 'f', 1);
-    text += QStringLiteral("　文件名 CRC: %1").arg(
-        nameCrc ? QString::number(nameCrc) : QStringLiteral("未找到(#CRC)"));
+    if (nameCrc) {
+        text += QStringLiteral("　文件名 CRC: %1").arg(nameCrc);
+    } else {
+        text += QStringLiteral("　文件名 CRC: 未找到(#CRC)%1")
+                    .arg(m_allowNoCrcCheck->isChecked()
+                             ? QStringLiteral("（允许，跳过校验）")
+                             : QStringLiteral("（升级会报错）"));
+    }
     if (localCrc) {
         text += QStringLiteral("　本地 CRC: %1").arg(localCrc);
         if (nameCrc)
@@ -248,7 +293,13 @@ void OtaPanel::setRunning(bool running)
     m_serialBox->setEnabled(!running);
     m_canBox->setEnabled(!running);
     m_fwEdit->setEnabled(!running);
-    m_autoResetCheck->setEnabled(!running);
+    m_protocolCombo->setEnabled(!running);
+    m_allowNoCrcCheck->setEnabled(!running
+        && m_protocolCombo->currentData().toInt() != int(OtaWorker::Protocol::YuanDing));
+    m_blockSizeCombo->setEnabled(!running
+        && m_protocolCombo->currentData().toInt() == int(OtaWorker::Protocol::YuanDing));
+    m_autoResetCheck->setEnabled(!running
+        && m_protocolCombo->currentData().toInt() != int(OtaWorker::Protocol::YuanDing));
     m_startBtn->setEnabled(!running);
     m_versionBtn->setEnabled(!running && m_linkCombo->currentData().toInt()
                                           == int(OtaWorker::Transport::Serial));
@@ -273,6 +324,16 @@ void OtaPanel::startWorker(bool versionOnly)
     OtaWorker::Config cfg;
     cfg.versionOnly = versionOnly;
     cfg.autoReset = m_autoResetCheck->isChecked();
+    cfg.protocol = OtaWorker::Protocol(m_protocolCombo->currentData().toInt());
+    cfg.ymodemBlockSize  = m_blockSizeCombo->currentData().toInt();
+    cfg.allowNoNameCrc   = m_allowNoCrcCheck->isChecked();
+
+    if (cfg.protocol == OtaWorker::Protocol::YuanDing
+        && m_linkCombo->currentData().toInt() != int(OtaWorker::Transport::Serial)) {
+        QMessageBox::warning(this, QStringLiteral("提示"),
+                             QStringLiteral("元鼎 YModem 升级仅支持串口链路。"));
+        return;
+    }
 
     if (m_linkCombo->currentData().toInt() == int(OtaWorker::Transport::Serial)) {
         cfg.transport = OtaWorker::Transport::Serial;

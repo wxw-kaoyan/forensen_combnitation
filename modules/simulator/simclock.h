@@ -2,6 +2,7 @@
 #define SIMCLOCK_H
 
 #include <QDateTime>
+#include <QTimeZone>
 #include <cstdint>
 
 // ────────────────────────────────────────────────────────────
@@ -24,7 +25,7 @@ inline SimClock simClockFromUtc(const QDateTime &utc)
 {
     SimClock c;
     static const qint64 gpsEpochSecs =
-        QDateTime(QDate(1980, 1, 6), QTime(0, 0, 0), Qt::UTC).toSecsSinceEpoch();
+        QDateTime(QDate(1980, 1, 6), QTime(0, 0, 0), QTimeZone::utc()).toSecsSinceEpoch();
     constexpr int leapSeconds = 18;
 
     const qint64 gpsSecs = utc.toSecsSinceEpoch() - gpsEpochSecs + leapSeconds;

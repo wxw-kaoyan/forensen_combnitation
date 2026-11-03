@@ -146,3 +146,98 @@ uint32_t extractCrcFromFileName(const QString &fileName)
 }
 
 } // namespace OtaProtocol
+
+// ════════════════════════════════════════════════════════════════
+//  元鼎 X50 子设备 YModem OTA
+// ════════════════════════════════════════════════════════════════
+namespace YModemOta {
+
+// 8 字节命令帧：FF FF | CMD | D1..D4 | 累加和(取低 8 位)
+static QByteArray buildCmd8(uint8_t cmd)
+{
+    QByteArray f(8, 0);
+    f[0] = char(0xFF);
+    f[1] = char(0xFF);
+    f[2] = char(cmd);
+    uint8_t sum = 0;
+    for (int i = 0; i < 7; ++i)
+        sum = uint8_t(sum + uint8_t(f.at(i)));
+    f[7] = char(sum);
+    return f;
+}
+
+QByteArray buildEnterOtaCmd()  { return buildCmd8(0x01); }   // FF FF 01 00 00 00 00 FF
+QByteArray buildVersionQuery() { return buildCmd8(0x74); }   // FF FF 74 00 00 00 00 72
+
+uint16_t parseVersionReply(const QByteArray &raw, bool *ok,
+                           uint8_t *byte1, uint8_t *byte2)
+{
+    if (ok) *ok = false;
+    const uint8_t *p = reinterpret_cast<const uint8_t *>(raw.constData());
+    for (int i = 0; i + 7 <= raw.size(); ++i) {
+        if (p[i] == 0xFF && p[i + 1] == 0x00 && p[i + 2] == 0x84) {
+            // 协议：data[5] = 版本字节1，data[6] = 版本字节2
+            if (byte1) *byte1 = p[i + 5];
+            if (byte2) *byte2 = p[i + 6];
+            const uint16_t v = uint16_t(p[i + 5]) * 10 + uint16_t(p[i + 6]);
+            if (ok) *ok = true;
+            return v;
+        }
+    }
+    return 0;
+}
+
+uint16_t crc16Ccitt(const uint8_t *data, int len)
+{
+    uint16_t crc = 0x0000;
+    for (int i = 0; i < len; ++i) {
+        crc ^= uint16_t(uint16_t(data[i]) << 8);
+        for (int b = 0; b < 8; ++b)
+            crc = (crc & 0x8000) ? uint16_t((crc << 1) ^ 0x1021) : uint16_t(crc << 1);
+    }
+    return crc;
+}
+
+// 通用块：HEAD | SEQ | ~SEQ | 数据(补零至 blockSize) | CRC-H | CRC-L
+static QByteArray buildBlock(uint8_t head, uint8_t seq,
+                             const uint8_t *data, int size, int blockSize)
+{
+    QByteArray f(blockSize + 5, 0);
+    f[0] = char(head);
+    f[1] = char(seq);
+    f[2] = char(uint8_t(0xFF - seq));
+    const int n = qMin(size, blockSize);
+    if (data && n > 0)
+        std::memcpy(f.data() + 3, data, n);   // 其余字节已清零（补 0x00）
+    const uint16_t crc = crc16Ccitt(
+        reinterpret_cast<const uint8_t *>(f.constData()) + 3, blockSize);
+    f[blockSize + 3] = char(uint8_t(crc >> 8));    // 高字节先发
+    f[blockSize + 4] = char(uint8_t(crc & 0xFF));
+    return f;
+}
+
+QByteArray buildFileInfoBlock(const QString &fileName, qint64 fileSize)
+{
+    // "文件名\0固件长度(ASCII)\0" + 补零到 128 字节
+    QByteArray info = fileName.toLatin1();
+    info.append('\0');
+    info.append(QByteArray::number(fileSize));
+    info.append('\0');
+    return buildBlock(SOH, 0x00,
+                      reinterpret_cast<const uint8_t *>(info.constData()),
+                      info.size(), kBlock128);
+}
+
+QByteArray buildDataBlock(uint8_t seq, const uint8_t *data, int size, int blockSize)
+{
+    const bool big = (blockSize >= kBlock1024);
+    return buildBlock(big ? STX : SOH, seq, data, size,
+                      big ? kBlock1024 : kBlock128);
+}
+
+QByteArray buildEndBlock()
+{
+    return buildBlock(SOH, 0x00, nullptr, 0, kBlock128);
+}
+
+} // namespace YModemOta

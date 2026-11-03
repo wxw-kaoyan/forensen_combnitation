@@ -29,6 +29,7 @@ private slots:
     void refreshPorts();
     void onBrowseFirmware();
     void onLinkModeChanged(int index);
+    void onProtocolChanged(int index);
     void onStart();
     void onReadVersion();
     void onCancel();
@@ -58,6 +59,9 @@ private:
     QLabel      *m_canHint     = nullptr;
 
     // 固件
+    QComboBox   *m_protocolCombo   = nullptr;   // 原极 OTA / 元鼎 YModem
+    QComboBox   *m_blockSizeCombo  = nullptr;   // YModem 块大小 128 / 1024
+    QCheckBox   *m_allowNoCrcCheck = nullptr;   // 固件名可无 #CRC（原极）
     QLineEdit   *m_fwEdit      = nullptr;
     QLabel      *m_fwInfoLabel = nullptr;
 

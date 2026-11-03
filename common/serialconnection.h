@@ -27,6 +27,10 @@ public slots:
     // 等待发送缓冲区排空，返回是否在超时内写完（切波特率前用，防止字节卡在半途）
     bool drainTx(int timeoutMs = 1000);
 
+    // 逐帧刷新：true 时收到数据立即发射；false 时按 30ms 合并后发射（默认）
+    // 30ms 合并会把 100Hz 数据压成约 33Hz，实时解析「逐帧刷新」时必须关掉
+    void setImmediateEmit(bool immediate);
+
 signals:
     void connected();
     void disconnected();
@@ -48,6 +52,7 @@ private:
     QTimer      *m_timeout     = nullptr;
     QTimer      *m_flushTimer  = nullptr;
     QByteArray   m_buffer;
+    bool         m_immediateEmit = false;   // true=收到即发，跳过 30ms 合并
 };
 
 #endif // SERIALCONNECTION_H

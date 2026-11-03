@@ -170,6 +170,7 @@ ParsedFrame FrameParser::parsePayload(ProtocolID pid,
         case ProtocolID::Quaternion:    parseQuaternion(payload, f.quat);           break;
         case ProtocolID::AG_Data:       parseAGData(payload, f.agData);             break;
         case ProtocolID::FusionResult:  parseFusionResult(payload, f.fusion);       break;
+        case ProtocolID::Nav_Append:    parseNavAppend(payload, f.navAppend);       break;
         case ProtocolID::TiltMeasure:   parseTiltMeasure(payload, f.tilt);          break;
         case ProtocolID::Laser:         parseLaser(payload, f.laser);               break;
         case ProtocolID::NanfangLaser:  parseNanfangLaser(payload, f.nanfangLaser); break;
@@ -280,6 +281,51 @@ void FrameParser::parseFusionResult(const uint8_t *p, FusionResult &out)
     out.statusFlag    = readU16LE(p + 84);
     out.reserved1     = readU32LE(p + 86);
     out.reserved2     = readU32LE(p + 90);
+}
+
+void FrameParser::parseNavAppend(const uint8_t *p, NavAppendData &out)
+{
+    out.gpsWeek        = readU16LE(p + 0);
+    out.gpsWeekMs      = readU32LE(p + 2);
+    out.lat            = readDoubleLE(p + 6);
+    out.lon            = readDoubleLE(p + 14);
+    out.height         = readFloatLE(p + 22);
+    out.vn             = readFloatLE(p + 26);
+    out.ve             = readFloatLE(p + 30);
+    out.vd             = readFloatLE(p + 34);
+    out.roll           = readFloatLE(p + 38);
+    out.pitch          = readFloatLE(p + 42);
+    out.yaw            = readFloatLE(p + 46);
+    out.latStd         = readFloatLE(p + 50);
+    out.lonStd         = readFloatLE(p + 54);
+    out.heightStd      = readFloatLE(p + 58);
+    out.vnStd          = readFloatLE(p + 62);
+    out.veStd          = readFloatLE(p + 66);
+    out.vdStd          = readFloatLE(p + 70);
+    out.rollStd        = readFloatLE(p + 74);
+    out.pitchStd       = readFloatLE(p + 78);
+    out.yawStd         = readFloatLE(p + 82);
+    out.accel[0]       = readFloatLE(p + 86);
+    out.accel[1]       = readFloatLE(p + 90);
+    out.accel[2]       = readFloatLE(p + 94);
+    out.gyro[0]        = readFloatLE(p + 98);
+    out.gyro[1]        = readFloatLE(p + 102);
+    out.gyro[2]        = readFloatLE(p + 106);
+    out.imuTemp        = readFloatLE(p + 110);
+    out.gnssPosType    = p[114];
+    out.gnssTrackAngle = readFloatLE(p + 115);
+    out.numSVsMain     = p[119];
+    out.hdop           = p[120];
+    out.diffAge        = p[121];
+    out.dualWeekMs     = readU32LE(p + 122);
+    out.dualPosType    = p[126];
+    out.numSVsSlave    = p[127];
+    out.dualHeading    = readFloatLE(p + 128);
+    out.statusBits     = readU16LE(p + 132);
+    out.naviStatus     = p[134];
+    out.reserved[0]    = p[135];
+    out.reserved[1]    = p[136];
+    out.reserved[2]    = p[137];
 }
 
 void FrameParser::parseTiltMeasure(const uint8_t *p, TiltMeasure &out)

@@ -1,5 +1,142 @@
 #include "modules/parse/parser/parserbase.h"
 #include <QTextStream>
+#include <algorithm>
+
+// ════════════════════════════════════════════════════════════════
+//  丢数统计 — 从「帧内时间戳」判断是否有帧丢失，适用于所有带时间戳的协议
+//    各协议的时间字段不同，这里统一换算成毫秒：
+//      · 周内毫秒类 → 跨周时补 604800000 ms
+//      · µs 计数器类（AHRS/四元数）→ 2^32 µs 回绕时补 4294967 ms
+//      · 秒类（CAN ASC/TRC 行首时间、CAN-RTK 天内秒）→ ×1000
+//    正常间隔取相邻间隔的中位数（自适应，不写死帧率），
+//    dt > 1.5×间隔 判为丢数，丢帧数 = round(dt/间隔) - 1
+// ════════════════════════════════════════════════════════════════
+static bool frameTimeMs(const ParsedFrame &f, qint64 &ms, bool &usTimer)
+{
+    usTimer = false;
+    switch (f.protocol) {
+    case ProtocolID::AHRS_Basic:      ms = qint64(f.ahrsBasic.timer) / 1000;   usTimer = true; return true;
+    case ProtocolID::AHRS_Extended:   ms = qint64(f.ahrsExtended.basic.timer) / 1000; usTimer = true; return true;
+    case ProtocolID::Quaternion:      ms = qint64(f.quat.timer) / 1000;        usTimer = true; return true;
+    case ProtocolID::AG_Data:         ms = f.agData.gpsTime;                   return true;
+    case ProtocolID::FusionResult:    ms = f.fusion.gpsWeekSecond;             return true;
+    case ProtocolID::Nav_Append:      ms = f.navAppend.gpsWeekMs;              return true;
+    case ProtocolID::TiltMeasure:     ms = f.tilt.timestamp;                   return true;
+    case ProtocolID::Laser:           ms = f.laser.timestamp;                  return true;
+    case ProtocolID::NanfangLaser:    ms = f.nanfangLaser.timestamp;          return true;
+    case ProtocolID::ZhdLaser:        ms = f.zhdLaser.timestamp;               return true;
+    case ProtocolID::Attitude:        ms = f.attitude.timestamp;               return true;
+    case ProtocolID::Quat614P:        ms = f.quat614p.gpsWeekMs;               return true;
+    case ProtocolID::Debug_IMU:       ms = f.debugImu.time_gps_ms;             return true;
+    case ProtocolID::Debug_GPS:       ms = f.debugGps.itow;                    return true;
+    case ProtocolID::Debug_DRTK:      ms = f.debugDrtk.itow;                   return true;
+    case ProtocolID::Debug_OD:        ms = f.debugOd.time_gps_ms;              return true;
+    case ProtocolID::Eb614_IMU:       ms = f.eb614Imu.time_gps_ms;             return true;
+    case ProtocolID::Eb614_GPS:       ms = f.eb614Gps.itow_pos;                return true;
+    case ProtocolID::Eb614_KF:        ms = f.eb614Kf.itow;                     return true;
+    case ProtocolID::Can_RTK:         ms = qint64(f.canRtk.secondsOfDay * 1000.0);  return true;
+    case ProtocolID::LsNav_Imu:       ms = f.lsNavImu.timeGpsMs;               return true;
+    case ProtocolID::LsNav_Gps:       ms = f.lsNavGps.itow;                    return true;
+    case ProtocolID::A3_Imu:          ms = f.a3Imu.gpsWeekMs;                  return true;
+    case ProtocolID::Novatel_BestPos: ms = f.novatelBestPos.gpsWeekMs;         return true;
+    case ProtocolID::Novatel_PsrVel:  ms = f.novatelPsrVel.gpsWeekMs;          return true;
+    case ProtocolID::Tx_Att:          ms = qint64(f.txAtt.ascTime * 1000.0);   return true;
+    case ProtocolID::Tx_Gyro:         ms = qint64(f.txGyro.ascTime * 1000.0);  return true;
+    case ProtocolID::Tx_Accel:        ms = qint64(f.txAccel.ascTime * 1000.0); return true;
+    case ProtocolID::Tx_Sec:          ms = qint64(f.txSec.ascTime * 1000.0);   return true;
+    case ProtocolID::Tx_Pos:          ms = qint64(f.txPos.ascTime * 1000.0);   return true;
+    case ProtocolID::Tx_Height:       ms = qint64(f.txHeight.ascTime * 1000.0); return true;
+    case ProtocolID::Tx_Vel:          ms = qint64(f.txVel.ascTime * 1000.0);   return true;
+    default: return false;
+    }
+}
+
+// 生成丢数统计块（block 进显示区，brief 进状态栏）；无可统计时间戳时输出为空
+static void gapSummary(const QList<ParsedFrame> &frames, QString &block, QString &brief)
+{
+    const int n = frames.size();
+    if (n < 2)
+        return;
+
+    QList<qint64> ts;
+    ts.reserve(n);
+    bool usTimer = false;
+    for (int i = 0; i < n; ++i) {
+        qint64 t = 0;
+        bool us = false;
+        if (!frameTimeMs(frames[i], t, us))
+            return;                 // 该协议没有可用时间戳
+        usTimer = us;
+        ts.append(t);
+    }
+
+    // 回绕修正，保证时间单调
+    int backCount = 0;
+    for (int i = 1; i < n; ++i) {
+        const qint64 dt = ts[i] - ts[i - 1];
+        if (dt < 0) {
+            if (usTimer && -dt < 4500000)
+                ts[i] += 4294967;              // µs 计数器回绕（2^32 µs）
+            else if (-dt > 300000000)
+                ts[i] += 604800000;            // GPS 周回绕
+            else
+                ++backCount;                   // 时间戳回退（非回绕）
+        }
+    }
+
+    QList<qint64> dts;
+    dts.reserve(n - 1);
+    for (int i = 1; i < n; ++i)
+        dts.append(ts[i] - ts[i - 1]);
+    std::sort(dts.begin(), dts.end());
+
+    const qint64 interval = dts[dts.size() / 2];   // 中位间隔
+    qint64 maxGap = 0, totalLost = 0;
+    int abnormal = 0;
+    for (int i = 1; i < n; ++i) {
+        const qint64 dt = ts[i] - ts[i - 1];
+        if (dt > maxGap) maxGap = dt;
+        if (interval > 0 && dt * 2 > interval * 3) {
+            ++abnormal;
+            totalLost += (dt + interval / 2) / interval - 1;
+        }
+    }
+
+    const qint64 span = ts.last() - ts.first();
+    const double hz = span > 0 ? 1000.0 * (n - 1) / double(span) : 0.0;
+
+    const QString verdict = (totalLost == 0 && abnormal == 0)
+            ? QStringLiteral("无丢数，数据完整")
+            : QStringLiteral("存在丢数");
+
+    brief = QStringLiteral("丢帧:%1 间隔%2ms 平均%3Hz %4")
+                .arg(totalLost).arg(interval)
+                .arg(hz, 0, 'f', 3).arg(verdict);
+
+    block = QStringLiteral(
+        "────────────────────────────────────────\n"
+        "丢数统计（按 %1 帧内时间戳判定）\n"
+        "  总帧数     : %2\n"
+        "  时间跨度   : %3 s\n"
+        "  平均帧率   : %4 Hz\n"
+        "  正常间隔   : %5 ms（中位数）\n"
+        "  最大间隔   : %6 ms\n"
+        "  异常间隔   : %7 处\n"
+        "  时间回退   : %8 次\n"
+        "  丢帧总数   : %9\n"
+        "  结论       : %10\n"
+        "────────────────────────────────────────\n")
+            .arg(ParserBase::protocolNameStatic(frames.first().protocol))
+            .arg(n)
+            .arg(span / 1000.0, 0, 'f', 1)
+            .arg(hz, 0, 'f', 3)
+            .arg(interval)
+            .arg(maxGap)
+            .arg(abnormal)
+            .arg(backCount)
+            .arg(totalLost)
+            .arg(verdict);
+}
 
 // ════════════════════════════════════════════════════════════════
 //  默认统一入口：走「帧解析」路径（标准帧 / CAN / DEBUG 流）
@@ -43,6 +180,15 @@ ParseResult ParserBase::parseToResult(const QByteArray &rawData,
     result.fullText = text;
     result.infoText = QStringLiteral("帧:%1 (CRC错:%2)")
                           .arg(result.frames.size()).arg(crcErr);
+
+    // 解析完成后追加丢数统计：只进显示区，导出文本 fullText 保持纯净
+    QString block, brief;
+    gapSummary(result.frames, block, brief);
+    if (!block.isEmpty())
+        result.displayText += QLatin1Char('\n') + block;
+    if (!brief.isEmpty())
+        result.infoText += QStringLiteral(" | ") + brief;
+
     return result;
 }
 

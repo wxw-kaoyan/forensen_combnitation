@@ -3,6 +3,8 @@
 #include "modules/parse/parser/single/protocolregistry.h"
 #include "modules/parse/parser/debugstream/debugframeparser.h"
 #include "modules/parse/parser/debugstream/eb614debugparser.h"
+#include "modules/parse/parser/other/epsonparser.h"
+#include "modules/parse/parser/other/ahrsaa5parser.h"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -68,6 +70,16 @@ QList<RealtimeParsePanel::FrameEntry> RealtimeParsePanel::streamingFrames()
     for (const auto &e : kEb)
         list.append({e.pid, QStringLiteral("614E-B调试数据流"), QString::fromUtf8(e.label)});
 
+    // 非 AA55 帧头的串口协议（切帧格式由 StreamFramer::FramingMode 选择）
+    const struct { ProtocolID pid; const char *label; } kSerial[] = {
+        {ProtocolID::Epson_Imu,        "爱普生IMU(80 01)"},
+        {ProtocolID::Ahrs_Aa5,         "AHRS(AA A5)"},
+        {ProtocolID::Novatel_BestPos,  "BESTPOS_诺瓦泰"},
+        {ProtocolID::Novatel_PsrVel,   "PSRVEL_诺瓦泰"},
+    };
+    for (const auto &e : kSerial)
+        list.append({e.pid, QStringLiteral("串口实时协议"), QString::fromUtf8(e.label)});
+
     return list;
 }
 
@@ -95,6 +107,14 @@ QStringList RealtimeParsePanel::fieldNames(ProtocolID pid)
         return csvFields(DebugFrameParser::csvHeaderFor(pid));
     if (isEb614Protocol(pid))
         return csvFields(Eb614DebugParser::csvHeaderFor(pid));
+    if (pid == ProtocolID::Epson_Imu) {
+        static EpsonParser parser;
+        return csvFields(parser.csvHeader());
+    }
+    if (pid == ProtocolID::Ahrs_Aa5) {
+        static AhrsAa5Parser parser;
+        return csvFields(parser.csvHeader());
+    }
     return {};
 }
 
@@ -112,6 +132,14 @@ QStringList RealtimeParsePanel::fieldValues(ProtocolID pid, const ParsedFrame &f
         return csvFields(DebugFrameParser::formatFrameFor(pid, f));
     if (isEb614Protocol(pid))
         return csvFields(Eb614DebugParser::formatFrameFor(pid, f));
+    if (pid == ProtocolID::Epson_Imu) {
+        static EpsonParser parser;
+        return csvFields(parser.formatFrame(f));
+    }
+    if (pid == ProtocolID::Ahrs_Aa5) {
+        static AhrsAa5Parser parser;
+        return csvFields(parser.formatFrame(f));
+    }
     return {};
 }
 
@@ -142,6 +170,16 @@ RealtimeParsePanel::RealtimeParsePanel(QWidget *parent)
         "勾选后严格校验 CRC32。默认关闭——离线解析默认也不校验，\n"
         "若开启后帧全被丢弃，说明数据的 CRC 算法与本地实现不一致。"));
 
+    // 逐帧刷新：默认关闭（10Hz 节流，显示稳定）；勾选后每帧到达立即刷新，
+    // 用于查看原始数据流节奏（如 100Hz 爱普生数据的时间列连续性）
+    m_frameByFrameCheck = new QCheckBox(QStringLiteral("逐帧刷新"), this);
+    m_frameByFrameCheck->setChecked(false);
+    m_frameByFrameCheck->setToolTip(QStringLiteral(
+        "默认按 10Hz 节流刷新显示。勾选后每收到一帧就立即刷新，\n"
+        "帧率越高刷新越频繁（100Hz 数据会以 100Hz 刷新界面）。"));
+    connect(m_frameByFrameCheck, &QCheckBox::toggled,
+            this, &RealtimeParsePanel::frameByFrameChanged);
+
     // 左栏较窄，分两行排：第一行协议选择，第二行操作按钮
     auto *protoRow = new QHBoxLayout;
     protoRow->setContentsMargins(0, 0, 0, 0);
@@ -156,6 +194,7 @@ RealtimeParsePanel::RealtimeParsePanel(QWidget *parent)
     btnLayout->addWidget(m_pauseButton);
     btnLayout->addWidget(m_clearButton);
     btnLayout->addWidget(m_crcCheck);
+    btnLayout->addWidget(m_frameByFrameCheck);
     btnLayout->addStretch();
 
     // 状态行：一眼看出"有没有收到帧 / 当前协议有没有命中"
@@ -269,6 +308,11 @@ bool RealtimeParsePanel::strictCrc() const
     return m_crcCheck && m_crcCheck->isChecked();
 }
 
+bool RealtimeParsePanel::frameByFrame() const
+{
+    return m_frameByFrameCheck && m_frameByFrameCheck->isChecked();
+}
+
 // ════════════════════════════════════════════════════════════════
 //  数据入口 + 节流刷新
 // ════════════════════════════════════════════════════════════════
@@ -287,6 +331,13 @@ void RealtimeParsePanel::submitFrame(const ParsedFrame &f)
     ++m_frameHit;
     m_pendingValues = fieldValues(m_pid, f);
     m_dirty = true;   // 只标记，不拼文本
+
+    // 逐帧刷新：勾选后不等 10Hz 定时器，收到即拼文本发出（原始数据流节奏）
+    // 状态行统计不走这里，仍由定时器低频刷新
+    if (m_frameByFrameCheck && m_frameByFrameCheck->isChecked() && !m_paused) {
+        emit displayTextReady(buildDisplayText());
+        m_dirty = false;
+    }
 }
 
 void RealtimeParsePanel::setFramerStats(qint64 found, qint64 crcRejected)
@@ -357,6 +408,10 @@ void RealtimeParsePanel::resetCounters()
     m_framerFound = 0;
     m_framerCrcRejected = 0;
     m_seenCount.clear();
+    // NAV_APPEND 的丢数判定用全局状态存"上一帧 GPS 时间"，
+    // 不复位的话上一轮/离线解析留下的 lastMs 会让新一轮首帧
+    // 间隔被算成几分钟，累计丢帧数瞬间虚增
+    resetNavGapStats();
     m_statusDirty = false;
     updateStatus();
 }

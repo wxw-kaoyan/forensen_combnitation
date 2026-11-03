@@ -47,6 +47,7 @@ private:
     static void parseQuaternion(const uint8_t *p, QuaternionData &out);
     static void parseAGData(const uint8_t *p, AGData &out);
     static void parseFusionResult(const uint8_t *p, FusionResult &out);
+    static void parseNavAppend(const uint8_t *p, NavAppendData &out);
     static void parseTiltMeasure(const uint8_t *p, TiltMeasure &out);
     static void parseLaser(const uint8_t *p, LaserData &out);
     static void parseNanfangLaser(const uint8_t *p, NanfangLaserData &out);

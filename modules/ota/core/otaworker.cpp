@@ -131,6 +131,13 @@ bool OtaWorker::setBaud(int baud)
 void OtaWorker::onTransportData(const QByteArray &data)
 {
     m_rawBuf.append(data);
+    // 元鼎 YModem：上行只有 ACK/NAK/'C' 单字节，不能喂 AA55 状态机
+    if (m_ymMode) {
+        if (m_rawBuf.size() > 8192)
+            m_rawBuf = m_rawBuf.right(4096);
+        m_lastRxMs = nowMs();
+        return;
+    }
     for (char c : data)
         feedRxByte(static_cast<uint8_t>(c));
     // 长时间等待期间防止原始缓冲无限增长（正常 AT / ACK 应答都是短报文）
@@ -744,8 +751,11 @@ void OtaWorker::runSerialUpgrade()
 
     const uint32_t expectCrc = OtaProtocol::extractCrcFromFileName(fileName);
     if (expectCrc == 0) {
-        fail(QStringLiteral("固件文件名缺少 #CRC<CRC32> 标识，无法做升级后校验"));
-        return;
+        if (!m_cfg.allowNoNameCrc) {
+            fail(QStringLiteral("固件文件名缺少 #CRC<CRC32> 标识，无法做升级后校验"));
+            return;
+        }
+        emit logMessage(QStringLiteral("[提示] 固件文件名未带 #CRC，本次升级将跳过 CRC32 校验"));
     }
     if (fw.size() <= 0 || fw.size() % 4 != 0) {
         fail(QStringLiteral("固件大小 %1 非法（必须为 4 的倍数）").arg(fw.size()));
@@ -829,6 +839,11 @@ void OtaWorker::runSerialUpgrade()
         }
 
         emit phaseChanged(Phase::Verifying, QStringLiteral("CRC 校验..."));
+        if (expectCrc == 0) {
+            emit logMessage(QStringLiteral("[4/5] 固件无 #CRC 标识，跳过 CRC 校验"));
+            ok = true;
+            break;
+        }
         emit logMessage(QStringLiteral("[4/5] CRC 校验"));
         const CrcCheck rc = verifyCrc(expectCrc);
         if (rc != CrcCheck::Ok) {
@@ -925,6 +940,323 @@ void OtaWorker::runReadVersionOnly()
     emit phaseChanged(Phase::Done, QStringLiteral("版本读取完成"));
     emit logMessage(QStringLiteral("===== ✓ 版本读取完成 ====="));
     emit finished(true, QStringLiteral("版本：%1").arg(ver.trimmed()));
+}
+
+// ═══════════════════════════════════════════════════
+//  元鼎 X50 子设备 YModem 升级（串口）
+// ═══════════════════════════════════════════════════
+namespace {
+constexpr int kYmCHandshakeMs = 10000;  // 等 'C' 握手
+constexpr int kYmBlock0AckMs  = 5000;   // Block0 ACK
+constexpr int kYmShortCMs     = 500;    // Block0 之后的 'C'（非必须）
+constexpr int kYmDataAckMs    = 10000;  // 数据块 ACK
+constexpr int kYmEotAckMs     = 10000;  // EOT / 结束块 ACK
+constexpr int kYmRetryMax     = 3;      // 单步重发上限
+constexpr int kYmRoundMax     = 2;      // 握手整体重试上限
+}
+
+int OtaWorker::ymWaitByte(int timeoutMs)
+{
+    m_rawBuf.clear();
+    int hit = -1;
+    waitEvent(timeoutMs, [this, &hit] {
+        for (char c : m_rawBuf) {
+            const int b = static_cast<unsigned char>(c);
+            if (b == YModemOta::ACK || b == YModemOta::NAK || b == YModemOta::CNC) {
+                hit = b;
+                return true;
+            }
+        }
+        return false;
+    });
+    return hit;
+}
+
+bool OtaWorker::ymReadVersion(QString *text, quint16 *ver)
+{
+    m_rawBuf.clear();
+    const QByteArray q = YModemOta::buildVersionQuery();
+    for (int i = 0; i < 3; ++i) {
+        tx(q);
+        if (!sleepMs(20))
+            return false;
+    }
+    // 收到数据后静默 100ms 即认为读完整
+    waitEvent(600, [this] {
+        return !m_rawBuf.isEmpty() && (nowMs() - m_lastRxMs) >= 100;
+    });
+
+    bool ok = false;
+    uint8_t b1 = 0, b2 = 0;
+    const quint16 v = YModemOta::parseVersionReply(m_rawBuf, &ok, &b1, &b2);
+    if (ver) *ver = ok ? v : quint16(0);
+    if (text) {
+        if (ok) {
+            // 直接用回复帧里的原始字节（例 0x04/0x0D → V0.4.13，数值 53）
+            *text = QStringLiteral("V0.%1.%2（数值 %3）").arg(b1).arg(b2).arg(v);
+        } else {
+            text->clear();
+        }
+    }
+    return ok;
+}
+
+bool OtaWorker::ymDetectBaud(QString *text, quint16 *ver)
+{
+    for (int i = 0; i < kBaudCandidateCount; ++i) {
+        if (m_cancel.load())
+            return false;
+        const int candidate = kBaudCandidates[i];
+        if (!setBaud(candidate))
+            return false;
+        if (!sleepMs(20))
+            return false;
+        QString t;
+        quint16 v = 0;
+        if (ymReadVersion(&t, &v)) {
+            m_appBaud = candidate;
+            m_appBaudKnown = true;
+            emit logMessage(QStringLiteral("版本查询命中波特率 %1，%2").arg(candidate).arg(t));
+            if (text) *text = t;
+            if (ver) *ver = v;
+            return true;
+        }
+    }
+    m_appBaudKnown = false;
+    return false;
+}
+
+bool OtaWorker::ymEnterOta()
+{
+    const QByteArray cmd = YModemOta::buildEnterOtaCmd();
+    for (int round = 1; round <= kYmRoundMax; ++round) {
+        if (m_cancel.load())
+            return false;
+        for (int i = 0; i < kYmRetryMax; ++i) {
+            if (m_cancel.load())
+                return false;
+            tx(cmd);
+            const int r = ymWaitByte(kYmCHandshakeMs);
+            if (r == YModemOta::CNC) {
+                emit logMessage(QStringLiteral("设备已进入 YModem 升级模式（收到 'C'）"));
+                return true;
+            }
+            emit logMessage(QStringLiteral("未收到 'C'，重发进入升级指令（%1/%2）")
+                                .arg(i + 1).arg(kYmRetryMax));
+        }
+        if (round < kYmRoundMax)
+            emit logMessage(QStringLiteral("握手反复失败，重新执行进入指令流程（第 %1 轮）")
+                                .arg(round + 1));
+    }
+    return false;
+}
+
+bool OtaWorker::ymSendAndWaitAck(const QByteArray &frame, int timeoutMs,
+                                 int retryMax, const QString &what)
+{
+    for (int i = 0; i < retryMax; ++i) {
+        if (m_cancel.load())
+            return false;
+        tx(frame);
+        const int r = ymWaitByte(timeoutMs);
+        if (r == YModemOta::ACK)
+            return true;
+        emit logMessage(QStringLiteral("%1：%2，重发（%3/%4）")
+                            .arg(what,
+                                 r == YModemOta::NAK ? QStringLiteral("收到 NAK")
+                                                     : QStringLiteral("应答超时"))
+                            .arg(i + 1).arg(retryMax));
+    }
+    return false;
+}
+
+bool OtaWorker::ymSendFileInfo(const QString &fileName, qint64 size)
+{
+    const QByteArray block = YModemOta::buildFileInfoBlock(fileName, size);
+    if (!ymSendAndWaitAck(block, kYmBlock0AckMs, kYmRetryMax,
+                          QStringLiteral("文件信息块(Block0)")))
+        return false;
+    // Block0 之后设备可能补发 'C'（500ms 短超时，非必须）
+    if (ymWaitByte(kYmShortCMs) == YModemOta::CNC)
+        emit logMessage(QStringLiteral("设备请求继续按 CRC 模式发送"));
+    return true;
+}
+
+bool OtaWorker::ymSendData(const QByteArray &fw)
+{
+    const int blockSize = (m_cfg.ymodemBlockSize >= YModemOta::kBlock1024)
+                              ? YModemOta::kBlock1024 : YModemOta::kBlock128;
+    const int total  = fw.size();
+    const int blocks = (total + blockSize - 1) / blockSize;
+
+    emit logMessage(QStringLiteral("开始发送固件：%1 字节，%2 字节/块，共 %3 块")
+                        .arg(total).arg(blockSize).arg(blocks));
+    emit phaseChanged(Phase::Programming, QStringLiteral("烧写固件..."));
+    emit progress(0);
+
+    uint8_t seq = 1;   // 块号从 1 开始，uint8 自然回绕
+    int sent = 0;
+    for (int i = 0; i < blocks; ++i) {
+        if (m_cancel.load())
+            return false;
+        const int n = qMin(blockSize, total - sent);
+        const QByteArray blk = YModemOta::buildDataBlock(
+            seq, reinterpret_cast<const uint8_t *>(fw.constData()) + sent, n, blockSize);
+        if (!ymSendAndWaitAck(blk, kYmDataAckMs, kYmRetryMax,
+                              QStringLiteral("数据块 %1").arg(int(seq))))
+            return false;
+        sent += n;
+        ++seq;
+        emit progress(qBound(0, int((quint64(sent) * 100) / total), 100));
+    }
+    emit logMessage(QStringLiteral("固件数据发送完成（%1 字节）").arg(total));
+    return true;
+}
+
+bool OtaWorker::ymSendEot()
+{
+    if (!ymSendAndWaitAck(QByteArray(1, char(YModemOta::EOT)), kYmEotAckMs,
+                          kYmRetryMax, QStringLiteral("EOT")))
+        return false;
+    emit logMessage(QStringLiteral("设备已确认 EOT"));
+    return true;
+}
+
+bool OtaWorker::ymSendEndBlock()
+{
+    const QByteArray end = YModemOta::buildEndBlock();
+    for (int i = 0; i < kYmRetryMax; ++i) {
+        if (m_cancel.load())
+            return false;
+        tx(end);
+        if (ymWaitByte(kYmEotAckMs) == YModemOta::ACK) {
+            emit logMessage(QStringLiteral("收到结束块 ACK，传输完成"));
+            return true;
+        }
+    }
+    // 协议：结束块 ACK 超时仍视为传输完成
+    emit logMessage(QStringLiteral("[提示] 结束块未收到 ACK，按协议视为传输完成"));
+    return true;
+}
+
+void OtaWorker::runYmodemUpgrade()
+{
+    m_ymMode = true;
+    m_rawBuf.clear();
+    m_autoBaud = (m_cfg.appBaud == 0);
+    m_appBaud  = m_autoBaud ? 115200 : m_cfg.appBaud;
+
+    emit logMessage(QStringLiteral("===== 开始 元鼎 YModem OTA 升级 ====="));
+
+    // ── 0. 固件预检（YModem 用 Block0 声明长度，不要求 #CRC、不要求 4 字节对齐）──
+    QFile f(m_cfg.firmwarePath);
+    if (!f.open(QIODevice::ReadOnly)) {
+        fail(QStringLiteral("无法打开固件文件：%1").arg(m_cfg.firmwarePath));
+        return;
+    }
+    const QByteArray fw = f.readAll();
+    f.close();
+    if (fw.isEmpty()) {
+        fail(QStringLiteral("固件文件为空"));
+        return;
+    }
+    const QString fileName = QFileInfo(m_cfg.firmwarePath).completeBaseName();
+    emit logMessage(QStringLiteral("固件：%1，大小 %2 字节，块大小 %3")
+                        .arg(fileName).arg(fw.size()).arg(m_cfg.ymodemBlockSize));
+
+    // ── 1. 连接 ──
+    emit phaseChanged(Phase::Connecting, QStringLiteral("连接设备..."));
+    if (!openTransport(m_appBaud) || !waitConnected(kConnectWaitMs) || !m_connected) {
+        fail(QStringLiteral("连接失败：%1").arg(
+                 m_transportError.isEmpty() ? QStringLiteral("超时") : m_transportError));
+        return;
+    }
+    emit logMessage(QStringLiteral("串口 %1 已打开（%2 bps）").arg(m_cfg.port).arg(m_appBaud));
+
+    // ── 2. 版本查询（读不到不影响升级）──
+    if (m_autoBaud) {
+        if (!ymDetectBaud())
+            emit logMessage(QStringLiteral("[警告] 版本查询无应答，按 %1 继续尝试升级").arg(m_appBaud));
+    } else {
+        QString verText;
+        quint16 v = 0;
+        if (ymReadVersion(&verText, &v)) {
+            emit versionRead(verText);
+            emit logMessage(QStringLiteral("升级前版本：%1").arg(verText));
+        } else {
+            emit logMessage(QStringLiteral("[警告] 版本查询无应答，继续执行升级"));
+        }
+    }
+
+    // ── 3. 进入 OTA（FF FF 01 → 'C'）──
+    emit phaseChanged(Phase::Resetting, QStringLiteral("进入升级模式..."));
+    if (!ymEnterOta()) {
+        fail(QStringLiteral("进入升级模式失败：未收到 'C'（请检查串口/波特率）"));
+        return;
+    }
+
+    // ── 4. 文件信息块 → 数据块 → EOT → 结束块 ──
+    emit phaseChanged(Phase::Handshaking, QStringLiteral("发送文件信息..."));
+    if (!ymSendFileInfo(fileName, fw.size())) {
+        fail(QStringLiteral("文件信息块未被确认"));
+        return;
+    }
+    if (!ymSendData(fw)) {
+        fail(QStringLiteral("数据块发送失败或未被确认"));
+        return;
+    }
+
+    emit phaseChanged(Phase::Verifying, QStringLiteral("结束传输..."));
+    if (!ymSendEot()) {
+        fail(QStringLiteral("EOT 未被确认"));
+        return;
+    }
+    ymSendEndBlock();
+
+    emit progress(100);
+    emit phaseChanged(Phase::Rebooting, QStringLiteral("设备校验并重启..."));
+    emit logMessage(QStringLiteral("固件已发送完毕，设备将自行校验并重启"));
+    if (!sleepMs(500)) {
+        fail(QStringLiteral("已取消"));
+        return;
+    }
+
+    closeTransport();
+    emit phaseChanged(Phase::Done, QStringLiteral("升级完成"));
+    emit logMessage(QStringLiteral("===== ✓ 升级完成（YModem） ====="));
+    emit finished(true, QStringLiteral("升级完成（YModem，%1 字节/块）")
+                            .arg(m_cfg.ymodemBlockSize));
+}
+
+void OtaWorker::runYmodemReadVersion()
+{
+    m_ymMode = true;
+    m_rawBuf.clear();
+    m_autoBaud = (m_cfg.appBaud == 0);
+    m_appBaud  = m_autoBaud ? 115200 : m_cfg.appBaud;
+
+    emit logMessage(QStringLiteral("===== 读取设备版本（元鼎 YModem） ====="));
+    emit phaseChanged(Phase::Connecting, QStringLiteral("连接设备..."));
+    if (!openTransport(m_appBaud) || !waitConnected(kConnectWaitMs) || !m_connected) {
+        fail(QStringLiteral("连接失败：%1").arg(
+                 m_transportError.isEmpty() ? QStringLiteral("超时") : m_transportError));
+        return;
+    }
+
+    QString text;
+    quint16 v = 0;
+    const bool ok = m_autoBaud ? ymDetectBaud(&text, &v)
+                               : ymReadVersion(&text, &v);
+    closeTransport();
+
+    if (!ok) {
+        fail(QStringLiteral("未读到版本应答（请检查连接与波特率）"));
+        return;
+    }
+    emit versionRead(text);
+    emit phaseChanged(Phase::Done, QStringLiteral("版本读取完成"));
+    emit logMessage(QStringLiteral("===== ✓ 版本：%1 =====").arg(text));
+    emit finished(true, QStringLiteral("版本：%1").arg(text));
 }
 
 // ═══════════════════════════════════════════════════
@@ -1046,9 +1378,19 @@ void OtaWorker::start()
     resetAckParser();
     m_rawBuf.clear();
     m_lastRxMs = 0;
+    // 元鼎 YModem 只走串口，且上行是单字节应答
+    m_ymMode = (m_cfg.protocol == Protocol::YuanDing
+                && m_cfg.transport == Transport::Serial);
 
     emit progress(0);
 
+    if (m_ymMode) {
+        if (m_cfg.versionOnly)
+            runYmodemReadVersion();
+        else
+            runYmodemUpgrade();
+        return;
+    }
     if (m_cfg.versionOnly) {
         runReadVersionOnly();
         return;

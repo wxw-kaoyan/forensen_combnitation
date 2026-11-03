@@ -92,12 +92,25 @@ bool SerialConnection::drainTx(int timeoutMs)
     return m_serialPort->waitForBytesWritten(timeoutMs);
 }
 
+void SerialConnection::setImmediateEmit(bool immediate)
+{
+    m_immediateEmit = immediate;
+    if (immediate && m_flushTimer)
+        m_flushTimer->stop();   // 切到即时发射时，丢掉待触发的合并定时器
+}
+
 // ---- 内部槽 ----
 
 void SerialConnection::onSerialReadyRead()
 {
     if (!m_serialPort) return;
     m_buffer.append(m_serialPort->readAll());
+
+    // 逐帧刷新模式：收到就发，不再等 30ms 合并（否则 100Hz 会被压成约 33Hz）
+    if (m_immediateEmit) {
+        flushBuffer();
+        return;
+    }
 
     // 缓冲区超过 4KB 立即发射，避免内存暴涨
     if (m_buffer.size() >= 4096)

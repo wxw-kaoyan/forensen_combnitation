@@ -46,4 +46,9 @@ const ProtocolDescriptor *findProtocol(ProtocolID pid);
 // 获取指定协议的所有字段（含 CAN-RTK 等特殊协议）
 QList<FieldDescriptor> fieldsForProtocol(ProtocolID pid);
 
+// 复位 NAV_APPEND 丢数统计的全局状态（上一帧时间/累计丢帧）。
+// 实时解析「开始解析 / 清空」时调用，否则上一轮会话的 lastMs 残留
+// 会让新一轮首帧的间隔被算成几分钟，累计丢帧数瞬间虚增。
+void resetNavGapStats();
+
 #endif // PROTOCOLREGISTRY_H

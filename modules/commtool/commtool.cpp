@@ -89,6 +89,15 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::parseToggled,
             this, &CommTool::onParseToggled);
 
+    // 逐帧刷新：勾选后串口侧必须关掉 30ms 合并，否则 100Hz 数据会被压成约 33Hz
+    connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::frameByFrameChanged,
+            this, [this](bool enabled) {
+        if (m_serialConn)
+            QMetaObject::invokeMethod(m_serialConn, &SerialConnection::setImmediateEmit,
+                                      Qt::QueuedConnection,
+                                      m_parsing && enabled);
+    });
+
     // 解析结果直接刷新到「接收消息」大框：原地显示"名称 + 数值"（10Hz 节流）
     connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::displayTextReady,
             this, [this](const QString &text) {
@@ -213,6 +222,11 @@ void CommTool::onConnectClicked()
             setConnected(false);
             destroyConnection();
         });
+
+        // 逐帧刷新勾选时，新开的串口也要用即时发射
+        QMetaObject::invokeMethod(m_serialConn, &SerialConnection::setImmediateEmit,
+                                  Qt::QueuedConnection,
+                                  m_parsing && m_ui->realtimeParsePanel->frameByFrame());
 
         QMetaObject::invokeMethod(m_serialConn, &SerialConnection::connectToPort, Qt::QueuedConnection,
             portName,
@@ -385,6 +399,13 @@ void CommTool::onParseToggled(bool enabled)
 {
     m_parsing = enabled;
     m_framer.reset(); // 切换模式时清空半包缓冲，避免残留
+
+    // 解析 + 逐帧刷新时才关串口 30ms 合并；其余保持合并以保证文本显示流畅
+    if (m_serialConn) {
+        QMetaObject::invokeMethod(m_serialConn, &SerialConnection::setImmediateEmit,
+                                  Qt::QueuedConnection,
+                                  enabled && m_ui->realtimeParsePanel->frameByFrame());
+    }
 }
 
 void CommTool::appendRecvData(const QByteArray &data)
@@ -404,6 +425,9 @@ void CommTool::appendRecvData(const QByteArray &data)
     // 实时解析：帧交给监视面板（面板按 10Hz 节流刷新），接收区让位、不再刷原始数据
     if (m_parsing && m_ui->realtimeParsePanel) {
         const bool skipCrc = !m_ui->realtimeParsePanel->strictCrc();
+        // 切帧格式跟随当前选中协议：AA55 标准帧 / 爱普生 / AHRS / 诺瓦泰
+        m_framer.setFramingMode(
+            StreamFramer::modeForProtocol(m_ui->realtimeParsePanel->currentProtocol()));
         const QList<ParsedFrame> frames = m_framer.feed(data, skipCrc);
         for (const ParsedFrame &f : frames)
             m_ui->realtimeParsePanel->submitFrame(f);
@@ -417,7 +441,13 @@ void CommTool::appendRecvData(const QByteArray &data)
     // 一个 block 里 —— 行数裁剪失效、QPlainTextEdit 排版开销随文档无限增长直至卡死
     QString text;
     if (m_hexDisplay) {
-        text = QString::fromLatin1(data.toHex(' ').toUpper()) + QStringLiteral("\n");
+        // 一帧数据常有上百字节，整段一行会远超窗口宽度、无法阅读：
+        // 按每行 100 字节折行（文本模式的数据本身带 0D/0A，天然分行，无需处理）
+        for (int i = 0; i < data.size(); i += kHexBytesPerLine) {
+            text += QString::fromLatin1(
+                        data.mid(i, kHexBytesPerLine).toHex(' ').toUpper())
+                    + QLatin1Char('\n');
+        }
     } else {
         text = QString::fromLatin1(data) + QStringLiteral("\n");
     }

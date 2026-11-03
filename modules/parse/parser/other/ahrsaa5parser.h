@@ -2,6 +2,7 @@
 #define AHRSA5PARSER_H
 
 #include "modules/parse/parser/parserbase.h"
+#include <QDebug>
 #include <QHash>
 #include <cstring>
 
@@ -73,12 +74,14 @@ inline ParsedFrame makeFrame(const QByteArray &raw, int pos)
     v.roll      = i16(d + 3)  / 100.0f;
     v.pitch     = i16(d + 5)  / 100.0f;
     v.yaw       = i16(d + 7)  / 100.0f;
-    v.rate[0]   = -i16(d + 11) / 100.0f;   // gx = -（第2个角速度字）
-    v.rate[1]   =  i16(d + 9)  / 100.0f;   // gy = 第1个角速度字
-    v.rate[2]   =  i16(d + 13) / 100.0f;   // gz = 第3个角速度字
-    v.accel[0]  = -i16(d + 17) / 1000.0f;  // ax = -（第2个加表字）
-    v.accel[1]  =  i16(d + 15) / 1000.0f;  // ay = 第1个加表字
-    v.accel[2]  =  i16(d + 19) / 1000.0f;  // az = 第3个加表字
+    /*qDebug("[AHRS AA5] idx=%3u  roll=%7.2f  pitch=%7.2f  yaw=%7.2f",
+           v.index, v.roll, v.pitch, v.yaw);*/
+    v.rate[0]   = -i16(d + 9) / 100.0f;   // gx 
+    v.rate[1]   =  i16(d + 11)  / 100.0f;   // gy 
+    v.rate[2]   =  i16(d + 13) / 100.0f;   // gz 
+    v.accel[0]  = -i16(d + 15) / 1000.0f;  // ax 
+    v.accel[1]  =  i16(d + 17) / 1000.0f;  // ay 
+    v.accel[2]  =  i16(d + 19) / 1000.0f;  // az 
 
     v.checksumA     = static_cast<uint16_t>(d[21] | (d[22] << 8));
     v.checksumACalc = calcChecksumA(d);

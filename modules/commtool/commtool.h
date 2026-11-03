@@ -90,6 +90,7 @@ private:
     QString m_savePath;
     qint64 m_recvBytes = 0;   // 累计接收字节数（只累加，不随接收区裁剪回退）
     static constexpr int kMaxRecvLines = 200;
+    static constexpr int kHexBytesPerLine = 100;   // HEX 显示每行字节数（超过即折行）
 };
 
 #endif // COMMTOOL_H

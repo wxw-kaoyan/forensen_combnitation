@@ -22,7 +22,7 @@ class QTimer;
 //  由那个大框原地刷新（名称 + 值），看得清楚。
 //
 //  · 一次只解析一种协议（下拉框切换）
-//  · 刷新按 10Hz 节流，与数据到达率解耦
+//  · 刷新默认 10Hz 节流；勾选「逐帧刷新」后每帧到达立即刷新（原始数据流）
 //  · 可暂停冻结读数
 // ════════════════════════════════════════════════════════════════
 class RealtimeParsePanel : public QWidget
@@ -35,6 +35,9 @@ public:
 
     // 是否启用严格 CRC 校验（默认关闭，与离线解析的默认行为一致）
     bool strictCrc() const;
+
+    // 是否逐帧刷新（勾选时每帧到达立即刷新接收区，并需串口侧关闭 30ms 合并）
+    bool frameByFrame() const;
 
     // 当前选中的协议
     ProtocolID currentProtocol() const;
@@ -51,6 +54,9 @@ public:
 
 signals:
     void parseToggled(bool enabled);
+
+    // 逐帧刷新勾选变化（CommTool 据此让串口侧关闭/恢复 30ms 合并）
+    void frameByFrameChanged(bool enabled);
 
     // 待显示的字段文本（空串 = 清空显示区）
     void displayTextReady(const QString &text);
@@ -76,6 +82,7 @@ private:
     QPushButton *m_pauseButton = nullptr;
     QPushButton *m_clearButton = nullptr;
     QCheckBox   *m_crcCheck = nullptr;
+    QCheckBox   *m_frameByFrameCheck = nullptr;   // 逐帧刷新（原始数据流）
     QLabel      *m_statusLabel = nullptr;
     QTimer      *m_refreshTimer = nullptr;
 

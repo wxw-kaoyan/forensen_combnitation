@@ -11,6 +11,7 @@ enum class ProtocolID : uint16_t {
     Quaternion       = 0x0023,  // 四元数模式     (payload 53B)
     AG_Data          = 0x0156,  // AG 数据        (payload 50B)
     FusionResult     = 0x0166,  // 组合导航坐标系融合结果 (payload 94B)
+    Nav_Append       = 0x0167,  // 组合导航附加数据 NAV_APPEND (每帧 148B, 数据区 6~143, 校验 144~147)
     TiltMeasure      = 0x8166,  // 倾斜测量      (payload 105B, 内部区分值, 线协议同0x0166)
     Laser            = 0x0146,  // 激光协议      (payload 76B)
     NanfangLaser     = 0x0140,  // 南方激光      (payload 73B, 累加和校验)
@@ -124,6 +125,7 @@ inline ProtocolID resolveProtocolID(uint16_t id, uint16_t len) {
         case 0x0022: return ProtocolID::AHRS_Extended;
         case 0x0023: return ProtocolID::Quaternion;
         case 0x0156: return ProtocolID::AG_Data;
+        case 0x0167: return ProtocolID::Nav_Append;
         case 0x0146: return ProtocolID::Laser;
         case 0x0140: return ProtocolID::NanfangLaser;
         case 0x0446: return ProtocolID::ZhdLaser;
@@ -149,6 +151,7 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::Quaternion:    return "四元数模式";
         case ProtocolID::AG_Data:       return "AG数据";
         case ProtocolID::FusionResult:  return "组合导航(融合)";
+        case ProtocolID::Nav_Append:    return "组合导航附加(NAV_APPEND)";
         case ProtocolID::TiltMeasure:   return "倾斜测量";
         case ProtocolID::Laser:         return "激光";
         case ProtocolID::NanfangLaser:  return "南方激光";
@@ -299,6 +302,65 @@ struct FusionResult {
     uint16_t statusFlag;     // bit0=RTK有效 bit1=PPS有效 bit2=初始化 bit3=前轮转角 ...
     uint32_t reserved1;
     uint32_t reserved2;
+};
+
+// ════════════════════════════════════════════════════════════════
+//  NAV_APPEND — 组合导航附加数据 (ID=0x0167)
+//  实测帧结构：每帧 148B，10 Hz
+//    [0]0xAA [1]0x55 [2..3]ID=0x0167 [4..5]帧长=0x008A(138)
+//    数据区 6~143（138B）  [144..147] 校验（低字节在前）
+//  数据区偏移（0 基，已用 NAV680D.dat 实测校准）：
+//     6   GPS周计数(u16)      8   GPS周内秒(u32,ms)
+//    12   纬度(double,deg)    20  经度(double,deg)
+//    28   椭球高(f32,m)
+//    32   北向速度 / 36 东向速度 / 40 地向速度 (m/s)
+//    44   横滚角 / 48 俯仰角 / 52 航向角 (deg)
+//    56   纬度标准差 / 60 经度标准差 / 64 椭球高标准差 (m)
+//    68   北向速度标准差 / 72 东向速度标准差 / 76 地向速度标准差 (m/s)
+//    80   横滚角标准差 / 84 俯仰角标准差 / 88 航向角标准差 (deg)
+//    92   加速度计 X/Y/Z (g)  104 陀螺仪 X/Y/Z (deg/s)  116 IMU温度(C)
+//   120   GNSS定位状态(u8)    121 GNSS航迹角(f32)        125 主天线卫星数(u8)
+//   126   GNSS HDOP(u8)       127 差分龄期(u8)           128 双天线定向周内毫秒(u32)
+//   132   双天线定位状态(u8)  133 副天线卫星数(u8)       134 双天线航向(f32)
+//   138   状态位(u16)         140 导航状态(u8)           141 预留(3B)
+//   144   帧级校验(u32，位于 payload 之外) = CRC32(初值1, 多项式0xEDB88320, 无最终异或, 覆盖 0~143)
+// ════════════════════════════════════════════════════════════════
+struct NavAppendData {
+    uint16_t gpsWeek;          // GPS 周计数
+    uint32_t gpsWeekMs;        // GPS 周内秒 (ms)
+    double   lat;              // 纬度 (deg)
+    double   lon;              // 经度 (deg)
+    float    height;           // 椭球高 (m)
+    float    vn;               // 北向速度 (m/s)
+    float    ve;               // 东向速度 (m/s)
+    float    vd;               // 地向速度 (m/s)
+    float    roll;             // 横滚角 (deg)
+    float    pitch;            // 俯仰角 (deg)
+    float    yaw;              // 航向角 (deg)
+    float    latStd;           // 纬度标准差 (m)
+    float    lonStd;           // 经度标准差 (m)
+    float    heightStd;        // 椭球高标准差 (m)
+    float    vnStd;            // 北向速度标准差 (m/s)
+    float    veStd;            // 东向速度标准差 (m/s)
+    float    vdStd;            // 地向速度标准差 (m/s)
+    float    rollStd;          // 横滚角标准差 (deg)
+    float    pitchStd;         // 俯仰角标准差 (deg)
+    float    yawStd;           // 航向角标准差 (deg)
+    float    accel[3];         // 加速度计 X/Y/Z (g)
+    float    gyro[3];          // 陀螺仪 X/Y/Z (deg/s)
+    float    imuTemp;          // IMU 温度 (C)
+    uint8_t  gnssPosType;      // GNSS 定位状态 0=未定位 16=单点 17=伪距差分 34=浮点 50=固定
+    float    gnssTrackAngle;   // GNSS 航迹角 (deg)
+    uint8_t  numSVsMain;       // 主天线卫星数
+    uint8_t  hdop;             // GNSS HDOP
+    uint8_t  diffAge;          // GNSS 差分龄期
+    uint32_t dualWeekMs;       // 双天线 GNSS 定向周内毫秒
+    uint8_t  dualPosType;      // 双天线 GNSS 定位状态
+    uint8_t  numSVsSlave;      // 副天线卫星数
+    float    dualHeading;      // 双天线航向 (deg)
+    uint16_t statusBits;       // bit0=RTK数据有效 bit1=PPS有效 bit2=组合导航已初始化
+    uint8_t  naviStatus;       // 导航状态 0=未初始化 1=收敛中 2=精度优 3=INS推算 4=精度差
+    uint8_t  reserved[3];      // 预留
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -794,6 +856,7 @@ struct EpsonImuData {
     float    quat[4];        // 四元数 W/X/Y/Z (原始/30000) — 数据区[24..31]
     uint16_t checksum;       // 接收校验和（低字节在前）
     uint16_t checksumCalc;   // 计算的 32B 累加和
+    double   timeSec;        // 相对时间(s)：counter 解 16 位回绕后 × 16µs(625 tick = 10ms = 100Hz)
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -985,6 +1048,7 @@ struct ParsedFrame {
         QuaternionData quat;
         AGData         agData;
         FusionResult   fusion;
+        NavAppendData  navAppend;
         TiltMeasure    tilt;
         LaserData      laser;
         NanfangLaserData nanfangLaser;

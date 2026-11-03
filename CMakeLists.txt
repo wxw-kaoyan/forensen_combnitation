@@ -1,11 +1,22 @@
 cmake_minimum_required(VERSION 3.19)
-project(TASoftware LANGUAGES CXX)
+project(TASoftware LANGUAGES C CXX)
 
-# Linux/ARM 下用 C 编译器构建 RTKLIB 的 .c：
-# C 惯用法（如 strrchr 返回 const char* 赋给 char*）在 C++ 下会直接报错，
-# 而 Windows 侧因 MinGW 的 CRT 把 strrchr 声明为返回非 const 才能通过，故沿用原方式。
-if (NOT WIN32)
-    enable_language(C)
+# ── 全局加速配置 ──────────────────────────────────────────────
+# 并行度：cmake --build 默认吃 CMAKE_BUILD_PARALLEL_LEVEL，
+# Qt Creator 直接构建（点锤子）也会读到
+include(ProcessorCount)
+ProcessorCount(NCPU)
+if(NCPU GREATER 2)
+    math(EXPR _parallel_jobs "${NCPU} - 1")
+    set(CMAKE_BUILD_PARALLEL_LEVEL ${_parallel_jobs})
+endif()
+message(STATUS "Build parallel jobs: ${CMAKE_BUILD_PARALLEL_LEVEL}")
+
+# Release 下 O3 + LTO（链接时优化，体积更小、运行略快）
+if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-O3>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-flto>)
+    add_link_options(-flto)
 endif()
 
 # Windows 下 Qt 装在自定义路径；Linux/ARM 下由系统包提供，交给 find_package 自行定位
@@ -168,20 +179,15 @@ qt_add_executable(TASoftware
 # 对外可执行文件名：Witt.exe（内部 target 名仍为 TASoftware，减少工程/构建配置改动）
 set_target_properties(TASoftware PROPERTIES OUTPUT_NAME "Witt")
 
-# Windows 下无可用 C 编译器，RTKLIB .c 以 C++ 方式编译并抑制旧式 C 代码告警；
-# Linux/ARM 下按 C 编译（见文件开头的 enable_language(C)），无需特殊处理。
-if (WIN32)
-    set_source_files_properties(
-        common/rtklib/rtkcmn.c
-        common/rtklib/rtcm.c
-        common/rtklib/rtcm3.c
-        common/rtklib/rtcm_stubs.c
-        common/rtklib/rinex.c
-        PROPERTIES
-            LANGUAGE CXX
-            COMPILE_FLAGS "-Wno-write-strings"
-    )
-endif()
+# RTKLIB .c 走 gcc（LANGUAGES C 已全局开启，CMake 自动按扩展名分派）；
+# 旧代码曾在 Windows 下强制 LANGUAGE CXX + -Wno-write-strings，g++ 编译更慢且无必要，已移除。
+
+# 仅 Release 开 Unity Build：合并翻译单元减少模板实例化重复编译；
+# Debug 模式关闭，避免单文件修改导致整个 batch 重编、拖慢增量开发
+set_target_properties(TASoftware PROPERTIES
+    UNITY_BUILD "$<$<CONFIG:Release>:ON>"
+    UNITY_BUILD_BATCH_SIZE 16
+)
 
 target_include_directories(TASoftware
     PRIVATE

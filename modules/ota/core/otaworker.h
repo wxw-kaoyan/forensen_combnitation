@@ -32,6 +32,8 @@ class OtaWorker : public QObject
     Q_OBJECT
 public:
     enum class Transport { Serial, Can };
+    // 升级协议：原极（55 AA 帧）/ 元鼎（X50 子设备 YModem）
+    enum class Protocol { YuanJi, YuanDing };
     enum class Phase {
         Idle, Connecting, Resetting, Handshaking, Erasing,
         Programming, Verifying, Rebooting, Done, Failed
@@ -40,11 +42,19 @@ public:
 
     struct Config {
         Transport transport = Transport::Serial;
+        Protocol  protocol  = Protocol::YuanJi;
 
         // ── 串口 ──
         QString port;
         int     appBaud  = 0;      // APP 当前波特率；0 = 自动探测（依次试候选波特率）
         bool    autoReset = true;  // true=发进BL指令自动进 BL；false=设备已手动进 BL
+
+        // ── 固件 ──
+        QString firmwarePath;
+        // 原极协议：固件名可不带 #CRC（true=允许，此时跳过 CRC32 校验）
+        bool    allowNoNameCrc = true;
+        // 元鼎 YModem：数据块大小 128（SOH）/ 1024（STX）
+        int     ymodemBlockSize = YModemOta::kBlock1024;
 
         // ── CAN（预留，协议确定后启用）──
         int      canChannel  = 0;     // PcanConnection::availableChannels() 的 handle
@@ -52,9 +62,6 @@ public:
         uint32_t canTxId     = 0;     // 下发报文 ID（待协议文档）
         uint32_t canRxId     = 0;     // 上收报文 ID（待协议文档）
         bool     canExtended = false; // 是否扩展帧
-
-        // ── 固件 ──
-        QString firmwarePath;
 
         // 只读取版本，不擦写（UI「读取版本」按钮用；仅串口链路）
         bool    versionOnly = false;
@@ -126,6 +133,20 @@ private:
     void runReadVersionOnly();
     void runCanUpgrade();
 
+    // ── 元鼎 YModem 升级流程（串口）──
+    void runYmodemUpgrade();
+    void runYmodemReadVersion();
+    bool ymDetectBaud(QString *text = nullptr, quint16 *ver = nullptr);  // 用版本查询帧找通信波特率
+    bool ymReadVersion(QString *text, quint16 *ver);
+    bool ymEnterOta();                           // 发 FF FF 01，等 'C'
+    bool ymSendFileInfo(const QString &fileName, qint64 size);
+    bool ymSendData(const QByteArray &fw);       // 逐块发送（128/1024）
+    bool ymSendEot();
+    bool ymSendEndBlock();
+    int  ymWaitByte(int timeoutMs);              // 返回 ACK/NAK/'C'，超时 -1
+    bool ymSendAndWaitAck(const QByteArray &frame, int timeoutMs, int retryMax,
+                          const QString &what);
+
     // ── CAN 升级流程（预留骨架：待 CAN 升级协议文档确定后填写）──
     bool canEnterBoot();
     bool canSyncBoot();
@@ -142,6 +163,9 @@ private:
     std::atomic<bool> m_cancel{false};
     bool     m_connected = false;
     QString  m_transportError;
+
+    // 元鼎 YModem 模式：上行是单字节 ACK/NAK/'C'，不喂 AA55 状态机
+    bool     m_ymMode = false;
 
     // 波特率探测状态
     int      m_appBaud = OtaProtocol::kBootBaud;  // 探测到的 / 用户指定的 APP 波特率
