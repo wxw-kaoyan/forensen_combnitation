@@ -12,11 +12,10 @@ if(NCPU GREATER 2)
 endif()
 message(STATUS "Build parallel jobs: ${CMAKE_BUILD_PARALLEL_LEVEL}")
 
-# Release 下 O3 + LTO（链接时优化，体积更小、运行略快）
+# Release 下 O3（不开 LTO：MinGW 的 lto-wrapper 是串行链接，反而拖慢构建）
 if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-O3>)
-    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-flto>)
-    add_link_options(-flto)
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:-O3>)
 endif()
 
 # Windows 下 Qt 装在自定义路径；Linux/ARM 下由系统包提供，交给 find_package 自行定位

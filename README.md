@@ -19,7 +19,7 @@
 | **对比分析** | 多源数据时间对齐与比对，图表化展示 | `modules/analysis/compare` |
 | **常用工具** | 外部工具（Converter、rtkplot 等）的进程管理 | `common/toolprocess*` |
 | **PPS数据模拟** | 生成 PPS 脉冲与多种协议数据流，用于设备联试与上位机自测 | `modules/simulator` |
-| **OTA升级** | 串口 / TCP 通道的 Bootloader 固件升级，含握手、擦除、烧写、CRC 校验、重启 | `modules/ota` |
+| **OTA升级** | 固件升级：原极（`55 AA` 帧，串口）与元鼎 YModem（`FF FF` 命令帧，串口），含握手、擦除、分块烧写、CRC 校验、重启；CAN 链路预留 | `modules/ota` |
 
 ---
 
@@ -103,10 +103,11 @@ forensen_combnitation/
 ```powershell
 cd c:\Users\wxw\Desktop\QT\TASoftware\forensen_combnitation
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # 首次需要
-.\package.ps1
+.\package.ps1            # 增量构建（默认，改几个文件几秒完成）
+.\package.ps1 -Clean     # 全量重建（改了 CMakeLists.txt / 换依赖时用）
 ```
 
-脚本依次执行：清理并配置 CMake(Release) → 编译 → 复制产物到 `package/` → `windeployqt` 部署 Qt 运行时 → 补齐 MinGW 运行时 DLL → 复制 `config.json`、`at_commands.json`、`sim_protocols.json`、`scripts/`。
+脚本依次执行：配置 CMake(Release)（已有 Makefile 时跳过）→ 并行编译 `-j (核心数-1)` → 复制产物到 `package/` → `windeployqt` 部署 Qt 运行时 → 补齐 MinGW 运行时 DLL → 复制 `config.json`、`at_commands.json`、`sim_protocols.json`、`scripts/`。
 
 输出：`package/Witt.exe`
 
@@ -116,14 +117,16 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # 首次需要
 cmake -S . -B build/release -G "MinGW Makefiles" ^
       -DCMAKE_BUILD_TYPE=Release ^
       -DCMAKE_PREFIX_PATH="B:/qt/6.8.3/mingw_64"
-cmake --build build/release --config Release
+cmake --build build/release --config Release -- -j 15
 ```
 
 ### 5.3 说明
 
 - 工程 target 名仍为 `TASoftware`，通过 `set_target_properties(... OUTPUT_NAME "Witt")` 将产物改名为 `Witt.exe`；
 - `scripts/`、`at_commands.json`、`sim_protocols.json` 由 CMake `POST_BUILD` 自动复制到可执行文件目录；
-- RTKLIB 的 `.c` 文件以 C++ 方式编译（`LANGUAGE CXX`）。
+- 并行度由 CMakeLists 里的 `CMAKE_BUILD_PARALLEL_LEVEL`（逻辑核心数−1）统一控制，Qt Creator 直接构建也生效；
+- RTKLIB 的 `.c` 文件按 **C** 编译（`project(... LANGUAGES C CXX)`），比强制 C++ 快 30–50%；
+- Release 开启 `-O3`，不启用 LTO（MinGW 的 `lto-wrapper` 串行链接，会拖慢构建）。
 
 ---
 
@@ -144,7 +147,7 @@ cmake --build build/release --config Release
 - **协议注册表驱动**：解析模块通过 `ProtocolDescriptor` 注册表 + 工厂（`ParserFactory::createAll()`）统一创建解析器，新增标准帧协议只需在注册表加一条描述符，UI 下拉框自动出现新项。
 - **统一帧解析内核**：`FrameParser` 负责 AA55 帧的同步、长度校验、CRC32 与 payload 分发；各协议只关心自己的字段偏移。
 - **异步不阻塞 UI**：文件加载与解析在后台线程执行（`QtConcurrent` / `QFutureWatcher`），OTA 升级在独立 `QThread` 中运行，均可随时取消。
-- **统一连接抽象**：串口与 TCP 均封装为 `SerialConnection` / `TcpConnection`，NTRIP 转发与 OTA 升级复用同一套帧协议，链路切换对上层透明。
+- **统一连接抽象**：串口与 TCP 均封装为 `SerialConnection` / `TcpConnection`，NTRIP 转发与串口助手复用同一套连接对象；OTA 升级使用独立的 `SerialConnection` 实例与独立协议栈（`55 AA` 原极帧 / `FF FF` 元鼎 YModem），不与解析模块的 AA55 帧混用。
 - **资源内嵌**：应用图标经 `res/icons.qrc`（运行时）与 `res/app_icon.rc`（可执行文件）双路径集成，窗口、任务栏、启动菜单图标统一。
 
 ---
@@ -156,4 +159,7 @@ cmake --build build/release --config Release
 | 数据解析 | `modules/parse/架构说明.md` |
 | 数据分析 | `modules/analysis/架构说明.md` |
 | 数据模拟 | `modules/simulator/README.md` |
-| OTA 升级 | `modules/ota/OTA升级模块设计.md` |
+| OTA 升级 | `modules/ota/架构说明.md` |
+| 串口助手 / 实时解析 | `modules/commtool/架构说明.md` |
+| NTRIP 转发 | `modules/ntrip/架构说明.md` |
+| 公共基础层 | `common/架构说明.md` |

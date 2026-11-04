@@ -98,6 +98,7 @@ private:
     bool setBaud(int baud);
 
     // ── 通用工具 ──
+    void resetSession(int defaultBaud);   // 每次任务开始前统一复位会话状态
     void fail(const QString &reason);
     bool waitEvent(int timeoutMs, const std::function<bool()> &cond);
     bool sleepMs(int ms);

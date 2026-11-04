@@ -342,6 +342,19 @@ bool OtaWorker::sendText(const char *text)
     return true;
 }
 
+void OtaWorker::resetSession(int defaultBaud)
+{
+    m_autoBaud     = (m_cfg.appBaud == 0);
+    m_appBaud      = m_autoBaud ? defaultBaud : m_cfg.appBaud;
+    m_blBaud       = OtaProtocol::kBootBaud;
+    m_appBaudKnown = !m_autoBaud;
+    m_baudDetected = false;
+    m_inBl         = false;
+    m_setNoOk      = false;
+    m_versionBuf.clear();
+    m_rawBuf.clear();
+}
+
 void OtaWorker::fail(const QString &reason)
 {
     emit phaseChanged(Phase::Failed, reason);
@@ -728,13 +741,7 @@ void OtaWorker::rebootDevice()
 
 void OtaWorker::runSerialUpgrade()
 {
-    m_autoBaud     = (m_cfg.appBaud == 0);
-    m_appBaud      = m_autoBaud ? kBaudCandidates[0] : m_cfg.appBaud;
-    m_appBaudKnown = !m_autoBaud;
-    m_baudDetected = false;
-    m_inBl         = false;
-    m_setNoOk      = false;
-    m_rawBuf.clear();
+    resetSession(kBaudCandidates[0]);
 
     // ── 0. 固件预检（纯本地，先于进入 BL：固件不合法时不把设备留在 Bootloader）──
     QFile fwFile(m_cfg.firmwarePath);
@@ -785,7 +792,7 @@ void OtaWorker::runSerialUpgrade()
                         .arg(m_cfg.port).arg(m_autoBaud ? kBaudCandidates[0] : m_cfg.appBaud));
 
     // ── 2. 读升级前版本（自动模式下同时完成 APP 波特率探测）──
-    emit logMessage(QStringLiteral("[1/5] 进入 bootloader 并完成同步"));
+    emit logMessage(QStringLiteral("[1/5] 读取升级前版本并定位通信波特率"));
     emit logMessage(QStringLiteral("读取升级前 IMU 版本"));
     readVersionInternal(600, nullptr);
     if (m_autoBaud && !m_baudDetected) {
@@ -908,13 +915,7 @@ void OtaWorker::runSerialUpgrade()
 // 只读版本（不擦写）：UI「读取版本」按钮走这里
 void OtaWorker::runReadVersionOnly()
 {
-    m_autoBaud     = (m_cfg.appBaud == 0);
-    m_appBaud      = m_autoBaud ? kBaudCandidates[0] : m_cfg.appBaud;
-    m_appBaudKnown = !m_autoBaud;
-    m_baudDetected = false;
-    m_inBl         = false;
-    m_setNoOk      = false;
-    m_rawBuf.clear();
+    resetSession(kBaudCandidates[0]);
 
     emit logMessage(QStringLiteral("===== 读取设备版本 ====="));
     emit phaseChanged(Phase::Connecting, QStringLiteral("连接设备..."));
@@ -1142,9 +1143,7 @@ bool OtaWorker::ymSendEndBlock()
 void OtaWorker::runYmodemUpgrade()
 {
     m_ymMode = true;
-    m_rawBuf.clear();
-    m_autoBaud = (m_cfg.appBaud == 0);
-    m_appBaud  = m_autoBaud ? 115200 : m_cfg.appBaud;
+    resetSession(115200);   // YModem 默认按 115200 起测，自动模式下再逐档探测
 
     emit logMessage(QStringLiteral("===== 开始 元鼎 YModem OTA 升级 ====="));
 
@@ -1231,9 +1230,7 @@ void OtaWorker::runYmodemUpgrade()
 void OtaWorker::runYmodemReadVersion()
 {
     m_ymMode = true;
-    m_rawBuf.clear();
-    m_autoBaud = (m_cfg.appBaud == 0);
-    m_appBaud  = m_autoBaud ? 115200 : m_cfg.appBaud;
+    resetSession(115200);
 
     emit logMessage(QStringLiteral("===== 读取设备版本（元鼎 YModem） ====="));
     emit phaseChanged(Phase::Connecting, QStringLiteral("连接设备..."));
