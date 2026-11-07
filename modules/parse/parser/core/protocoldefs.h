@@ -869,16 +869,17 @@ struct EpsonImuData {
 //  ChecksumB(u8)     = Index + Pitch + Roll + RateX + RateY + AccX + AccY + AccZ 各字节和
 // ════════════════════════════════════════════════════════════════
 struct AhrsAa5Data {
-    uint8_t  index;          // 帧序号，每帧 +1（u8 回绕）
-    float    roll;           // 横滚 (°，±180)
-    float    pitch;          // 俯仰 (°，±90)
-    float    yaw;            // 航向 (°，±180)
-    float    rate[3];        // 角速度 X/Y/Z (deg/s)
-    float    accel[3];       // 加速度 X/Y/Z (g)
-    uint16_t checksumA;      // 接收校验 A
-    uint16_t checksumACalc;  // 计算校验 A
-    uint8_t  checksumB;      // 接收校验 B
-    uint8_t  checksumBCalc;  // 计算校验 B
+    uint8_t   index;          // 帧序号，每帧 +1（u8 回绕）
+    uint32_t  globalIndex;    // 累计全局序号，从 1 开始不回绕
+    float     roll;           // 横滚 (°，±180)
+    float     pitch;          // 俯仰 (°，±90)
+    float     yaw;            // 航向 (°，±180)
+    float     rate[3];        // 角速度 X/Y/Z (deg/s)
+    float     accel[3];       // 加速度 X/Y/Z (g)
+    uint16_t  checksumA;      // 接收校验 A
+    uint16_t  checksumACalc;  // 计算校验 A
+    uint8_t   checksumB;      // 接收校验 B
+    uint8_t   checksumBCalc;  // 计算校验 B
 };
 
 // ════════════════════════════════════════════════════════════════

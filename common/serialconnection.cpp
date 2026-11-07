@@ -7,8 +7,10 @@ SerialConnection::SerialConnection(QObject *parent)
     : QObject(parent)
 {
     m_flushTimer = new QTimer(this);
-    m_flushTimer->setSingleShot(true);
-    m_flushTimer->setInterval(30);
+    m_flushTimer->setSingleShot(false);  // 周期模式：每 10ms 触发一次 flush
+    m_flushTimer->setInterval(10);       // 目标 100Hz，Windows 默认时钟精度 ≈15.6ms，实际 ≈64Hz
+    m_flushTimer->start();               // 连接期间始终运行，不再在 readyRead 里 reset
+
     connect(m_flushTimer, &QTimer::timeout, this, &SerialConnection::onFlushBuffer);
 }
 
@@ -106,17 +108,16 @@ void SerialConnection::onSerialReadyRead()
     if (!m_serialPort) return;
     m_buffer.append(m_serialPort->readAll());
 
-    // 逐帧刷新模式：收到就发，不再等 30ms 合并（否则 100Hz 会被压成约 33Hz）
+    // 逐帧刷新模式：收到就发（周期定时器仍在后台运行，不冲突）
     if (m_immediateEmit) {
         flushBuffer();
         return;
     }
 
-    // 缓冲区超过 4KB 立即发射，避免内存暴涨
+    // 缓冲区超过 4KB 立即 flush，作为周期定时器的兜底
+    // （极端高速率场景下，不等下一次周期触发）
     if (m_buffer.size() >= 4096)
         flushBuffer();
-    else
-        m_flushTimer->start();  // 30ms 无新数据后自动发射
 }
 
 void SerialConnection::onFlushBuffer()
@@ -129,6 +130,7 @@ void SerialConnection::flushBuffer()
     if (m_buffer.isEmpty()) return;
     emit dataReceived(m_buffer);
     m_buffer.clear();
+    m_buffer.squeeze();   // 释放 capacity，避免长期运行 capacity 膨胀
 }
 
 void SerialConnection::onSerialError()

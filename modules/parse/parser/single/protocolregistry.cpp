@@ -128,6 +128,28 @@ const char *naviStatusText(uint8_t s)
     }
 }
 
+// 状态位 (u16) 可读化：0x0014[RTK有效｜已初始化]
+//   用全角「｜」分隔，避免逗号破坏 CSV 列
+QString statusBitsText(uint16_t bits)
+{
+    QStringList parts;
+    if (bits & 0x0001) parts << QStringLiteral("RTK有效");
+    if (bits & 0x0002) parts << QStringLiteral("PPS有效");
+    if (bits & 0x0004) parts << QStringLiteral("已初始化");
+    const QString hex = QStringLiteral("0x%1").arg(bits, 4, 16, QLatin1Char('0'));
+    return parts.isEmpty()
+            ? hex
+            : hex + QStringLiteral("[") + parts.join(QStringLiteral("｜")) + QStringLiteral("]");
+}
+
+// 导航状态可读化：1(收敛中)
+QString naviStatusFull(uint8_t s)
+{
+    return QStringLiteral("%1(%2)")
+            .arg(int(s))
+            .arg(QString::fromUtf8(naviStatusText(s)));
+}
+
 // 返回"帧间隔 + 丢数"描述，并更新累计统计
 QString navGapUpdate(const NavAppendData &d)
 {
@@ -201,8 +223,8 @@ static QList<FieldDescriptor> navAppendFields()
         {"双天线定位",       [](const ParsedFrame &f) { return ParserBase::rtkStatusName(f.navAppend.dualPosType); }},
         {"副星数",           [](const ParsedFrame &f) { return QString::number(f.navAppend.numSVsSlave); }},
         {"双天线航向(deg)",  [](const ParsedFrame &f) { return QString::number(f.navAppend.dualHeading, 'f', 3); }},
-        {"状态位",           [](const ParsedFrame &f) { return QStringLiteral("0x%1").arg(f.navAppend.statusBits, 4, 16, QLatin1Char('0')); }},
-        {"导航状态",         [](const ParsedFrame &f) { return QString::number(f.navAppend.naviStatus); }},
+        {"状态位",           [](const ParsedFrame &f) { return statusBitsText(f.navAppend.statusBits); }},
+        {"导航状态",         [](const ParsedFrame &f) { return naviStatusFull(f.navAppend.naviStatus); }},
         {"结论", [](const ParsedFrame &f) {
             const auto &d = f.navAppend;
             QStringList v;
@@ -707,8 +729,8 @@ const QList<ProtocolDescriptor> &protocolRegistry()
                   << ParserBase::rtkStatusName(d.dualPosType)
                   << QString::number(d.numSVsSlave)
                   << QString::number(d.dualHeading, 'f', 3)
-                  << QStringLiteral("0x%1").arg(d.statusBits, 4, 16, QLatin1Char('0'))
-                  << QString::number(d.naviStatus);
+                  << statusBitsText(d.statusBits)
+                  << naviStatusFull(d.naviStatus);
                 return v.join(QLatin1Char(',')) + QLatin1Char('\n');
             },
             navAppendFields(),

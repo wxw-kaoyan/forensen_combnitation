@@ -142,10 +142,36 @@ static void gapSummary(const QList<ParsedFrame> &frames, QString &block, QString
 //  默认统一入口：走「帧解析」路径（标准帧 / CAN / DEBUG 流）
 //  外部脚本（凯芯）与深解码（RTCM）子类重写此方法
 // ════════════════════════════════════════════════════════════════
+
+// 输出区只保留前 maxFrames 帧的文本行（表头等额外行由 extraHeadLines 指定），
+// 完整文本仍留在 fullText 里供「导出」使用。
+// 几十万帧一次性灌进 QTextEdit 会在 GUI 线程建几十万个文本块而卡死界面。
+static QString firstFramesOnly(const QString &text, int totalFrames,
+                               int extraHeadLines, int maxFrames)
+{
+    if (totalFrames <= maxFrames)
+        return text;
+
+    const int keepLines = extraHeadLines + maxFrames;
+    qsizetype pos = 0;
+    for (int i = 0; i < keepLines; ++i) {
+        const qsizetype nl = text.indexOf(QLatin1Char('\n'), pos);
+        if (nl < 0)
+            return text;              // 行数不足，不截断
+        pos = nl + 1;
+    }
+    return text.left(pos)
+         + QStringLiteral("……（仅显示前 %1 帧，共 %2 帧；完整数据请用「导出」保存）……\n")
+               .arg(maxFrames).arg(totalFrames);
+}
+
 ParseResult ParserBase::parseToResult(const QByteArray &rawData,
                                       const QString &filePath)
 {
     Q_UNUSED(filePath);
+
+    // 解析结果输出区最多显示 200 帧
+    constexpr int kMaxDisplayFrames = 200;
 
     ParseResult result;
     result.protocolId = protocolId();
@@ -176,8 +202,10 @@ ParseResult ParserBase::parseToResult(const QByteArray &rawData,
             ++crcErr;
     }
 
-    result.displayText = text;
-    result.fullText = text;
+    result.fullText = text;   // 完整内容（导出用）
+    result.displayText = firstFramesOnly(text, result.frames.size(),
+                                         result.hasCsvHeader ? 1 : 0,
+                                         kMaxDisplayFrames);
     result.infoText = QStringLiteral("帧:%1 (CRC错:%2)")
                           .arg(result.frames.size()).arg(crcErr);
 
@@ -194,17 +222,23 @@ ParseResult ParserBase::parseToResult(const QByteArray &rawData,
 
 QString ParserBase::protocolNameStatic(ProtocolID pid)
 {
-    return QString::fromLatin1(protocolName(pid));
+    return QString::fromUtf8(protocolName(pid));
 }
 
 QString ParserBase::rtkStatusName(uint8_t s)
 {
     switch (s) {
+        // NMEA/组合导航融合帧(0x0166)及CAN-RTK 使用的定位质量码
         case 0: return QStringLiteral("未定位");
         case 1: return QStringLiteral("单点");
         case 2: return QStringLiteral("伪距差分");
         case 4: return QStringLiteral("固定解");
         case 5: return QStringLiteral("浮点解");
+        // UM982 原始定位状态码，用于 NAV_APPEND(0x0167) 的 GNSS/双天线定位状态
+        case 16: return QStringLiteral("单点定位");
+        case 17: return QStringLiteral("伪距差分定位");
+        case 34: return QStringLiteral("浮点解");
+        case 50: return QStringLiteral("固定解");
         default: return QString::number(s);
     }
 }

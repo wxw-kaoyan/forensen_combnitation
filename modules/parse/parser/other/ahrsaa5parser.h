@@ -14,15 +14,14 @@
 //  [3..4]   Roll   int16 LE ÷100 (°, ±180)
 //  [5..6]   Pitch  int16 LE ÷100 (°, ±90)
 //  [7..8]   Yaw    int16 LE ÷100 (°, ±180)
-//  [9..10]  RateY  int16 LE ÷100 (deg/s)  ← 1683 版实际为 gy
-//  [11..12] RateX  int16 LE ÷100 (deg/s)  ← 1683 版实际为 -gx
+//  [9..10]  RateX  int16 LE ÷100 (deg/s)   ← 严格按协议文档
+//  [11..12] RateY  int16 LE ÷100 (deg/s)
 //  [13..14] RateZ  int16 LE ÷100 (deg/s)
-//  [15..16] AccY   int16 LE ÷1000 (g)     ← 1683 版实际为 ay
-//  [17..18] AccX   int16 LE ÷1000 (g)     ← 1683 版实际为 -ax
+//  [15..16] AccX   int16 LE ÷1000 (g)       ← 严格按协议文档
+//  [17..18] AccY   int16 LE ÷1000 (g)
 //  [19..20] AccZ   int16 LE ÷1000 (g)
 //
-//  固件输出顺序：1675 = r,p,y,gx,gy,gz,ax,ay,az
-//                1683 = r,p,y,gy,-gx,gz,ay,-ax,az   ← 本解析器按此还原物理轴
+// 解析器只做按协议字段名取值，不做任何轴映射或符号反转
 //  [21..22] ChecksumA uint16 LE = (int16)Yaw + (int16)RateZ
 //  [23]     ChecksumB uint8     = Index + Pitch + Roll + RateX + RateY
 //                                 + AccX + AccY + AccZ 各字节和
@@ -59,6 +58,9 @@ inline uint8_t calcChecksumB(const uint8_t *p)
     return static_cast<uint8_t>(s & 0xFF);
 }
 
+// 累计全局序号计数器（每次 scan 开始时重置）
+static uint32_t s_globalCounter = 0;
+
 inline ParsedFrame makeFrame(const QByteArray &raw, int pos)
 {
     const uint8_t *d = reinterpret_cast<const uint8_t *>(raw.constData()) + pos;
@@ -70,18 +72,20 @@ inline ParsedFrame makeFrame(const QByteArray &raw, int pos)
     f.offsetInFile  = pos;
 
     AhrsAa5Data &v = f.ahrsAa5;
-    v.index     = d[2];
-    v.roll      = i16(d + 3)  / 100.0f;
-    v.pitch     = i16(d + 5)  / 100.0f;
-    v.yaw       = i16(d + 7)  / 100.0f;
+    v.index       = d[2];
+    v.globalIndex = ++s_globalCounter;
+    v.roll        = i16(d + 3)  / 100.0f;
+    v.pitch       = i16(d + 5)  / 100.0f;
+    v.yaw         = i16(d + 7)  / 100.0f;
     /*qDebug("[AHRS AA5] idx=%3u  roll=%7.2f  pitch=%7.2f  yaw=%7.2f",
            v.index, v.roll, v.pitch, v.yaw);*/
-    v.rate[0]   = -i16(d + 9) / 100.0f;   // gx 
-    v.rate[1]   =  i16(d + 11)  / 100.0f;   // gy 
-    v.rate[2]   =  i16(d + 13) / 100.0f;   // gz 
-    v.accel[0]  = -i16(d + 15) / 1000.0f;  // ax 
-    v.accel[1]  =  i16(d + 17) / 1000.0f;  // ay 
-    v.accel[2]  =  i16(d + 19) / 1000.0f;  // az 
+    // 严格按协议文档字段布局解析，不做任何轴映射或符号反转
+    v.rate[0]     =  i16(d + 9)  / 100.0f;   // RateX
+    v.rate[1]     =  i16(d + 11) / 100.0f;   // RateY
+    v.rate[2]     =  i16(d + 13) / 100.0f;   // RateZ
+    v.accel[0]    =  i16(d + 15) / 1000.0f;  // AccX
+    v.accel[1]    =  i16(d + 17) / 1000.0f;  // AccY
+    v.accel[2]    =  i16(d + 19) / 1000.0f;  // AccZ 
 
     v.checksumA     = static_cast<uint16_t>(d[21] | (d[22] << 8));
     v.checksumACalc = calcChecksumA(d);
@@ -98,6 +102,7 @@ inline QList<ParsedFrame> scan(const QByteArray &raw, bool skipCrc, int &crcFail
 {
     QList<ParsedFrame> out;
     crcFail = 0;
+    s_globalCounter = 0;  // 每次扫描重置累计序号
     const uint8_t *d = reinterpret_cast<const uint8_t *>(raw.constData());
     const int n = raw.size();
     int i = 0;
@@ -178,7 +183,7 @@ public:
     QString csvHeader() const override
     {
         return QStringLiteral(
-            "序号,Roll(deg),Pitch(deg),Yaw(deg),"
+            "累计序号,帧序号,Roll(deg),Pitch(deg),Yaw(deg),"
             "RateX(deg/s),RateY(deg/s),RateZ(deg/s),"
             "AccX(g),AccY(g),AccZ(g),"
             "校验A(收),校验A(算),校验B(收),校验B(算),校验结果\n");
@@ -187,7 +192,8 @@ public:
     QString formatFrame(const ParsedFrame &f) const override
     {
         const auto &v = f.ahrsAa5;
-        return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15\n")
+        return QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16\n")
+            .arg(v.globalIndex)
             .arg(v.index)
             .arg(v.roll, 0, 'f', 2).arg(v.pitch, 0, 'f', 2).arg(v.yaw, 0, 'f', 2)
             .arg(v.rate[0], 0, 'f', 2).arg(v.rate[1], 0, 'f', 2).arg(v.rate[2], 0, 'f', 2)

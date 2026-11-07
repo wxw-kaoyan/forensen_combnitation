@@ -7,8 +7,10 @@ TcpConnection::TcpConnection(QObject *parent)
     : QObject(parent)
 {
     m_flushTimer = new QTimer(this);
-    m_flushTimer->setSingleShot(true);
-    m_flushTimer->setInterval(30);
+    m_flushTimer->setSingleShot(false);  // 周期模式：每 10ms 触发一次 flush
+    m_flushTimer->setInterval(10);       // 目标 100Hz，Windows 默认时钟精度 ≈15.6ms，实际 ≈64Hz
+    m_flushTimer->start();               // 连接期间始终运行，不再在 readyRead 里 reset
+
     connect(m_flushTimer, &QTimer::timeout, this, &TcpConnection::onFlushBuffer);
 }
 
