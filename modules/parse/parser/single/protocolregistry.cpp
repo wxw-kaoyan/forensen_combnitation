@@ -342,6 +342,36 @@ static QList<FieldDescriptor> zhdLaserFields()
     };
 }
 
+// 激光标定 (0x0200)：摘要字段 + 每点合并成一行显示（NED 坐标 | 姿态 | 距离 | 残差）
+static QList<FieldDescriptor> laserCalibFields()
+{
+    QList<FieldDescriptor> list = {
+        {"时间戳(ms)",       [](const ParsedFrame &f) { return QString::number(f.laserCalib.distTimeMs); }},
+        {"当前激光距离(mm)", [](const ParsedFrame &f) { return QString::number(f.laserCalib.distNow); }},
+        {"采集点有效",       [](const ParsedFrame &f) { return f.laserCalib.calibPointValid ? QStringLiteral("有效") : QStringLiteral("无效"); }},
+        {"基准经度(deg)",    [](const ParsedFrame &f) { return QString::number(f.laserCalib.baseLon, 'f', 8); }},
+        {"基准纬度(deg)",    [](const ParsedFrame &f) { return QString::number(f.laserCalib.baseLat, 'f', 8); }},
+        {"基准高度(m)",      [](const ParsedFrame &f) { return QString::number(f.laserCalib.baseAlt, 'f', 3); }},
+        {"安装俯仰(deg)",    [](const ParsedFrame &f) { return QString::number(f.laserCalib.installPitch, 'f', 3); }},
+        {"安装偏航(deg)",    [](const ParsedFrame &f) { return QString::number(f.laserCalib.installYaw, 'f', 3); }},
+        {"点数",             [](const ParsedFrame &f) { return QString::number(f.laserCalib.pointNum); }},
+    };
+    for (int i = 0; i < 10; ++i) {
+        list.append({QStringLiteral("点%1").arg(i + 1),
+            [i](const ParsedFrame &f) -> QString {
+                const auto &d = f.laserCalib;
+                if (i >= d.pointNum)
+                    return QStringLiteral("-");
+                return QStringLiteral("N%1 E%2 D%3 m | R%4 P%5 Y%6 deg | %7mm | 残差(%8,%9,%10)mm")
+                    .arg(d.calibPos[i][0], 0, 'f', 3).arg(d.calibPos[i][1], 0, 'f', 3).arg(d.calibPos[i][2], 0, 'f', 3)
+                    .arg(d.calibAtt[i][0], 0, 'f', 2).arg(d.calibAtt[i][1], 0, 'f', 2).arg(d.calibAtt[i][2], 0, 'f', 2)
+                    .arg(d.calibDist[i])
+                    .arg(d.calibResidual[i][0]).arg(d.calibResidual[i][1]).arg(d.calibResidual[i][2]);
+            }});
+    }
+    return list;
+}
+
 static QList<FieldDescriptor> attitudeFields()
 {
     return {
@@ -819,6 +849,31 @@ const QList<ProtocolDescriptor> &protocolRegistry()
                     .arg(d.precisionFactor, 0, 'f', 6);
             },
             zhdLaserFields(),
+        },
+        {
+            QStringLiteral("激光标定"),
+            ProtocolID::Laser_Calib,
+            true,  // 累加和校验
+            // 一帧含 10 个采集点，CSV 一行一个点（帧级字段每行重复），point_num=0 时无数据行
+            QStringLiteral("时间戳(ms),当前距离(mm),点有效,基准经度(deg),基准纬度(deg),基准高度(m),安装俯仰(deg),安装偏航(deg),点数,点序号,N(m),E(m),D(m),横滚(deg),俯仰(deg),航向(deg),激光距离(mm),残差N(mm),残差E(mm),残差D(mm)\n"),
+            [](const QByteArray &d, bool s) { return genericFrameParse(ProtocolID::Laser_Calib, d, s); },
+            [](const ParsedFrame &f) -> QString {
+                const auto &d = f.laserCalib;
+                QString out;
+                for (int i = 0; i < d.pointNum; ++i) {
+                    out += QStringLiteral("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20\n")
+                        .arg(d.distTimeMs).arg(d.distNow).arg(d.calibPointValid)
+                        .arg(d.baseLon, 0, 'f', 8).arg(d.baseLat, 0, 'f', 8).arg(d.baseAlt, 0, 'f', 3)
+                        .arg(d.installPitch, 0, 'f', 3).arg(d.installYaw, 0, 'f', 3)
+                        .arg(d.pointNum).arg(i + 1)
+                        .arg(d.calibPos[i][0], 0, 'f', 3).arg(d.calibPos[i][1], 0, 'f', 3).arg(d.calibPos[i][2], 0, 'f', 3)
+                        .arg(d.calibAtt[i][0], 0, 'f', 2).arg(d.calibAtt[i][1], 0, 'f', 2).arg(d.calibAtt[i][2], 0, 'f', 2)
+                        .arg(d.calibDist[i])
+                        .arg(d.calibResidual[i][0]).arg(d.calibResidual[i][1]).arg(d.calibResidual[i][2]);
+                }
+                return out;
+            },
+            laserCalibFields(),
         },
         {
             QStringLiteral("姿态"),

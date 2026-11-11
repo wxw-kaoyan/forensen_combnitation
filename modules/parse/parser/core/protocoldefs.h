@@ -18,6 +18,7 @@ enum class ProtocolID : uint16_t {
     ZhdLaser         = 0x0446,  // 中海达激光    (payload 82B, 累加和校验)
     Attitude         = 0x0168,  // 姿态协议      (payload 36B)
     Quat614P         = 0x0199,  // 614P-pro_四元数(payload 46B, 累加和校验)
+    Laser_Calib      = 0x0200,  // 激光标定      (payload 377B, 累加和校验)
     // ── DEBUG 调试数据流 (FORSENSE 619, 0x51~0x56) ──
     Debug_IMU        = 0x0051,  // 组合导航+IMU原始 (payload 86B)
     Debug_GPS        = 0x0052,  // GNSS/RTK 定位    (payload 59B)
@@ -131,6 +132,7 @@ inline ProtocolID resolveProtocolID(uint16_t id, uint16_t len) {
         case 0x0446: return ProtocolID::ZhdLaser;
         case 0x0168: return ProtocolID::Attitude;
         case 0x0199: return ProtocolID::Quat614P;
+        case 0x0200: return ProtocolID::Laser_Calib;
         case 0x0051: return ProtocolID::Debug_IMU;
         case 0x0052: return ProtocolID::Debug_GPS;
         case 0x0053: return ProtocolID::Debug_DRTK;
@@ -158,6 +160,7 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::ZhdLaser:      return "中海达激光";
         case ProtocolID::Attitude:      return "姿态";
         case ProtocolID::Quat614P:      return "614P-pro_四元数";
+        case ProtocolID::Laser_Calib:   return "激光标定(0x0200)";
         case ProtocolID::Debug_IMU:     return "调试-组合导航IMU(0x51)";
         case ProtocolID::Debug_GPS:     return "调试-GNSS定位(0x52)";
         case ProtocolID::Debug_DRTK:    return "调试-双天线RTK(0x53)";
@@ -478,6 +481,34 @@ struct AttitudeData {
     float    yawStd;      // deg
     float    reserved[2];
     uint32_t checksum;
+};
+
+// ════════════════════════════════════════════════════════════════
+//  激光标定 (ID=0x0200, payload=377B, 累加和校验)
+//  offset: 0 rev(u32) 4 dist_now(u16,mm) 6 dist_time_ms(u32)
+//          10 rev(4B) 14 is_calib_point_valid(u8)
+//          15 base_pos(f64[3], 纬度/经度/高度, deg/deg/m — 协议文档写的"经纬高"与实测不符)
+//          39 calib_point_pos(f32[10][3], NED m)
+//          159 calib_point_att(i16[10][3], deg×100, roll/pitch/yaw)
+//          219 rev(u16[10]) 239 calib_point_dis(u16[10], mm)
+//          259 calib_residual(i16[10][3], NED mm)
+//          319 laser_install_att(i16[2], deg×1000, pitch/yaw)
+//          323 point_num(u8) 324 rev(53B)
+// ════════════════════════════════════════════════════════════════
+struct LaserCalibData {
+    uint16_t distNow;              // 当前激光距离 (mm)
+    uint32_t distTimeMs;           // 激光距离时间戳 (ms)
+    uint8_t  calibPointValid;      // 采集点有效性 0=无效 1=有效
+    double   baseLon;              // 已知点经度 (deg)
+    double   baseLat;              // 已知点纬度 (deg)
+    double   baseAlt;              // 已知点高度 (m)
+    float    calibPos[10][3];      // 采集点激光 NED 坐标 (m)
+    float    calibAtt[10][3];      // 采集点姿态 roll/pitch/yaw (deg, 原始/100)
+    uint16_t calibDist[10];        // 采集点激光距离 (mm)
+    int16_t  calibResidual[10][3]; // 采集点残差 NED (mm)
+    float    installPitch;         // 激光安装偏差角 pitch (deg, 原始/1000)
+    float    installYaw;           // 激光安装偏差角 yaw   (deg, 原始/1000)
+    uint8_t  pointNum;             // 实际采集点数 0~10
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -1056,6 +1087,7 @@ struct ParsedFrame {
         ZhdLaserData   zhdLaser;
         AttitudeData   attitude;
         Quat614PData   quat614p;
+        LaserCalibData laserCalib;
         CanRtkData     canRtk;
         LsNavImuData   lsNavImu;
         LsNavGpsData   lsNavGps;

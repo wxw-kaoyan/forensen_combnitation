@@ -52,6 +52,7 @@ private:
     static void parseLaser(const uint8_t *p, LaserData &out);
     static void parseNanfangLaser(const uint8_t *p, NanfangLaserData &out);
     static void parseZhdLaser(const uint8_t *p, ZhdLaserData &out);
+    static void parseLaserCalib(const uint8_t *p, LaserCalibData &out);
     static void parseAttitude(const uint8_t *p, AttitudeData &out);
     static void parseQuat614P(const uint8_t *p, Quat614PData &out);
     static void parseDebugImu(const uint8_t *p, DebugImuData &out);

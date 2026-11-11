@@ -175,6 +175,7 @@ ParsedFrame FrameParser::parsePayload(ProtocolID pid,
         case ProtocolID::Laser:         parseLaser(payload, f.laser);               break;
         case ProtocolID::NanfangLaser:  parseNanfangLaser(payload, f.nanfangLaser); break;
         case ProtocolID::ZhdLaser:      parseZhdLaser(payload, f.zhdLaser);         break;
+        case ProtocolID::Laser_Calib:   parseLaserCalib(payload, f.laserCalib);     break;
         case ProtocolID::Attitude:      parseAttitude(payload, f.attitude);         break;
         case ProtocolID::Quat614P:      parseQuat614P(payload, f.quat614p);         break;
         case ProtocolID::Debug_IMU:     parseDebugImu(payload, f.debugImu);         break;
@@ -425,6 +426,30 @@ void FrameParser::parseZhdLaser(const uint8_t *p, ZhdLaserData &out)
     out.imuAltStd       = p[76];
     out.laserError      = p[77];
     out.precisionFactor = readFloatLE(p + 78);
+}
+
+// 激光标定 (0x0200, payload 377B, 累加和校验) — 布局见 protocoldefs.h 注释
+void FrameParser::parseLaserCalib(const uint8_t *p, LaserCalibData &out)
+{
+    out.distNow         = readU16LE(p + 4);
+    out.distTimeMs      = readU32LE(p + 6);
+    out.calibPointValid = p[14];
+    out.baseLat         = readDoubleLE(p + 15);  // 实测数据确认: 顺序是纬度/经度/高度
+    out.baseLon         = readDoubleLE(p + 23);
+    out.baseAlt         = readDoubleLE(p + 31);
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            out.calibPos[i][j]      = readFloatLE(p + 39 + i * 12 + j * 4);
+            out.calibAtt[i][j]      = readI16LE(p + 159 + i * 6 + j * 2) / 100.0f;
+            out.calibResidual[i][j] = readI16LE(p + 259 + i * 6 + j * 2);
+        }
+        out.calibDist[i] = readU16LE(p + 239 + i * 2);
+    }
+    out.installPitch = readI16LE(p + 319) / 1000.0f;
+    out.installYaw   = readI16LE(p + 321) / 1000.0f;
+    out.pointNum     = p[323];
+    if (out.pointNum > 10)
+        out.pointNum = 10;
 }
 
 void FrameParser::parseAttitude(const uint8_t *p, AttitudeData &out)
