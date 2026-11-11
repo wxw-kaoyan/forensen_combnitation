@@ -97,8 +97,13 @@ bool SerialConnection::drainTx(int timeoutMs)
 void SerialConnection::setImmediateEmit(bool immediate)
 {
     m_immediateEmit = immediate;
-    if (immediate && m_flushTimer)
-        m_flushTimer->stop();   // 切到即时发射时，丢掉待触发的合并定时器
+    if (!m_flushTimer)
+        return;
+    if (immediate) {
+        m_flushTimer->stop();   // 逐帧刷新时不需要周期合并
+    } else {
+        m_flushTimer->start();  // 切回合并模式时恢复周期 flush
+    }
 }
 
 // ---- 内部槽 ----
@@ -150,9 +155,8 @@ void SerialConnection::onTimeout()
 
 void SerialConnection::cleanup()
 {
-    if (m_flushTimer) {
-        m_flushTimer->stop();
-    }
+    // 注：不停 flushTimer——它是周期模式、空 buffer 直接 return，
+    // 生命周期始终跟着 SerialConnection 对象走，cleanup 之后对象也该析构了。
     // 清空前发射剩余数据
     flushBuffer();
 

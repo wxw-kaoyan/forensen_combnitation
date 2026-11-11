@@ -119,9 +119,8 @@ void TcpConnection::onTimeout()
 
 void TcpConnection::cleanup()
 {
-    if (m_flushTimer) {
-        m_flushTimer->stop();
-    }
+    // 注：不停 flushTimer——它是周期模式、空 buffer 直接 return，
+    // 生命周期始终跟着 TcpConnection 对象走，cleanup 之后对象也该析构了。
     flushBuffer();
 
     if (m_timeout) {
