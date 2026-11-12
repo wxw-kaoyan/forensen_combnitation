@@ -70,6 +70,14 @@ public:
         return Quaterniond(Eigen::AngleAxisd(angle, rotvec / angle));
     }
 
+    // 二阶圆锥补偿后的 b 系姿态增量四元数（均匀采样假设）
+    //   Δθ_k = θ_k + 1/12 · θ_{k-1} × θ_k
+    // GINS 的姿态更新与 AHRS 的姿态积分共用此式，保证两条链路一致
+    static Quaterniond coningDeltaQuaternion(const Vector3d &dthetaPre,
+                                             const Vector3d &dthetaCur) {
+        return rotvec2quaternion(dthetaCur + dthetaPre.cross(dthetaCur) / 12.0);
+    }
+
     static Vector3d quaternion2vector(const Quaterniond &quaternion) {
         const Eigen::AngleAxisd axisd(quaternion);
         return axisd.angle() * axisd.axis();

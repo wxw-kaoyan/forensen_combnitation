@@ -12,6 +12,7 @@
 #include <Eigen/Geometry>
 #include <cmath>
 
+#include "angle.hpp"
 #include "nav_types.hpp"
 
 namespace nav {
