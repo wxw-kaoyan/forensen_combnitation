@@ -179,7 +179,7 @@ private:
     QTimer          *m_trajPlayTimer = nullptr;   // 播放定时器
     QScatterSeries  *m_trajPlayDot   = nullptr;   // 绿色起点/播放点（沿轨迹移动）
     QVector<QPointF> m_trajPath;                  // 投影后的轨迹点（东/北，米）
-    QVector<double>  m_trajTimes;                 // 轨迹点对应的 UTC 周内秒（与 m_trajPath 一一对应）
+    QVector<double>  m_trajTimes;                 // 轨迹点对应的 UTC 天内秒（0~86400，与 m_trajPath 一一对应）
     double           m_trajPlayPos   = 0.0;       // 当前播放位置（浮点索引）
     double           m_trajDuration  = 0.0;       // 数据总时长（秒）
 

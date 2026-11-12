@@ -1285,7 +1285,7 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
     view->setRenderHint(QPainter::Antialiasing, false);   // 大数据量关闭抗锯齿
     view->setMinimumHeight(160);
 
-    // ── 选中点高亮（黄色），配合点击/搜索显示该点 UTC 周内秒 ──
+    // ── 选中点高亮（黄色），配合点击/搜索显示该点 UTC 天内秒 ──
     auto *pickDot = new QScatterSeries(chart);
     pickDot->setColor(QColor(250, 204, 21));
     pickDot->setMarkerSize(14.0);
@@ -1295,10 +1295,10 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
     pickDot->attachAxis(axisY);
     pickDot->setVisible(false);
 
-    auto *timeLabel = new QLabel(QStringLiteral("UTC 周内秒：点击轨迹上的点查看"));
+    auto *timeLabel = new QLabel(QStringLiteral("UTC 天内秒：点击轨迹上的点查看"));
     timeLabel->setStyleSheet(QStringLiteral("color:#33475b;font-size:12px;"));
 
-    // 点击轨迹 → 查找最近轨迹点，显示其 UTC 周内秒
+    // 点击轨迹 → 查找最近轨迹点，显示其 UTC 天内秒
     view->setClickHandler([this, timeLabel, pickDot](const QPointF &v) {
         if (m_trajPath.isEmpty()) return;
         int best = 0;
@@ -1312,9 +1312,9 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
         pickDot->append(m_trajPath.at(best));
         pickDot->setVisible(true);
         if (best < m_trajTimes.size() && m_trajTimes.at(best) >= 0)
-            timeLabel->setText(QStringLiteral("UTC 周内秒：%1").arg(m_trajTimes.at(best), 0, 'f', 3));
+            timeLabel->setText(QStringLiteral("UTC 天内秒：%1").arg(m_trajTimes.at(best), 0, 'f', 3));
         else
-            timeLabel->setText(QStringLiteral("UTC 周内秒：（该文件无 UTC 时间列）"));
+            timeLabel->setText(QStringLiteral("UTC 天内秒：（该文件无 UTC 时间列）"));
     });
 
     auto *container = new QWidget();
@@ -1322,13 +1322,13 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
     v->setContentsMargins(0, 0, 0, 0);
     v->setSpacing(4);
 
-    // 播放控制行：开始按钮（绿色点沿轨迹播放）+ UTC 周内秒搜索
+    // 播放控制行：开始按钮（绿色点沿轨迹播放）+ UTC 天内秒搜索
     auto *playBtn = new QPushButton(QStringLiteral("开始"), container);
     playBtn->setFixedWidth(72);
     connect(playBtn, &QPushButton::clicked, this, &RawAnalysisPanel::onTrajPlayClicked);
 
     auto *findEdit = new QLineEdit(container);
-    findEdit->setPlaceholderText(QStringLiteral("输入 UTC 周内秒"));
+    findEdit->setPlaceholderText(QStringLiteral("输入 UTC 天内秒"));
     findEdit->setFixedWidth(140);
     auto *findBtn = new QPushButton(QStringLiteral("定位"), container);
     findBtn->setFixedWidth(56);
@@ -1338,7 +1338,7 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
         bool ok = false;
         const double target = findEdit->text().trimmed().toDouble(&ok);
         if (!ok || m_trajTimes.isEmpty()) {
-            timeLabel->setText(QStringLiteral("请输入有效的 UTC 周内秒"));
+            timeLabel->setText(QStringLiteral("请输入有效的 UTC 天内秒"));
             return;
         }
         int best = -1;
@@ -1355,7 +1355,7 @@ void RawAnalysisPanel::buildTruthTrajChart(const TruthSummary &s)
         pickDot->clear();
         pickDot->append(m_trajPath.at(best));
         pickDot->setVisible(true);
-        timeLabel->setText(QStringLiteral("UTC 周内秒：%1（已定位）")
+        timeLabel->setText(QStringLiteral("UTC 天内秒：%1（已定位）")
                                .arg(m_trajTimes.at(best), 0, 'f', 3));
     };
     connect(findBtn, &QPushButton::clicked, this, [doLocate]() { doLocate(); });

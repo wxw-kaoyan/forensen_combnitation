@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QtGlobal>
 #include <algorithm>
+#include <cmath>
 
 namespace Analysis {
 
@@ -155,7 +156,12 @@ bool TruthReader::analyze(const QString &file, TruthSummary *out, QString *err)
         if (utcCol >= 0) {
             bool okU = true;
             const double v = parts[utcCol].toDouble(&okU);
-            if (okU) r.s.utcSow = v;   // UTC 周内秒，供轨迹图上点击/搜索时间用
+            if (okU) {
+                // 统一归一化到 UTC 天内秒（0~86400）：文件可能是 UTC 周内秒、UTC 绝对秒或已是天内秒，
+                // 对 86400 取模后语义一致，供轨迹图上点击/搜索时间用
+                const double mod = std::fmod(v, 86400.0);
+                r.s.utcSow = mod < 0 ? mod + 86400.0 : mod;
+            }
         }
         if (!ok)
             continue;

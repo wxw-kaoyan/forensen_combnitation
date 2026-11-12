@@ -105,7 +105,7 @@ static QList<FieldDescriptor> fusionResultFields()
     };
 }
 
-// ── NAV_APPEND：实时接收区只给一条"结论"，内部含丢数判断 ──
+// ── NAV_APPEND：帧间隔与丢数判定（有状态，依赖上一帧 GPS 绝对时间） ──
 namespace {
 
 // 以 GPS 周计数 + 周内秒为绝对时间基准，自适应估计正常帧间隔
@@ -168,10 +168,9 @@ QString navGapUpdate(const NavAppendData &d)
             lost = int((dt + g_navGap.interval / 2) / g_navGap.interval) - 1;
         if (lost < 0) lost = 0;
         g_navGap.totalLost += lost;
-        txt = QStringLiteral("间隔%1ms %2｜累计丢%3帧")
-                  .arg(dt)
-                  .arg(lost > 0 ? QStringLiteral("丢%1帧").arg(lost) : QStringLiteral("无丢数"))
-                  .arg(g_navGap.totalLost);
+        txt = lost > 0
+                  ? QStringLiteral("%1ms 丢%2帧 累计%3").arg(dt).arg(lost).arg(g_navGap.totalLost)
+                  : QStringLiteral("%1ms 无丢数").arg(dt);
     }
     g_navGap.lastMs = t;
     return txt;
@@ -225,18 +224,8 @@ static QList<FieldDescriptor> navAppendFields()
         {"双天线航向(deg)",  [](const ParsedFrame &f) { return QString::number(f.navAppend.dualHeading, 'f', 3); }},
         {"状态位",           [](const ParsedFrame &f) { return statusBitsText(f.navAppend.statusBits); }},
         {"导航状态",         [](const ParsedFrame &f) { return naviStatusFull(f.navAppend.naviStatus); }},
-        {"结论", [](const ParsedFrame &f) {
-            const auto &d = f.navAppend;
-            QStringList v;
-            v << ParserBase::rtkStatusName(d.gnssPosType);
-            v << QStringLiteral("星%1/%2").arg(d.numSVsMain).arg(d.numSVsSlave);
-            v << QStringLiteral("%1N %2E").arg(d.lat, 0, 'f', 7).arg(d.lon, 0, 'f', 7);
-            v << QStringLiteral("高%1m").arg(d.height, 0, 'f', 2);
-            v << QStringLiteral("航向%1°").arg(d.yaw, 0, 'f', 2);
-            v << QString::fromUtf8(naviStatusText(d.naviStatus));
-            v << navGapUpdate(d);
-            return v.join(QStringLiteral(" ｜ "));
-        }},
+        // 帧间隔 + 丢帧判定（其余信息在各自独立字段里，此处不重复拼接）
+        {"帧间隔", [](const ParsedFrame &f) { return navGapUpdate(f.navAppend); }},
     };
 }
 

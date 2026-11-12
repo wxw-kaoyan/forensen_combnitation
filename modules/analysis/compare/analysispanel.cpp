@@ -641,15 +641,6 @@ void AnalysisPanel::buildUi()
         addSceneBtn, rmSceneBtn, m_sceneList, m_startBtn
     };
 
-    // 指标名编辑回写
-    connect(m_mapTable, &QTableWidget::itemChanged, this,
-            [this](QTableWidgetItem *it) {
-                if (!it || it->column() != 0) return;
-                const int r = it->row();
-                if (r < 0 || r >= m_mappings.size()) return;
-                m_mappings[r].name = it->text();
-            });
-
     // 双击结果表某行：弹出对应对比项曲线窗口（非模态、可缩放）
     connect(m_resultTable, &QTableWidget::cellDoubleClicked,
             this, &AnalysisPanel::onResultRowDoubleClicked);
@@ -1057,15 +1048,11 @@ void AnalysisPanel::updateAlignStatus()
         // 重叠段首尾（UTC 绝对秒）
         const double t0 = m_truth.timeUtc[pairs.first().aIdx];
         const double t1 = m_truth.timeUtc[pairs.last().aIdx];
-        // 基准与场景输入一致：首样本所在 UTC 天 0 点；GPS 天 0 点 = UTC 天 0 点 - 闰秒
+        // 基准：真值首样本所在 UTC 天的 0 点
         const double dayBaseUtc = std::floor(m_truth.timeUtc.first() / 86400.0) * 86400.0;
-        const double dayBaseGps = dayBaseUtc - m_leapSeconds;
         text += QStringLiteral("\n重叠段 UTC 天内秒：%1 ~ %2")
                     .arg(t0 - dayBaseUtc, 0, 'f', 3)
                     .arg(t1 - dayBaseUtc, 0, 'f', 3);
-        text += QStringLiteral("\n重叠段 GPS 天内秒：%1 ~ %2")
-                    .arg(t0 - dayBaseGps, 0, 'f', 3)
-                    .arg(t1 - dayBaseGps, 0, 'f', 3);
     }
     m_alignInfoLabel->setText(text);
 }
@@ -1106,8 +1093,8 @@ void AnalysisPanel::rebuildMappingTable()
 {
     m_mapTable->blockSignals(true);
 
-    // 表头：指标名 | 指标类型 | 扣均值 | 每个对比文件两列（列1/列2，复合指标两列都用，单列只用列1）
-    QStringList headers{ QStringLiteral("指标名"), QStringLiteral("指标类型"), QStringLiteral("扣均值") };
+    // 表头：指标类型 | 扣均值 | 每个对比文件两列（列1/列2，复合指标两列都用，单列只用列1）
+    QStringList headers{ QStringLiteral("指标类型"), QStringLiteral("扣均值") };
     for (const auto &c : m_cmpFiles) {
         headers << QFileInfo(c.path).fileName() + QStringLiteral(" 列1");
         headers << QFileInfo(c.path).fileName() + QStringLiteral(" 列2");
@@ -1134,10 +1121,7 @@ void AnalysisPanel::rebuildMappingTable()
     for (int r = 0; r < m_mappings.size(); ++r) {
         MetricMapping &m = m_mappings[r];
 
-        auto *nameItem = new QTableWidgetItem(m.name);
-        m_mapTable->setItem(r, 0, nameItem);
-
-        putCombo(m_mapTable, r, 1, metricLabels, static_cast<int>(m.type));
+        putCombo(m_mapTable, r, 0, metricLabels, static_cast<int>(m.type));
 
         auto *ck = new QCheckBox(m_mapTable);
         ck->setChecked(m.subtractMean);
@@ -1146,7 +1130,7 @@ void AnalysisPanel::rebuildMappingTable()
         ckLay->addWidget(ck);
         ckLay->setAlignment(Qt::AlignCenter);
         ckLay->setContentsMargins(0, 0, 0, 0);
-        m_mapTable->setCellWidget(r, 2, ckWrap);
+        m_mapTable->setCellWidget(r, 1, ckWrap);
 
         const bool twoCols = metricNeedsTwoCols(m.type);
         for (int f = 0; f < m_cmpFiles.size(); ++f) {
@@ -1157,7 +1141,7 @@ void AnalysisPanel::rebuildMappingTable()
                 items << QStringLiteral("东向速度(前向速度×sin方向)");
             }
             const MetricMapping::FileCols fc = m.cmpCols.value(f);
-            putCombo(m_mapTable, r, 3 + f * 2, items, fc.primary);
+            putCombo(m_mapTable, r, 2 + f * 2, items, fc.primary);
 
             // 列2：复合指标启用；单列指标禁用并置空
             auto *c2 = new QComboBox(m_mapTable);
@@ -1165,7 +1149,7 @@ void AnalysisPanel::rebuildMappingTable()
             if (twoCols && fc.secondary >= 0 && fc.secondary < items.size())
                 c2->setCurrentIndex(fc.secondary);
             c2->setEnabled(twoCols);
-            m_mapTable->setCellWidget(r, 3 + f * 2 + 1, c2);
+            m_mapTable->setCellWidget(r, 2 + f * 2 + 1, c2);
         }
     }
 
@@ -1174,25 +1158,22 @@ void AnalysisPanel::rebuildMappingTable()
     for (int r = 0; r < m_mappings.size(); ++r) {
         const int rr = r;
 
-        if (auto *fc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 1))) {
+        if (auto *fc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 0))) {
             connect(fc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
                     [this, rr, cmpCount](int idx) {
                         if (rr >= 0 && rr < m_mappings.size()) {
                             const MetricType nt = static_cast<MetricType>(idx);
-                            if (m_mappings[rr].name.isEmpty() ||
-                                m_mappings[rr].name == metricName(m_mappings[rr].type))
-                                m_mappings[rr].name = metricName(nt);
                             m_mappings[rr].type = nt;
                             // 类型变化可能改变「是否两列」，同步该行列2控件的启用状态
                             const bool twoCols = metricNeedsTwoCols(nt);
                             for (int f = 0; f < cmpCount; ++f)
-                                if (auto *c2 = qobject_cast<QComboBox*>(m_mapTable->cellWidget(rr, 3 + f * 2 + 1)))
+                                if (auto *c2 = qobject_cast<QComboBox*>(m_mapTable->cellWidget(rr, 2 + f * 2 + 1)))
                                     c2->setEnabled(twoCols);
                         }
                     });
         }
 
-        if (auto *wrap = qobject_cast<QWidget*>(m_mapTable->cellWidget(r, 2))) {
+        if (auto *wrap = qobject_cast<QWidget*>(m_mapTable->cellWidget(r, 1))) {
             if (auto *ck = wrap->findChild<QCheckBox*>()) {
                 connect(ck, &QCheckBox::toggled, this, [this, rr](bool on) {
                     if (rr >= 0 && rr < m_mappings.size())
@@ -1203,7 +1184,7 @@ void AnalysisPanel::rebuildMappingTable()
 
         for (int f = 0; f < cmpCount; ++f) {
             const int ff = f;
-            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 3 + f * 2))) {
+            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 2 + f * 2))) {
                 connect(cc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
                         [this, rr, ff](int idx) {
                             if (rr >= 0 && rr < m_mappings.size()) {
@@ -1213,7 +1194,7 @@ void AnalysisPanel::rebuildMappingTable()
                             }
                         });
             }
-            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 3 + f * 2 + 1))) {
+            if (auto *cc = qobject_cast<QComboBox*>(m_mapTable->cellWidget(r, 2 + f * 2 + 1))) {
                 connect(cc, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
                         [this, rr, ff](int idx) {
                             if (rr >= 0 && rr < m_mappings.size()) {

@@ -440,7 +440,8 @@ void FrameParser::parseLaserCalib(const uint8_t *p, LaserCalibData &out)
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 3; ++j) {
             out.calibPos[i][j]      = readFloatLE(p + 39 + i * 12 + j * 4);
-            out.calibAtt[i][j]      = readI16LE(p + 159 + i * 6 + j * 2) / 100.0f;
+            // 采集点姿态: i16 原始值 /100 为弧度, 再乘 180/pi 转成度
+            out.calibAtt[i][j]      = readI16LE(p + 159 + i * 6 + j * 2) / 100.0f * 57.29577951308232f;
             out.calibResidual[i][j] = readI16LE(p + 259 + i * 6 + j * 2);
         }
         out.calibDist[i] = readU16LE(p + 239 + i * 2);

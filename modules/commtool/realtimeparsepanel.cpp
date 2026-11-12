@@ -363,7 +363,7 @@ void RealtimeParsePanel::flushDisplay()
     m_dirty = false;
 }
 
-// 拼"名称 + 值"文本：首行是协议与统计，后面逐字段一行
+// 拼"名称 + 值"文本：首行是协议与统计，每行 2 个字段对（利用宽度减少行数）
 QString RealtimeParsePanel::buildDisplayText() const
 {
     const QStringList names = fieldNames(m_pid);
@@ -376,16 +376,30 @@ QString RealtimeParsePanel::buildDisplayText() const
                .arg(m_frameHit)
                .arg(m_paused ? QStringLiteral("　[已暂停]") : QString());
 
+    // 列宽：按字段名最大显示宽度对齐
     int w = 0;
     for (const QString &n : names)
         w = qMax(w, displayWidth(n));
+    w = qMax(w, 10);   // 下限，窄协议也好看
 
-    out += QString(w + 14, QLatin1Char('-')) + QLatin1Char('\n');
+    // 每 行 2 个字段对 → 垂直高度直接砍半，不需要往下拉太多
+    const int kColsPerRow = 2;
+    const int colSpan = w + 14;   // 每个字段对占的显示宽度
 
-    for (int i = 0; i < names.size(); ++i) {
-        const QString v = (i < m_pendingValues.size()) ? m_pendingValues.at(i)
-                                                       : QStringLiteral("--");
-        out += padTo(names.at(i), w) + QStringLiteral("  ") + v + QLatin1Char('\n');
+    out += QString(colSpan * kColsPerRow, QLatin1Char('-')) + QLatin1Char('\n');
+
+    const QStringList &vals = m_pendingValues;
+    for (int i = 0; i < names.size(); i += kColsPerRow) {
+        QString line;
+        for (int j = 0; j < kColsPerRow; ++j) {
+            const int idx = i + j;
+            if (idx >= names.size()) break;
+            const QString v = (idx < vals.size()) ? vals.at(idx) : QStringLiteral("--");
+            line += padTo(names.at(idx), w) + QStringLiteral("  ") + v;
+            if (j + 1 < kColsPerRow)
+                line += QString(6, QLatin1Char(' '));   // 两组之间留 6 空格分隔
+        }
+        out += line + QLatin1Char('\n');
     }
     return out;
 }

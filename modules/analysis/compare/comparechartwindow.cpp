@@ -7,6 +7,8 @@
 #include <QPainter>
 #include <QPen>
 #include <QColor>
+#include <QPointF>
+#include <QVector>
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
@@ -96,15 +98,17 @@ double CompareChartWindow::toTimeValue(double utcAbsSec) const
 
 void CompareChartWindow::rebuildSeries()
 {
-    m_series->clear();
-
     const int n = qMin(m_timeUtc.size(), m_error.size());
+
+    // 一次性构建 QPointF 数组，比循环 append 快两个数量级
+    QVector<QPointF> pts;
+    pts.reserve(n);
     double xmin = 0.0, xmax = 0.0, ymin = 0.0, ymax = 0.0;
     bool first = true;
     for (int i = 0; i < n; ++i) {
         const double x = toTimeValue(m_timeUtc[i]);
         const double y = m_error[i];
-        m_series->append(x, y);
+        pts.append(QPointF(x, y));
         if (first) {
             xmin = xmax = x;
             ymin = ymax = y;
@@ -116,6 +120,7 @@ void CompareChartWindow::rebuildSeries()
             ymax = qMax(ymax, y);
         }
     }
+    m_series->replace(pts);   // 5.11+ 提供，一次性替换避免 N 次重绘
 
     if (m_xAxis) {
         m_xAxis->setTitleText(m_millis ? QStringLiteral("时间（UTC 天内毫秒）")
