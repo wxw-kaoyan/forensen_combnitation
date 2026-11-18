@@ -112,6 +112,10 @@ private:
     bool       forceModeValid_  = false;
     MotionMode forceMode_       = MODE_UNKNOWN;
 
+    // 卡方连续拒绝计数（防锁死）
+    int posRejectRun_ = 0;
+    int velRejectRun_ = 0;
+
     // 导航状态
     PVA      pvacur_;
     PVA      pvapre_;

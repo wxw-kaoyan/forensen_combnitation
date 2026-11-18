@@ -34,6 +34,10 @@ const QColor kCurveColors[] = {
 };
 constexpr int kCurveColorCount = int(sizeof(kCurveColors) / sizeof(kCurveColors[0]));
 
+// 通用绘图只关心趋势：载入时按行数抽稀到约 2 万行。
+// 212 万行的温漂数据 → 步长 106（≈100 倍），既保留曲线形状又不吃掉几个 GB 内存。
+constexpr int kMaxPlotRows = 20000;
+
 // 在表头里按关键词优先级猜列（用于自动选中经度/纬度列）
 int guessColumn(const QStringList &header, const QStringList &keys)
 {
@@ -192,7 +196,7 @@ void ChartWorkbench::startLoad(const QString &path)
     connect(m_loadWatcher, &QFutureWatcher<TextFileTable>::finished,
             this, &ChartWorkbench::onLoadFinished);
     m_loadWatcher->setFuture(
-        QtConcurrent::run([path]() { return loadTextFileTable(path, -1); }));
+        QtConcurrent::run([path]() { return loadTextFileTable(path, -1, kMaxPlotRows); }));
 }
 
 void ChartWorkbench::onLoadFinished()
@@ -234,7 +238,11 @@ void ChartWorkbench::onLoadFinished()
         item->setData(Qt::UserRole, i);
     }
 
-    setBusy(false, QStringLiteral("已加载 %1 行 × %2 列").arg(m_table.rows.size()).arg(m_table.header.size()));
+    setBusy(false, t.decimateStep > 1
+             ? QStringLiteral("已加载 %1 行 × %2 列（原始数据抽稀 1/%3）")
+                   .arg(m_table.rows.size()).arg(m_table.header.size()).arg(t.decimateStep)
+             : QStringLiteral("已加载 %1 行 × %2 列")
+                   .arg(m_table.rows.size()).arg(m_table.header.size()));
 }
 
 void ChartWorkbench::onSelectAll()
@@ -316,6 +324,7 @@ void ChartWorkbench::startExtract()
             ExtractResult r;
             r.xLabel = xLabel;
             r.x = extractColumn(rows, timeCol);
+            unwrapTimeColumn(r.x);   // Timer 等计数器回绕展开，否则 X 轴会周期性跳回 0
             QStringList names;
             for (int i = 0; i < cols.size(); ++i) {
                 const int c = cols[i];

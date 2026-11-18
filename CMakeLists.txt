@@ -77,6 +77,12 @@ qt_add_executable(TASoftware
     modules/commtool/realtimeparsepanel.h
     modules/commtool/streamframer.cpp
     modules/commtool/streamframer.h
+    modules/commtool/navcalib/leverarmestimator.cpp
+    modules/commtool/navcalib/leverarmestimator.h
+    modules/commtool/navcalib/navcalibpanel.cpp
+    modules/commtool/navcalib/navcalibpanel.h
+    modules/commtool/navcalib/navcalibplotwindow.cpp
+    modules/commtool/navcalib/navcalibplotwindow.h
     modules/commtool/atcmd/atcmdpanel.cpp
     modules/commtool/atcmd/atcmdpanel.h
     modules/commtool/atcmd/atcmdpanel.ui

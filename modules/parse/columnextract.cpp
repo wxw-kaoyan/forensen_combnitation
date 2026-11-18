@@ -121,7 +121,34 @@ static int autoDetectTimeColumn(const QStringList &header)
     return 0;
 }
 
-TextFileTable loadTextFileTable(const QString &path, int timeColumn)
+// ── 时间序列单调展开（uint16/uint32 计数器回绕） ──
+void unwrapTimeColumn(QVector<double> &times)
+{
+    if (times.size() < 2)
+        return;
+
+    double mx = 0.0;
+    for (double v : times)
+        mx = qMax(mx, v);
+    if (mx <= 0.0)
+        return;
+
+    // 回绕周期取不小于最大值的 2 的幂：uint32 微秒计数 = 2^32 us ≈ 4295 s
+    double period = 1.0;
+    while (period <= mx)
+        period *= 2.0;
+
+    double offset = 0.0;
+    for (int i = 1; i < times.size(); ++i) {
+        double v = times[i] + offset;
+        // 只有"跳回量接近一个周期"才算回绕，避免把真实的小幅时间倒退也展开
+        if (v < times[i - 1] && (times[i - 1] - v) > period * 0.5)
+            offset += period;
+        times[i] = times[i] + offset;
+    }
+}
+
+TextFileTable loadTextFileTable(const QString &path, int timeColumn, int maxRows)
 {
     TextFileTable t;
     t.path = path;
@@ -169,9 +196,22 @@ TextFileTable loadTextFileTable(const QString &path, int timeColumn)
             ++dataStart;
     }
 
+    // 抽稀：百万行 CSV 全量建 QStringList 会吃掉几个 GB，绘图也用不到这个密度。
+    // 先数有效行数，再按整数步长取样，步长保证落在 1..dataCount 之间。
+    int dataCount = 0;
+    for (int i = dataStart; i < lines.size(); ++i)
+        if (!lines[i].trimmed().isEmpty()) ++dataCount;
+
+    int step = 1;
+    if (maxRows > 0 && dataCount > maxRows)
+        step = (dataCount + maxRows - 1) / maxRows;
+    t.decimateStep = step;
+
+    int idx = 0;
     for (int i = dataStart; i < lines.size(); ++i) {
         const QString line = lines[i].trimmed();
         if (line.isEmpty()) continue;
+        if ((idx++ % step) != 0) continue;
         QStringList cols = splitFields(line, t.delimiter);
         if (cols.isEmpty()) continue;
         while (cols.size() < t.header.size()) cols.append(QString());
@@ -190,6 +230,7 @@ TextFileTable loadTextFileTable(const QString &path, int timeColumn)
         const double v = t.rows[i].value(t.timeColumn).trimmed().toDouble(&ok);
         t.times[i] = ok ? v : 0.0;
     }
+    unwrapTimeColumn(t.times);   // 计数器回绕展开，保证时间轴单调
 
     return t;
 }

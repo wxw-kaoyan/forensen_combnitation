@@ -103,6 +103,8 @@ void GinsEngine::reset(const GinsConfig &cfg)
     forceStationary_ = false;
     forceModeValid_  = false;
     forceMode_       = MODE_UNKNOWN;
+    posRejectRun_    = 0;
+    velRejectRun_    = 0;
 
     debug_ = GinsDebug();
 }
@@ -209,20 +211,46 @@ void GinsEngine::step()
     debug_.gnssVelApplied = false;
     debug_.headingApplied = false;
 
-    // ── 1. 取本周期内到达的 GNSS 观测（10 Hz vs 100 Hz，每周期最多一个）──
+    // ── 1. 取本周期内到达的 GNSS 观测 ──
+    // 位置/速度/航向常常是同一历元分多路喂进来的（0x52 与 0x53 时间戳相同），
+    // 必须合并成一个观测，否则后到的会把先到的覆盖掉
     GnssObservation obs;
     bool hasObs = false;
     while (!gnssQueue_.empty() &&
            gnssQueue_.front().time <= imucur_.time + cfg_.timeAlignErr) {
-        if (gnssQueue_.front().isValid) {
-            obs    = gnssQueue_.front();
-            hasObs = true;
+        const GnssObservation &o = gnssQueue_.front();
+        if (o.isValid) {
+            if (!hasObs) {
+                obs    = o;
+                hasObs = true;
+            } else if (std::fabs(o.time - obs.time) <= cfg_.timeAlignErr) {
+                if (o.hasPos) {
+                    obs.hasPos = true;
+                    obs.blh    = o.blh;
+                    obs.stdPos = o.stdPos;
+                }
+                if (o.hasVel) {
+                    obs.hasVel = true;
+                    obs.vel    = o.vel;
+                    obs.stdVel = o.stdVel;
+                }
+                if (o.hasHeading) {
+                    obs.hasHeading  = true;
+                    obs.heading     = o.heading;
+                    obs.stdHeading  = o.stdHeading;
+                }
+            } else {
+                // 不同历元挤在同一个 IMU 周期内（正常 10 Hz 不会发生）
+                ++debug_.gnssDropCount;
+            }
         }
         gnssQueue_.pop_front();
     }
 
     // ── 2. 时间对齐 + 传播 + 观测更新 ──
     const int res = hasObs ? isToUpdate(imupre_.time, imucur_.time, obs.time) : 0;
+    if (hasObs && res == 0)
+        ++debug_.gnssDropCount;
 
     if (res == 0) {
         insPropagation(imupre_, imucur_);
@@ -487,6 +515,7 @@ void GinsEngine::insPropagation(ImuSample &imupre, ImuSample &imucur)
 // ════════════════════════════════════════════════════════════════════
 void GinsEngine::gnssUpdate(GnssObservation &obs)
 {
+    ++debug_.gnssUpdateCount;
     // ── 位置 ──
     if (cfg_.useGnssPos && obs.hasPos) {
         const Matrix3d Dr_inv = Earth::DRi(pvacur_.pos);
@@ -510,6 +539,16 @@ void GinsEngine::gnssUpdate(GnssObservation &obs)
         debug_.gnssPosInnov = dz;
         debug_.gnssPosApplied =
             EKFUpdateGated(dz, H, R, cfg_.chi2Threshold, &debug_.gnssPosChi2);
+
+        // 防锁死：连续被拒说明协方差过于乐观，给它补一份方差后下历元重试
+        if (debug_.gnssPosApplied) {
+            posRejectRun_ = 0;
+        } else if (++posRejectRun_ >= cfg_.maxRejectRun) {
+            posRejectRun_ = 0;
+            const double s = cfg_.posCovInflationStd;
+            for (int i = 0; i < 3; ++i)
+                Cov_(P_ID + i, P_ID + i) += s * s;
+        }
     }
 
     // ── 速度 ──
@@ -527,6 +566,15 @@ void GinsEngine::gnssUpdate(GnssObservation &obs)
         debug_.gnssVelInnov = dz;
         debug_.gnssVelApplied =
             EKFUpdateGated(dz, H, R, cfg_.chi2Threshold, &debug_.gnssVelChi2);
+
+        if (debug_.gnssVelApplied) {
+            velRejectRun_ = 0;
+        } else if (++velRejectRun_ >= cfg_.maxRejectRun) {
+            velRejectRun_ = 0;
+            const double s = cfg_.velCovInflationStd;
+            for (int i = 0; i < 3; ++i)
+                Cov_(V_ID + i, V_ID + i) += s * s;
+        }
     }
 
     // ── 双天线航向 ──

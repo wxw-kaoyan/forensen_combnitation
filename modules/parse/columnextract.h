@@ -21,11 +21,19 @@ struct TextFileTable
     QVector<double>    times;       // 时间列数值（与 rows 一一对应）
     int                timeColumn = 0;
     QChar              delimiter = ',';
+    int                decimateStep = 1;   // 加载时实际使用的抽稀步长（1=未抽稀）
     QString            error;       // 非空表示加载失败
 };
 
 // 加载文本文件；timeColumn < 0 时自动识别时间列
-TextFileTable loadTextFileTable(const QString &path, int timeColumn = -1);
+// maxRows > 0 时按整数步长抽稀，使载入行数不超过 maxRows（用于百万行 CSV 的快速绘图）
+TextFileTable loadTextFileTable(const QString &path, int timeColumn = -1,
+                                int maxRows = 0);
+
+// 时间序列单调展开。
+// 设备里的 Timer 常常是 uint16/uint32 计数器（如微秒计数，2^32 us ≈ 4295 s 回绕一次）。
+// 不做展开的话，画图时 X 轴每隔一个回绕周期跳回 0，曲线被拉成来回折返的锯齿。
+void unwrapTimeColumn(QVector<double> &times);
 
 class QPushButton;
 class QLabel;

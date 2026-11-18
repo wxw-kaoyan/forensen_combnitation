@@ -4,6 +4,7 @@
 #include "modules/commtool/atcmd/atcmdpanel.h"
 #include "modules/commtool/atcmd/atcmdstore.h"
 #include "modules/commtool/realtimeparsepanel.h"
+#include "modules/commtool/navcalib/navcalibpanel.h"
 #include "ui_mainwindow.h"
 
 #include <QAbstractItemView>
@@ -84,6 +85,10 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
     connect(m_ui->favoriteCmdComboBox, QOverload<int>::of(&QComboBox::activated),
             this, &CommTool::onFavoriteSelected);
     refreshFavoriteCommands();
+
+    // ---- 超达投影估计（独立对话框，常用工具页按钮触发）----
+    connect(m_ui->navCalibButton, &QPushButton::clicked,
+            this, &CommTool::onOpenNavCalib);
 
     // ---- 实时解析 ----
     connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::parseToggled,
@@ -289,6 +294,9 @@ void CommTool::destroyConnection()
     }
     // 重置流式解析器
     m_framer.reset();
+    // 断开连接时停止投影估计采集，避免状态残留
+    if (m_navCalib)
+        m_navCalib->stopCollecting();
     // 防御性重置：确保连接失败后按钮状态正确恢复
     if (m_connected) {
         m_connected = false;
@@ -408,6 +416,16 @@ void CommTool::onParseToggled(bool enabled)
     }
 }
 
+void CommTool::onOpenNavCalib()
+{
+    if (!m_navCalib)
+        m_navCalib = new NavCalibPanel(m_ui->centralwidget);   // 非模态，可同时操作主界面连接
+
+    m_navCalib->show();
+    m_navCalib->raise();
+    m_navCalib->activateWindow();
+}
+
 void CommTool::appendRecvData(const QByteArray &data)
 {
     // 累计接收字节数（累加计数，替代原先"每段数据全量导出文档"的 O(n) 做法）
@@ -422,17 +440,28 @@ void CommTool::appendRecvData(const QByteArray &data)
         m_recvFile.write(data);
     }
 
-    // 实时解析：帧交给监视面板（面板按 10Hz 节流刷新），接收区让位、不再刷原始数据
-    if (m_parsing && m_ui->realtimeParsePanel) {
-        const bool skipCrc = !m_ui->realtimeParsePanel->strictCrc();
-        // 切帧格式跟随当前选中协议：AA55 标准帧 / 爱普生 / AHRS / 诺瓦泰
+    // 实时解析 / 超达投影估计：任一在采集都需要切帧
+    const bool calib = m_navCalib && m_navCalib->isCollecting();
+    if ((m_parsing || calib) && m_ui->realtimeParsePanel) {
+        // CRC：实时解析与投影估计各用各的勾选；不勾时靠 3σ 剔除兜底
+        const bool strict = calib ? m_navCalib->strictCrc()
+                                  : m_ui->realtimeParsePanel->strictCrc();
+        // 投影估计固定用 AA55 帧头（0x0166）；实时解析按所选协议
         m_framer.setFramingMode(
-            StreamFramer::modeForProtocol(m_ui->realtimeParsePanel->currentProtocol()));
-        const QList<ParsedFrame> frames = m_framer.feed(data, skipCrc);
-        for (const ParsedFrame &f : frames)
-            m_ui->realtimeParsePanel->submitFrame(f);
-        m_ui->realtimeParsePanel->setFramerStats(m_framer.framesFound(),
-                                                 m_framer.framesCrcRejected());
+            calib ? StreamFramer::FramingMode::Aa55
+                  : StreamFramer::modeForProtocol(
+                        m_ui->realtimeParsePanel->currentProtocol()));
+        const QList<ParsedFrame> frames = m_framer.feed(data, !strict);
+        for (const ParsedFrame &f : frames) {
+            if (m_parsing)
+                m_ui->realtimeParsePanel->submitFrame(f);
+            if (calib)
+                m_navCalib->submitFrame(f);
+        }
+        if (m_parsing) {
+            m_ui->realtimeParsePanel->setFramerStats(m_framer.framesFound(),
+                                                     m_framer.framesCrcRejected());
+        }
         return;   // 解析模式下接收区静默：原始数据不再持续刷屏占满界面
     }
 

@@ -49,12 +49,13 @@ static bool isHexSeparator(char c)
 
 static QByteArray tryDecodeHexText(const QByteArray &raw)
 {
-    // 二进制判据：出现高位字节或控制字符（除 CR/LF/TAB）即视为二进制，原样返回。
-    // hex 文本只可能由 0-9a-fA-F 与 , ; : 空格 TAB CR LF 组成。
+    // 二进制判据：出现高位字节即视为二进制，原样返回。
+    // 纯二进制帧文件一定含 0xAA(>=0x80) 等高位字节；
+    // 文本 hex 记录（即使夹杂设备回显的 ANSI 转义序列 0x1B[..m）全是 ASCII。
+    // 控制字符不再拦截：ESC 等终端控制码会随设备回显行一起被按行解析跳过。
     for (char c : raw) {
-        const unsigned char u = static_cast<unsigned char>(c);
-        if (u >= 0x80) return raw;
-        if (u < 0x20 && c != '\r' && c != '\n' && c != '\t') return raw;
+        if (static_cast<unsigned char>(c) >= 0x80)
+            return raw;
     }
 
     QByteArray bin;
@@ -79,8 +80,11 @@ static QByteArray tryDecodeHexText(const QByteArray &raw)
                                          | hexDigitValue(hex.at(i + 1))));
         ++hexLines;
     }
-    // 一行都没解出、或文字行比 hex 行还多 → 不是 hex 记录，原样返回
-    if (hexLines == 0 || textLines > hexLines)
+    // 只要有 >=2 行 hex 就转换：纯文本文件里几乎不会出现连续多行纯 hex，
+    // 而串口 hex 记录常夹杂大量设备回显（如本文件 90 行 hex / 236 行文本），
+    // 若用 textLines > hexLines 判据会把这类混合文件误判为纯文本而放弃转换，
+    // 导致解析器拿到原始文本、找不到 AA 55 帧头。
+    if (hexLines < 2)
         return raw;
     return bin;
 }

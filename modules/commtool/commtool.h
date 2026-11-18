@@ -11,6 +11,7 @@ class QThread;
 class TcpConnection;
 class SerialConnection;
 class AtCmdPanel;
+class NavCalibPanel;
 class QCompleter;
 
 QT_BEGIN_NAMESPACE
@@ -42,6 +43,7 @@ private slots:
     void onAddFavoriteClicked();
     void onFavoriteSelected(int index);
     void onParseToggled(bool enabled);
+    void onOpenNavCalib();
 
 private:
     void applyMode(int idx);
@@ -63,6 +65,9 @@ private:
 
     // AT 指令面板
     AtCmdPanel *m_atPanel = nullptr;
+
+    // 超达投影估计对话框（首次点击时创建）
+    NavCalibPanel *m_navCalib = nullptr;
 
     // 工作线程
     QThread *m_connThread = nullptr;

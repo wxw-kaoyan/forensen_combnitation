@@ -171,6 +171,14 @@ struct GinsConfig {
     double chi2Threshold = 11.34;           // chi2(3) 99%
     double chi2Threshold1D = 6.63;          // chi2(1) 99%
 
+    // ── 卡方锁死逃逸 ──
+    // 卡方门限的前提是协方差可信。惯导误差模型偏乐观时，真实偏差会一直超门限，
+    // 于是观测永久被拒、位置彻底自由发散。连续拒绝达到 maxRejectRun 次后，
+    // 给对应状态块加一份方差，下一个历元重新尝试。
+    int    maxRejectRun     = 3;
+    double posCovInflationStd = 20.0;       // 位置加 20 m 方差 [m]
+    double velCovInflationStd = 1.0;        // 速度加 1 m/s 方差 [m/s]
+
     // ── 时间对齐容差 ──
     double timeAlignErr = 1e-3;             // [s]
 
@@ -205,6 +213,10 @@ struct GinsDebug {
     // 状态
     MotionMode mode   = MODE_UNKNOWN;
     bool       healthy = true;
+
+    // 累计计数（不随 step 清零）
+    int gnssUpdateCount = 0;   // gnssUpdate 实际被调用次数
+    int gnssDropCount   = 0;   // 时间不对齐被丢弃的观测数
 };
 
 } // namespace gins
