@@ -279,7 +279,7 @@
       ]
     },
     {
-      "name": "组合导航AT(旧619/614)",
+      "name": "农机导航AT",
       "commands": [
         { "command": "AT+LEVER_ARM_DISABLE",  "description": "关闭自动杆臂测量",                "paramHint": "" },
         { "command": "AT+CAR_TYPE=",          "description": "车辆类型(1正常/-1后轮)",          "paramHint": "例如 1" },

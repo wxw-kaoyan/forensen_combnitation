@@ -12,11 +12,6 @@
 #include <QtCharts/QValueAxis>
 
 #include <algorithm>
-#include <cmath>
-
-namespace {
-constexpr double kPi = 3.14159265358979323846;
-}
 
 NavCalibPlotWindow::NavCalibPlotWindow(QWidget *parent)
     : QWidget(parent)
@@ -25,15 +20,17 @@ NavCalibPlotWindow::NavCalibPlotWindow(QWidget *parent)
     resize(720, 620);
 
     m_raw = new QScatterSeries(this);
-    m_raw->setName(QStringLiteral("原始轨迹"));
+    m_raw->setName(QStringLiteral("实际轨迹点"));
     m_raw->setMarkerSize(3.0);
     m_raw->setColor(QColor("#2196f3"));
 
-    m_circle = new QLineSeries(this);
-    m_circle->setName(QStringLiteral("拟合圆"));
-    QPen pen(QColor("#fb8c00"));
-    pen.setWidth(2);
-    m_circle->setPen(pen);
+    // 按采样顺序把点连成线：直接呈现真实运动形状（圆/螺旋/乱走）
+    m_path = new QLineSeries(this);
+    m_path->setName(QStringLiteral("实际运动轨迹"));
+    QPen pathPen(QColor("#1565c0"));
+    pathPen.setWidth(1);
+    pathPen.setColor(QColor(21, 101, 192, 140));
+    m_path->setPen(pathPen);
 
     m_proj = new QScatterSeries(this);
     m_proj->setName(QStringLiteral("补偿后点云"));
@@ -41,10 +38,10 @@ NavCalibPlotWindow::NavCalibPlotWindow(QWidget *parent)
     m_proj->setColor(QColor("#43a047"));
 
     m_chart = new QChart;
+    m_chart->addSeries(m_path);
     m_chart->addSeries(m_raw);
-    m_chart->addSeries(m_circle);
     m_chart->addSeries(m_proj);
-    m_chart->setTitle(QStringLiteral("超达投影估计 · 轨迹（横轴东向 E，纵轴北向 N）"));
+    m_chart->setTitle(QStringLiteral("超达投影估计 · 实际运动轨迹（横轴东向 E，纵轴北向 N）"));
     m_chart->setAnimationOptions(QChart::NoAnimation);
     m_chart->legend()->setVisible(true);
     m_chart->legend()->setAlignment(Qt::AlignBottom);
@@ -58,8 +55,8 @@ NavCalibPlotWindow::NavCalibPlotWindow(QWidget *parent)
 
     m_raw->attachAxis(m_xAxis);
     m_raw->attachAxis(m_yAxis);
-    m_circle->attachAxis(m_xAxis);
-    m_circle->attachAxis(m_yAxis);
+    m_path->attachAxis(m_xAxis);
+    m_path->attachAxis(m_yAxis);
     m_proj->attachAxis(m_xAxis);
     m_proj->attachAxis(m_yAxis);
 
@@ -76,38 +73,26 @@ NavCalibPlotWindow::NavCalibPlotWindow(QWidget *parent)
 
 void NavCalibPlotWindow::setData(const QVector<QPointF> &raw,
                                  const QVector<QPointF> &projected,
-                                 bool hasFit,
-                                 double centerN, double centerE,
-                                 double lx, double ly)
+                                 bool hasFit)
 {
     if (raw.isEmpty() && projected.isEmpty()) {
         clearData();
         return;
     }
 
+    // 实际运动轨迹：按采样顺序连线，不做任何拟合
     m_raw->replace(raw);
+    m_path->replace(raw);
 
-    QVector<QPointF> circle;
-    const double radius = std::hypot(lx, ly);
     if (hasFit) {
-        circle.reserve(181);
-        for (int i = 0; i <= 180; ++i) {
-            const double a = 2.0 * kPi * double(i) / 180.0;
-            circle.append(QPointF(centerE + radius * std::cos(a),
-                                  centerN + radius * std::sin(a)));
-        }
-        m_circle->replace(circle);
-        m_circle->setVisible(true);
         m_proj->replace(projected);
         m_proj->setVisible(true);
     } else {
-        m_circle->clear();
-        m_circle->setVisible(false);
         m_proj->clear();
         m_proj->setVisible(false);
     }
 
-    // 两轴同跨度，圆才是圆
+    // 两轴同跨度
     double minX = 1e18, maxX = -1e18, minY = 1e18, maxY = -1e18;
     auto accumulate = [&](const QVector<QPointF> &pts) {
         for (const QPointF &p : pts) {
@@ -118,10 +103,8 @@ void NavCalibPlotWindow::setData(const QVector<QPointF> &raw,
         }
     };
     accumulate(raw);
-    if (hasFit) {
-        accumulate(projected);
-        accumulate(circle);
-    }
+    // 补偿点云聚集在中心附近，不参与范围计算，
+    // 否则会把视野压得过小、看不清真实运动形状
 
     if (minX > maxX) {
         m_xAxis->setRange(-1.0, 1.0);
@@ -134,10 +117,9 @@ void NavCalibPlotWindow::setData(const QVector<QPointF> &raw,
 void NavCalibPlotWindow::clearData()
 {
     m_raw->clear();
+    m_path->clear();
     m_proj->clear();
-    m_circle->clear();
     m_proj->setVisible(false);
-    m_circle->setVisible(false);
     m_xAxis->setRange(-1.0, 1.0);
     m_yAxis->setRange(-1.0, 1.0);
 }
