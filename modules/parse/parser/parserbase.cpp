@@ -47,6 +47,10 @@ static bool frameTimeMs(const ParsedFrame &f, qint64 &ms, bool &usTimer)
     case ProtocolID::Tx_Pos:          ms = qint64(f.txPos.ascTime * 1000.0);   return true;
     case ProtocolID::Tx_Height:       ms = qint64(f.txHeight.ascTime * 1000.0); return true;
     case ProtocolID::Tx_Vel:          ms = qint64(f.txVel.ascTime * 1000.0);   return true;
+    case ProtocolID::Im19_Mems:       ms = qRound64(f.im19Mems.timeSec * 1000.0); return true;
+    case ProtocolID::Im19_Gnss:       ms = qRound64(f.im19Gnss.timeSec * 1000.0); return true;
+    case ProtocolID::Im19_Navi:       ms = qRound64(f.im19Navi.timeSec * 1000.0); return true;
+    case ProtocolID::Im19_Nasc:       ms = qRound64(f.im19Nasc.timeSec * 1000.0); return true;
     default: return false;
     }
 }

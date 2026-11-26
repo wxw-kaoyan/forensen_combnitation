@@ -14,12 +14,13 @@
 class StreamFramer
 {
 public:
-    // 切帧格式：AA55 标准帧 + 三种非 AA55 串口协议
+    // 切帧格式：AA55 标准帧 + 几种非 AA55 串口协议
     enum class FramingMode {
         Aa55,      // AA 55 | ID | Len | payload | CRC32
         Epson,     // 80 01 | 32B 数据 | 累加和 | 0D 0A   (38B 定长)
         AhrsAa5,   // AA A5 | Index | 9×int16 | 校验 | 0D 0A (26B 定长)
         Novatel,   // AA 44 12 1C | ... | CRC32            (28B 头 + payload + 4)
+        Im19,      // 'fmi'+类型，52/95/100B 定长；兼收 $GPFMI 文本行
     };
 
     StreamFramer() = default;
@@ -47,6 +48,7 @@ private:
     QList<ParsedFrame> feedEpson(const QByteArray &data, bool skipCrc);
     QList<ParsedFrame> feedAhrsAa5(const QByteArray &data, bool skipCrc);
     QList<ParsedFrame> feedNovatel(const QByteArray &data, bool skipCrc);
+    QList<ParsedFrame> feedIm19(const QByteArray &data, bool skipCrc);
 
     QByteArray m_buffer;
     FramingMode m_mode = FramingMode::Aa55;

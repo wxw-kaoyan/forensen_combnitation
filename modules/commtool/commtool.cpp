@@ -19,6 +19,7 @@
 #include <QSerialPortInfo>
 #include <QTextBlock>
 #include <QThread>
+#include <QTimer>
 
 // ---- 按钮样式 ----
 static const QString kConnectStyle =
@@ -123,7 +124,17 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
 
     // ---- HEX 显示切换 ----
     connect(m_ui->hexDisplayCheckBox, &QCheckBox::toggled,
-            this, [this](bool checked) { m_hexDisplay = checked; });
+            this, [this](bool checked) {
+        // 切换显示方式前把未成行的尾段先刷出去，否则那半行会串到新模式里
+        flushRecvPending();
+        m_hexDisplay = checked;
+    });
+
+    // 文本模式下未见到换行符的尾段兜底刷出（二进制流本身几乎不含 '\n'）
+    m_recvFlushTimer = new QTimer(this);
+    m_recvFlushTimer->setSingleShot(true);
+    m_recvFlushTimer->setInterval(kRecvFlushMs);
+    connect(m_recvFlushTimer, &QTimer::timeout, this, &CommTool::flushRecvPending);
 
     // 接收区是只读日志窗口，不需要撤销/重做历史（否则每次插入都累积一条记录）
     m_ui->toolConsoleEdit->setUndoRedoEnabled(false);
@@ -294,6 +305,8 @@ void CommTool::destroyConnection()
     }
     // 重置流式解析器
     m_framer.reset();
+    // 丢弃未成行的半截数据，避免重新连接后与旧数据拼在一起
+    resetRecvPending();
     // 断开连接时停止投影估计采集，避免状态残留
     if (m_navCalib)
         m_navCalib->stopCollecting();
@@ -355,6 +368,7 @@ void CommTool::onSendClicked()
 void CommTool::onClearRecvClicked()
 {
     m_ui->toolConsoleEdit->clear();
+    resetRecvPending();
     m_recvBytes = 0;
     m_ui->recvCountLabel->setText(QStringLiteral("0 Bytes"));
 }
@@ -407,6 +421,7 @@ void CommTool::onParseToggled(bool enabled)
 {
     m_parsing = enabled;
     m_framer.reset(); // 切换模式时清空半包缓冲，避免残留
+    resetRecvPending();
 
     // 解析 + 逐帧刷新时才关串口 30ms 合并；其余保持合并以保证文本显示流畅
     if (m_serialConn) {
@@ -466,21 +481,69 @@ void CommTool::appendRecvData(const QByteArray &data)
     }
 
     // 非解析模式：接收区显示原始数据
-    // 每段数据必须以换行结尾：二进制流本身几乎不含 '\n'，否则整个接收区会挤在
-    // 一个 block 里 —— 行数裁剪失效、QPlainTextEdit 排版开销随文档无限增长直至卡死
-    QString text;
+    // 文本模式不能给每批数据硬加换行：底层按 30ms / 4KB 分批上报，分批点落在
+    // 任意字节位置，同一行常被拆到两批里。这里把未成行的尾段留在 m_recvPending，
+    // 等下一批拼成完整行再显示，只有真的没换行（二进制流）才由定时器兜底刷出。
     if (m_hexDisplay) {
         // 一帧数据常有上百字节，整段一行会远超窗口宽度、无法阅读：
         // 按每行 100 字节折行（文本模式的数据本身带 0D/0A，天然分行，无需处理）
+        QString text;
         for (int i = 0; i < data.size(); i += kHexBytesPerLine) {
             text += QString::fromLatin1(
                         data.mid(i, kHexBytesPerLine).toHex(' ').toUpper())
                     + QLatin1Char('\n');
         }
+        appendRecvText(text);
     } else {
-        text = QString::fromLatin1(data) + QStringLiteral("\n");
+        m_recvPending += QString::fromLatin1(data);
+
+        QString text;
+        int start = 0;
+        while (true) {
+            const int nl = m_recvPending.indexOf(QLatin1Char('\n'), start);
+            if (nl < 0)
+                break;
+            int end = nl;
+            if (end > start && m_recvPending.at(end - 1) == QLatin1Char('\r'))
+                --end;   // 去掉 CRLF 的 CR，避免行尾残留控制字符
+            text += m_recvPending.mid(start, end - start);
+            text += QLatin1Char('\n');
+            start = nl + 1;
+        }
+        if (start > 0)
+            m_recvPending.remove(0, start);
+
+        if (!m_recvPending.isEmpty()) {
+            if (m_recvPending.size() >= kRecvPendingMax) {
+                // 长流始终没有换行（二进制）：整段刷出，避免缓冲无限增长
+                text += m_recvPending + QLatin1Char('\n');
+                m_recvPending.clear();
+            } else {
+                m_recvFlushTimer->start();   // 超时无后续数据则整段刷出
+            }
+        } else {
+            m_recvFlushTimer->stop();
+        }
+        appendRecvText(text);
     }
-    appendRecvText(text);
+}
+
+void CommTool::flushRecvPending()
+{
+    if (m_recvPending.isEmpty())
+        return;
+    QString text = m_recvPending;
+    m_recvPending.clear();
+    if (text.endsWith(QLatin1Char('\r')))
+        text.chop(1);
+    appendRecvText(text + QLatin1Char('\n'));
+}
+
+void CommTool::resetRecvPending()
+{
+    m_recvPending.clear();
+    if (m_recvFlushTimer)
+        m_recvFlushTimer->stop();
 }
 
 void CommTool::appendRecvText(const QString &text)
@@ -494,15 +557,14 @@ void CommTool::appendRecvText(const QString &text)
     edit->moveCursor(QTextCursor::End);
     edit->insertPlainText(text);
 
-    // 限制最多保留 200 行
-    int lines = edit->document()->blockCount();
+    // 限制最多保留 200 行（一次可能插入多行，需按超出量整体裁掉，不能只裁一行）
+    const int lines = edit->document()->blockCount();
     if (lines > kMaxRecvLines) {
-        QTextBlock block = edit->document()->findBlockByNumber(lines - kMaxRecvLines - 1);
-        if (block.isValid()) {
-            QTextCursor cur(block);
-            cur.movePosition(QTextCursor::Start, QTextCursor::KeepAnchor);
-            cur.removeSelectedText();
-        }
+        QTextCursor cur(edit->document());
+        cur.movePosition(QTextCursor::Start);
+        cur.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, lines - kMaxRecvLines);
+        cur.movePosition(QTextCursor::StartOfBlock, QTextCursor::KeepAnchor);
+        cur.removeSelectedText();
     }
 
     // 字节计数已在 appendRecvData 中累加，这里不再全量导出文档

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <QString>
+#include <QStringList>
 
 // ── 帧 ID 枚举 ──
 enum class ProtocolID : uint16_t {
@@ -48,6 +49,12 @@ enum class ProtocolID : uint16_t {
     Tx_Pos           = 0xCD0D,  // 同星/原极 CAN 扩展帧 经纬度 (0x19CCFFxx, deg/1e7, int32)
     Tx_Height        = 0xCD0E,  // 同星/原极 CAN 扩展帧 高程+周内秒 (0x19CCFF9B, /1e7, int32)
     Tx_Vel           = 0xCD0F,  // 同星/原极 CAN 扩展帧 速度 (0x19FFD2xx, cm/s)
+    // ── IM19 惯性模组串口协议（《IM19 使用手册》3.1）──
+    //    统一帧头 'f''m''i' + 类型字符，帧尾 'e''d'，小端，累加和校验
+    Im19_Mems        = 0xCD10,  // 'm' MEMS 原始数据 100Hz   (52B 帧, 校验 1~48 字节)
+    Im19_Gnss        = 0xCD11,  // 'g' GNSS 原始数据 ~5Hz    (95B 帧, 校验 1~91 字节)
+    Im19_Navi        = 0xCD12,  // 'n' NAVI 惯性定位结果     (100B 帧, 校验 1~96 字节)
+    Im19_Nasc        = 0xCD13,  // '$GPFMI' 字符格式 NAVI    (NMEA 校验)
     // ── 诺瓦泰 NovAtel OEM 二进制 (AA 44 12 + MsgID) ──
     Novatel_BestPos  = 0xE042,  // BESTPOSB 最佳位置 (MsgID=42,  payload 72B)
     Novatel_PsrVel   = 0xE064,  // PSRVELB  伪距速度 (MsgID=100, payload 44B)
@@ -108,6 +115,52 @@ inline bool isTxPosCanId(uint32_t canId)   { return (canId & kTxCanIdMask) == kT
 inline bool isTxProtocol(ProtocolID pid) {
     uint16_t v = static_cast<uint16_t>(pid);
     return v >= 0xCD09 && v <= 0xCD0F;
+}
+
+// IM19 惯性模组四路输出（MEMS / GNSS / NAVI 二进制 / NAVI 字符）
+inline bool isIm19Protocol(ProtocolID pid) {
+    uint16_t v = static_cast<uint16_t>(pid);
+    return v >= 0xCD10 && v <= 0xCD13;
+}
+
+// IM19 状态字（NAVI 数据 STATUS 字段，手册 3.1.5）
+inline QString im19StatusText(uint32_t status)
+{
+    struct Bit { uint32_t mask; const char *name; };   // name 为 UTF-8 中文
+    static const Bit kBits[] = {
+        { 0x00000001u, "滤波器未初始化" },  { 0x00000002u, "收敛完成" },
+        { 0x00000004u, "收敛中" },          { 0x00000008u, "倾角过大" },
+        { 0x00000010u, "GNSS定位差" },      { 0x00000020u, "滤波器重置" },
+        { 0x00000040u, "安装角标定阶段1" }, { 0x00000080u, "安装角标定阶段2" },
+        { 0x00000100u, "安装角标定阶段3" }, { 0x00000200u, "安装角标定阶段4" },
+        { 0x00000400u, "安装角标定完成" },  { 0x00002000u, "晃动方向1" },
+        { 0x00004000u, "晃动方向2" },       { 0x00010000u, "GNSS数据无效" },
+        { 0x00020000u, "初始化完成" },      { 0x00040000u, "收到PPS" },
+        { 0x00080000u, "时间同步成功" },    { 0x00100000u, "解析到RTK数据" },
+    };
+    if (status == 0)
+        return QStringLiteral("0");
+
+    QStringList on;
+    for (const auto &b : kBits)
+        if (status & b.mask)
+            on << QString::fromUtf8(b.name);
+
+    QString text = QStringLiteral("0x")
+                 + QString::number(status, 16).toUpper().rightJustified(8, QLatin1Char('0'));
+    if (!on.isEmpty())
+        text += QStringLiteral("(%1)").arg(on.join(QLatin1Char('|')));
+    return text;
+}
+
+// IM19 时间字段 hhmmss.ss → 一天内的秒数（0~86400），用于丢帧统计与排序
+inline double im19TimeOfDay(double hhmmss)
+{
+    const int total = static_cast<int>(hhmmss);      // 取整数部分 hhmmss
+    const int h  = total / 10000;
+    const int m  = (total / 100) % 100;
+    const int s  = total % 100;
+    return h * 3600.0 + m * 60.0 + s + (hhmmss - total);
 }
 
 inline bool isFusionResult(uint16_t id, uint16_t len) {
@@ -188,6 +241,10 @@ inline const char* protocolName(ProtocolID pid) {
         case ProtocolID::Tx_Pos:          return "同星CAN-经纬度(0x19CCFFxx)";
         case ProtocolID::Tx_Height:       return "同星CAN-高程(0x19CCFF9B)";
         case ProtocolID::Tx_Vel:          return "同星CAN-速度(0x19FFD2xx)";
+        case ProtocolID::Im19_Mems:       return "IM19-MEMS(m)";
+        case ProtocolID::Im19_Gnss:       return "IM19-GNSS(g)";
+        case ProtocolID::Im19_Navi:       return "IM19-NAVI(n)";
+        case ProtocolID::Im19_Nasc:       return "IM19-NAVI字符($GPFMI)";
         default:                        return "未知";
     }
 }
@@ -914,6 +971,88 @@ struct AhrsAa5Data {
 };
 
 // ════════════════════════════════════════════════════════════════
+//  IM19 惯性模组 — 三路二进制输出（《IM19 使用手册》3.1.1~3.1.3）
+//  帧头 'f'(0x66) 'm'(0x6D) 'i'(0x69) + 类型字符，帧尾 'e'(0x65) 'd'(0x64)
+//  小端；校验和 uint16 = 从第 1 字节到"校验和前一字节"的逐字节累加
+// ════════════════════════════════════════════════════════════════
+static constexpr int kIm19MemsLen = 52;    // 'm' 帧总长
+static constexpr int kIm19GnssLen = 95;    // 'g' 帧总长
+static constexpr int kIm19NaviLen = 100;   // 'n' 帧总长
+
+// MEMS 原始数据（100Hz，加速度 g，陀螺 rad/s）
+struct Im19MemsData {
+    double   time;          // hhmmss.ss
+    double   timeSec;       // 折算一天内秒数（丢帧统计用）
+    float    accel[3];      // 加计 X/Y/Z (g)
+    float    gyro[3];       // 陀螺 X/Y/Z (rad/s)
+    float    reserved[3];   // 保留字段
+    uint16_t checksum;      // 接收校验和
+    uint16_t checksumCalc;  // 计算校验和
+};
+
+// GNSS 原始数据（一般 5Hz，转发自 GNSS 板卡，实时性较低）
+struct Im19GnssData {
+    double   time;          // hhmmss.ss
+    double   timeSec;
+    double   lat;           // 纬度 (deg)
+    double   lon;           // 经度 (deg)
+    double   hgt;           // 高度 (m)
+    float    vel[3];        // 北/东/地向速度 (m/s)
+    float    posVar[3];     // 北/东/高程位置方差
+    float    reserved[2];   // 保留字段
+    float    heading;       // 双天线航向 (deg)
+    float    hrms;          // HRMS
+    float    vrms;          // VRMS
+    float    hdop;          // HDOP
+    float    vdop;          // VDOP
+    uint8_t  satNum;        // 卫星数量
+    uint8_t  solStat;       // 解状态（码表手册未给出，原样输出）
+    uint8_t  diffAge;       // 差分龄期
+    uint16_t checksum;
+    uint16_t checksumCalc;
+};
+
+// NAVI 惯性定位结果（MEMS 与 GNSS 融合）
+struct Im19NaviData {
+    double   time;          // hhmmss.ss
+    double   timeSec;
+    double   lat;           // 纬度 (deg)
+    double   lon;           // 经度 (deg)
+    double   hgt;           // 高程 (m)
+    float    vel[3];        // 北/东/地向速度 (m/s)
+    float    roll;          // 横滚 (rad，手册标注欧拉角单位为 rad)
+    float    pitch;         // 俯仰 (rad)
+    float    yaw;           // 航向 (rad)
+    float    posAcc;        // 定位精度
+    float    accBias[3];    // 加计 X/Y/Z 零偏 (m/s^2)
+    float    gyroBias[3];   // 陀螺 X/Y/Z 零偏 (rad/s)
+    float    temperature;   // 传感器温度 (℃)
+    uint32_t status;        // 状态字（见 im19StatusText）
+    uint16_t checksum;
+    uint16_t checksumCalc;
+};
+
+// 字符格式 NAVI：$GPFMI,Utc,Lat,Lon,Hgt,Roll,Pitch,Yaw,HRms,NumSat,AgeDiff,NavMod,Status*CS
+// 注：本结构位于 ParsedFrame 的 union 内，不能带 QString 等非平凡成员，故用定长字符数组
+struct Im19NascData {
+    char     utc[16];         // Utc 原文（hhmmss.ss）
+    double   timeSec;         // 由 Utc 折算的一天内秒数
+    double   lat;             // 纬度 (deg)
+    double   lon;             // 经度 (deg)
+    double   hgt;             // 高程 (m)
+    float    roll;            // 横滚 (rad)
+    float    pitch;           // 俯仰 (rad)
+    float    yaw;             // 航向 (rad)
+    float    hrms;            // HRms
+    int      satNum;          // NumSat
+    int      diffAge;         // AgeDiff
+    int      navMode;         // NavMod
+    char     status[12];      // Status 原文（十六进制）
+    uint8_t  checksum;        // 接收校验
+    uint8_t  checksumCalc;    // 计算校验
+};
+
+// ════════════════════════════════════════════════════════════════
 //  同星 CAN 扩展帧 — 表9 姿态 (0x19FFCCxx, payload 8B)
 //  字节布局: [1..2]横滚 [3..4]俯仰 [5..6]航向 [7..8]航迹, int16 小端
 //  单位 deg*100（raw / 100 = deg）
@@ -1105,6 +1244,10 @@ struct ParsedFrame {
         TxPosData          txPos;
         TxHeightData       txHeight;
         TxVelData          txVel;
+        Im19MemsData       im19Mems;
+        Im19GnssData       im19Gnss;
+        Im19NaviData       im19Navi;
+        Im19NascData       im19Nasc;
         DebugImuData   debugImu;
         DebugGpsData   debugGps;
         DebugDrtkData  debugDrtk;

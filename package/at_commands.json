@@ -279,7 +279,7 @@
       ]
     },
     {
-      "name": "农机导航AT",
+      "name": "组合导航AT(旧619/614)",
       "commands": [
         { "command": "AT+LEVER_ARM_DISABLE",  "description": "关闭自动杆臂测量",                "paramHint": "" },
         { "command": "AT+CAR_TYPE=",          "description": "车辆类型(1正常/-1后轮)",          "paramHint": "例如 1" },
@@ -300,6 +300,45 @@
         { "command": "AT+DRTK_USE=",          "description": "融合双天线数据",                   "paramHint": "例如 1" },
         { "command": "AT+VEL_VAR_CONSTRAIN=", "description": "速度方差约束",                     "paramHint": "例如 0.01" },
         { "command": "AT+NHC_RATE=",          "description": "NHC频率",                          "paramHint": "例如 20" }
+      ]
+    },
+    {
+      "name": "菲曼IM19AT",
+      "commands": [
+        { "command": "AT+VERSION",              "description": "查询固件版本",                                 "paramHint": "" },
+        { "command": "AT+SYSTEM_RESET",         "description": "模块复位",                                     "paramHint": "" },
+        { "command": "AT+SAVE_ALL",             "description": "保存全部参数(不保存则断电丢失)",               "paramHint": "" },
+        { "command": "AT+LOAD_DEFAULT",         "description": "加载默认参数",                                 "paramHint": "" },
+        { "command": "AT+READ_PARA=",           "description": "读取模块参数",                                 "paramHint": "SYSTEM 或 ALL" },
+        { "command": "AT+ACTIVATE_KEY=",        "description": "模块激活",                                     "paramHint": "激活码" },
+        { "command": "AT+UPDATE_APP",           "description": "更新固件(按附件协议传输)",                     "paramHint": "" },
+        { "command": "AT+UPDATE_BOOT",          "description": "更新Bootloader(按附件协议传输)",               "paramHint": "" },
+        { "command": "AT+CHECK_CRC=",           "description": "计算固件CRC并核对",                            "paramHint": "固件大小(字节)" },
+        { "command": "AT+GNSS_CARD=",           "description": "设置GNSS板卡类型",                             "paramHint": "HEMI / NOVTEL / UNICORE / OEM" },
+        { "command": "AT+GNSS_PORT=",           "description": "设置与GNSS板卡通信的物理串口(保存重启生效)",   "paramHint": "例如 PHYSICAL_UART2" },
+        { "command": "AT+GNSS_OUTPUT=",         "description": "GNSS原始数据输出开关",                         "paramHint": "例如 UART1,ON" },
+        { "command": "AT+MEMS_OUTPUT=",         "description": "MEMS原始数据输出(频率可调)",                   "paramHint": "例如 UART1,ON,100" },
+        { "command": "AT+NAVI_OUTPUT=",         "description": "NAVI惯性定位输出(频率可调)",                   "paramHint": "例如 UART1,ON,10（RATE 0~100）" },
+        { "command": "AT+NASC_OUTPUT=",         "description": "字符格式NAVI输出($GPFMI)",                     "paramHint": "例如 UART1,ON,10（RATE 0~100）" },
+        { "command": "AT+HIGH_RATE=",           "description": "高速率模式(NAVI 100Hz 实时输出)",              "paramHint": "ENABLE / DISABLE" },
+        { "command": "AT+DISABLE_OUTPUT=",      "description": "禁止该串口所有消息输出",                       "paramHint": "例如 UART2" },
+        { "command": "AT+WORK_MODE=",           "description": "设置工作模式",                                 "paramHint": "152倾斜/13车载推算/72车载定向/408晃动+无感" },
+        { "command": "AT+INSTALL_ANGLE=",       "description": "设置模块安装角度(模组贴片在板背面用180,0,0)",  "paramHint": "X,Y,Z 例如 180,0,0" },
+        { "command": "AT+LEVER_ARM=",           "description": "设置臂杆向量(在旋转后的模组坐标系下测量)",     "paramHint": "X,Y,Z 例如 0,0,0" },
+        { "command": "AT+LEVER_ARM2=",          "description": "设置臂杆向量(按安装角自动旋转,默认坐标系测量)", "paramHint": "X,Y,Z 例如 0,0,0" },
+        { "command": "AT+CLUB_VECTOR=",         "description": "设置位置映射向量(天线相位中心→目标位置)",      "paramHint": "X,Y,Z 例如 0,0,1.855" },
+        { "command": "AT+AUTO_FIX=",            "description": "倾斜测量安装角估计(需滤波器Ready,完成后自动DISABLE)", "paramHint": "ENABLE / DISABLE" },
+        { "command": "AT+CORRECT_HOLDER=",      "description": "杆长补偿开关(标定时同步估计杆长误差)",         "paramHint": "ENABLE / DISABLE" },
+        { "command": "AT+ALIGN_VEL=",           "description": "设置初始对准速度阈值",                         "paramHint": "例如 1.0" },
+        { "command": "AT+FILTER_STOP=",         "description": "滤波器挂起/退出挂起(进入前会先复位)",          "paramHint": "ENABLE / DISABLE" },
+        { "command": "AT+FILTER_RESET",         "description": "滤波器复位",                                   "paramHint": "" },
+        { "command": "AT+CHECK_SYNC",           "description": "查询MEMS时间戳是否与GNSS同步",                 "paramHint": "" },
+        { "command": "AT+SET_PPS_EDGE=",        "description": "设置PPS有效边沿(默认下降沿)",                  "paramHint": "RISING / FALLING" },
+        { "command": "AT+LOOP_BACK=",           "description": "串口回环测试(断电失效)",                       "paramHint": "UARTn 或 NONE" },
+        { "command": "AT+THIS_PORT",            "description": "查询当前串口号",                               "paramHint": "" },
+        { "command": "AT+CALIBRATE_MODE2=",     "description": "开始工厂标定(细节见IM19标定流程手册)",         "paramHint": "STEPx,LEVELx" },
+        { "command": "AT+SET_CHECK_LEVEL=",     "description": "设置标定核对等级(见标定流程手册)",             "paramHint": "LEVELx" },
+        { "command": "AT+FACTORY_PARA_1=",      "description": "工厂参数恢复(x为编号,见标定流程手册)",         "paramHint": "X,Y,Z" }
       ]
     }
   ],

@@ -3,6 +3,7 @@
 #include "modules/parse/parser/other/epsonparser.h"
 #include "modules/parse/parser/other/ahrsaa5parser.h"
 #include "modules/parse/parser/other/novatelparser.h"
+#include "modules/parse/parser/other/im19parser.h"
 
 #include <cstring>
 
@@ -17,6 +18,10 @@ StreamFramer::FramingMode StreamFramer::modeForProtocol(ProtocolID pid)
     case ProtocolID::Ahrs_Aa5:         return FramingMode::AhrsAa5;
     case ProtocolID::Novatel_BestPos:
     case ProtocolID::Novatel_PsrVel:   return FramingMode::Novatel;
+    case ProtocolID::Im19_Mems:
+    case ProtocolID::Im19_Gnss:
+    case ProtocolID::Im19_Navi:
+    case ProtocolID::Im19_Nasc:        return FramingMode::Im19;
     default:                           return FramingMode::Aa55;
     }
 }
@@ -45,6 +50,7 @@ QList<ParsedFrame> StreamFramer::feed(const QByteArray &data, bool skipCrc)
     case FramingMode::Epson:    return feedEpson(data, skipCrc);
     case FramingMode::AhrsAa5:  return feedAhrsAa5(data, skipCrc);
     case FramingMode::Novatel:  return feedNovatel(data, skipCrc);
+    case FramingMode::Im19:     return feedIm19(data, skipCrc);
     default:                    return feedAa55(data, skipCrc);
     }
 }
@@ -274,6 +280,84 @@ QList<ParsedFrame> StreamFramer::feedNovatel(const QByteArray &data, bool skipCr
         }
         pos += frameLen;
     }
+    if (pos > 0)
+        m_buffer.remove(0, pos);
+    return frames;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  IM19 惯性模组（'fmi' + 类型字符，定长 52/95/100B，累加和校验）
+//  MEMS / GNSS / NAVI 常在同一串口混发，按类型字符取帧长分别切出；
+//  若开了字符输出，流里还会有 $GPFMI 文本行，一并按行切出。
+//  面板只显示当前选中的协议，其余帧由 submitFrame 过滤掉，仅计数。
+// ════════════════════════════════════════════════════════════════
+QList<ParsedFrame> StreamFramer::feedIm19(const QByteArray &data, bool skipCrc)
+{
+    m_buffer.append(data);
+    QList<ParsedFrame> frames;
+
+    int pos = 0;
+    while (pos < m_buffer.size()) {
+        const uint8_t *b = reinterpret_cast<const uint8_t *>(m_buffer.constData());
+        const int avail = m_buffer.size() - pos;
+
+        // ── $GPFMI 文本行 ──
+        if (b[pos] == '$') {
+            const int lineEnd = m_buffer.indexOf('\n', pos);
+            if (lineEnd < 0) {
+                if (avail > 512) {   // 异常长行，当作噪声丢掉一个字节
+                    ++pos;
+                    continue;
+                }
+                break;               // 半行，等后续数据
+            }
+            const QByteArray line = m_buffer.mid(pos, lineEnd - pos + 1);
+            pos = lineEnd + 1;
+            if (!line.startsWith("$GPFMI"))
+                continue;            // 其它 NMEA 语句直接跳过
+
+            int crcFail = 0;
+            const QList<ParsedFrame> fs = im19_detail::scanNasc(line, skipCrc, crcFail);
+            m_crcRejected += crcFail;
+            if (fs.isEmpty())
+                continue;
+            ++m_found;
+            frames.append(fs);
+            continue;
+        }
+
+        // ── 二进制帧 ──
+        if (avail < 4)
+            break;                   // 帧头都不够，等后续
+        if (b[pos] != im19_detail::kH0 || b[pos + 1] != im19_detail::kH1
+            || b[pos + 2] != im19_detail::kH2) {
+            ++pos;
+            continue;
+        }
+        const int len = im19_detail::frameLenFor(b[pos + 3]);
+        if (len == 0) {              // 未知类型字符，重新同步
+            ++pos;
+            continue;
+        }
+        if (avail < len)
+            break;                   // 半包
+        if (b[pos + len - 2] != im19_detail::kTail0
+            || b[pos + len - 1] != im19_detail::kTail1) {
+            ++pos;                   // 帧尾不符，误同步
+            continue;
+        }
+
+        ParsedFrame f = im19_detail::makeFrame(m_buffer, pos, b[pos + 3]);
+        if (!f.crcOk && !skipCrc) {
+            ++m_crcRejected;
+            ++pos;
+            continue;
+        }
+        ++m_found;
+        frames.append(f);
+        pos += len;
+    }
+
     if (pos > 0)
         m_buffer.remove(0, pos);
     return frames;

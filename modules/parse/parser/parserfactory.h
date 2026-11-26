@@ -17,6 +17,7 @@
 #include "modules/parse/parser/other/novatelparser.h"
 #include "modules/parse/parser/other/epsonparser.h"
 #include "modules/parse/parser/other/ahrsaa5parser.h"
+#include "modules/parse/parser/other/im19parser.h"
 #include <QList>
 
 // ════════════════════════════════════════════════════════════════
@@ -46,6 +47,11 @@ public:
         result.append(new TxCanParser);
         result.append(new EpsonParser);
         result.append(new AhrsAa5Parser);
+        // IM19 惯性模组（同一串口可能混发四路，故并列四个入口）
+        result.append(new Im19MemsParser);
+        result.append(new Im19GnssParser);
+        result.append(new Im19NaviParser);
+        result.append(new Im19NascParser);
         return result;
     }
 };

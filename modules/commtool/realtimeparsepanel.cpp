@@ -5,6 +5,7 @@
 #include "modules/parse/parser/debugstream/eb614debugparser.h"
 #include "modules/parse/parser/other/epsonparser.h"
 #include "modules/parse/parser/other/ahrsaa5parser.h"
+#include "modules/parse/parser/other/im19parser.h"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -80,6 +81,17 @@ QList<RealtimeParsePanel::FrameEntry> RealtimeParsePanel::streamingFrames()
     for (const auto &e : kSerial)
         list.append({e.pid, QStringLiteral("串口实时协议"), QString::fromUtf8(e.label)});
 
+    // IM19 惯性模组：三路二进制 + 一路字符输出，常在同一串口混发，
+    // 切帧由 StreamFramer::FramingMode::Im19 完成，面板只显示当前选中那一路
+    const struct { ProtocolID pid; const char *label; } kIm19[] = {
+        {ProtocolID::Im19_Mems, "MEMS原始(m)"},
+        {ProtocolID::Im19_Gnss, "GNSS原始(g)"},
+        {ProtocolID::Im19_Navi, "NAVI定位(n)"},
+        {ProtocolID::Im19_Nasc, "NAVI字符($GPFMI)"},
+    };
+    for (const auto &e : kIm19)
+        list.append({e.pid, QStringLiteral("IM19 惯性模组"), QString::fromUtf8(e.label)});
+
     return list;
 }
 
@@ -115,6 +127,22 @@ QStringList RealtimeParsePanel::fieldNames(ProtocolID pid)
         static AhrsAa5Parser parser;
         return csvFields(parser.csvHeader());
     }
+    if (pid == ProtocolID::Im19_Mems) {
+        static Im19MemsParser parser;
+        return csvFields(parser.csvHeader());
+    }
+    if (pid == ProtocolID::Im19_Gnss) {
+        static Im19GnssParser parser;
+        return csvFields(parser.csvHeader());
+    }
+    if (pid == ProtocolID::Im19_Navi) {
+        static Im19NaviParser parser;
+        return csvFields(parser.csvHeader());
+    }
+    if (pid == ProtocolID::Im19_Nasc) {
+        static Im19NascParser parser;
+        return csvFields(parser.csvHeader());
+    }
     return {};
 }
 
@@ -138,6 +166,22 @@ QStringList RealtimeParsePanel::fieldValues(ProtocolID pid, const ParsedFrame &f
     }
     if (pid == ProtocolID::Ahrs_Aa5) {
         static AhrsAa5Parser parser;
+        return csvFields(parser.formatFrame(f));
+    }
+    if (pid == ProtocolID::Im19_Mems) {
+        static Im19MemsParser parser;
+        return csvFields(parser.formatFrame(f));
+    }
+    if (pid == ProtocolID::Im19_Gnss) {
+        static Im19GnssParser parser;
+        return csvFields(parser.formatFrame(f));
+    }
+    if (pid == ProtocolID::Im19_Navi) {
+        static Im19NaviParser parser;
+        return csvFields(parser.formatFrame(f));
+    }
+    if (pid == ProtocolID::Im19_Nasc) {
+        static Im19NascParser parser;
         return csvFields(parser.formatFrame(f));
     }
     return {};
@@ -445,7 +489,7 @@ void RealtimeParsePanel::updateStatus()
         } else {
             m_statusLabel->setText(
                 m_parsing
-                    ? QStringLiteral("等待数据… 未在流里找到 AA55 帧头（检查协议/波特率）")
+                    ? QStringLiteral("等待数据… 未找到有效帧头（检查协议/波特率）")
                     : QStringLiteral("选好协议后点「开始解析」"));
         }
         return;

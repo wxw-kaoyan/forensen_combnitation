@@ -8,6 +8,7 @@
 #include "modules/commtool/streamframer.h"
 
 class QThread;
+class QTimer;
 class TcpConnection;
 class SerialConnection;
 class AtCmdPanel;
@@ -49,6 +50,8 @@ private:
     void applyMode(int idx);
     void appendRecvText(const QString &text);
     void appendRecvData(const QByteArray &data);
+    void flushRecvPending();
+    void resetRecvPending();
     void setConnected(bool connected);
     void destroyConnection();
     void refreshSerialPorts();
@@ -96,6 +99,13 @@ private:
     qint64 m_recvBytes = 0;   // 累计接收字节数（只累加，不随接收区裁剪回退）
     static constexpr int kMaxRecvLines = 200;
     static constexpr int kHexBytesPerLine = 100;   // HEX 显示每行字节数（超过即折行）
+
+    // 文本显示的行缓冲：串口/TCP 按任意字节边界分批上报，一行可能被拆到两批里。
+    // 未见到换行符的尾段先留在这里，等下一批拼上再显示，避免一行被强行切成两行。
+    QString m_recvPending;
+    QTimer *m_recvFlushTimer = nullptr;   // 长流无换行（二进制）时的兜底刷出
+    static constexpr int kRecvFlushMs = 200;
+    static constexpr int kRecvPendingMax = 8192;
 };
 
 #endif // COMMTOOL_H
