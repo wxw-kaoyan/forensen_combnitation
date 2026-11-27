@@ -4,7 +4,7 @@
 #include "modules/commtool/atcmd/atcmdpanel.h"
 #include "modules/commtool/atcmd/atcmdstore.h"
 #include "modules/commtool/realtimeparsepanel.h"
-#include "modules/commtool/navcalib/navcalibpanel.h"
+#include "modules/normalfunction/normalfunctionmodule.h"
 #include "ui_mainwindow.h"
 
 #include <QAbstractItemView>
@@ -87,9 +87,10 @@ CommTool::CommTool(Ui::MainWindow *ui, QObject *parent)
             this, &CommTool::onFavoriteSelected);
     refreshFavoriteCommands();
 
-    // ---- 超达投影估计（独立对话框，常用工具页按钮触发）----
+    // ---- 常用工具模块（NavCalib + Allan 等）----
+    m_normal = new NormalFunctionModule(ui, this);
     connect(m_ui->navCalibButton, &QPushButton::clicked,
-            this, &CommTool::onOpenNavCalib);
+            m_normal, &NormalFunctionModule::openNavCalib);
 
     // ---- 实时解析 ----
     connect(m_ui->realtimeParsePanel, &RealtimeParsePanel::parseToggled,
@@ -308,8 +309,8 @@ void CommTool::destroyConnection()
     // 丢弃未成行的半截数据，避免重新连接后与旧数据拼在一起
     resetRecvPending();
     // 断开连接时停止投影估计采集，避免状态残留
-    if (m_navCalib)
-        m_navCalib->stopCollecting();
+    if (m_normal)
+        m_normal->stopNavCalibCollecting();
     // 防御性重置：确保连接失败后按钮状态正确恢复
     if (m_connected) {
         m_connected = false;
@@ -431,16 +432,6 @@ void CommTool::onParseToggled(bool enabled)
     }
 }
 
-void CommTool::onOpenNavCalib()
-{
-    if (!m_navCalib)
-        m_navCalib = new NavCalibPanel(m_ui->centralwidget);   // 非模态，可同时操作主界面连接
-
-    m_navCalib->show();
-    m_navCalib->raise();
-    m_navCalib->activateWindow();
-}
-
 void CommTool::appendRecvData(const QByteArray &data)
 {
     // 累计接收字节数（累加计数，替代原先"每段数据全量导出文档"的 O(n) 做法）
@@ -456,10 +447,10 @@ void CommTool::appendRecvData(const QByteArray &data)
     }
 
     // 实时解析 / 超达投影估计：任一在采集都需要切帧
-    const bool calib = m_navCalib && m_navCalib->isCollecting();
+    const bool calib = m_normal && m_normal->isNavCalibCollecting();
     if ((m_parsing || calib) && m_ui->realtimeParsePanel) {
         // CRC：实时解析与投影估计各用各的勾选；不勾时靠 3σ 剔除兜底
-        const bool strict = calib ? m_navCalib->strictCrc()
+        const bool strict = calib ? m_normal->navCalibStrictCrc()
                                   : m_ui->realtimeParsePanel->strictCrc();
         // 投影估计固定用 AA55 帧头（0x0166）；实时解析按所选协议
         m_framer.setFramingMode(
@@ -471,7 +462,7 @@ void CommTool::appendRecvData(const QByteArray &data)
             if (m_parsing)
                 m_ui->realtimeParsePanel->submitFrame(f);
             if (calib)
-                m_navCalib->submitFrame(f);
+                m_normal->submitNavCalibFrame(f);
         }
         if (m_parsing) {
             m_ui->realtimeParsePanel->setFramerStats(m_framer.framesFound(),

@@ -77,12 +77,32 @@ qt_add_executable(TASoftware
     modules/commtool/realtimeparsepanel.h
     modules/commtool/streamframer.cpp
     modules/commtool/streamframer.h
-    modules/commtool/navcalib/leverarmestimator.cpp
-    modules/commtool/navcalib/leverarmestimator.h
-    modules/commtool/navcalib/navcalibpanel.cpp
-    modules/commtool/navcalib/navcalibpanel.h
-    modules/commtool/navcalib/navcalibplotwindow.cpp
-    modules/commtool/navcalib/navcalibplotwindow.h
+    modules/normalfunction/navcalib/leverarmestimator.cpp
+    modules/normalfunction/navcalib/leverarmestimator.h
+    modules/normalfunction/navcalib/navcalibpanel.cpp
+    modules/normalfunction/navcalib/navcalibpanel.h
+    modules/normalfunction/navcalib/navcalibplotwindow.cpp
+    modules/normalfunction/navcalib/navcalibplotwindow.h
+    modules/normalfunction/allan/allananalysis.cpp
+    modules/normalfunction/allan/allananalysis.h
+    modules/normalfunction/allan/allanworker.cpp
+    modules/normalfunction/allan/allanworker.h
+    modules/normalfunction/allan/allanpanel.cpp
+    modules/normalfunction/allan/allanpanel.h
+    modules/normalfunction/calib612/calib612analysis.cpp
+    modules/normalfunction/calib612/calib612analysis.h
+    modules/normalfunction/calib612/calib612worker.cpp
+    modules/normalfunction/calib612/calib612worker.h
+    modules/normalfunction/calib612/calib612panel.cpp
+    modules/normalfunction/calib612/calib612panel.h
+    modules/normalfunction/tempdrift/tempdriftanalysis.cpp
+    modules/normalfunction/tempdrift/tempdriftanalysis.h
+    modules/normalfunction/tempdrift/tempdriftworker.cpp
+    modules/normalfunction/tempdrift/tempdriftworker.h
+    modules/normalfunction/tempdrift/tempdriftpanel.cpp
+    modules/normalfunction/tempdrift/tempdriftpanel.h
+    modules/normalfunction/normalfunctionmodule.cpp
+    modules/normalfunction/normalfunctionmodule.h
     modules/commtool/atcmd/atcmdpanel.cpp
     modules/commtool/atcmd/atcmdpanel.h
     modules/commtool/atcmd/atcmdpanel.ui

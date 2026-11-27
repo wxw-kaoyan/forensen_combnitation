@@ -4,6 +4,7 @@
 #include "modules/parse/parser/parserbase.h"
 #include <QByteArray>
 #include <QList>
+#include <cmath>
 #include <cstring>
 
 // ════════════════════════════════════════════════════════════════
@@ -317,6 +318,16 @@ inline QString statusTextFromField(const QByteArray &raw)
 // 手册中姿态字段单位为 rad，界面与 CSV 统一换算为 deg（结构体仍保存原始 rad）
 constexpr double kRadToDeg = 57.29577951308232;
 
+// 航向可能以多圈累计弧度输出，显示时归一化到 [0, 360)
+inline double headingDeg(double yawRad)
+{
+    double deg = std::fmod(yawRad * kRadToDeg, 360.0);
+    if (deg < 0.0) deg += 360.0;
+    // 避免 359.9999x 四舍五入后打印成 360.0000
+    if (deg >= 360.0 - 5e-5) deg = 0.0;
+    return deg;
+}
+
 } // namespace im19_detail
 
 // ════════════════════════════════════════════════════════════════
@@ -340,7 +351,7 @@ public:
         return QStringLiteral(
             "时间(hhmmss.ss),时间(s),"
             "加计X(g),加计Y(g),加计Z(g),"
-            "陀螺X(rad/s),陀螺Y(rad/s),陀螺Z(rad/s),"
+            "陀螺X(deg/s),陀螺Y(deg/s),陀螺Z(deg/s),"
             "校验和(收),校验和(算),校验结果\n");
     }
 
@@ -351,7 +362,9 @@ public:
             .arg(v.time, 0, 'f', 2)
             .arg(v.timeSec, 0, 'f', 3)
             .arg(v.accel[0], 0, 'f', 6).arg(v.accel[1], 0, 'f', 6).arg(v.accel[2], 0, 'f', 6)
-            .arg(v.gyro[0], 0, 'f', 6).arg(v.gyro[1], 0, 'f', 6).arg(v.gyro[2], 0, 'f', 6)
+            .arg(v.gyro[0] * im19_detail::kRadToDeg, 0, 'f', 4)
+            .arg(v.gyro[1] * im19_detail::kRadToDeg, 0, 'f', 4)
+            .arg(v.gyro[2] * im19_detail::kRadToDeg, 0, 'f', 4)
             .arg(v.checksum, 4, 16, QLatin1Char('0'))
             .arg(v.checksumCalc, 4, 16, QLatin1Char('0'))
             .arg(f.crcOk ? QStringLiteral("OK") : QStringLiteral("错"));
@@ -387,6 +400,12 @@ public:
     QString formatFrame(const ParsedFrame &f) const override
     {
         const auto &v = f.im19Gnss;
+        // 双天线航向为 rad；设备未输出航向时填 2π（6.28319），视为无效
+        const bool hdgInvalid = !std::isfinite(v.heading)
+                                || std::fabs(v.heading - 6.2831853) < 1e-4;
+        const QString hdg = hdgInvalid
+                            ? QStringLiteral("--")
+                            : QString::number(v.heading * im19_detail::kRadToDeg, 'f', 3);
         return QStringLiteral(
             "%1,%2,%3,%4,%5,%6,%7,%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20,%21,%22\n")
             .arg(v.time, 0, 'f', 2)
@@ -395,9 +414,11 @@ public:
             .arg(v.lon, 0, 'f', 9)
             .arg(v.hgt, 0, 'f', 3)
             .arg(v.vel[0], 0, 'f', 3).arg(v.vel[1], 0, 'f', 3).arg(v.vel[2], 0, 'f', 3)
-            .arg(v.posVar[0], 0, 'f', 4).arg(v.posVar[1], 0, 'f', 4).arg(v.posVar[2], 0, 'f', 4)
-            .arg(v.heading, 0, 'f', 3)
-            .arg(v.hrms, 0, 'f', 3).arg(v.vrms, 0, 'f', 3)
+            .arg(v.posVar[0], 0, 'g', 6)
+            .arg(v.posVar[1], 0, 'g', 6)
+            .arg(v.posVar[2], 0, 'g', 6)
+            .arg(hdg)
+            .arg(v.hrms, 0, 'f', 4).arg(v.vrms, 0, 'f', 4)
             .arg(v.hdop, 0, 'f', 2).arg(v.vdop, 0, 'f', 2)
             .arg(v.satNum).arg(v.solStat).arg(v.diffAge)
             .arg(v.checksum, 4, 16, QLatin1Char('0'))
@@ -447,7 +468,7 @@ public:
             .arg(v.vel[0], 0, 'f', 3).arg(v.vel[1], 0, 'f', 3).arg(v.vel[2], 0, 'f', 3)
             .arg(v.roll * im19_detail::kRadToDeg, 0, 'f', 4)
             .arg(v.pitch * im19_detail::kRadToDeg, 0, 'f', 4)
-            .arg(v.yaw * im19_detail::kRadToDeg, 0, 'f', 4)
+            .arg(im19_detail::headingDeg(v.yaw), 0, 'f', 4)
             .arg(v.posAcc, 0, 'f', 3)
             .arg(v.accBias[0], 0, 'f', 6).arg(v.accBias[1], 0, 'f', 6).arg(v.accBias[2], 0, 'f', 6)
             .arg(v.gyroBias[0], 0, 'f', 8).arg(v.gyroBias[1], 0, 'f', 8).arg(v.gyroBias[2], 0, 'f', 8)
@@ -494,7 +515,7 @@ public:
             .arg(v.hgt, 0, 'f', 3)
             .arg(v.roll * im19_detail::kRadToDeg, 0, 'f', 4)
             .arg(v.pitch * im19_detail::kRadToDeg, 0, 'f', 4)
-            .arg(v.yaw * im19_detail::kRadToDeg, 0, 'f', 4)
+            .arg(im19_detail::headingDeg(v.yaw), 0, 'f', 4)
             .arg(v.hrms, 0, 'f', 3)
             .arg(v.satNum).arg(v.diffAge).arg(v.navMode)
             .arg(im19_detail::statusTextFromField(QByteArray(v.status)))
